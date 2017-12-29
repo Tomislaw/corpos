@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\engine">
+      <UniqueIdentifier>{fc981c41-dfb8-4811-942f-5a4f1afba373}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\engine">
+      <UniqueIdentifier>{6c399f82-6e52-4051-9699-6b3c814f4f99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\graphics">
+      <UniqueIdentifier>{55b93bc4-f16d-4633-a046-45903587ffad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\graphics">
+      <UniqueIdentifier>{f46f4259-512e-4c30-92c5-0a3c16ff6e35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\utility">
+      <UniqueIdentifier>{d808ac95-cf12-4daf-8b56-1a61a0ee43b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\utility">
+      <UniqueIdentifier>{77f1b13d-1a1a-4a4e-9a2d-6e5c09875e75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\map">
+      <UniqueIdentifier>{168ec798-11ff-478b-a915-d17db02c3a9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\map">
+      <UniqueIdentifier>{89011636-4358-461e-83b0-6d607823ef7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\engine\static_prop">
+      <UniqueIdentifier>{bf99feec-d6f6-449e-b021-3a0f2390a64d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\engine\Static_prop">
+      <UniqueIdentifier>{61903219-7851-4def-9bfd-e8f4a1680f28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\engine\characters">
+      <UniqueIdentifier>{432297bd-83e3-40dc-a716-2765fc11deec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\engine\characters">
+      <UniqueIdentifier>{972d2b07-9470-41da-8bd6-b72f7695a903}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\engine\logic">
+      <UniqueIdentifier>{20e42496-fe8d-4986-8604-a2ba5e0713c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\engine\logic">
+      <UniqueIdentifier>{7a1138ca-1d32-472b-9c6a-f08f2a2cacc1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\game\main\Corpos Space.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\main\stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\engine\Entity.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\main\Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\engine\World.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\engine\EntityList.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\graphics\GameSprite.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\utility\TextFileData.cpp">
+      <Filter>Source Files\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\graphics\Animation.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\utility\Logger.cpp">
+      <Filter>Source Files\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\map\Tilemap.cpp">
+      <Filter>Source Files\map</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\map\Tile.cpp">
+      <Filter>Source Files\map</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\engine\Character.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\engine\Player.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\engine\static_prop\Static_prop.cpp">
+      <Filter>Source Files\engine\static_prop</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\engine\Prop.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\engine\Damageable.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\engine\Characters\Soldier.cpp">
+      <Filter>Source Files\engine\characters</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\engine\Characters\CharacterCreator.cpp">
+      <Filter>Source Files\engine\characters</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\main\Cursor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\engine\logic\GunFire.cpp">
+      <Filter>Source Files\engine\logic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\graphics\ParticleSystem.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\graphics\TextContainer.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\engine\logic\Weapon.cpp">
+      <Filter>Source Files\engine\logic</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\game\main\stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\main\targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\engine\Entity.hpp">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\main\Game.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\engine\World.hpp">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\engine\EntityList.hpp">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\graphics\GameSprite.hpp">
+      <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\utility\TextFileData.hpp">
+      <Filter>Header Files\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\graphics\Animation.hpp">
+      <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\utility\Logger.hpp">
+      <Filter>Header Files\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\map\Tilemap.hpp">
+      <Filter>Header Files\map</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\map\Tile.hpp">
+      <Filter>Header Files\map</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\engine\Character.hpp">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\engine\Player.hpp">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\engine\static_prop\Static_prop.hpp">
+      <Filter>Header Files\engine\Static_prop</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\engine\Prop.hpp">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\engine\Damageable.hpp">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\engine\Characters\Soldier.hpp">
+      <Filter>Header Files\engine\characters</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\engine\Characters\CharacterCreator.hpp">
+      <Filter>Header Files\engine\characters</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\main\Cursor.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\engine\logic\GunFire.hpp">
+      <Filter>Header Files\engine\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\graphics\ParticleSystem.hpp">
+      <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\graphics\TextContainer.hpp">
+      <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\engine\logic\Weapon.hpp">
+      <Filter>Header Files\engine\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\graphics\Particle.hpp">
+      <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Corpos Space.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="$(SolutionDir)other\icon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="..\Debug\bin\graphics\fonts\font1.ttf">
+      <Filter>Resource Files</Filter>
+    </Font>
+  </ItemGroup>
+</Project>

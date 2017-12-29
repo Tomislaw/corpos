@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SpriteBrowser</class>
+ <widget class="QWidget" name="SpriteBrowser">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>882</width>
+    <height>556</height>
+   </rect>
+  </property>
+  <property name="contextMenuPolicy">
+   <enum>Qt::DefaultContextMenu</enum>
+  </property>
+  <property name="windowTitle">
+   <string>Sprite browser</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_3">
+   <item>
+    <widget class="QSplitter" name="splitter">
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="handleWidth">
+      <number>10</number>
+     </property>
+     <property name="childrenCollapsible">
+      <bool>true</bool>
+     </property>
+     <widget class="QFrame" name="frame_2">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Sunken</enum>
+      </property>
+      <property name="lineWidth">
+       <number>2</number>
+      </property>
+      <property name="midLineWidth">
+       <number>1</number>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QGroupBox" name="groupBox_4">
+         <property name="title">
+          <string>Filter</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <widget class="QListWidget" name="listSprites"/>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineFilter"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QFrame" name="frame">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Sunken</enum>
+      </property>
+      <property name="lineWidth">
+       <number>2</number>
+      </property>
+      <property name="midLineWidth">
+       <number>1</number>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_6">
+       <item>
+        <widget class="QSplitter" name="splitter_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <widget class="QSplitter" name="splitter_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <widget class="QWidget" name="widgetSFML" native="true">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>400</width>
+             <height>400</height>
+            </size>
+           </property>
+           <property name="baseSize">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_8"/>
+          </widget>
+          <widget class="QGroupBox" name="groupBox">
+           <property name="title">
+            <string>Animations</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <item>
+             <widget class="QListWidget" name="listAnimations"/>
+            </item>
+            <item>
+             <widget class="QGroupBox" name="groupBox_3">
+              <property name="title">
+               <string/>
+              </property>
+              <layout class="QGridLayout" name="gridLayout">
+               <item row="1" column="0">
+                <widget class="QPushButton" name="buttonStart">
+                 <property name="text">
+                  <string>Start</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QPushButton" name="buttonStop">
+                 <property name="text">
+                  <string>Stop</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QSlider" name="sliderFrame">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QPushButton" name="buttonSetSpeed">
+                 <property name="text">
+                  <string>x1</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QGroupBox" name="groupBox_2">
+              <property name="title">
+               <string>Info</string>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_7">
+               <item>
+                <widget class="QScrollArea" name="scrollArea_2">
+                 <property name="widgetResizable">
+                  <bool>true</bool>
+                 </property>
+                 <widget class="QWidget" name="scrollAreaWidgetContents_2">
+                  <property name="geometry">
+                   <rect>
+                    <x>0</x>
+                    <y>0</y>
+                    <width>191</width>
+                    <height>85</height>
+                   </rect>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_5">
+                   <item>
+                    <widget class="QLabel" name="labelAnimationInfo">
+                     <property name="text">
+                      <string>&lt;&lt;info&gt;&gt;</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QGroupBox" name="groupBox_5">
+           <property name="title">
+            <string>Size</string>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <item>
+             <widget class="QSlider" name="sliderSize">
+              <property name="value">
+               <number>50</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="invertedAppearance">
+               <bool>false</bool>
+              </property>
+              <property name="invertedControls">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBox_6">
+           <property name="minimumSize">
+            <size>
+             <width>250</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="title">
+            <string>Other</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_10">
+            <item>
+             <widget class="QCheckBox" name="checkBox">
+              <property name="text">
+               <string>Bounding box</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="frame_3">
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>35</height>
+      </size>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <property name="topMargin">
+       <number>1</number>
+      </property>
+      <property name="bottomMargin">
+       <number>1</number>
+      </property>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>873</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton">
+        <property name="text">
+         <string>Ok</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>lineFilter</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>SpriteBrowser</receiver>
+   <slot>filterChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>165</x>
+     <y>558</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>510</x>
+     <y>323</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>listSprites</sender>
+   <signal>currentRowChanged(int)</signal>
+   <receiver>SpriteBrowser</receiver>
+   <slot>spriteSelected(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>165</x>
+     <y>295</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>510</x>
+     <y>323</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>listAnimations</sender>
+   <signal>currentRowChanged(int)</signal>
+   <receiver>SpriteBrowser</receiver>
+   <slot>animationSelected(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>873</x>
+     <y>151</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>510</x>
+     <y>323</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonStart</sender>
+   <signal>released()</signal>
+   <receiver>SpriteBrowser</receiver>
+   <slot>timerStart()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>820</x>
+     <y>284</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>510</x>
+     <y>323</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonStop</sender>
+   <signal>released()</signal>
+   <receiver>SpriteBrowser</receiver>
+   <slot>timerStop()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>925</x>
+     <y>284</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>510</x>
+     <y>323</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sliderFrame</sender>
+   <signal>sliderMoved(int)</signal>
+   <receiver>SpriteBrowser</receiver>
+   <slot>sliderChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>823</x>
+     <y>275</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>510</x>
+     <y>323</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>splitter_2</sender>
+   <signal>splitterMoved(int,int)</signal>
+   <receiver>SpriteBrowser</receiver>
+   <slot>onResize()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>670</x>
+     <y>276</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>510</x>
+     <y>323</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>splitter_3</sender>
+   <signal>splitterMoved(int,int)</signal>
+   <receiver>SpriteBrowser</receiver>
+   <slot>onResize()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>670</x>
+     <y>302</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>510</x>
+     <y>323</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>splitter</sender>
+   <signal>splitterMoved(int,int)</signal>
+   <receiver>SpriteBrowser</receiver>
+   <slot>onResize()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>510</x>
+     <y>302</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>510</x>
+     <y>323</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sliderSize</sender>
+   <signal>sliderMoved(int)</signal>
+   <receiver>SpriteBrowser</receiver>
+   <slot>sizeSliderChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>406</x>
+     <y>450</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>440</x>
+     <y>268</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonSetSpeed</sender>
+   <signal>released()</signal>
+   <receiver>SpriteBrowser</receiver>
+   <slot>animationSpeedChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>788</x>
+     <y>215</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>440</x>
+     <y>277</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>filterChanged(QString)</slot>
+  <slot>spriteSelected(int)</slot>
+  <slot>animationSelected(int)</slot>
+  <slot>timerStart()</slot>
+  <slot>timerStop()</slot>
+  <slot>sliderChanged(int)</slot>
+  <slot>onResize()</slot>
+  <slot>sizeSliderChanged(int)</slot>
+  <slot>animationSpeedChanged()</slot>
+ </slots>
+</ui>
