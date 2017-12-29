@@ -8,15 +8,15 @@ GameSprite::GameSprite(sf::Vector2f position, const sf::Texture &set_texture, Te
 {
 	setPosition(position);
 	SetSprite(set_texture, spritetext);
-	auto data = spritetext->get_variable_by_name("Texture");
-	if (!data->is_null())texture_name = data->var[0];
+	auto data = spritetext->getVariableByName("Texture");
+	if (!data->isNull())texture_name = data->var[0];
 }
 GameSprite::GameSprite(const sf::Texture &set_texture, TextElement *spritetext)
 {
 
 	SetSprite(set_texture, spritetext);
-	auto data = spritetext->get_variable_by_name("Texture");
-	if (!data->is_null())texture_name = data->var[0];
+	auto data = spritetext->getVariableByName("Texture");
+	if (!data->isNull())texture_name = data->var[0];
 }
 
 
@@ -37,23 +37,23 @@ void GameSprite::SetRectangle(sf::IntRect rect)
 
 void GameSprite::SetSprite(const sf::Texture &set_texture, TextElement *spritetext)
 {
-	name = spritetext->get_variable_by_name("Name")->var[0];
+	name = spritetext->getVariableByName("Name")->var[0];
 	sprite.setTexture(set_texture);
 
 
-	auto size = spritetext->get_variable_by_name("Texture_size");
-	SetRectangle(sf::IntRect(size->to_int(0), size->to_int(1), size->to_int(2), size->to_int(3)));
+	auto size = spritetext->getVariableByName("Texture_size");
+	SetRectangle(sf::IntRect(size->toInt(0), size->toInt(1), size->toInt(2), size->toInt(3)));
 
-	is_animated = spritetext->get_variable_by_name("Animated")->to_int(0);
-	if (is_animated)SetAnimationSheet(spritetext->get_variable_by_name("Animation")->var[0]);
+	is_animated = spritetext->getVariableByName("Animated")->toInt(0);
+	if (is_animated)SetAnimationSheet(spritetext->getVariableByName("Animation")->var[0]);
 
-	auto size2 = spritetext->get_variable_by_name("Sprite_size");
-	sprite.setScale(size2->to_float(0) / size->to_float(2), size2->to_float(1) / size->to_float(3));
+	auto size2 = spritetext->getVariableByName("Sprite_size");
+	sprite.setScale(size2->toFloat(0) / size->toFloat(2), size2->toFloat(1) / size->toFloat(3));
 
-	auto size3 = spritetext->get_variable_by_name("Sprite_center");
-	sf::Vector2f origin(size3->to_float(0), size3->to_float(1));
+	auto size3 = spritetext->getVariableByName("Sprite_center");
+	sf::Vector2f origin(size3->toFloat(0), size3->toFloat(1));
 	//origin.x 
-	sprite.setOrigin(sf::Vector2f(size3->to_float(0), size3->to_float(1)));
+	sprite.setOrigin(sf::Vector2f(size3->toFloat(0), size3->toFloat(1)));
 
 }
 
@@ -100,8 +100,8 @@ bool GameSprite::SetAnimationSheet(const std::string  &str)
 {
 	if (animation_sheet.size() != 0) animation_sheet.clear();
 	TextFileData file;
-	file.load_file(str);
-	auto anim = file.get_all_elements_by_name("ANIMATION");
+	file.loadFile(str);
+	auto anim = file.getAllElementsByName("ANIMATION");
 
 	for (int i = 0; i < anim.size(); i++)
 	{

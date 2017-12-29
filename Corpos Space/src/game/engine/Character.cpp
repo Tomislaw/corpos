@@ -27,11 +27,11 @@ Character::Character(Tilemap * tilemap)
 }
 Character::Character(TextElement * data, Tilemap * tilemap)
 {
-	this->name = data->get_variable_by_name("Name")->var[0];
-	float x = data->get_variable_by_name("Position")->to_float(0);
-	float y = data->get_variable_by_name("Position")->to_float(1);
+	this->name = data->getVariableByName("Name")->var[0];
+	float x = data->getVariableByName("Position")->toFloat(0);
+	float y = data->getVariableByName("Position")->toFloat(1);
 	this->map = tilemap;
-	//std::string charloc = data->get_variable_by_name("Character")->var[0];
+	//std::string charloc = data->getVariableByName("Character")->var[0];
 ;
 	this->setPosition(x,y);
 
@@ -441,14 +441,14 @@ void Character::impulseVelocityX(float maxSpeed, float impulse, float delta)
 
 bool Character::setCharacter(TextElement * element)
 {
-	this->health = element->get_variable_by_name("Health")->to_int(0);
-	this->max_walk_speed = element->get_variable_by_name("Speed")->to_int(0);
-	auto cb = element->get_variable_by_name("CollisionBox");
+	this->health = element->getVariableByName("Health")->toInt(0);
+	this->max_walk_speed = element->getVariableByName("Speed")->toInt(0);
+	auto cb = element->getVariableByName("CollisionBox");
 
-	collision_box.left = cb->to_float(0);
-	collision_box.top = cb->to_float(1);
-	collision_box.width = cb->to_float(2);
-	collision_box.height = cb->to_float(3);
+	collision_box.left = cb->toFloat(0);
+	collision_box.top = cb->toFloat(1);
+	collision_box.width = cb->toFloat(2);
+	collision_box.height = cb->toFloat(3);
 
 	rect.setSize(sf::Vector2f(collision_box.width, collision_box.height));
 	rect.setFillColor(sf::Color::Red);

@@ -19,13 +19,13 @@ bool Tilemap::loadTileset(std::string location)
 	TextFileData file;
 
 	//load file
-	file.load_file(location);
+	file.loadFile(location);
 
-	auto tileset = file.get_first_element_by_name("TILESET");
-	auto texture = tileset->get_variable_by_name("Texture")->var[0];
+	auto tileset = file.getFirstElementByName("TILESET");
+	auto texture = tileset->getVariableByName("Texture")->var[0];
 	auto tx = World::getTexture(texture);
 
-	auto tiles = file.get_all_elements_by_name("TILE");
+	auto tiles = file.getAllElementsByName("TILE");
 	for (int i = 0; i < tiles.size();i++)
 	{
 		TileDefinition t;
@@ -46,17 +46,17 @@ bool Tilemap::loadTileset(std::string location)
 
 	Logger::i("Loading tileset definition in \"" + location + "\"");
 	//load file
-	file.load_file(location);
+	file.loadFile(location);
 
 
 
 
 
 	//set vtm data
-	auto tileset = file.get_first_element_by_name("TILESET");
-	auto texture = tileset->get_variable_by_name("Texture")->to_string(0);
+	auto tileset = file.getFirstElementByName("TILESET");
+	auto texture = tileset->getVariableByName("Texture")->toString(0);
 
-	tm.name = tileset->get_variable_by_name("Name")->to_string(0);
+	tm.name = tileset->getVariableByName("Name")->toString(0);
 	tm.textureName = texture;
 
 
@@ -72,7 +72,7 @@ bool Tilemap::loadTileset(std::string location)
 
 	// set tile definitions data
 
-	auto tiles = file.get_all_elements_by_name("TILE");
+	auto tiles = file.getAllElementsByName("TILE");
 	for (int i = 0; i < tiles.size();i++)
 	{
 		TileDefinition t;
@@ -116,16 +116,16 @@ bool Tilemap::loadTileset(std::string location)
 bool Tilemap::loadMap(TextElement * tm)
 {
 	
-	auto size = tm->get_variable_by_name("Size");
+	auto size = tm->getVariableByName("Size");
 
-	mapSize.y = size->to_int(1);
-	mapSize.x = size->to_int(0);
+	mapSize.y = size->toInt(1);
+	mapSize.x = size->toInt(0);
 
-	Logger::i("Map size: " + std::to_string(this->mapSize.x) + " " + std::to_string(this->mapSize.y));
+	Logger::i("Map size: " + std::toString(this->mapSize.x) + " " + std::toString(this->mapSize.y));
 
 
 
-	std::string tilesetName = tm->get_variable_by_name("Tilesets")->var[0];
+	std::string tilesetName = tm->getVariableByName("Tilesets")->var[0];
 	auto vertexTileMapPointer = getVertexTileMap(tilesetName);
 	if (vertexTileMapPointer == nullptr)
 	{
@@ -139,7 +139,7 @@ bool Tilemap::loadMap(TextElement * tm)
 
 	for (int y = 0;y < mapSize.y;y++)
 	{
-		auto tile = tm->get_variable_by_name("X" + std::to_string(y));
+		auto tile = tm->getVariableByName("X" + std::toString(y));
 		for (int x = 0; x < mapSize.x;x++)
 		{
 
@@ -266,16 +266,16 @@ bool Tilemap::loadMap(TextElement * tm)
 
 	loadTileset("bin/graphics/tileset/tileset1.txt");
 
-	auto size = tm->get_variable_by_name("Size");
-	this->mapSize.x = size->to_int(0);
-	this->mapSize.y = size->to_int(1);
+	auto size = tm->getVariableByName("Size");
+	this->mapSize.x = size->toInt(0);
+	this->mapSize.y = size->toInt(1);
 
 	tilemap = new Tile[mapSize.x*mapSize.y];
 
 	
 	for (int y = 0;y < mapSize.y;y++)
 	{
-		auto tile = tm->get_variable_by_name("X" + std::to_string(y));
+		auto tile = tm->getVariableByName("X" + std::toString(y));
 		for (int x = 0; x < mapSize.x;x++)
 		{
 			auto b = this->getTileDefinitiom(tile->var[x]);

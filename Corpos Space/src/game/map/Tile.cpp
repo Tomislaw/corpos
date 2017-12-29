@@ -25,7 +25,7 @@ void Tile::changeTile(TileDefinition * tiledef, std::vector<sf::Vertex*> tile, s
 		this->definition = nullptr;
 		this->singleImage = true;
 		this->tile = tile;
-		Logger::d("Tile at " + std::to_string(pos.x) + " " + std::to_string(pos.y) + " have no tile definition.");
+		Logger::d("Tile at " + std::toString(pos.x) + " " + std::toString(pos.y) + " have no tile definition.");
 		return;
 	}
 	this->name = tiledef->name;
@@ -369,115 +369,115 @@ void Tile::setDisplayType(bool LT, bool T, bool TR, bool L, bool R, bool LB, boo
 void TileDefinition::setTile(TextElement * t, const sf::Texture * texture, std::string textureName)
 {
 	this->texture = texture;
-	name = t->get_variable_by_name("Name")->var[0];
-	health = t->get_variable_by_name("Health")->to_float().at(0);
+	name = t->getVariableByName("Name")->var[0];
+	health = t->getVariableByName("Health")->toFloat().at(0);
 	this->texture_name = textureName;
-	this->is_blocking = (bool)t->get_variable_by_name("Block")->to_int().at(0);
-	bool is_single_sprite = (bool)t->get_variable_by_name("SingleImage")->to_int().at(0);
+	this->is_blocking = (bool)t->getVariableByName("Block")->toInt().at(0);
+	bool is_single_sprite = (bool)t->getVariableByName("SingleImage")->toInt().at(0);
 	this->singleImage = is_single_sprite;
-	this->backgroundTile = t->get_variable_by_name("Background")->to_string(0);
-	connectGroup = t->get_variable_by_name("ConnectGroup")->var[0];
-	auto r = t->get_variable_by_name("TileRect");
+	this->backgroundTile = t->getVariableByName("Background")->toString(0);
+	connectGroup = t->getVariableByName("ConnectGroup")->var[0];
+	auto r = t->getVariableByName("TileRect");
 
-	if (r->is_null())
+	if (r->isNull())
 	{
 		this->tileRect = sf::IntRect(-16, -16, 32, 32);
 	}
 	else
 	{
-		auto tileRectInts = r->to_int();
+		auto tileRectInts = r->toInt();
 		this->tileRect = sf::IntRect(tileRectInts.at(0), tileRectInts.at(1), tileRectInts.at(2), tileRectInts.at(3));
 	}
 	if (!is_single_sprite)
 	{
 		////Top
-		auto v =t->get_aLL_variables_by_name("RT");
+		auto v =t->getAllVariablesByName("RT");
 		for (int i = 0; i < v.size(); i++)
 		{
-			auto r = v[i]->to_int();
+			auto r = v[i]->toInt();
 			this->RT.push_back(sf::IntRect(r.at(0), r.at(1), r.at(2), r.at(3)));
 		}
 
-		v = t->get_aLL_variables_by_name("LT");
+		v = t->getAllVariablesByName("LT");
 		for (int i = 0; i < v.size(); i++)
 		{
-			auto r = v[i]->to_int();
+			auto r = v[i]->toInt();
 			this->LT.push_back(sf::IntRect(r.at(0), r.at(1), r.at(2), r.at(3)));
 		}
 
-		v = t->get_aLL_variables_by_name("T");
+		v = t->getAllVariablesByName("T");
 		for (int i = 0; i < v.size(); i++)
 		{
-			auto r = v[i]->to_int();
+			auto r = v[i]->toInt();
 			this->T.push_back(sf::IntRect(r.at(0), r.at(1), r.at(2), r.at(3)));
 		}
 
 		////Center
-		v = t->get_aLL_variables_by_name("L");
+		v = t->getAllVariablesByName("L");
 		for (int i = 0; i < v.size(); i++)
 		{
-			auto r = v[i]->to_int();
+			auto r = v[i]->toInt();
 			this->L.push_back(sf::IntRect(r.at(0), r.at(1), r.at(2), r.at(3)));
 		}
 
-		v = t->get_aLL_variables_by_name("C");
+		v = t->getAllVariablesByName("C");
 		for (int i = 0; i < v.size(); i++)
 		{
-			auto r = v[i]->to_int();
+			auto r = v[i]->toInt();
 			this->C.push_back(sf::IntRect(r.at(0), r.at(1), r.at(2), r.at(3)));
 		}
-		v = t->get_aLL_variables_by_name("R");
+		v = t->getAllVariablesByName("R");
 		for (int i = 0; i < v.size(); i++)
 		{
-			auto r = v[i]->to_int();
+			auto r = v[i]->toInt();
 			this->R.push_back(sf::IntRect(r.at(0), r.at(1), r.at(2), r.at(3)));
 		}
 
 		//Bottom
-		v = t->get_aLL_variables_by_name("LB");
+		v = t->getAllVariablesByName("LB");
 		for (int i = 0; i < v.size(); i++)
 		{
-			auto r = v[i]->to_int();
+			auto r = v[i]->toInt();
 			this->LB.push_back(sf::IntRect(r.at(0), r.at(1), r.at(2), r.at(3)));
 		}
-		v = t->get_aLL_variables_by_name("B");
+		v = t->getAllVariablesByName("B");
 		for (int i = 0; i < v.size(); i++)
 		{
-			auto r = v[i]->to_int();
+			auto r = v[i]->toInt();
 			this->B.push_back(sf::IntRect(r.at(0), r.at(1), r.at(2), r.at(3)));
 		}
 
-		v = t->get_aLL_variables_by_name("RB");
+		v = t->getAllVariablesByName("RB");
 		for (int i = 0; i < v.size(); i++)
 		{
-			auto r = v[i]->to_int();
+			auto r = v[i]->toInt();
 			this->RB.push_back(sf::IntRect(r.at(0), r.at(1), r.at(2), r.at(3)));
 		}
 
 		// inner
-		v = t->get_aLL_variables_by_name("ILB");
+		v = t->getAllVariablesByName("ILB");
 		for (int i = 0; i < v.size(); i++)
 		{
-			auto r = v[i]->to_int();
+			auto r = v[i]->toInt();
 			this->ILB.push_back(sf::IntRect(r.at(0), r.at(1), r.at(2), r.at(3)));
 		}
-		v = t->get_aLL_variables_by_name("ILT");
+		v = t->getAllVariablesByName("ILT");
 		for (int i = 0; i < v.size(); i++)
 		{
-			auto r = v[i]->to_int();
+			auto r = v[i]->toInt();
 			this->ILT.push_back(sf::IntRect(r.at(0), r.at(1), r.at(2), r.at(3)));
 		}
 
-		v = t->get_aLL_variables_by_name("IRT");
+		v = t->getAllVariablesByName("IRT");
 		for (int i = 0; i < v.size(); i++)
 		{
-			auto r = v[i]->to_int();
+			auto r = v[i]->toInt();
 			this->IRT.push_back(sf::IntRect(r.at(0), r.at(1), r.at(2), r.at(3)));
 		}
-		v = t->get_aLL_variables_by_name("IRB");
+		v = t->getAllVariablesByName("IRB");
 		for (int i = 0; i < v.size(); i++)
 		{
-			auto r = v[i]->to_int();
+			auto r = v[i]->toInt();
 			this->IRB.push_back(sf::IntRect(r.at(0), r.at(1), r.at(2), r.at(3)));
 		}
 
@@ -485,10 +485,10 @@ void TileDefinition::setTile(TextElement * t, const sf::Texture * texture, std::
 	}
 
 
-	auto v = t->get_aLL_variables_by_name("inner");
+	auto v = t->getAllVariablesByName("inner");
 	for (int i = 0; i < v.size(); i++)
 	{
-		auto r = v[i]->to_int();
+		auto r = v[i]->toInt();
 		this->inner.push_back(sf::IntRect(r.at(0), r.at(1), r.at(2), r.at(3)));
 	}
 
@@ -673,7 +673,7 @@ std::string TileDefinition::toString()
 	std::string data = "TileDefinition: ";
 	data += " name:" + this->name;
 	data += " texturename:" + this->texture_name;
-	data += " health:" + std::to_string(this->health);
-	data += " block:" + std::to_string(this->is_blocking);
+	data += " health:" + std::toString(this->health);
+	data += " block:" + std::toString(this->is_blocking);
 	return data;
 }

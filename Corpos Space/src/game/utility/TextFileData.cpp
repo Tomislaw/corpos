@@ -1,6 +1,6 @@
 #include "game\utility\TextFileData.hpp"
 
-std::vector <int> Variable::to_int()
+std::vector <int> Variable::toInt()
 {
 	std::vector <int> table;
 	for (int i = 0; i < var.size();i++)
@@ -10,7 +10,7 @@ std::vector <int> Variable::to_int()
 	return table;
 }
 
-std::vector <float> Variable::to_float()
+std::vector <float> Variable::toFloat()
 {
 	std::vector <float> table;
 	for (int i = 0; i < var.size();i++)
@@ -20,7 +20,7 @@ std::vector <float> Variable::to_float()
 	return table;
 }
 
-int Variable::to_int(unsigned int index)
+int Variable::toInt(unsigned int index)
 {
 	if (index < var.size())
 	{
@@ -29,7 +29,7 @@ int Variable::to_int(unsigned int index)
 	return 0;
 }
 
-float Variable::to_float(unsigned int index)
+float Variable::toFloat(unsigned int index)
 {
 	if (index < var.size())
 	{
@@ -38,7 +38,7 @@ float Variable::to_float(unsigned int index)
 	return 0;
 }
 
-std::string Variable::to_string(unsigned int id)
+std::string Variable::toString(unsigned int id)
 {
 	if (id < var.size())
 	{
@@ -139,7 +139,7 @@ std::string TextElement::display()
 	displaytext += '\n';
 	return displaytext;
 }
-Variable *TextElement::get_variable_by_name(std::string var_name)
+Variable *TextElement::getVariableByName(std::string var_name)
 {
 	for (int i = 0; i < variable.size();i++)
 	{
@@ -150,7 +150,7 @@ Variable *TextElement::get_variable_by_name(std::string var_name)
 	return &null;
 }
 
-std::vector<Variable*> TextElement::get_aLL_variables_by_name(std::string var_name)
+std::vector<Variable*> TextElement::getAllVariablesByName(std::string var_name)
 {
 	std::vector<Variable*> vars;
 	for (int i = 0; i < variable.size();i++)
@@ -176,7 +176,7 @@ TextFileData::~TextFileData()
 
 //getters
 
-std::vector<TextElement*> TextFileData::get_all_elements_by_name(std::string element_name)
+std::vector<TextElement*> TextFileData::getAllElementsByName(std::string element_name)
 {
 	std::vector <TextElement*> all_elements;
 	for (int i = 0; i < element.size();i++)
@@ -186,7 +186,7 @@ std::vector<TextElement*> TextFileData::get_all_elements_by_name(std::string ele
 	return all_elements;
 }
 
-TextElement * TextFileData::get_first_element_by_name(std::string element_name)
+TextElement * TextFileData::getFirstElementByName(std::string element_name)
 {
 	for (int i = 0; i < element.size();i++)
 	{
@@ -196,7 +196,7 @@ TextElement * TextFileData::get_first_element_by_name(std::string element_name)
 	return &null;
 }
 
-std::vector<TextElement> TextFileData::get_all_elements()
+std::vector<TextElement> TextFileData::getAllElements()
 {
 	return element;
 }
@@ -214,17 +214,17 @@ std::string TextFileData::display()
 
 // setters
 
-void TextFileData::set_elements(std::vector<TextElement> set)
+void TextFileData::setElements(std::vector<TextElement> set)
 {
 	element = set;
 }
 
-void TextFileData::replace_element(TextElement replace, std::string id)
+void TextFileData::replaceElement(TextElement replace, std::string id)
 {
 
 	for (int i = 0; i < element.size();i++)
 	{
-		if (element[i].get_variable_by_name("Id")->var[0] == id)
+		if (element[i].getVariableByName("Id")->var[0] == id)
 		{
 			element[i] = replace;
 			break;
@@ -234,7 +234,7 @@ void TextFileData::replace_element(TextElement replace, std::string id)
 
 // load & save
 
-bool TextFileData::save_to_file(std::string localization)
+bool TextFileData::saveToFile(std::string localization)
 {
 	std::fstream plik;
 	plik.open(localization, std::ios::trunc);
@@ -267,7 +267,7 @@ bool TextFileData::save_to_file(std::string localization)
 	return 0;
 }
 
-bool TextFileData::load_file(std::string file_txt)
+bool TextFileData::loadFile(std::string file_txt)
 {
 	//std::string file_txt = getExeLocation();
 	//if (location.size() == 0)return false;

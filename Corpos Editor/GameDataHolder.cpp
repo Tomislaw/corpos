@@ -30,19 +30,19 @@ void GameDataHolder::loadTextures()
 	
 
 	TextFileData file;
-	file.load_file(location);
-	auto textures_list = file.get_all_elements_by_name("TEXTURE");
+	file.loadFile(location);
+	auto textures_list = file.getAllElementsByName("TEXTURE");
 
-	Logger::i("Found " + std::to_string(textures_list.size()) + " textures");
+	Logger::i("Found " + std::toString(textures_list.size()) + " textures");
 
 	texture = new sf::Texture[textures_list.size()];
 	texture_names = new std::string[textures_list.size()];
 	for (int i = 0; i < textures_list.size(); i++)
 	{
-		//Logger::i("Loading " + textures_list[i]->get_variable_by_name("Location")->var[0]);
-		texture[i].loadFromFile(textures_list[i]->get_variable_by_name("Location")->var[0]);
+		//Logger::i("Loading " + textures_list[i]->getVariableByName("Location")->var[0]);
+		texture[i].loadFromFile(textures_list[i]->getVariableByName("Location")->var[0]);
 		texture[i].setSmooth(0);
-		texture_names[i] = (textures_list[i]->get_variable_by_name("Name")->var[0]);
+		texture_names[i] = (textures_list[i]->getVariableByName("Name")->var[0]);
 	}
 	textureArraySize = textures_list.size();
 
@@ -73,13 +73,13 @@ std::vector<GameSprite>* GameDataHolder::getSpriteList()
 void GameDataHolder::loadSprites()
 {
 	TextFileData file; //Loading sprites
-	file.load_file(Options::spriteLocation);
-	auto entities = file.get_all_elements_by_name("ENTITY_DEFIINITION");
-	Logger::i("Found " + std::to_string(entities.size()) + " game sprites");
+	file.loadFile(Options::spriteLocation);
+	auto entities = file.getAllElementsByName("ENTITY_DEFIINITION");
+	Logger::i("Found " + std::toString(entities.size()) + " game sprites");
 	for (int i = 0; i < entities.size(); i++)
 	{
-		std::string s = entities.at(i)->get_variable_by_name("Texture")->var[0];
-		std::string n = entities.at(i)->get_variable_by_name("Name")->var[0];
+		std::string s = entities.at(i)->getVariableByName("Texture")->var[0];
+		std::string n = entities.at(i)->getVariableByName("Name")->var[0];
 		sf::Texture * t = getTexture(s);
 		if (t == nullptr)
 		{

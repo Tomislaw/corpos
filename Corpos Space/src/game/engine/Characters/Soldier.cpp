@@ -13,28 +13,28 @@ Soldier::~Soldier()
 bool Soldier::setCharacter(TextElement * element)
 {
 	this->Character::setCharacter(element);
-	std::string sprite1 = element->get_variable_by_name("SpriteHead")->var[0];
+	std::string sprite1 = element->getVariableByName("SpriteHead")->var[0];
 	this->head = GameSprite(*EntityList::getSpriteDefinition(sprite1));
-	auto var1 = element->get_variable_by_name("HeadPos");
-	headOffset = sf::Vector2f(var1->to_float(0), var1->to_float(1));
+	auto var1 = element->getVariableByName("HeadPos");
+	headOffset = sf::Vector2f(var1->toFloat(0), var1->toFloat(1));
 	this->head.attachToEntityOffset(this, headOffset);
 
-	std::string sprite2 = element->get_variable_by_name("SpriteTorse")->var[0];
+	std::string sprite2 = element->getVariableByName("SpriteTorse")->var[0];
 	this->torse = GameSprite(*EntityList::getSpriteDefinition(sprite2));
-	auto var2 = element->get_variable_by_name("TorsePos");
-	torseOffset = sf::Vector2f(var2->to_float(0), var2->to_float(1));
+	auto var2 = element->getVariableByName("TorsePos");
+	torseOffset = sf::Vector2f(var2->toFloat(0), var2->toFloat(1));
 	this->torse.attachToEntityOffset(this, torseOffset);
 
-	std::string sprite3 = element->get_variable_by_name("SpriteLegs")->var[0];
+	std::string sprite3 = element->getVariableByName("SpriteLegs")->var[0];
 	this->legs = GameSprite(*EntityList::getSpriteDefinition(sprite3));
-	auto var3 = element->get_variable_by_name("LegsPos");
-	legsOffset = sf::Vector2f(var3->to_float(0), var3->to_float(1));
+	auto var3 = element->getVariableByName("LegsPos");
+	legsOffset = sf::Vector2f(var3->toFloat(0), var3->toFloat(1));
 	this->legs.attachToEntityOffset(this, legsOffset);
 
-	std::string sprite4 = element->get_variable_by_name("SpriteLHand")->var[0];
+	std::string sprite4 = element->getVariableByName("SpriteLHand")->var[0];
 	this->lhand = GameSprite(*EntityList::getSpriteDefinition(sprite4));
-	auto var4 = element->get_variable_by_name("LHandPos");
-	lhandOffset = sf::Vector2f(var4->to_float(0), var4->to_float(1));
+	auto var4 = element->getVariableByName("LHandPos");
+	lhandOffset = sf::Vector2f(var4->toFloat(0), var4->toFloat(1));
 	this->lhand.attachToEntityOffset(this, lhandOffset);
 
 	headOrigin = head.GetSprite().getOrigin();
