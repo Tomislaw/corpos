@@ -10,22 +10,22 @@ Prop::Prop()
 
 Prop::Prop(TextElement * file)
 {
-	is_collidable = file->get_variable_by_name("Collidable")->to_int(0);
+	is_collidable = file->getVariableByName("Collidable")->toInt(0);
 	if(is_collidable)
 	{ 
 		setDamageable(file);
-	auto var = file->get_variable_by_name("CollisionBox");
+	auto var = file->getVariableByName("CollisionBox");
 
-	this->collisionBox.left = var->to_float(0);
-	this->collisionBox.top = var->to_float(1);
-	this->collisionBox.width = var->to_float(2);
-	this->collisionBox.height = var->to_float(3);
+	this->collisionBox.left = var->toFloat(0);
+	this->collisionBox.top = var->toFloat(1);
+	this->collisionBox.width = var->toFloat(2);
+	this->collisionBox.height = var->toFloat(3);
 	}
-	name = file->get_variable_by_name("Name")->var[0];
-	auto pos = file->get_variable_by_name("Position");
-	position.x = pos->to_float(0);
-	position.y = pos->to_float(1);
-	std::string spr = file->get_variable_by_name("Sprite")->var[0];
+	name = file->getVariableByName("Name")->var[0];
+	auto pos = file->getVariableByName("Position");
+	position.x = pos->toFloat(0);
+	position.y = pos->toFloat(1);
+	std::string spr = file->getVariableByName("Sprite")->var[0];
 	auto x = EntityList::getSpriteDefinition(spr);
 	if (x == nullptr)
 	{
@@ -34,10 +34,10 @@ Prop::Prop(TextElement * file)
 	}
 	sprite = GameSprite(*x);
 	
-	auto sproff = file->get_variable_by_name("Sprite_offest");
+	auto sproff = file->getVariableByName("Sprite_offest");
 	sf::Vector2f spriteoffset;
-	spriteoffset.x = sproff->to_float(0);
-	spriteoffset.y = sproff->to_float(1);
+	spriteoffset.x = sproff->toFloat(0);
+	spriteoffset.y = sproff->toFloat(1);
 	sprite.attachToEntityOffset(this, spriteoffset);
 }
 

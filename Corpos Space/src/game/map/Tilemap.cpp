@@ -121,7 +121,7 @@ bool Tilemap::loadMap(TextElement * tm)
 	mapSize.y = size->toInt(1);
 	mapSize.x = size->toInt(0);
 
-	Logger::i("Map size: " + std::toString(this->mapSize.x) + " " + std::toString(this->mapSize.y));
+	Logger::i("Map size: " + std::to_string(this->mapSize.x) + " " + std::to_string(this->mapSize.y));
 
 
 
@@ -139,7 +139,7 @@ bool Tilemap::loadMap(TextElement * tm)
 
 	for (int y = 0;y < mapSize.y;y++)
 	{
-		auto tile = tm->getVariableByName("X" + std::toString(y));
+		auto tile = tm->getVariableByName("X" + std::to_string(y));
 		for (int x = 0; x < mapSize.x;x++)
 		{
 

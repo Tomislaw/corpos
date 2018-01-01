@@ -19,8 +19,8 @@ Damageable::~Damageable()
 void Damageable::setDamageable(TextElement * t)
 {
 	//health
-	this->health = t->get_variable_by_name("Health")->to_int(0);
-	this->maxHealth = t->get_variable_by_name("MaxHealth")->to_int(0);
+	this->health = t->getVariableByName("Health")->toInt(0);
+	this->maxHealth = t->getVariableByName("MaxHealth")->toInt(0);
 
 	//flags
 	if (maxHealth < 0) this->indestructable = true;
@@ -28,7 +28,7 @@ void Damageable::setDamageable(TextElement * t)
 	if (maxHealth >= 0 && health <= 0)destroy();
 	else destroyed = false;
 
-	this->damageFilter = t->get_variable_by_name("DamageFilter")->to_int(0);
+	this->damageFilter = t->getVariableByName("DamageFilter")->toInt(0);
 }
 
 void Damageable::damage(int hp)

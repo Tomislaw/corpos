@@ -33,7 +33,7 @@ void GameDataHolder::loadTextures()
 	file.loadFile(location);
 	auto textures_list = file.getAllElementsByName("TEXTURE");
 
-	Logger::i("Found " + std::toString(textures_list.size()) + " textures");
+	Logger::i("Found " + std::to_string(textures_list.size()) + " textures");
 
 	texture = new sf::Texture[textures_list.size()];
 	texture_names = new std::string[textures_list.size()];
@@ -75,7 +75,7 @@ void GameDataHolder::loadSprites()
 	TextFileData file; //Loading sprites
 	file.loadFile(Options::spriteLocation);
 	auto entities = file.getAllElementsByName("ENTITY_DEFIINITION");
-	Logger::i("Found " + std::toString(entities.size()) + " game sprites");
+	Logger::i("Found " + std::to_string(entities.size()) + " game sprites");
 	for (int i = 0; i < entities.size(); i++)
 	{
 		std::string s = entities.at(i)->getVariableByName("Texture")->var[0];

@@ -95,13 +95,13 @@ void EntityList::loadSpriteDefinition(std::string location)
 {
 	
 	TextFileData file; //Loading sprites
-	file.load_file(location);
-	auto entities = file.get_all_elements_by_name("ENTITY_DEFIINITION");
+	file.loadFile(location);
+	auto entities = file.getAllElementsByName("ENTITY_DEFIINITION");
 	Logger::i("Found " + std::to_string(entities.size()) + " game sprites");
 	for (int i = 0; i < entities.size(); i++)
 	{
-		std::string s = entities.at(i)->get_variable_by_name("Texture")->var[0];
-		std::string n = entities.at(i)->get_variable_by_name("Name")->var[0];
+		std::string s = entities.at(i)->getVariableByName("Texture")->var[0];
+		std::string n = entities.at(i)->getVariableByName("Name")->var[0];
 		sf::Texture * t = World::getTexture(s);
 		if (t == nullptr)
 		{

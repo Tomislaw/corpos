@@ -46,8 +46,8 @@ void MapView::loadMap(std::string mapLocation)
 
 
 	TextFileData file;
-	file.load_file(mapLocation);
-	auto tm = file.get_first_element_by_name("TILEMAP");
+	file.loadFile(mapLocation);
+	auto tm = file.getFirstElementByName("TILEMAP");
 	worldmap.loadTileset(Options::tilesetLocation);
 	worldmap.loadMap(tm);
 

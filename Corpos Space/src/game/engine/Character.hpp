@@ -4,6 +4,8 @@
 #include "game\graphics\GameSprite.hpp"
 class Tilemap;
 class EntityList;
+//Core class for all characters
+//TODO:add comments for almost all classes
 class Character :
 	public Entity
 {

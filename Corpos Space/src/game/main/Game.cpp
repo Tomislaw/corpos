@@ -67,7 +67,7 @@ bool Game::run()
 			else
 			{
 				
-				fpsText.setString(std::toString((int)(10 / FpsDelta)));
+				fpsText.setString(std::to_string((int)(10 / FpsDelta)));
 				FpsframeCount = 0;
 				FpsDelta = 0;
 			}

@@ -66,7 +66,7 @@ bool Animation::SetAnimation(TextElement *spritetext)
 
 	for (int i = 0; i < frames; i++)
 	{
-		std::string frame_str = "Frame_" + std::toString(i);
+		std::string frame_str = "Frame_" + std::to_string(i);
 		auto data = spritetext->getVariableByName(frame_str);
 		sf::IntRect f(data->toInt(0), data->toInt(1), data->toInt(2), data->toInt(3));
 		frame.push_back(f);
@@ -88,9 +88,9 @@ std::string Animation::toString()
 {
 	return std::string(
 		"Name: " + name +"\n"
-		"Is loop: " + std::toString(is_loop) + "\n"
-		"Animation_speed: " + std::toString(animation_speed) + "\n"
+		"Is loop: " + std::to_string(is_loop) + "\n"
+		"Animation_speed: " + std::to_string(animation_speed) + "\n"
 		//"Current frame: " + std::toString(current_frame) + "\n"
-		"Frame count: " + std::toString(frame.size()) 
+		"Frame count: " + std::to_string(frame.size())
 	);
 }

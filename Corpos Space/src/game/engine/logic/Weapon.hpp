@@ -3,7 +3,12 @@
 #include "D:\Microsoft Visual Studio\Projects\Corpos Space\Corpos Space\src\game\engine\Entity.hpp"
 #include "game\engine\Damageable.hpp"
 #include "GunFire.hpp"
+
 class EntityList;
+//Unfinished weapon class
+//TODO: finnish this class
+//TODO: make pickupable class?
+//TODO: rotating, inside soldier class or here?
 class Weapon
 {
 public:

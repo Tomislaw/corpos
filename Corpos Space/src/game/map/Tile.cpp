@@ -25,7 +25,7 @@ void Tile::changeTile(TileDefinition * tiledef, std::vector<sf::Vertex*> tile, s
 		this->definition = nullptr;
 		this->singleImage = true;
 		this->tile = tile;
-		Logger::d("Tile at " + std::toString(pos.x) + " " + std::toString(pos.y) + " have no tile definition.");
+		Logger::d("Tile at " + std::to_string(pos.x) + " " + std::to_string(pos.y) + " have no tile definition.");
 		return;
 	}
 	this->name = tiledef->name;
@@ -673,7 +673,7 @@ std::string TileDefinition::toString()
 	std::string data = "TileDefinition: ";
 	data += " name:" + this->name;
 	data += " texturename:" + this->texture_name;
-	data += " health:" + std::toString(this->health);
-	data += " block:" + std::toString(this->is_blocking);
+	data += " health:" + std::to_string(this->health);
+	data += " block:" + std::to_string(this->is_blocking);
 	return data;
 }

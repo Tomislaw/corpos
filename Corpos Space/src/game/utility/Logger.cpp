@@ -38,22 +38,22 @@ void Logger::log(std::string info , int type)
 	struct tm timeinfo;
 	errno_t error = localtime_s(&timeinfo, &rawtime);
 
-	stime = std::toString(timeinfo.tm_year + 1900) + "-";
+	stime = std::to_string(timeinfo.tm_year + 1900) + "-";
 
-	if (timeinfo.tm_mon > 9)stime += std::toString(timeinfo.tm_mon) + "-";
-	else stime += "0" + std::toString(timeinfo.tm_mon) + "-";
+	if (timeinfo.tm_mon > 9)stime += std::to_string(timeinfo.tm_mon) + "-";
+	else stime += "0" + std::to_string(timeinfo.tm_mon) + "-";
 
-	if (timeinfo.tm_mday > 9)stime += std::toString(timeinfo.tm_mday) + " | ";
-	else stime += "0" + std::toString(timeinfo.tm_mday) + " | ";
+	if (timeinfo.tm_mday > 9)stime += std::to_string(timeinfo.tm_mday) + " | ";
+	else stime += "0" + std::to_string(timeinfo.tm_mday) + " | ";
 
-	if (timeinfo.tm_hour > 9)stime += std::toString(timeinfo.tm_hour) + ":";
-	else stime += "0" + std::toString(timeinfo.tm_hour) + ":";
+	if (timeinfo.tm_hour > 9)stime += std::to_string(timeinfo.tm_hour) + ":";
+	else stime += "0" + std::to_string(timeinfo.tm_hour) + ":";
 
-	if (timeinfo.tm_min > 9)stime += std::toString(timeinfo.tm_min) + ":";
-	else stime += "0" + std::toString(timeinfo.tm_min) + ":";
+	if (timeinfo.tm_min > 9)stime += std::to_string(timeinfo.tm_min) + ":";
+	else stime += "0" + std::to_string(timeinfo.tm_min) + ":";
 
-	if (timeinfo.tm_sec > 9)stime += std::toString(timeinfo.tm_sec);
-	else stime += "0" + std::toString(timeinfo.tm_sec);
+	if (timeinfo.tm_sec > 9)stime += std::to_string(timeinfo.tm_sec);
+	else stime += "0" + std::to_string(timeinfo.tm_sec);
 
 
 	std::string sinfo;

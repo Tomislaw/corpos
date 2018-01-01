@@ -23,9 +23,9 @@ bool World::loadTextures(std::string location)
 	Logger::i("Loading texture definitions in " + location);
 
 	TextFileData file;
-	file.load_file(location);
+	file.loadFile(location);
 
-	auto textures_list = file.get_all_elements_by_name("TEXTURE");
+	auto textures_list = file.getAllElementsByName("TEXTURE");
 
 	Logger::i("Found " + std::to_string(textures_list.size()) + " textures");
 
@@ -33,10 +33,10 @@ bool World::loadTextures(std::string location)
 	texture_names = new std::string[textures_list.size()];
 	for (int i = 0; i < textures_list.size(); i++)
 	{
-		Logger::i("Loading " + textures_list[i]->get_variable_by_name("Location")->var[0]);
-		texture[i].loadFromFile(textures_list[i]->get_variable_by_name("Location")->var[0]);
+		Logger::i("Loading " + textures_list[i]->getVariableByName("Location")->var[0]);
+		texture[i].loadFromFile(textures_list[i]->getVariableByName("Location")->var[0]);
 		texture[i].setSmooth(0);
-		texture_names[i]=(textures_list[i]->get_variable_by_name("Name")->var[0]);
+		texture_names[i]=(textures_list[i]->getVariableByName("Name")->var[0]);
 	}
 	textureArraySize = textures_list.size();
 
@@ -85,20 +85,20 @@ void World::events(sf::Event e)
 void World::loadMap(std::string map)
 {
 	TextFileData file;
-	file.load_file(map);
-	auto tm = file.get_first_element_by_name("TILEMAP");
+	file.loadFile(map);
+	auto tm = file.getFirstElementByName("TILEMAP");
 
 	tilemap.loadTileset("bin/graphics/tileset/tileset1.txt");
 	tilemap.loadMap(tm);
 
-	auto map_props = file.get_all_elements_by_name("PROP");
+	auto map_props = file.getAllElementsByName("PROP");
 	for (int i = 0; i < map_props.size();i++)
 	{
 		auto p = std::shared_ptr<Prop>(new  Prop(map_props.at(i)));
 		entitylist.addProp(p);
 	}
 
-	auto map_characters = file.get_all_elements_by_name("CHARACTER");
+	auto map_characters = file.getAllElementsByName("CHARACTER");
 	for (int i = 0; i < map_characters.size();i++)
 	{
 		auto p = CharacterCreator::create(map_characters.at(i), &tilemap);
