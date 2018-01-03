@@ -1,5 +1,6 @@
 #ifndef PARTICLE_HPP
 #define PARTICLE_HPP
+// simple particle struct
 struct Particle
 {
 	sf::Vector2f position;

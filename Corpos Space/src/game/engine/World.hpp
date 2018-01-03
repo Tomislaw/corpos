@@ -16,16 +16,20 @@ public:
 	~World();
 
 	// load text file with location to all textures we want to load. Using it again will destroy all previously loaded textures
-	//TODO: support loading from multiple text files - make texture list instead table?
+	//TODO: support loading from multiple text files - make list or map instead table?
 	static bool loadTextures(std::string location);
 
-	// load 
+	// load map - entity list part
 	bool loadEntitylist(std::string location);
+	// get texture - used by tilemap
 	static sf::Texture* getTexture(std::string name);
-
+	// update map
 	void update(float delta);
+	// draw it
 	void draw(sf::RenderWindow & window);
+	// resolve keyboard/mouse events
 	void events(sf::Event e);
+	// load map
 	void loadMap(std::string map);
 protected:
 

@@ -5,6 +5,7 @@
 #ifndef TEXTCONTAINER_HPP
 #define TEXTCONTAINER_HPP
 
+// Class with all fonts, TODO: add localization handling here
 class TextContainer
 {
 public:

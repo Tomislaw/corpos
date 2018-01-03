@@ -5,7 +5,7 @@
 class Tilemap;
 class EntityList;
 //Core class for all characters
-//TODO:add comments for almost all classes
+//TODO:comment this class
 class Character :
 	public Entity
 {
