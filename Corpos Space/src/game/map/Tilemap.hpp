@@ -48,6 +48,8 @@ public:
 	VertexTileMap * getVertexTileMapByTextureName(std::string name);
 	// return first vtm from list
 	VertexTileMap * getVertexTileMap(std::string name);
+	// return vertex tile map
+	std::vector<VertexTileMap> & getVertexTileMapVector();
 	// return pointer to tile
 	Tile * getTile(int x, int y);
 	// return pointer to tile
@@ -56,10 +58,15 @@ public:
 	Tile * getTile(sf::Vector2f position);
 	// return pointer to background tile
 	Tile * getBackgroundTile(int x, int y);
+
+	// sets tile or background tile
+	void setTile(TileDefinition * , size_t x, size_t y);
+
 	// return tile definition from chosen vertex tile map, nullptr if not found
 	TileDefinition * getTileDefinition(std::string tile, std::string tilesetName);
 	// change position to tile id
 	sf::Vector2i getTileId(sf::Vector2f position);
+	sf::Vector2i getTileId(float x, float y);
 	//return map size
 	sf::Vector2f getMapSize();
 

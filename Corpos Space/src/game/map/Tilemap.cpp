@@ -260,6 +260,11 @@ VertexTileMap * Tilemap::getVertexTileMap(std::string name)
 	return nullptr;
 }
 
+std::vector<VertexTileMap>& Tilemap::getVertexTileMapVector()
+{
+	return vtm;
+}
+
 /*
 bool Tilemap::loadMap(TextElement * tm)
 {
@@ -319,6 +324,57 @@ Tile * Tilemap::getBackgroundTile(int x, int y)
 {
 	if (x<0 || y<0 || x >= mapSize.x || y >= mapSize.y)return nullptr;
 	return &bgtilemap.at(x + y * mapSize.x);
+	
+}
+
+void Tilemap::setTile(TileDefinition * definition, size_t x, size_t y)
+{
+	
+
+	auto bg_tile = this->getBackgroundTile(x, y);
+	auto tile = this->getTile(x, y);
+
+	if (bg_tile == nullptr || tile == nullptr) return;
+	bg_tile->resetVertexPosition();
+	tile->resetVertexPosition();
+	
+	//Set tile if not found
+	if (definition == nullptr)
+	{
+
+		*tile = Tile();
+		*bg_tile = Tile();
+		return;
+	}
+
+	auto vtm = getVertexTileMapByTextureName(definition->texture_name);
+
+		
+		//set tile if found and blocking
+		if (definition->is_blocking)
+		{
+			
+			auto background = vtm->getTileDefinition(definition->backgroundTile);
+			// set tile if noto found background one
+			if (background == nullptr)
+			{
+				*tile = Tile(definition, vtm->getTileAt(x + y * mapSize.x), sf::Vector2f(x * 32 + 16, y * 32 + 16));
+				*bg_tile = Tile();
+			}
+			else //set tile normal
+			{
+				*tile = Tile(definition, vtm->getTileAt(x + y * mapSize.x), sf::Vector2f(x * 32 + 16, y * 32 + 16));
+				*bg_tile = Tile(background, vtm->getBackgroundTileAt(x + y * mapSize.x), sf::Vector2f(x * 32 + 16, y * 32 + 16));
+			}
+
+
+		}
+		else // set tile if it not blocking
+		{
+			*tile = Tile();
+			*bg_tile = Tile(definition, vtm->getBackgroundTileAt(x + y * mapSize.x), sf::Vector2f(x * 32 + 16, y * 32 + 16));
+		}
+
 }
 
 TileDefinition * Tilemap::getTileDefinition(std::string tileName, std::string tilesetName)
@@ -350,6 +406,11 @@ sf::Vector2i Tilemap::getTileId(sf::Vector2f v)
 	int x = v.x / 32;
 	int y =v.y / 32;
 	return sf::Vector2i(x,y);
+}
+
+sf::Vector2i Tilemap::getTileId(float x, float y)
+{
+	return getTileId(sf::Vector2f(x,y));
 }
 
 sf::Vector2f Tilemap::getMapSize()
@@ -439,23 +500,10 @@ void Tilemap::refreashBackgroundTile(int x, int y)
 
 void Tilemap::refreashTile(int x, int y)
 {
-	if (this->getTile(x, y)==nullptr) return;
-	/*if(this->getTile(x, y)->isConnectToAllTiles())
-	{
-		this->getTile(x, y)->setDisplayType(
-		this->isTileBlocking(x - 1, y - 1), this->isTileBlocking(x, y - 1), this->isTileBlocking(x + 1, y - 1),
-		this->isTileBlocking(x - 1, y), this->isTileBlocking(x + 1, y),
-		this->isTileBlocking(x - 1, y + 1), this->isTileBlocking(x, y + 1), this->isTileBlocking(x + 1, y + 1));
-	}
-	else
-	{
-		auto tile = this->getTile(x, y);
-		tile->setDisplayType(
-		this->isSameTile(x - 1, y - 1, tile), this->isSameTile(x, y - 1, tile), this->isSameTile(x + 1, y - 1, tile),
-		this->isSameTile(x - 1, y, tile), this->isSameTile(x + 1, y, tile),
-		this->isSameTile(x - 1, y + 1, tile), this->isSameTile(x, y + 1, tile), this->isSameTile(x + 1, y + 1, tile));
-	}*/
 	auto tile = this->getTile(x, y);
+	if (tile==nullptr) return;
+
+	
 	tile->setDisplayType(
 		this->isSameTile(x - 1, y - 1, tile), this->isSameTile(x, y - 1, tile), this->isSameTile(x + 1, y - 1, tile),
 		this->isSameTile(x - 1, y, tile), this->isSameTile(x + 1, y, tile),

@@ -7,7 +7,7 @@
 #include <fstream>
 #include <Shlwapi.h>
 #include <algorithm>
-#include "game\utility\Logger.hpp"
+#include "Logger.hpp"
 /// <summary>
 /// Contains single variable in table.
 /// </summary>

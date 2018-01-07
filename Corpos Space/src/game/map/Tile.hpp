@@ -8,6 +8,7 @@
 //Struct with single tile definition
 struct TileDefinition
 {
+public:
 	//Name used for comparing if tiles are same
 	std::string name = "0";
 
@@ -108,6 +109,8 @@ class Tile : public Entity
 	void damage(int health);
 	// destroy tile
 	void destroy();
+
+	void resetVertexPosition();
 	private:
 
 	// pointer to tile definition

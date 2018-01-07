@@ -1,5 +1,6 @@
 #include "MapForm.h"
 #include "game\utility\Logger.hpp"
+#include "CorposEditor.h"
 MapForm::MapForm(QWidget *parent, std::string mapLocation) 
 	: QWidget(parent)
 {
@@ -56,6 +57,11 @@ void MapForm::mousePressEvent(QMouseEvent * e)
 	lastMousePos.y = e->y();
 	isMouseMoving = true;
 	}
+	if (e->button() == Qt::LeftButton)
+	{
+
+		mapView->setTileAtMousePosition(CorposEditor::selectedTileset, CorposEditor::selectedTile);
+	}
 	//e->accept();
 }
 
@@ -80,6 +86,11 @@ void MapForm::wheelEvent(QWheelEvent * e)
 	mapView->setView(mapView->view);
 
 	mapView->update();
+}
+
+std::vector<VertexTileMap>& MapForm::getVertexTileMap()
+{
+	return mapView->getVertexTileMap();
 }
 
 void MapForm::onResize()

@@ -1,6 +1,10 @@
 #include "CorposEditor.h"
 #include "game\utility\Logger.hpp"
 #include "GameDataHolder.h"
+#include <QStandardItemModel>
+
+std::string CorposEditor::selectedTile = "";
+std::string CorposEditor::selectedTileset = "";
 
 CorposEditor::CorposEditor(QWidget *parent)
 	: QMainWindow(parent)
@@ -32,6 +36,9 @@ CorposEditor::CorposEditor(QWidget *parent)
 	//connect(ui.actionOptions, SIGNAL(triggered()), this, SLOT(showOptionsForms()));
 
 	//ui.mdiArea->addSubWindow();
+
+	ui.treeWidgetTiles->setColumnCount(2);
+	ui.treeWidgetTiles->setHeaderLabels(QStringList() << "Name" << "Type");
 }
 
 void CorposEditor::showOptionsForms()
@@ -105,6 +112,78 @@ void CorposEditor::loadMap()
 		case FNERR_INVALIDFILENAME: std::cout << "FNERR_INVALIDFILENAME\n"; break;
 		case FNERR_SUBCLASSFAILURE: std::cout << "FNERR_SUBCLASSFAILURE\n"; break;
 		default: std::cout << "You cancelled.\n";
+		}
+	}
+}
+
+void CorposEditor::loadTileDefinitions(QMdiSubWindow * window)
+{
+	
+	if (window == nullptr)return;
+
+	auto win = dynamic_cast<MapForm*>(window->widget());
+	if (win != nullptr)
+	{
+		ui.treeWidgetTiles->clear();
+	
+		auto vtm = win->getVertexTileMap();
+		
+
+	
+
+		for(size_t i = 0; i <  vtm.size(); i++)
+		{
+			auto m = &vtm.at(i);
+			Logger::d(m->textureName);
+			
+			QTreeWidgetItem* tileset = new QTreeWidgetItem(ui.treeWidgetTiles);
+			tileset->setText(0, QString::fromStdString(m->name));
+			tileset->setText(1, "tileset");
+
+			for(size_t j = 0; j <  m->definitions.size();j++)
+			{
+				auto d = &m->definitions.at(j);
+				Logger::d(d->name);
+
+				QTreeWidgetItem* tile = new QTreeWidgetItem();
+				tile->setText(0, QString::fromStdString(d->name));
+				if (d->is_blocking == true)tile->setText(1, "tile");
+				else tile->setText(1, "background");
+				
+				//tile->setToolTip(0, tr(d->toString().c_str()));
+				//tile->setToolTip(1, tr(d->toString().c_str()));
+				tileset->addChild(tile);
+			}
+
+		}
+		
+		
+	}
+	else
+	{
+		ui.treeWidgetTiles->clear();
+	}
+
+}
+
+void CorposEditor::tileBrowserSelected(QTreeWidgetItem *item, int)
+{
+	if (item == nullptr)
+	{
+		selectedTile = "";
+		selectedTileset = "";
+	}
+	else
+	{
+		if (item->parent() == nullptr)
+		{
+			selectedTile = "";
+			selectedTileset = "";
+		}
+		else
+		{ 
+			selectedTile = item->text(0).toStdString();
+			selectedTileset = item->parent()->text(0).toStdString();
 		}
 	}
 }

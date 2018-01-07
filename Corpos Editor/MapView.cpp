@@ -52,3 +52,22 @@ void MapView::loadMap(std::string mapLocation)
 	worldmap.loadMap(tm);
 
 }
+
+void MapView::setTileAtMousePosition(std::string tileset, std::string tile)
+{
+
+	
+	auto t =  worldmap.getTileDefinition(tile, tileset);
+
+	auto mousepos = sf::Mouse::getPosition(*this);
+	auto pos = this->mapPixelToCoords(mousepos);
+	auto id = worldmap.getTileId(pos);
+	Logger::i(std::to_string(id.x) + " " + std::to_string(id.y) );
+	if (id.x < 0 || id.y < 0)return;
+	worldmap.setTile(t,id.x,id.y);
+	worldmap.refreashTile(id.x,id.y);
+	worldmap.refreashNearTiles(id.x,id.y);
+	worldmap.refreashBackgroundTile(id.x, id.y);
+	//worldmap.
+	update();
+}

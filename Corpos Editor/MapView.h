@@ -16,6 +16,11 @@ public:
 	void onResize();
 	void loadMap(std::string mapLocation);
 	sf::View view;
+	std::vector<VertexTileMap>& getVertexTileMap()
+	{
+		return worldmap.getVertexTileMapVector();
+	}
+	void setTileAtMousePosition(std::string tileset, std::string tile);
 private:
 
 

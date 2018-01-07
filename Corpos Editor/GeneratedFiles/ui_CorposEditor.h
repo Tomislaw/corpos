@@ -28,6 +28,7 @@
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QToolBar>
+#include <QtWidgets/QTreeWidget>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
@@ -62,12 +63,9 @@ public:
     QVBoxLayout *verticalLayout;
     QGroupBox *browseTileToolbox;
     QVBoxLayout *verticalLayout_2;
-    QListView *listView;
+    QTreeWidget *treeWidgetTiles;
     QLabel *label;
     QLineEdit *lineEdit_2;
-    QGroupBox *groupBox_2;
-    QVBoxLayout *verticalLayout_3;
-    QLabel *tileInfoLabel;
     QDockWidget *entityDock;
     QWidget *dockWidgetContents;
     QVBoxLayout *verticalLayout_4;
@@ -171,10 +169,13 @@ public:
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
-        listView = new QListView(browseTileToolbox);
-        listView->setObjectName(QStringLiteral("listView"));
+        treeWidgetTiles = new QTreeWidget(browseTileToolbox);
+        QTreeWidgetItem *__qtreewidgetitem = new QTreeWidgetItem();
+        __qtreewidgetitem->setText(0, QStringLiteral("1"));
+        treeWidgetTiles->setHeaderItem(__qtreewidgetitem);
+        treeWidgetTiles->setObjectName(QStringLiteral("treeWidgetTiles"));
 
-        verticalLayout_2->addWidget(listView);
+        verticalLayout_2->addWidget(treeWidgetTiles);
 
         label = new QLabel(browseTileToolbox);
         label->setObjectName(QStringLiteral("label"));
@@ -188,20 +189,6 @@ public:
 
 
         verticalLayout->addWidget(browseTileToolbox);
-
-        groupBox_2 = new QGroupBox(dockWidgetContents_12);
-        groupBox_2->setObjectName(QStringLiteral("groupBox_2"));
-        verticalLayout_3 = new QVBoxLayout(groupBox_2);
-        verticalLayout_3->setSpacing(6);
-        verticalLayout_3->setContentsMargins(11, 11, 11, 11);
-        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
-        tileInfoLabel = new QLabel(groupBox_2);
-        tileInfoLabel->setObjectName(QStringLiteral("tileInfoLabel"));
-
-        verticalLayout_3->addWidget(tileInfoLabel);
-
-
-        verticalLayout->addWidget(groupBox_2);
 
         tileDock->setWidget(dockWidgetContents_12);
         CorposEditorClass->addDockWidget(static_cast<Qt::DockWidgetArea>(2), tileDock);
@@ -286,6 +273,8 @@ public:
         QObject::connect(entityDock, SIGNAL(visibilityChanged(bool)), actionEntity_list, SLOT(setChecked(bool)));
         QObject::connect(actionSprite_browser, SIGNAL(triggered()), CorposEditorClass, SLOT(showSpriteBrowserForms()));
         QObject::connect(actionLoad_Map, SIGNAL(triggered()), CorposEditorClass, SLOT(loadMap()));
+        QObject::connect(mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)), CorposEditorClass, SLOT(loadTileDefinitions(QMdiSubWindow*)));
+        QObject::connect(treeWidgetTiles, SIGNAL(itemPressed(QTreeWidgetItem*,int)), CorposEditorClass, SLOT(tileBrowserSelected(QTreeWidgetItem*,int)));
 
         QMetaObject::connectSlotsByName(CorposEditorClass);
     } // setupUi
@@ -311,8 +300,6 @@ public:
         tileDock->setWindowTitle(QApplication::translate("CorposEditorClass", "Tile browser", Q_NULLPTR));
         browseTileToolbox->setTitle(QApplication::translate("CorposEditorClass", "Browse tile", Q_NULLPTR));
         label->setText(QApplication::translate("CorposEditorClass", "Search:", Q_NULLPTR));
-        groupBox_2->setTitle(QApplication::translate("CorposEditorClass", "Tile info", Q_NULLPTR));
-        tileInfoLabel->setText(QApplication::translate("CorposEditorClass", "<html><head/><body><p>Name: null</p><p>Collide: null</p><p>Health: null</p></body></html>", Q_NULLPTR));
         entityDock->setWindowTitle(QApplication::translate("CorposEditorClass", "Entity list", Q_NULLPTR));
         groupBox->setTitle(QString());
         label_2->setText(QApplication::translate("CorposEditorClass", "Search:", Q_NULLPTR));

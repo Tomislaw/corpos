@@ -8,6 +8,8 @@
 #include "OptionsForms.h"
 #include "SpriteBrowser.h"
 #include "MapForm.h"
+#include <QMdiSubWindow>
+
 class CorposEditor : public QMainWindow
 {
 	Q_OBJECT
@@ -17,7 +19,8 @@ public:
 
 	~CorposEditor();
 
-
+	static std::string selectedTileset;
+	static std::string selectedTile;
 private:
 	Ui::CorposEditorClass ui;
 	OptionsForms * optionsForm = nullptr;
@@ -29,4 +32,6 @@ public slots:
 void showOptionsForms();
 void showSpriteBrowserForms();
 void loadMap();
+void loadTileDefinitions(QMdiSubWindow*);
+void tileBrowserSelected(QTreeWidgetItem*, int);
 };

@@ -9,12 +9,13 @@ Tile::Tile()
 	this->definition = nullptr;
 	this->singleImage = true;
 }
+
+
 Tile::Tile(TileDefinition * tiledef, std::vector<sf::Vertex*> tile, sf::Vector2f pos)
 {
-
-	changeTile(tiledef, tile, pos);
-
+	changeTile(tiledef,tile,pos);
 }
+
 void Tile::changeTile(TileDefinition * tiledef, std::vector<sf::Vertex*> tile, sf::Vector2f pos)
 {
 	//if (tile == nullptr)Logger::e("Crtitical error! Tile pointer is null!!");return;
@@ -74,8 +75,11 @@ sf::Color Tile::getRandomParticleColor()
 void Tile::setDisplayType(bool LT, bool T, bool TR, bool L, bool R, bool LB, bool B, bool RB)
 {
 
-	
-	if (definition == nullptr)return;
+	if (definition == nullptr )
+	{
+		resetVertexPosition();
+		return;
+	}
 	if (singleImage)
 	{
 		auto r = definition->getInnerRect();
@@ -202,10 +206,16 @@ void Tile::destroy()
 {
 	this->is_destroyed = true;
 	this->is_blocking = false;
-	tile[0]->position = sf::Vector2f(0,0);
-	tile[1]->position = sf::Vector2f(0,0);
-	tile[2]->position = sf::Vector2f(0,0);
-	tile[3]->position = sf::Vector2f(0,0);
+	resetVertexPosition();
+}
+
+void Tile::resetVertexPosition()
+{
+	if (tile.size()!= 16)return;
+	tile[0]->position = sf::Vector2f(0, 0);
+	tile[1]->position = sf::Vector2f(0, 0);
+	tile[2]->position = sf::Vector2f(0, 0);
+	tile[3]->position = sf::Vector2f(0, 0);
 
 	tile[4]->position = sf::Vector2f(0, 0);
 	tile[5]->position = sf::Vector2f(0, 0);
@@ -670,10 +680,10 @@ const sf::Color & TileDefinition::getRandomColor()
 std::string TileDefinition::toString()
 {
 	
-	std::string data = "TileDefinition: ";
-	data += " name:" + this->name;
-	data += " texturename:" + this->texture_name;
-	data += " health:" + std::to_string(this->health);
-	data += " block:" + std::to_string(this->is_blocking);
+	std::string data;
+	data += "Name:" + this->name;
+	data += "\nTexture name:" + this->texture_name;
+	data += "\nHealth:" + std::to_string(this->health);
+	data += "\nBlock:" + std::to_string(this->is_blocking);
 	return data;
 }

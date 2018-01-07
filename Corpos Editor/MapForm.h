@@ -1,8 +1,10 @@
-#pragma once
+#ifndef MAPFORM_H
+#define MAPFORM_H
 
 #include <QWidget>
 #include "ui_MapForm.h"
 #include "MapView.h"
+#include "game\map\Tilemap.hpp"
 #include <QMouseEvent>
 class MapForm : public QWidget
 {
@@ -16,6 +18,8 @@ public:
 	void mousePressEvent(QMouseEvent * e) override;
 	void mouseReleaseEvent(QMouseEvent * e) override;
 	void wheelEvent(QWheelEvent * event) override;
+
+	std::vector<VertexTileMap>& getVertexTileMap();
 public slots:
 	void timerUpdate();
 	void onResize();
@@ -27,3 +31,5 @@ private:
 	sf::Vector2f lastMousePos;
 	bool isMouseMoving = false;
 };
+
+#endif
