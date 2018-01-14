@@ -170,6 +170,11 @@ TextFileData::TextFileData()
 {
 }
 
+TextFileData::TextFileData(std::vector<TextElement> &elements)
+{
+	setElements(elements);
+}
+
 TextFileData::~TextFileData()
 {
 }
@@ -236,38 +241,52 @@ void TextFileData::replaceElement(TextElement replace, std::string id)
 
 bool TextFileData::saveToFile(std::string localization)
 {
-	std::fstream plik;
-	plik.open(localization, std::ios::trunc);
 
-	std::string text_data;
-
-	text_data += "CORPOSFILE\r\n";
-	for (int i = 0; i < element.size(); i++)
+	std::fstream file(localization, std::ios::out);
+	if (file.good())
 	{
-		text_data += element[i].name + "\r\n";
-		text_data += "{\r\n";
-		for (int j = 0; j < element[i].variable.size();j++)
-		{
-			text_data += element[i].variable[j].name + " = " + '"';
-			for (int k = 0; k < element[i].variable[j].var.size() - 1;k++)
-			{
-				text_data += element[i].variable[j].var[k] + ',';
-			}
-			if (element[i].variable[j].var.size() > 0)
-			{
-				text_data += element[i].variable[j].var[element[i].variable[j].var.size() - 1] + '"' + "\r\n";
-			}
 
+		std::string text_data;
+
+		text_data += "CORPOSFILE\r\n";
+		for (int i = 0; i < element.size(); i++)
+		{
+			text_data += element[i].name + "\r\n";
+			text_data += "{\r\n";
+			for (int j = 0; j < element[i].variable.size(); j++)
+			{
+				text_data += element[i].variable[j].name + " = " + '"';
+				for (int k = 0; k < element[i].variable[j].var.size() - 1; k++)
+				{
+					text_data += element[i].variable[j].var[k] + ',';
+				}
+				if (element[i].variable[j].var.size() > 0)
+				{
+					text_data += element[i].variable[j].var[element[i].variable[j].var.size() - 1] + '"' + "\n";
+				}
+
+			}
+			text_data += "}\r\n";
 		}
-		text_data += "}\r\n";
+		text_data += "CORPOSFILE_END";
+
+		file << text_data;
+
+		file.close();
+
+		return true;
 	}
-	text_data += "CORPOSFILE_END";
-	Logger::i(text_data);
-	plik.close();
-	return 0;
+	else
+	{
+		return false;
+	}
+
+	
 }
 
-bool TextFileData::loadFile(std::string file_txt)
+
+
+/*bool TextFileData::loadFile(std::string file_txt)
 {
 	//std::string file_txt = getExeLocation();
 	//if (location.size() == 0)return false;
@@ -289,12 +308,28 @@ bool TextFileData::loadFile(std::string file_txt)
 	{
 		std::getline(plik, sWiersz);
 		//	std::cout << sWiersz << std::endl; // Nazwa typu pliku
-		if (sWiersz != "CORPOSFILE") { plik.close(); return 0; }
+		
+		if (sWiersz.find("CORPOSFILE") == std::string::npos) { plik.close(); return 0; }
 		name = file_txt;
+
+		bool startNextTextElement = true;
+
+
 		while (sWiersz != "CORPOSFILE_END")
 		{
 			/////////Wczytywanie danych do struktury
-			std::getline(plik, sWiersz);
+
+			if(startNextTextElement==true)
+			{ 
+				std::getline(plik, sWiersz,'{');
+				if (sWiersz.size() == 0)
+				{
+	
+					if (sWiersz.find("CORPOSFILE_END") != std::string::npos){ plik.close(); return 0; }
+
+				}
+
+			}
 			if (sWiersz == "CORPOSFILE_END")return 1;
 			if (sWiersz.size() > 1)
 			{
@@ -318,6 +353,55 @@ bool TextFileData::loadFile(std::string file_txt)
 	}
 	plik.close();
 	return true;
+}*/
+
+bool TextFileData::loadFile(std::string file_txt)
+{
+	//std::string file_txt = getExeLocation();
+	//if (location.size() == 0)return false;
+	//if (location[0] != '/')file_txt.push_back('/');
+	//file_txt += location;
+
+	this->element.clear();
+	this->endOfFile = false;
+
+
+	std::fstream file;
+	file.open(file_txt);
+	if (!file.good())
+	{
+		Logger::e("Can't open file " + file_txt);
+		return false; //Nie uda³o siê otworzyæ pliku
+	}
+
+
+	std::string buffor;
+	while (!file.eof())
+	{
+		std::getline(file, buffor);
+		//	std::cout << sWiersz << std::endl; // Nazwa typu pliku
+
+		if (buffor.find("CORPOSFILE") == std::string::npos) { file.close(); return 0; }
+		name = file_txt;
+
+
+		while (!endOfFile)
+		{
+			/////////Wczytywanie danych do struktury
+
+				if(loadTextElement(file)==false)
+				{ 
+					Logger::e("File \"" + file_txt + "\" not loaded!");
+					return false;
+				
+				}
+
+		
+
+		}
+	}
+	file.close();
+	return true;
 }
 
 //Get location of executable
@@ -335,6 +419,57 @@ std::string TextFileData::getExeLocation()
 
 	// your new String
 	return std::string(wpath.begin(), wpath.end());
+}
+
+
+
+
+bool TextFileData::loadTextElement(std::fstream &file)
+{
+	std::string buffor;
+	std::getline(file, buffor,'{');
+
+	if (buffor.find("CORPOSFILE_END") != std::string::npos)
+	{
+		endOfFile = true;
+		return true;
+	}
+
+	if (buffor.size() > 1)
+	{
+		buffor.erase(remove(buffor.begin(), buffor.end(), '\n'), buffor.end());
+		buffor.erase(remove(buffor.begin(), buffor.end(), '\r'), buffor.end());
+		TextElement e;
+		e.name = buffor;
+		while (buffor.find('}') == std::string::npos)
+		{
+			std::getline(file, buffor);
+			if (file.eof())
+			{
+				Logger::e("Missing bracket \"}\"");
+				return false;
+			}
+			if(buffor.size() > 7)e.variable.push_back(set_variable(buffor));
+		}
+		this->element.push_back(e);
+		return true;
+	}
+	else
+	{
+		for (int i = 0; i < 1000; i++)
+		{
+	
+			std::getline(file, buffor);
+			if (buffor.find("CORPOSFILE_END") != std::string::npos)
+			{
+				endOfFile = true;
+				return true;
+			}
+			if (file.eof() == true) break;
+		}
+	}
+	Logger::e("Missing \"CORPOSFILE_END\"");
+	return false;
 }
 
 ;

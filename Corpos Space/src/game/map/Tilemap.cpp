@@ -135,15 +135,16 @@ bool Tilemap::loadMap(TextElement * tm)
 	vertexTileMapPointer->vmap.resize((mapSize.x + mapSize.y * mapSize.x)*16);
 	vertexTileMapPointer->backgroundvmap.resize((mapSize.x + mapSize.y * mapSize.x) * 16);
 	tilemap.clear();
-
+	bgtilemap.clear();
 
 	for (int y = 0;y < mapSize.y;y++)
 	{
 		auto tile = tm->getVariableByName("X" + std::to_string(y));
 		for (int x = 0; x < mapSize.x;x++)
 		{
-
-			auto b = this->getTileDefinition(tile->var[x], tilesetName);
+	
+				TileDefinition *b = nullptr;
+				if(tile->toString(x)!="0")b = this->getTileDefinition(tile->var[x], tilesetName);
 			//Set tile if not found
 			if (b == nullptr)
 			{
@@ -186,52 +187,44 @@ bool Tilemap::loadMap(TextElement * tm)
 
 void Tilemap::createMap(unsigned int width, unsigned int height)
 {
-	loadTileset("bin/graphics/tileset/tileset1.txt");
+	//loadTileset("bin/graphics/tileset/tileset1.txt");
+
+
+	mapSize.y = height;
+	mapSize.x = width;
+
+	Logger::i("Map size: " + std::to_string(this->mapSize.x) + " " + std::to_string(this->mapSize.y));
+
+
+
+	if(vtm.size() == 0)
+	{
+		Logger::e("Tileset not loaded. Cannot create map.");
+		return;
+	}
+	auto vertexTileMapPointer = &vtm.at(0);
+
+	vertexTileMapPointer->vmap.resize((mapSize.x + mapSize.y * mapSize.x) * 16);
+	vertexTileMapPointer->backgroundvmap.resize((mapSize.x + mapSize.y * mapSize.x) * 16);
+
+	tilemap.clear();
+	bgtilemap.clear();
 
 	this->mapSize.x = width;
 	this->mapSize.y = height;
 
-	/*for (int x = 0; x < mapSize.x;x++)
+	for (int y = 0; y < mapSize.y; y++)
 	{
-
-		auto b = this->getTileDefinition(tile->var[x], tilesetName);
-		//Set tile if not found
-		if (b == nullptr)
+		for (int x = 0; x < mapSize.x; x++)
 		{
+
+
 			this->tilemap.push_back(Tile());
 			this->bgtilemap.push_back(Tile());
+
 		}
-		else
-		{
-			auto vtm = getVertexTileMapByTextureName(b->texture_name);
-			//set tile if found and blocking
-			if (b->is_blocking)
-			{
-				auto c = this->getTileDefinition(b->backgroundTile, tilesetName);
-				// set tile if noto found background one
-				if (c == nullptr)
-				{
-					this->tilemap.push_back(Tile(b, vtm->getTileAt(x + y * mapSize.x), sf::Vector2f(x * 32 + 16, y * 32 + 16)));
-					this->bgtilemap.push_back(Tile());
-				}
-				else //set tile normal
-				{
-					this->tilemap.push_back(Tile(b, vtm->getTileAt(x + y * mapSize.x), sf::Vector2f(x * 32 + 16, y * 32 + 16)));
-					this->bgtilemap.push_back(Tile(c, vtm->getBackgroundTileAt(x + y * mapSize.x), sf::Vector2f(x * 32 + 16, y * 32 + 16)));
-				}
-
-
-			}
-			else // set tile if it not blocking
-			{
-				this->tilemap.push_back(Tile());
-				this->bgtilemap.push_back(Tile(b, vtm->getBackgroundTileAt(x + y * mapSize.x), sf::Vector2f(x * 32 + 16, y * 32 + 16)));
-			}
-		}
-	}*/
-
-//}
-//refreashMap();
+	}
+	refreashMap();
 }
 
 VertexTileMap * Tilemap::getVertexTileMapByTextureName(std::string name)
@@ -522,6 +515,47 @@ void Tilemap::getTilesFromLine(sf::Vector2f start, sf::Vector2f end)
 	auto tileStart = this->getTileId(start);
 	auto tileEnd = this->getTileId(end);
 
+}
+
+TextElement Tilemap::generateTextElement()
+{
+	TextElement map;
+	map.name = "TILEMAP";
+
+
+	Variable name;
+	name.name = "Name";
+	name.var.push_back("name");
+	map.variable.push_back(name);
+
+	Variable size;
+	size.name = "Size";
+	size.var.push_back(std::to_string(mapSize.x));
+	size.var.push_back(std::to_string(mapSize.y));
+	map.variable.push_back(size);
+
+	Variable tiles;
+	tiles.name = "Tilesets";
+	for (int i = 0; i < vtm.size(); i++)
+	{
+		tiles.var.push_back(vtm[i].name);
+	}
+	map.variable.push_back(tiles);
+
+	for (int i = 0; i < mapSize.y; i++)
+	{
+		Variable v;
+		v.name = "X" + std::to_string(i);
+		for (int j = 0; j < mapSize.x; j++)
+		{
+			std::string name = getTile(j, i)->getName();
+			if (name == "0")name = getBackgroundTile(j, i)->getName();
+			v.var.push_back(name);
+		}
+		map.variable.push_back(v);
+	}
+	
+	return map;
 }
 
 std::function<sf::Texture*(std::string)>& Tilemap::getFunctionGetTexture()

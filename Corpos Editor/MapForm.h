@@ -12,6 +12,7 @@ class MapForm : public QWidget
 
 public:
 	MapForm(QWidget *parent, std::string mapName);
+	MapForm(QWidget *parent, unsigned int x, unsigned int y , std::string name);
 	~MapForm();
 
 	void mouseMoveEvent(QMouseEvent * e) override;
@@ -20,6 +21,7 @@ public:
 	void wheelEvent(QWheelEvent * event) override;
 
 	std::vector<VertexTileMap>& getVertexTileMap();
+	bool saveToFile(std::string location);
 public slots:
 	void timerUpdate();
 	void onResize();
@@ -29,7 +31,8 @@ private:
 	double viewSize = 1;
 	QTimer timer;
 	sf::Vector2f lastMousePos;
-	bool isMouseMoving = false;
+	bool isRightMouseMoving = false;
+	bool isLeftMouseMoving = false;
 };
 
 #endif

@@ -2,7 +2,7 @@
 #include "game\utility\Logger.hpp"
 #include "GameDataHolder.h"
 #include <QStandardItemModel>
-
+#include <QErrorMessage>
 std::string CorposEditor::selectedTile = "";
 std::string CorposEditor::selectedTileset = "";
 
@@ -33,6 +33,7 @@ CorposEditor::CorposEditor(QWidget *parent)
 
 	optionsForm = new OptionsForms();
 	spriteForm = new SpriteBrowser();
+	newMapforms = new NewMapForms(this);
 	//connect(ui.actionOptions, SIGNAL(triggered()), this, SLOT(showOptionsForms()));
 
 	//ui.mdiArea->addSubWindow();
@@ -49,10 +50,17 @@ void CorposEditor::showOptionsForms()
 
 CorposEditor::~CorposEditor()
 {
-	if (optionsForm != nullptr)
-	delete optionsForm;
-	if (spriteForm != nullptr)
+	//if (optionsForm != nullptr)
+		delete optionsForm;
+	//if (spriteForm != nullptr)
 		delete spriteForm;
+	//if (newMapforms != nullptr)
+		delete newMapforms;
+}
+
+void CorposEditor::createMap(int sizex, int sizey, std::string name)
+{
+	this->ui.mdiArea->addSubWindow(new MapForm(this, sizex, sizey,name));
 }
 
 void CorposEditor::writeConsole(std::string info)
@@ -75,7 +83,7 @@ void CorposEditor::loadMap()
 	ZeroMemory(&ofn, sizeof(ofn));
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = NULL;  // If you have a window to center over, put its HANDLE here
-	ofn.lpstrFilter = L".exe\0*.exe\0Any File\0*.*\0";
+	ofn.lpstrFilter = L".txt\0*.exe\0Any File\0*.*\0";
 	ofn.lpstrFile = filename;
 	ofn.nMaxFile = MAX_PATH;
 	ofn.lpstrTitle = L"Select a File, yo!";
@@ -116,14 +124,92 @@ void CorposEditor::loadMap()
 	}
 }
 
+void CorposEditor::saveMap()
+{
+
+	WCHAR filename[MAX_PATH];
+
+	OPENFILENAME ofn;
+	ZeroMemory(&filename, sizeof(filename));
+	ZeroMemory(&ofn, sizeof(ofn));
+	ofn.lStructSize = sizeof(ofn);
+	ofn.hwndOwner = NULL;  // If you have a window to center over, put its HANDLE here
+	ofn.lpstrFilter = L".txt\0*.exe\0Any File\0*.*\0";
+	ofn.lpstrFile = filename;
+	ofn.nMaxFile = MAX_PATH;
+	ofn.lpstrTitle = L"Select a File, yo!";
+	ofn.Flags = OFN_DONTADDTORECENT | OFN_FILEMUSTEXIST;
+
+	if (GetSaveFileName(&ofn))
+	{
+		//ui.gameExeLineText->setText(QString::fromStdWString(filename));
+
+		std::wstring ws(filename);
+		std::string str(ws.begin(), ws.end());
+
+		auto win = dynamic_cast<MapForm*>(windowPtr->widget());
+		if (win != nullptr)
+		{
+			win->saveToFile(str);
+			QMessageBox::information(
+				this,
+				tr("Info"),
+				tr(("Map successfuly saved to \"" + str + "\"").c_str()));
+		}
+		else
+		{
+			QMessageBox::information(
+				this,
+				tr("Error"),
+				tr("Unable to save file."));
+
+		}
+		//this->ui.mdiArea->addSubWindow(new MapForm(this, str));
+	}
+	else
+	{
+		// All this stuff below is to tell you exactly how you messed up above. 
+		// Once you've got that fixed, you can often (not always!) reduce it to a 'user cancelled' assumption.
+		switch (CommDlgExtendedError())
+		{
+		case CDERR_DIALOGFAILURE: std::cout << "CDERR_DIALOGFAILURE\n";   break;
+		case CDERR_FINDRESFAILURE: std::cout << "CDERR_FINDRESFAILURE\n";  break;
+		case CDERR_INITIALIZATION: std::cout << "CDERR_INITIALIZATION\n";  break;
+		case CDERR_LOADRESFAILURE: std::cout << "CDERR_LOADRESFAILURE\n";  break;
+		case CDERR_LOADSTRFAILURE: std::cout << "CDERR_LOADSTRFAILURE\n";  break;
+		case CDERR_LOCKRESFAILURE: std::cout << "CDERR_LOCKRESFAILURE\n";  break;
+		case CDERR_MEMALLOCFAILURE: std::cout << "CDERR_MEMALLOCFAILURE\n"; break;
+		case CDERR_MEMLOCKFAILURE: std::cout << "CDERR_MEMLOCKFAILURE\n";  break;
+		case CDERR_NOHINSTANCE: std::cout << "CDERR_NOHINSTANCE\n";     break;
+		case CDERR_NOHOOK: std::cout << "CDERR_NOHOOK\n";          break;
+		case CDERR_NOTEMPLATE: std::cout << "CDERR_NOTEMPLATE\n";      break;
+		case CDERR_STRUCTSIZE: std::cout << "CDERR_STRUCTSIZE\n";      break;
+		case FNERR_BUFFERTOOSMALL: std::cout << "FNERR_BUFFERTOOSMALL\n";  break;
+		case FNERR_INVALIDFILENAME: std::cout << "FNERR_INVALIDFILENAME\n"; break;
+		case FNERR_SUBCLASSFAILURE: std::cout << "FNERR_SUBCLASSFAILURE\n"; break;
+		default: std::cout << "You cancelled.\n";
+		}
+	}
+}
+
+void CorposEditor::newMap()
+{
+
+	newMapforms->show();
+
+}
+
 void CorposEditor::loadTileDefinitions(QMdiSubWindow * window)
 {
-	
+	ui.actionSave->setEnabled(false);
+	windowPtr = window;
 	if (window == nullptr)return;
+
 
 	auto win = dynamic_cast<MapForm*>(window->widget());
 	if (win != nullptr)
 	{
+		ui.actionSave->setEnabled(true);
 		ui.treeWidgetTiles->clear();
 	
 		auto vtm = win->getVertexTileMap();

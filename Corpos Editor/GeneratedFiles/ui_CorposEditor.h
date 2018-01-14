@@ -48,6 +48,7 @@ public:
     QAction *actionEntity_list;
     QAction *actionOutput_window;
     QAction *actionSprite_browser;
+    QAction *actionSave;
     QWidget *centralWidget;
     QGridLayout *gridLayout;
     QMdiArea *mdiArea;
@@ -84,6 +85,7 @@ public:
         if (CorposEditorClass->objectName().isEmpty())
             CorposEditorClass->setObjectName(QStringLiteral("CorposEditorClass"));
         CorposEditorClass->resize(1031, 797);
+        CorposEditorClass->setDockOptions(QMainWindow::AllowNestedDocks|QMainWindow::AllowTabbedDocks|QMainWindow::AnimatedDocks);
         actionNew_Map = new QAction(CorposEditorClass);
         actionNew_Map->setObjectName(QStringLiteral("actionNew_Map"));
         actionLoad_Map = new QAction(CorposEditorClass);
@@ -112,6 +114,9 @@ public:
         actionOutput_window->setChecked(true);
         actionSprite_browser = new QAction(CorposEditorClass);
         actionSprite_browser->setObjectName(QStringLiteral("actionSprite_browser"));
+        actionSave = new QAction(CorposEditorClass);
+        actionSave->setObjectName(QStringLiteral("actionSave"));
+        actionSave->setEnabled(false);
         centralWidget = new QWidget(CorposEditorClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
@@ -249,6 +254,7 @@ public:
         menuBar->addAction(menuHelp->menuAction());
         menuFile->addAction(actionNew_Map);
         menuFile->addAction(actionLoad_Map);
+        menuFile->addAction(actionSave);
         menuFile->addAction(actionRun_map);
         menuFile->addSeparator();
         menuFile->addAction(actionRecent);
@@ -275,6 +281,8 @@ public:
         QObject::connect(actionLoad_Map, SIGNAL(triggered()), CorposEditorClass, SLOT(loadMap()));
         QObject::connect(mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)), CorposEditorClass, SLOT(loadTileDefinitions(QMdiSubWindow*)));
         QObject::connect(treeWidgetTiles, SIGNAL(itemPressed(QTreeWidgetItem*,int)), CorposEditorClass, SLOT(tileBrowserSelected(QTreeWidgetItem*,int)));
+        QObject::connect(actionSave, SIGNAL(triggered()), CorposEditorClass, SLOT(saveMap()));
+        QObject::connect(actionNew_Map, SIGNAL(triggered()), CorposEditorClass, SLOT(newMap()));
 
         QMetaObject::connectSlotsByName(CorposEditorClass);
     } // setupUi
@@ -293,6 +301,7 @@ public:
         actionEntity_list->setText(QApplication::translate("CorposEditorClass", "Entity list", Q_NULLPTR));
         actionOutput_window->setText(QApplication::translate("CorposEditorClass", "Output window", Q_NULLPTR));
         actionSprite_browser->setText(QApplication::translate("CorposEditorClass", "Sprite browser", Q_NULLPTR));
+        actionSave->setText(QApplication::translate("CorposEditorClass", "Save", Q_NULLPTR));
         menuFile->setTitle(QApplication::translate("CorposEditorClass", "File", Q_NULLPTR));
         menuTools->setTitle(QApplication::translate("CorposEditorClass", "Tools", Q_NULLPTR));
         menuHelp->setTitle(QApplication::translate("CorposEditorClass", "Help", Q_NULLPTR));

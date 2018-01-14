@@ -26,7 +26,9 @@ void Tile::changeTile(TileDefinition * tiledef, std::vector<sf::Vertex*> tile, s
 		this->definition = nullptr;
 		this->singleImage = true;
 		this->tile = tile;
-		Logger::d("Tile at " + std::to_string(pos.x) + " " + std::to_string(pos.y) + " have no tile definition.");
+		this->tileRect = sf::IntRect();
+		this->connectGroup = "";
+		this->health = -1;
 		return;
 	}
 	this->name = tiledef->name;
@@ -36,6 +38,7 @@ void Tile::changeTile(TileDefinition * tiledef, std::vector<sf::Vertex*> tile, s
 	this->tile = tile;
 	this->tileRect = tiledef->tileRect;
 	this->connectGroup = tiledef->connectGroup;
+	this->health = tiledef->health;
 	setPosition(pos);
 
 }

@@ -53,6 +53,7 @@ public:
 
 private:
 
+
 };
 
 
@@ -66,6 +67,8 @@ class TextFileData
 {
 public:
 	TextFileData();
+	TextFileData(std::string fileLocation);
+	TextFileData(std::vector<TextElement> &elements);
 	~TextFileData();
 
 
@@ -88,11 +91,15 @@ private:
 	std::string name;
 	std::vector < TextElement > element;
 
+	bool endOfFile = false;
+
 	//Empty variable
 	TextElement null;
 
 	//Get location of executable
 	std::string getExeLocation();
+
+	bool loadTextElement(std::fstream &file);
 };
 
 #endif

@@ -57,5 +57,6 @@ void Player::events(sf::Event & e)
 
 void Player::update(float time)
 {
+	if (player == nullptr)return;
 	player->aim(Cursor::getCursorPosition());
 }

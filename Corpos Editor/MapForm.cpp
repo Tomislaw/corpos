@@ -23,6 +23,28 @@ MapForm::MapForm(QWidget *parent, std::string mapLocation)
 	this->setMouseTracking(true);
 }
 
+MapForm::MapForm(QWidget * parent, unsigned int x, unsigned int y, std::string name) : QWidget(parent)
+{
+	ui.setupUi(this);
+	QWidget::setWindowTitle(QString::fromStdString("New map"));
+
+	mapView = new MapView(this, QPoint(0, 0), QSize(1000, 1000));
+
+
+	mapView->adjustSize();
+	mapView->createMap(x,y);
+	mapView->setMapName(name);
+	onResize();
+	mapView->OnUpdate();
+
+
+	timer.setInterval(50);
+	connect(&timer, SIGNAL(timeout()), this, SLOT(timerUpdate()));
+	timer.start();
+
+	this->setMouseTracking(true);
+}
+
 MapForm::~MapForm()
 {
 	if (mapView != nullptr)
@@ -33,8 +55,8 @@ MapForm::~MapForm()
 
 void MapForm::mouseMoveEvent(QMouseEvent * e)
 {
-	if (!isMouseMoving)return;
-
+	if (isRightMouseMoving)
+	{
 	int moveX = lastMousePos.x - e->x();
 	int moveY = lastMousePos.y - e->y();
 
@@ -45,6 +67,11 @@ void MapForm::mouseMoveEvent(QMouseEvent * e)
 	lastMousePos.y = e->y();
 
 	mapView->update();
+	}
+	if (isLeftMouseMoving)
+	{
+		mapView->setTileAtMousePosition(CorposEditor::selectedTileset, CorposEditor::selectedTile);
+	}
 	//e->accept();
 }
 
@@ -55,11 +82,11 @@ void MapForm::mousePressEvent(QMouseEvent * e)
 
 	lastMousePos.x = e->x();
 	lastMousePos.y = e->y();
-	isMouseMoving = true;
+	isRightMouseMoving = true;
 	}
 	if (e->button() == Qt::LeftButton)
 	{
-
+		isLeftMouseMoving = true;
 		mapView->setTileAtMousePosition(CorposEditor::selectedTileset, CorposEditor::selectedTile);
 	}
 	//e->accept();
@@ -67,7 +94,14 @@ void MapForm::mousePressEvent(QMouseEvent * e)
 
 void MapForm::mouseReleaseEvent(QMouseEvent * e)
 {
-	isMouseMoving = false;
+	if (e->button() == Qt::RightButton)
+	{
+		isRightMouseMoving = false;
+	}
+	if (e->button() == Qt::LeftButton)
+	{
+		isLeftMouseMoving = false;
+	}
 	//e->accept();
 }
 
@@ -91,6 +125,11 @@ void MapForm::wheelEvent(QWheelEvent * e)
 std::vector<VertexTileMap>& MapForm::getVertexTileMap()
 {
 	return mapView->getVertexTileMap();
+}
+
+bool MapForm::saveToFile(std::string location)
+{
+	return mapView->saveToFile(location);
 }
 
 void MapForm::onResize()

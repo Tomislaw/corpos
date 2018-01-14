@@ -124,6 +124,9 @@
       </item>
       <item>
        <widget class="QPushButton" name="pushButtonCreate">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="text">
          <string>Create</string>
         </property>
@@ -136,5 +139,42 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>pushButtonCreate</sender>
+   <signal>clicked()</signal>
+   <receiver>NewMapForms</receiver>
+   <slot>createMap()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>335</x>
+     <y>144</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>342</x>
+     <y>182</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lineEditMapName</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>NewMapForms</receiver>
+   <slot>validate(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>210</x>
+     <y>34</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>228</x>
+     <y>-8</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>createMap()</slot>
+  <slot>validate(QString)</slot>
+ </slots>
 </ui>

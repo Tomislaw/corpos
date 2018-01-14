@@ -189,36 +189,38 @@ void EntityList::draw(sf::RenderWindow & window)
 
 bool EntityList::checkBulletCollision(Bullet * bullet)
 {
-	for (size_t i = 0; i < props.size(); i++)
+
+	auto tilePos = tilemapPtr->getTileId(bullet->getPosition());
+	auto tile = tilemapPtr->getTile(tilePos.x, tilePos.y);
+
+	if (tile == nullptr)
 	{
-		if (props.at(i)->bulletCollision(bullet)) return true;;
-
-		auto tilePos = tilemapPtr->getTileId(bullet->getPosition());
-		auto tile = tilemapPtr->getTile(tilePos.x, tilePos.y);
-
-		if (tile == nullptr)
+		bullet->destroy();
+		return true;
+	}
+	else {
+		if (tile->isBlocking())
 		{
+			tile->damage(bullet->getDamage());
+			if (tile->isDestroyed())
+			{
+				tilemapPtr->refreashNearTiles(tilePos.x, tilePos.y);
+				for (size_t i = 0; i < 8; i++)
+				{
+
+					auto p = tile->getRandomParticle();
+					particleSystem.addParticle(p.position, p.velocity, tile->getRandomParticleColor());
+				}
+			}
 			bullet->destroy();
 			return true;
 		}
-		else {
-			if (tile->isBlocking())
-			{
-				tile->damage(bullet->getDamage());
-				if (tile->isDestroyed())
-				{
-					tilemapPtr->refreashNearTiles(tilePos.x, tilePos.y);
-					for (size_t i = 0; i < 8; i++)
-					{
-						
-						auto p = tile->getRandomParticle();
-						particleSystem.addParticle(p.position, p.velocity, tile->getRandomParticleColor());
-					}
-				}
-				bullet->destroy();
-				return true;
-			}
-		}
+	}
+
+
+	for (size_t i = 0; i < props.size(); i++)
+	{
+		if (props.at(i)->bulletCollision(bullet)) return true;;
 	}
 	return false;
 }

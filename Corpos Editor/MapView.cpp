@@ -53,6 +53,17 @@ void MapView::loadMap(std::string mapLocation)
 
 }
 
+void MapView::createMap(int x, int y)
+{
+	worldmap.loadTileset(Options::tilesetLocation);
+	worldmap.createMap(x,y);
+}
+
+void MapView::setMapName(std::string name)
+{
+	//worldmap.setName(name);
+}
+
 void MapView::setTileAtMousePosition(std::string tileset, std::string tile)
 {
 
@@ -62,7 +73,7 @@ void MapView::setTileAtMousePosition(std::string tileset, std::string tile)
 	auto mousepos = sf::Mouse::getPosition(*this);
 	auto pos = this->mapPixelToCoords(mousepos);
 	auto id = worldmap.getTileId(pos);
-	Logger::i(std::to_string(id.x) + " " + std::to_string(id.y) );
+
 	if (id.x < 0 || id.y < 0)return;
 	worldmap.setTile(t,id.x,id.y);
 	worldmap.refreashTile(id.x,id.y);
@@ -70,4 +81,13 @@ void MapView::setTileAtMousePosition(std::string tileset, std::string tile)
 	worldmap.refreashBackgroundTile(id.x, id.y);
 	//worldmap.
 	update();
+}
+
+bool MapView::saveToFile(std::string location)
+{
+	TextFileData map;
+	std::vector<TextElement> items;
+	items.push_back(worldmap.generateTextElement());
+	map.setElements(items);
+	return map.saveToFile(location);
 }

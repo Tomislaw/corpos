@@ -48,7 +48,6 @@ bool World::loadTextures(std::string location)
 bool World::loadEntitylist(std::string location)
 {
 	entitylist.loadSpriteDefinition(location);
-	entitylist.loadSpriteDefinition("bin/graphics/sprite/sprite_definitions.txt");
 
 	loadMap("bin/map/mm.txt");
 

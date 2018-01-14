@@ -131,6 +131,7 @@ public:
 
         pushButtonCreate = new QPushButton(frame_3);
         pushButtonCreate->setObjectName(QStringLiteral("pushButtonCreate"));
+        pushButtonCreate->setEnabled(false);
 
         horizontalLayout_3->addWidget(pushButtonCreate);
 
@@ -139,6 +140,8 @@ public:
 
 
         retranslateUi(NewMapForms);
+        QObject::connect(pushButtonCreate, SIGNAL(clicked()), NewMapForms, SLOT(createMap()));
+        QObject::connect(lineEditMapName, SIGNAL(textChanged(QString)), NewMapForms, SLOT(validate(QString)));
 
         QMetaObject::connectSlotsByName(NewMapForms);
     } // setupUi

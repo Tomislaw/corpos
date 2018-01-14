@@ -95,6 +95,7 @@ public:
 	// get all tiles in line, TODO: finish getTilesFromLine function
 	void getTilesFromLine(sf::Vector2f start, sf::Vector2f end);
 
+	TextElement generateTextElement();
 	// return pointer to function GetTExture. 
 	std::function<sf::Texture*(std::string)> &getFunctionGetTexture();
 private:
