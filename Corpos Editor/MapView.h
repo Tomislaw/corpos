@@ -24,13 +24,15 @@ public:
 		return worldmap.getVertexTileMapVector();
 	}
 	void setTileAtMousePosition(std::string tileset, std::string tile);
-
+	void startDrawingSelection();
+	void createTilesAtSelectedArea(std::string tileset, std::string tile);
 	bool saveToFile(std::string location);
 private:
 
 
 	Tilemap worldmap;
 
-	
+	sf::ConvexShape selectRectangle;
+	bool drawSelectedArea = false;
 };
 #endif

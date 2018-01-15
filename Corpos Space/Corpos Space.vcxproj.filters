@@ -132,6 +132,9 @@
     <ClCompile Include="src\game\engine\logic\Weapon.cpp">
       <Filter>Source Files\engine\logic</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\engine\logic\Camera.cpp">
+      <Filter>Source Files\engine\logic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game\main\stdafx.h">
@@ -211,6 +214,9 @@
     </ClInclude>
     <ClInclude Include="src\game\graphics\Particle.hpp">
       <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\engine\logic\Camera.hpp">
+      <Filter>Header Files\engine\logic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

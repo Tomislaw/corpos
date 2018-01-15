@@ -91,9 +91,29 @@ void Game::update(float delta_time)
 void Game::draw()
 {
 	window->clear(sf::Color::Black);
+
+	//draw background
+	auto view = window->getView();
+	window->setView(window->getDefaultView());
+
+
+	window->setView(view);
+	//
+
+	
 	world.draw(*window);
 	cursor.draw(*window);
+
+
+	//draw hud related items
+	view = window->getView();
+	window->setView(window->getDefaultView());;
+
 	window->draw(fpsText);
+
+	window->setView(view);
+	//
+
 	window->display();
 	
 }

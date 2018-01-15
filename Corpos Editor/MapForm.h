@@ -31,8 +31,10 @@ private:
 	double viewSize = 1;
 	QTimer timer;
 	sf::Vector2f lastMousePos;
+	sf::Vector2f startShiftMousePos;
 	bool isRightMouseMoving = false;
 	bool isLeftMouseMoving = false;
+	bool isLeftShiftMouseMoving = false;
 };
 
 #endif

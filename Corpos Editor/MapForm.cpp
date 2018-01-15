@@ -13,7 +13,6 @@ MapForm::MapForm(QWidget *parent, std::string mapLocation)
 	mapView->adjustSize();
 	mapView->loadMap(mapLocation);
 	onResize();
-	mapView->OnUpdate();
 
 
 	timer.setInterval(50);
@@ -21,6 +20,7 @@ MapForm::MapForm(QWidget *parent, std::string mapLocation)
 	timer.start();
 
 	this->setMouseTracking(true);
+	mapView->update();
 }
 
 MapForm::MapForm(QWidget * parent, unsigned int x, unsigned int y, std::string name) : QWidget(parent)
@@ -35,7 +35,7 @@ MapForm::MapForm(QWidget * parent, unsigned int x, unsigned int y, std::string n
 	mapView->createMap(x,y);
 	mapView->setMapName(name);
 	onResize();
-	mapView->OnUpdate();
+	
 
 
 	timer.setInterval(50);
@@ -43,6 +43,7 @@ MapForm::MapForm(QWidget * parent, unsigned int x, unsigned int y, std::string n
 	timer.start();
 
 	this->setMouseTracking(true);
+	mapView->update();
 }
 
 MapForm::~MapForm()
@@ -72,6 +73,10 @@ void MapForm::mouseMoveEvent(QMouseEvent * e)
 	{
 		mapView->setTileAtMousePosition(CorposEditor::selectedTileset, CorposEditor::selectedTile);
 	}
+	if (isLeftShiftMouseMoving)
+	{
+		mapView->update();
+	}
 	//e->accept();
 }
 
@@ -86,8 +91,16 @@ void MapForm::mousePressEvent(QMouseEvent * e)
 	}
 	if (e->button() == Qt::LeftButton)
 	{
-		isLeftMouseMoving = true;
-		mapView->setTileAtMousePosition(CorposEditor::selectedTileset, CorposEditor::selectedTile);
+		if (QGuiApplication::keyboardModifiers().testFlag(Qt::KeyboardModifier::ShiftModifier))
+		{
+			isLeftShiftMouseMoving = true;
+			mapView->startDrawingSelection();
+		}
+		else
+		{ 
+			isLeftMouseMoving = true;
+			mapView->setTileAtMousePosition(CorposEditor::selectedTileset, CorposEditor::selectedTile);
+		}
 	}
 	//e->accept();
 }
@@ -100,8 +113,14 @@ void MapForm::mouseReleaseEvent(QMouseEvent * e)
 	}
 	if (e->button() == Qt::LeftButton)
 	{
+		if (isLeftShiftMouseMoving)
+		{
+			mapView->createTilesAtSelectedArea(CorposEditor::selectedTileset, CorposEditor::selectedTile);
+		}
 		isLeftMouseMoving = false;
+		isLeftShiftMouseMoving = false;
 	}
+	mapView->update();
 	//e->accept();
 }
 

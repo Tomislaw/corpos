@@ -215,7 +215,9 @@ void CorposEditor::loadTileDefinitions(QMdiSubWindow * window)
 		auto vtm = win->getVertexTileMap();
 		
 
-	
+		QTreeWidgetItem* airTile = new QTreeWidgetItem(ui.treeWidgetTiles);
+		airTile->setText(0, "air");
+		airTile->setText(1, "background");
 
 		for(size_t i = 0; i <  vtm.size(); i++)
 		{
@@ -265,6 +267,8 @@ void CorposEditor::tileBrowserSelected(QTreeWidgetItem *item, int)
 		{
 			selectedTile = "";
 			selectedTileset = "";
+			if (item->text(0).toStdString() == "air")
+				selectedTile = "0";
 		}
 		else
 		{ 
