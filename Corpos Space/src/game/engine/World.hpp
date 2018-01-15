@@ -27,6 +27,7 @@ public:
 	void update(float delta);
 	// draw it
 	void draw(sf::RenderWindow & window);
+
 	// resolve keyboard/mouse events
 	void events(sf::Event e);
 	// load map

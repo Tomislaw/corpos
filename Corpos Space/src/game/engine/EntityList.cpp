@@ -163,6 +163,7 @@ void EntityList::update(float time)
 
 void EntityList::draw(sf::RenderWindow & window)
 {
+	camera.setNormalView(window);
 	std::vector<std::shared_ptr <Character>>::iterator it = characters.begin();
 	while (it != characters.end())
 	{
@@ -225,6 +226,11 @@ bool EntityList::checkBulletCollision(Bullet * bullet)
 	return false;
 }
 
+Camera & EntityList::getCurrentCamera()
+{
+	return camera;
+}
+
 void EntityList::setPlayerEntity(std::string name)
 {
 	std::vector<std::shared_ptr <Character>>::iterator it = characters.begin();
@@ -234,6 +240,10 @@ void EntityList::setPlayerEntity(std::string name)
 		if (it->get()->getName() == name)
 		{
 			player.setCharacter(it->get());
+			if(tilemapPtr!= nullptr)camera = Camera(
+				sf::IntRect(0,0,tilemapPtr->getMapSize().x, tilemapPtr->getMapSize().y), 
+				it->get());
+
 			return;
 		}
 		++it;

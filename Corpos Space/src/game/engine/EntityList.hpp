@@ -6,6 +6,7 @@
 #include "game\engine\Prop.hpp"
 #include "game\engine\Player.hpp"
 #include "game\graphics\ParticleSystem.hpp"
+#include "game\engine\logic\Camera.hpp"
 class Tilemap; 
 class EntityList
 {
@@ -40,6 +41,9 @@ public:
 	// check bullet collision with all props
 	bool checkBulletCollision(Bullet * bullet);
 
+	//
+	Camera & getCurrentCamera();
+
 	//setters
 	// set player entity for player class
 	void setPlayerEntity(std::string name);
@@ -53,7 +57,10 @@ private:
 	std::vector<std::shared_ptr <Prop>> props;
 	std::vector<std::shared_ptr <Bullet>> bullets;
 	ParticleSystem particleSystem;
+
+	Camera camera;
 	Player player;
+
 	Tilemap * tilemapPtr;
 };
 

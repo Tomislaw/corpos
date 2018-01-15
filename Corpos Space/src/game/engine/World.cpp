@@ -70,11 +70,15 @@ void World::update(float delta)
 
 void World::draw(sf::RenderWindow & window)
 {
+	entitylist.getCurrentCamera().setBackgroundView(window);
 	window.draw(background);
+
+	entitylist.getCurrentCamera().setNormalView(window);
 	tilemap.drawBackground(window);
 	tilemap.draw(window);
 	entitylist.draw(window);
 }
+
 
 void World::events(sf::Event e)
 {
