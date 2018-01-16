@@ -43,6 +43,9 @@ protected:
 
 	virtual void setAnimation();
 private:
+
+	// returns on which tile character is standing
+	sf::Vector2i getStandingTileId();
 	sf::RectangleShape rect;
 	
 };

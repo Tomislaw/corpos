@@ -5,13 +5,11 @@
 
 
 
-Character::Character(Tilemap * tilemap)
+Character::Character(Tilemap * tilemap) : Entity("char",sf::Vector2f(50,50))
 {
 	this->max_walk_speed = 200;
 	this->map = tilemap;
 
-	setPosition(50,50);
-	name = "char";
 
 	collision_box.top = -23;//-23
 	collision_box.left =-15;//-15
@@ -25,16 +23,10 @@ Character::Character(Tilemap * tilemap)
 	rect.setFillColor(sf::Color::Red);
 	
 }
-Character::Character(TextElement * data, Tilemap * tilemap)
+Character::Character(TextElement * data, Tilemap * tilemap) : Entity(data)
 {
-	this->name = data->getVariableByName("Name")->var[0];
-	float x = data->getVariableByName("Position")->toFloat(0);
-	float y = data->getVariableByName("Position")->toFloat(1);
-	this->map = tilemap;
-	//std::string charloc = data->getVariableByName("Character")->var[0];
-;
-	this->setPosition(x,y);
 
+	this->map = tilemap;
 	this->sprite.attachToEntity(this);
 
 }
@@ -362,7 +354,7 @@ void Character::draw(sf::RenderTarget & target)
 	//rect.setPosition(sf::Vector2f(getPosition().x + collision_box.left, getPosition().y + collision_box.top));
 	//target.draw(rect);
 	sprite.draw(target);
-
+	
 }
 
 void Character::impulseVelocity(sf::Vector2f v, float impulse, float delta)
@@ -495,4 +487,11 @@ void Character::setAnimation()
 	}
 
 
+}
+
+sf::Vector2i Character::getStandingTileId()
+{
+	if (map == nullptr)return sf::Vector2i(-1, -1);
+	auto CBPosition = sf::Vector2f(getPosition().x , getPosition().y + collision_box.top + collision_box.height-1);
+	return map->getTileId(CBPosition);
 }

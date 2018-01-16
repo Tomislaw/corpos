@@ -8,6 +8,7 @@ Damageable::Damageable()
 
 Damageable::Damageable(TextElement * t)
 {
+	
 	this->setDamageable(t);
 }
 
@@ -18,6 +19,13 @@ Damageable::~Damageable()
 
 void Damageable::setDamageable(TextElement * t)
 {
+	bool isCollidable = t->getVariableByName("Collidable")->toInt(0);
+	if (!isCollidable)
+	{
+		this->health = 0;
+		this->maxHealth = 0;
+		this->indestructable = true;
+	}
 	//health
 	this->health = t->getVariableByName("Health")->toInt(0);
 	this->maxHealth = t->getVariableByName("MaxHealth")->toInt(0);

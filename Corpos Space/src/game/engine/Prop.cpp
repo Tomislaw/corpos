@@ -8,7 +8,7 @@ Prop::Prop()
 {
 }
 
-Prop::Prop(TextElement * file)
+Prop::Prop(TextElement * file) : Entity(file), Damageable(file)
 {
 	is_collidable = file->getVariableByName("Collidable")->toInt(0);
 	if(is_collidable)
@@ -21,10 +21,7 @@ Prop::Prop(TextElement * file)
 	this->collisionBox.width = var->toFloat(2);
 	this->collisionBox.height = var->toFloat(3);
 	}
-	name = file->getVariableByName("Name")->var[0];
-	auto pos = file->getVariableByName("Position");
-	position.x = pos->toFloat(0);
-	position.y = pos->toFloat(1);
+
 	std::string spr = file->getVariableByName("Sprite")->var[0];
 	auto x = EntityList::getSpriteDefinition(spr);
 	if (x == nullptr)

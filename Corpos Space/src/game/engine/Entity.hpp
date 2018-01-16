@@ -4,7 +4,8 @@
 #include "SFML/Graphics.hpp"
 #include <iostream>
 #include <memory>
-
+#include "game\utility\TextFileData.hpp"
+#include "game\graphics\TextContainer.hpp"
 // Entity - main base class
 /*
 */
@@ -12,6 +13,7 @@ class Entity
 {
 public:
 	Entity();
+	Entity(TextElement * data);
 	Entity(std::string name, sf::Vector2f position);
 	Entity(std::string name, sf::Vector2f position, sf::Vector2f velocity);
 	~Entity();
@@ -22,6 +24,9 @@ public:
 	virtual void update(float delta_time);
 	// draw it - this class dont have anything to draw
 	virtual void draw(sf::RenderTarget &window) {};
+
+
+	virtual void drawDebugData(sf::RenderTarget &window);
 	// set position
 	virtual void setPosition(sf::Vector2f position);
 	// set position
@@ -52,6 +57,8 @@ private:
 	sf::Vector2f attachOffset;
 	Entity * parent;
 
+	bool isInitialized = false;
+	sf::Text entityDebugText;
 };
 
 #endif

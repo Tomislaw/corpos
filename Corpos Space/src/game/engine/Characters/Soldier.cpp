@@ -57,7 +57,7 @@ void Soldier::draw(sf::RenderTarget & window)
 	torse.draw(window);
 	head.draw(window);
 	weapontest.draw(window);
-
+	drawDebugData(window);
 }
 
 void Soldier::update(float timew)

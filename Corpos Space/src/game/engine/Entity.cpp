@@ -6,6 +6,19 @@ Entity::Entity()
 {
 }
 
+Entity::Entity(TextElement * data)
+{
+	if (data == nullptr)
+	{
+		Logger::e("Can't create enitity. Nullpointer received.");
+		return;
+	}
+	name = data->getVariableByName("Name")->toString(0);
+	auto pos = data->getVariableByName("Position");
+	position.x = pos->toFloat(0);
+	position.y = pos->toFloat(1);
+}
+
 Entity::Entity(std::string name, sf::Vector2f position)
 {
 	this->name = name;
@@ -37,6 +50,17 @@ void Entity::update(float delta_time)
 	{
 		this->setPosition(parent->getPosition().x + attachOffset.x, parent->getPosition().y + attachOffset.y);
 	}
+}
+
+void Entity::drawDebugData(sf::RenderTarget & window)
+{
+	if (isInitialized == false)
+	{
+		entityDebugText.setFont(TextContainer::getInstance()->getBasicFont());
+		isInitialized = true;
+	}
+	entityDebugText.setPosition(getPosition());
+	entityDebugText.setString(name + "\n" + std::to_string(position.x) + std::to_string(position.y));
 }
 
 void Entity::setPosition(sf::Vector2f position)
