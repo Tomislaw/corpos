@@ -57,3 +57,30 @@ void Prop::update(float time)
 	Entity::update(time);
 	this->sprite.update(time);
 }
+
+bool Prop::bulletCollision(Bullet * bullet)
+{
+	bool contains = (collisionBox.contains(bullet->getPosition()) || collisionBox.contains(bullet->getPreviousPosition()));
+
+	if (contains == false)
+	{
+		// do line interesct here
+	}
+
+
+	if (contains)
+	{
+
+		int damage = bullet->getDamage();
+		bullet->decreaseDamage(getHealth());
+		this->damage(damage);
+
+		if (bullet->isDestroyed() || bullet->isDuringDestroying())
+		{
+			bullet->correctBulletPositionAfterDestroy(collisionBox);
+		}
+		
+		return true;
+	}
+	return false;
+}

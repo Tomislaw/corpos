@@ -93,7 +93,7 @@ public:
 	// refreash near tiles, used after tile is destroyed
 	void refreashNearTiles(int x,int y);
 	// get all tiles in line, TODO: finish getTilesFromLine function
-	void getTilesFromLine(sf::Vector2f start, sf::Vector2f end);
+	std::vector<Tile*> getTilesFromLine(sf::Vector2f start, sf::Vector2f end);
 
 	TextElement generateTextElement();
 	// return pointer to function GetTExture. 

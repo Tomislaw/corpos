@@ -510,11 +510,153 @@ void Tilemap::refreashNearTiles(int x, int y)
 	/*refreashTile(x - 1, y + 1);*/refreashTile(x, y + 1);//refreashTile(x + 1, y + 1);
 }
 
-void Tilemap::getTilesFromLine(sf::Vector2f start, sf::Vector2f end)
+std::vector<Tile*> Tilemap::getTilesFromLine(sf::Vector2f start, sf::Vector2f end)
 {
+
+	int tile_size = 32;
+
+	std::vector<sf::Vector2i> tile_ids;
+
 	auto tileStart = this->getTileId(start);
 	auto tileEnd = this->getTileId(end);
 
+	//make sure if we re npt adding additional tiles - -2,0 etc
+	if (end.x < 0) tileStart.x = -1;
+	if (end.y < 0) tileEnd.y = -1;
+	
+	//return one tile if started out of map
+	if (tileStart == tileEnd || tileStart.x < 0 || tileStart.y < 0)
+	{
+		tile_ids.push_back(tileStart);
+
+		//return tile_ids;
+	}
+
+		// Creating line to get tiles from
+		float divide = end.x - start.x;
+		float a = (end.y - start.y) / divide;
+		float b = end.y - a*end.x;
+		// change to infinity if dividing by zero
+		if (!(divide>0.0000001 || divide<-0.0000001)) { a = INFINITY; }
+
+		// start x and y counters
+		int x_count = abs(tileStart.x - tileEnd.x);
+		int y_count = abs(tileStart.y - tileEnd.y);
+
+
+		// set adding or decrementing
+		int operation_x = 1;
+		int operation_y = 1;
+
+		if (start.x > end.x)
+		{
+			operation_x = -1;
+		}
+		if (start.y > end.y)
+		{
+			operation_y = -1;
+		}
+
+		// ad start tile
+		tile_ids.push_back(tileStart);
+		// check if have to increment y or x more often
+		if (a<1 && a>-1)
+		{
+			int current_x = tileStart.x;
+
+			for (int i = 0; i < x_count; i++)
+			{
+
+
+
+				float value_x = current_x * tile_size + operation_x / 10.f + tile_size / 2 * (1 + operation_x);
+				sf::Vector2f function_pos_x = sf::Vector2f(value_x, a*(value_x)+b);
+				sf::Vector2i id_x = getTileId(function_pos_x);
+
+				if (id_x.x != tile_ids.back().x && id_x.y != tile_ids.back().y)
+				{
+					float value_y = tile_ids.back().y * tile_size + tile_size / 2 * (1 + operation_y) + operation_y / 10.f;
+					sf::Vector2f function_pos_y((sf::Vector2f((value_y - b) / a, value_y)));
+					sf::Vector2i id_y(getTileId(function_pos_y));
+
+					if (id_y != tile_ids.back())tile_ids.push_back(id_y);
+					if (id_y.x < 0) break;
+				}
+
+
+				if (id_x != tile_ids.back())tile_ids.push_back(id_x);
+				if (id_x.x < 0) break;
+				current_x += operation_x;
+			}
+			sf::Vector2i id_last(getTileId(end));
+			if (id_last != tile_ids.back())
+			{
+				if (id_last.x != tile_ids.back().x && id_last.y != tile_ids.back().y)
+				{
+					float value_y = tile_ids.back().y * tile_size + tile_size / 2 * (1 + operation_y) + operation_y / 10.f;
+					sf::Vector2f function_pos_y((sf::Vector2f((value_y - b) / a, value_y)));
+					sf::Vector2i id_y(getTileId(function_pos_y));
+
+					if (id_y != tile_ids.back())tile_ids.push_back(id_y);
+
+				}
+
+				if (id_last != tile_ids.back())tile_ids.push_back(id_last);
+			}
+		}
+		else
+		{
+			if (a != INFINITY)
+			{
+				int current_x = tileStart.x;
+				int current_y = tileStart.y;
+
+
+				for (int i = 0; i < y_count; i++)
+				{
+
+					float value_y = tile_ids.back().y * tile_size + tile_size / 2 * (1 + operation_y) + operation_y / 10.f;
+
+					sf::Vector2f function_pos_y((sf::Vector2f((value_y - b) / a, value_y)));
+					sf::Vector2i id_y(getTileId(function_pos_y));
+
+
+					if (id_y.x != tile_ids.back().x && id_y.y != tile_ids.back().y)
+					{
+						float value_x = current_x * tile_size + operation_x / 10.f + tile_size / 2 * (1 + operation_x);
+						sf::Vector2f function_pos_x = sf::Vector2f(value_x, a*value_x + b);
+						sf::Vector2i id_x(getTileId(function_pos_x));
+						if (id_x != tile_ids.back())tile_ids.push_back(id_x);
+						if (id_x.x < 0)break;
+
+						current_x += operation_x;
+
+					}
+
+					if (id_y != tile_ids.back())tile_ids.push_back(id_y);
+					if (id_y.x < 0)break;
+					current_y += operation_y;
+				}
+			}
+			else
+			{
+				for (int i = 0; i < y_count; i++)
+				{
+					sf::Vector2i startvector = getTileId(start + sf::Vector2f(0, (i + 1)*tile_size));
+					tile_ids.push_back(startvector);
+					if (startvector.y < 0) break;
+				}
+			}
+
+
+		}
+
+		std::vector<Tile*> tiles;
+		for each (sf::Vector2i var in tile_ids)
+		{
+			tiles.push_back(getTile(var));
+		}
+		return tiles;
 }
 
 TextElement Tilemap::generateTextElement()

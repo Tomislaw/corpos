@@ -94,6 +94,7 @@ class Tile : public Entity
 	// used for creating debris
 	sf::Color getRandomParticleColor();
 
+	sf::FloatRect getCollisionBox();
 	// previous attempt for merging tiles
 	//bool isConnectToAllTiles() { return connectAll; };
 
@@ -111,6 +112,9 @@ class Tile : public Entity
 	void destroy();
 
 	void resetVertexPosition();
+
+	int getHealth() { return health; }
+	int getMaxHealth() {return maxHealth ; }
 	private:
 
 	// pointer to tile definition
@@ -118,7 +122,8 @@ class Tile : public Entity
 
 	//vector of pointers to vertex
 	std::vector<sf::Vertex*> tile;
-	//tile rect TODO: check what it does :)
+	
+	//used in creating drawable vertex
 	sf::IntRect tileRect;
 
 	float health;

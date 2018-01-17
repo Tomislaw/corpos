@@ -86,19 +86,7 @@ bool Damageable::isDestroyed()
 	return destroyed;
 }
 
-bool Damageable::bulletCollision(Bullet * bullet)
-{
 
-		if (destroyed || bullet->isDestroyed())return true;
-		if (bulletCollisionTest(bullet->getPosition()))
-		{
-			//TODO: check filer
-			this->damage(bullet->getDamage());
-			bullet->destroy();
-			return true;
-		}
-		return false;
-}
 
 
 Bullet::Bullet()
@@ -107,6 +95,7 @@ Bullet::Bullet()
 
 Bullet::Bullet(Bullet & bullet, sf::Vector2f position, sf::Vector2f velocity) : Entity("bullet", position, velocity)
 {
+	previousPosition = position;
 	bulletSprite = GameSprite(bullet.bulletSprite);
 	this->damage = damage;
 	bulletSprite.attachToEntity(this);
@@ -133,12 +122,22 @@ void Bullet::draw(sf::RenderTarget & window)
 void Bullet::update(float time)
 {
 	if (destroyed)return;
+
+	previousPosition = getPosition();
 	Entity::update(time);
 	bulletSprite.GetSprite().setRotation(atan2(velocity.y, velocity.x) * 180 / 3.14159265359);
 
 	bulletSprite.update(time);
+	if (startDestroyAnimation)
+	{
+		bulletSprite.SetAnimation("destroy");
+		startDestroyAnimation = false;
+	}
+	if (duringDestroying)
+	{
+		if (bulletSprite.getCurrentAnimation()->is_finished())kill();
+	}
 }
-
 
 
 bool Bullet::isDestroyed()
@@ -146,8 +145,51 @@ bool Bullet::isDestroyed()
 	return destroyed;
 }
 
+bool Bullet::isDuringDestroying()
+{
+	return duringDestroying;
+}
+
 void Bullet::destroy()
 {
-	destroyed = true;
+	duringDestroying = true;
+	startDestroyAnimation = true;
 	velocity = sf::Vector2f();
+}
+
+void Bullet::correctBulletPositionAfterDestroy(sf::FloatRect collisionBox)
+{
+
+	sf::Vector2f pos;
+	pos.x = getPosition().x / 2 + getPreviousPosition().x / 2;
+	pos.y = getPosition().y / 2 + getPreviousPosition().y / 2;
+	//sf::Vector2f center(collisionBox.left + collisionBox.width / 2, collisionBox.top + collisionBox.height / 2);
+
+	/*std::cout << collisionBox.left << " " << previousPosition.x << std::endl;
+		//if(angleDeg>-45&& angleDeg<45)
+		if (velocity.x < 0)
+		{
+			position.x = collisionBox.left;
+		}
+		else
+		{
+			position.x = collisionBox.left + collisionBox.width;
+		}
+
+	else
+	{
+		if (velocity.y < 0)
+		{
+			position.y = collisionBox.top;
+		}
+		else
+		{
+			position.y = collisionBox.top + collisionBox.height;
+		}
+	}*/
+}
+
+void Bullet::kill()
+{
+	destroyed = true;
 }

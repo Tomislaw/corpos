@@ -75,6 +75,11 @@ sf::Color Tile::getRandomParticleColor()
 	if (this->definition != nullptr) return definition->getRandomColor();
 	return sf::Color();
 }
+sf::FloatRect Tile::getCollisionBox()
+{
+
+	return sf::FloatRect(getPosition() - sf::Vector2f(16,16), sf::Vector2f(32, 32));
+}
 void Tile::setDisplayType(bool LT, bool T, bool TR, bool L, bool R, bool LB, bool B, bool RB)
 {
 

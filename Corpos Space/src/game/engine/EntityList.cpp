@@ -126,7 +126,7 @@ void EntityList::events(sf::Event & e)
 		v = Cursor::getCursorPosition();
 		v -= player.getCharacter()->getPosition();
 
-		auto p = std::shared_ptr<Bullet>(new  Bullet("bullet_blue",50,player.getCharacter()->getPosition(),v));
+		auto p = std::shared_ptr<Bullet>(new  Bullet("bullet_blue",150,player.getCharacter()->getPosition(),v));
 		addBullet(p);
 		break;
 	}
@@ -191,38 +191,55 @@ void EntityList::draw(sf::RenderWindow & window)
 bool EntityList::checkBulletCollision(Bullet * bullet)
 {
 
-	auto tilePos = tilemapPtr->getTileId(bullet->getPosition());
-	auto tile = tilemapPtr->getTile(tilePos.x, tilePos.y);
-
-	if (tile == nullptr)
+	if (bullet->isDestroyed() || bullet->isDuringDestroying())return false;
+	if (tilemapPtr == nullptr)
 	{
-		bullet->destroy();
+		bullet->kill();
 		return true;
 	}
 	else {
-		if (tile->isBlocking())
+		for (size_t i = 0; i < props.size(); i++)
 		{
-			tile->damage(bullet->getDamage());
-			if (tile->isDestroyed())
-			{
-				tilemapPtr->refreashNearTiles(tilePos.x, tilePos.y);
-				for (size_t i = 0; i < 8; i++)
-				{
-
-					auto p = tile->getRandomParticle();
-					particleSystem.addParticle(p.position, p.velocity, tile->getRandomParticleColor());
-				}
-			}
-			bullet->destroy();
-			return true;
+			if (props.at(i)->bulletCollision(bullet)) return true;;
 		}
+
+		auto tilesInLine = this->tilemapPtr->getTilesFromLine(bullet->getPreviousPosition(), bullet->getPosition());
+
+		for each (Tile* tile in tilesInLine)
+		{
+			if (tile == nullptr)
+			{
+				bullet->destroy();
+				return true;
+			}
+			if (tile->isBlocking())
+			{
+				int damage = bullet->getDamage();
+				bullet->decreaseDamage(tile->getHealth());
+				tile->damage(damage);
+
+				if (tile->isDestroyed())
+				{
+					sf::Vector2i tilePos = tilemapPtr->getTileId(tile->getPosition());
+					tilemapPtr->refreashNearTiles(tilePos.x, tilePos.y);
+
+					for (size_t i = 0; i < 8; i++)
+					{
+						auto p = tile->getRandomParticle();
+						particleSystem.addParticle(p.position, p.velocity, tile->getRandomParticleColor());
+					}
+				}
+				if (bullet->isDestroyed() || bullet->isDuringDestroying())
+				{
+					bullet->correctBulletPositionAfterDestroy(tile->getCollisionBox());
+				}
+
+				return true;
+			}
+		}
+
 	}
 
-
-	for (size_t i = 0; i < props.size(); i++)
-	{
-		if (props.at(i)->bulletCollision(bullet)) return true;;
-	}
 	return false;
 }
 

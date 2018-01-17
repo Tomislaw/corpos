@@ -86,6 +86,9 @@
     <ClCompile Include="MapForm.cpp">
       <Filter>Source Files\MapView</Filter>
     </ClCompile>
+    <ClCompile Include="..\Corpos Space\src\game\graphics\TextContainer.cpp">
+      <Filter>_INCLUDECPP</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Resource Files">

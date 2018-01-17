@@ -22,9 +22,19 @@ public:
 
 	// true if destroyed
 	bool isDestroyed();
+	bool isDuringDestroying();
 	// destroy it TODO: start destroy animation, then delete it
 	void destroy();
+	void correctBulletPositionAfterDestroy(sf::FloatRect collisionBox);
+	void kill();
 	// return damage caused by bullet
+
+	void decreaseDamage(int damage)
+	{
+		this->damage -= damage;
+		if (this->damage <= 0)destroy();
+	}
+
 	int getDamage()
 	{
 		return damage;
@@ -34,13 +44,19 @@ public:
 	{
 		return filter;
 	}
+
+	sf::Vector2f getPreviousPosition() {return previousPosition;}
 protected:
 	// sprite of bullet
 	GameSprite bulletSprite;
 	int damage;
 	int filter;
-	bool destroyed;
+	bool destroyed = false;
+	bool startDestroyAnimation = false;
+	bool duringDestroying = false;
 	float speed;
+
+	sf::Vector2f previousPosition;
 };
 // interface for damagable entities
 // TODO: comment this class
@@ -61,9 +77,9 @@ public:
 	virtual void setIndestructable(bool is_indestructable);
 	virtual void destroy();
 	virtual bool isDestroyed();
-	virtual bool bulletCollisionTest(sf::Vector2f pos) = 0;
 
-	virtual bool bulletCollision(Bullet * bullet);
+
+	virtual bool bulletCollision(Bullet * bullet) = 0;
 	////bool checkFilter(int filter)
 	//{
 	//
@@ -74,6 +90,7 @@ protected:
 	int health = 0;
 	int maxHealth = 0;
 	bool destroyed = false;
+
 	bool indestructable = false;
 	__int8 damageFilter = -1;
 

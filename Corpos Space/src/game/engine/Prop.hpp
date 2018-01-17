@@ -21,10 +21,9 @@ public:
 	// update it
 	virtual void update(float time) override;
 	// check if bullet is in prop
-	virtual bool bulletCollisionTest(sf::Vector2f pos) override
-	{
-		return collisionBox.contains(pos.x - getPosition().x,pos.y - getPosition().y);
-	}
+	virtual bool bulletCollision(Bullet * bullet);
+
+
 	// TODO: make line based collision test
 protected:
 	bool is_collidable = false;
