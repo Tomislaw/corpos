@@ -55,7 +55,7 @@ protected:
 
 private:
 	sf::Vector2f attachOffset;
-	Entity * parent;
+	Entity * parent = nullptr;
 
 	bool isInitialized = false;
 	sf::Text entityDebugText;

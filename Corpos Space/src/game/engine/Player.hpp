@@ -23,7 +23,7 @@ public:
 	//update it
 	void update(float time);
 	// pointer to character
-	Character * player;
+	Character * player = nullptr;
 
 	bool walkingLeft = false;
 	bool walkingRight = false;

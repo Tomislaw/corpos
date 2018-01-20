@@ -61,7 +61,7 @@ private:
 	Camera camera;
 	Player player;
 
-	Tilemap * tilemapPtr;
+	Tilemap * tilemapPtr =nullptr;
 };
 
 #endif
