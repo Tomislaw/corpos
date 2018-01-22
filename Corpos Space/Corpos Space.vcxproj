@@ -177,6 +177,7 @@
     <ClCompile Include="src\game\map\Tile.cpp" />
     <ClCompile Include="src\game\map\Tilemap.cpp" />
     <ClCompile Include="src\game\utility\Logger.cpp" />
+    <ClCompile Include="src\game\utility\Quadtree.cpp" />
     <ClCompile Include="src\game\utility\TextFileData.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -206,6 +207,7 @@
     <ClInclude Include="src\game\map\Tile.hpp" />
     <ClInclude Include="src\game\map\Tilemap.hpp" />
     <ClInclude Include="src\game\utility\Logger.hpp" />
+    <ClInclude Include="src\game\utility\Quadtree.hpp" />
     <ClInclude Include="src\game\utility\TextFileData.hpp" />
   </ItemGroup>
   <ItemGroup>

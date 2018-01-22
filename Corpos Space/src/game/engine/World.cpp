@@ -91,25 +91,11 @@ void World::loadMap(std::string map)
 	file.loadFile(map);
 	auto tm = file.getFirstElementByName("TILEMAP");
 
+	//its important to load tilemap first
 	tilemap.loadTileset("bin/graphics/tileset/tileset1.txt");
 	tilemap.loadMap(tm);
-
-	auto map_props = file.getAllElementsByName("PROP");
-	for (int i = 0; i < map_props.size();i++)
-	{
-		auto p = std::shared_ptr<Prop>(new  Prop(map_props.at(i)));
-		entitylist.addProp(p);
-	}
-
-	auto map_characters = file.getAllElementsByName("CHARACTER");
-	for (int i = 0; i < map_characters.size();i++)
-	{
-		auto p = CharacterCreator::create(map_characters.at(i), &tilemap);
-		entitylist.addCharacter(p);
-	}
-
-
-	entitylist.setPlayerEntity("@player");
+	//load it after tilemap
+	entitylist.loadMap(file);
 
 	auto tex = getTexture("background1");
 	background.setTexture(*tex);

@@ -8,7 +8,7 @@ Prop::Prop()
 {
 }
 
-Prop::Prop(TextElement * file) : Entity(file), Damageable(file)
+Prop::Prop(TextElement * file) : Damageable(file)
 {
 	is_collidable = file->getVariableByName("Collidable")->toInt(0);
 	if(is_collidable)
@@ -60,7 +60,8 @@ void Prop::update(float time)
 
 bool Prop::bulletCollision(Bullet * bullet)
 {
-	bool contains = (collisionBox.contains(bullet->getPosition()) || collisionBox.contains(bullet->getPreviousPosition()));
+	sf::FloatRect cb = sf::FloatRect(position.x + collisionBox.left, collisionBox.top + position.y, collisionBox.width, collisionBox.height);
+	bool contains = (cb.contains(bullet->getPosition()) || cb.contains(bullet->getPreviousPosition()));
 
 	if (contains == false)
 	{
@@ -83,4 +84,9 @@ bool Prop::bulletCollision(Bullet * bullet)
 		return true;
 	}
 	return false;
+}
+
+bool Prop::contains(sf::FloatRect & rect)
+{
+	return rect.intersects(sf::FloatRect(position.x + collisionBox.left, collisionBox.top + position.y, collisionBox.width, collisionBox.height));
 }

@@ -7,6 +7,7 @@
 #include "game\engine\Player.hpp"
 #include "game\graphics\ParticleSystem.hpp"
 #include "game\engine\logic\Camera.hpp"
+#include "game\utility\Quadtree.hpp"
 class Tilemap; 
 class EntityList
 {
@@ -15,6 +16,9 @@ public:
 	~EntityList();
 
 	// find & add
+
+	void loadMap(TextFileData & file);
+
 	// add character from smart pointer
 	void addCharacter(std::shared_ptr<Character> & ent);
 	// add prop from smart pointer
@@ -52,6 +56,8 @@ public:
 	//objects
 	
 private:
+	Quadtree tree;
+
 	static std::vector <GameSprite> game_sprite_definitions;
 	std::vector<std::shared_ptr <Character>> characters;
 	std::vector<std::shared_ptr <Prop>> props;

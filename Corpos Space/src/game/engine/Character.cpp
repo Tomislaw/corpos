@@ -351,10 +351,21 @@ void Character::resolveCollision()
 
 void Character::draw(sf::RenderTarget & target)
 {
-	//rect.setPosition(sf::Vector2f(getPosition().x + collision_box.left, getPosition().y + collision_box.top));
-	//target.draw(rect);
+	rect.setPosition(sf::Vector2f(getPosition().x + collision_box.left, getPosition().y + collision_box.top));
+	target.draw(rect);
 	sprite.draw(target);
 	
+}
+
+bool Character::contains(sf::FloatRect & rect)
+{
+	return sf::FloatRect(getPosition().x + collision_box.left, getPosition().y + collision_box.top,
+		collision_box.width, collision_box.height).intersects(rect);
+}
+
+bool Character::bulletCollision(Bullet * bullet)
+{
+	return false;
 }
 
 void Character::impulseVelocity(sf::Vector2f v, float impulse, float delta)

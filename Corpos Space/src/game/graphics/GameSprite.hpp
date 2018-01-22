@@ -47,6 +47,8 @@ public:
 	const std::string &getTextureName() { return texture_name; };
 	// return current animation
 	Animation * getCurrentAnimation();;
+
+	virtual bool contains(sf::FloatRect & rect) override;
 protected:
 	bool is_animated = true;
 	unsigned int current_animation = 0;

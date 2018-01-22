@@ -18,6 +18,30 @@ EntityList::~EntityList()
 {
 }
 
+void EntityList::loadMap(TextFileData & file)
+{
+	if (tilemapPtr == nullptr)return;
+	tree = Quadtree(sf::Vector2f(), tilemapPtr->getMapSize(), 0, 4, 5);
+	auto map_props = file.getAllElementsByName("PROP");
+	for (int i = 0; i < map_props.size(); i++)
+	{
+		auto p = std::shared_ptr<Prop>(new  Prop(map_props.at(i)));
+		addProp(p);
+	}
+
+	auto map_characters = file.getAllElementsByName("CHARACTER");
+	for (int i = 0; i < map_characters.size(); i++)
+	{
+		auto p = CharacterCreator::create(map_characters.at(i), tilemapPtr);
+		addCharacter(p);
+	}
+
+
+	setPlayerEntity("@player");
+
+
+}
+
 void EntityList::addCharacter(std::shared_ptr<Character> & ent)
 {
 	characters.push_back(ent);
@@ -122,32 +146,56 @@ void EntityList::events(sf::Event & e)
 	switch (e.type)
 	{
 	case sf::Event::MouseButtonPressed:
+		if(e.mouseButton.button == sf::Mouse::Left)
+		{
 		sf::Vector2f v;
 		v = Cursor::getCursorPosition();
 		v -= player.getCharacter()->getPosition();
 
 		auto p = std::shared_ptr<Bullet>(new  Bullet("bullet_blue",150,player.getCharacter()->getPosition(),v));
 		addBullet(p);
+		}
+	
+		if (e.mouseButton.button == sf::Mouse::Right)
+		{
+			auto ents = tree.GetObjectsAt(player.getCharacter()->getPosition());
+			std::cout << "Entities at player pos :" << std::endl;
+			for each (Entity* var in ents)
+			{
+				std::cout << var->getName() << " " << var->getPosition().x << " " << var->getPosition().y << std::endl;
+			}
+		}
 		break;
+
 	}
 }
 
 void EntityList::update(float time)
 {
 	player.update(time);
+	tree.Clear();
 	std::vector<std::shared_ptr <Character>>::iterator it = characters.begin();
 	while (it != characters.end())
 	{
 
 		it->get()->update(time);
-		++it;
+		if (it->get()->isDestroyed())it = characters.erase(it);
+		else
+		{
+			tree.AddObject(it->get());
+			++it;
+		}
 	}
 	std::vector<std::shared_ptr <Prop>>::iterator it2 = props.begin();
 	while (it2 != props.end())
 	{
 		it2->get()->update(time);
 		if(it2->get()->isDestroyed())it2 = props.erase(it2);
-		else ++it2;
+		else
+		{
+			tree.AddObject(it2->get());
+			++it2;
+		}
 	}
 	std::vector<std::shared_ptr <Bullet>>::iterator it3 = bullets.begin();
 	while (it3 != bullets.end())
@@ -155,7 +203,10 @@ void EntityList::update(float time)
 		it3->get()->update(time);
 		checkBulletCollision(it3->get());
 		if (it3->get()->isDestroyed())it3 = bullets.erase(it3);
-		else ++it3;
+		else
+		{
+			++it3;
+		}
 		
 	}
 	particleSystem.update(time);
@@ -186,6 +237,7 @@ void EntityList::draw(sf::RenderWindow & window)
 		++it3;
 	}
 	window.draw(particleSystem);
+	tree.draw(window);
 }
 
 bool EntityList::checkBulletCollision(Bullet * bullet)
@@ -198,9 +250,15 @@ bool EntityList::checkBulletCollision(Bullet * bullet)
 		return true;
 	}
 	else {
-		for (size_t i = 0; i < props.size(); i++)
+		auto ents = tree.GetObjectsAt(bullet->getPosition());
+		for each (Entity* ent in ents)
 		{
-			if (props.at(i)->bulletCollision(bullet)) return true;;
+			if (bullet->isDestroyed() || bullet->isDuringDestroying())return false;
+			auto damageable = dynamic_cast<Damageable*>(ent);
+			if (damageable != nullptr)
+			{
+				damageable->bulletCollision(bullet);
+			}
 		}
 
 		auto tilesInLine = this->tilemapPtr->getTilesFromLine(bullet->getPreviousPosition(), bullet->getPosition());

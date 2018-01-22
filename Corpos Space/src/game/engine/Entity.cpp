@@ -115,3 +115,8 @@ bool Entity::isAttached()
 	if (parent != nullptr) return true;
 	else return false;
 }
+
+bool Entity::contains(sf::FloatRect &rect)
+{
+	return rect.contains(getPosition());
+}

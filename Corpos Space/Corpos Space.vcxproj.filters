@@ -135,6 +135,9 @@
     <ClCompile Include="src\game\engine\logic\Camera.cpp">
       <Filter>Source Files\engine\logic</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\utility\Quadtree.cpp">
+      <Filter>Source Files\utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game\main\stdafx.h">
@@ -217,6 +220,9 @@
     </ClInclude>
     <ClInclude Include="src\game\engine\logic\Camera.hpp">
       <Filter>Header Files\engine\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\utility\Quadtree.hpp">
+      <Filter>Header Files\utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
