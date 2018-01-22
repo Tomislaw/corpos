@@ -34,5 +34,7 @@ private:
 
 	sf::ConvexShape selectRectangle;
 	bool drawSelectedArea = false;
+
+	sf::Vector2i startingSelectionTile;
 };
 #endif

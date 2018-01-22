@@ -463,8 +463,8 @@ void Tilemap::drawEditor(sf::RenderTarget & window)
 	sf::RectangleShape rectangle;
 	rectangle.setSize(sf::Vector2f(mapSize.x*32, mapSize.y * 32));
 	rectangle.setFillColor(sf::Color::Transparent);
-	rectangle.setOutlineColor(sf::Color::Red);
-	rectangle.setOutlineThickness(5);
+	rectangle.setOutlineColor(sf::Color::Black);
+	rectangle.setOutlineThickness(2);
 	rectangle.setPosition(0, 0);
 	window.draw(rectangle);
 }

@@ -37,8 +37,38 @@ void MapView::OnUpdate()
 	worldmap.drawEditor(*this);
 	if (drawSelectedArea)
 	{
+		//get tile id at mouse position
 		auto mousepos = sf::Mouse::getPosition(*this);
 		auto pos = this->mapPixelToCoords(mousepos);
+		auto id = worldmap.getTileId(pos);
+
+		//snap position to grid
+		pos.x = id.x * 32 + 31;
+		pos.y = id.y * 32 + 31;
+
+		// snap position 2 to grid
+		auto pos2 = sf::Vector2f();
+		pos2.x = startingSelectionTile.x * 32;
+		pos2.y = startingSelectionTile.y * 32;
+
+		// move a little
+		if (pos.x > pos2.x)pos2.x += 1;
+		else
+		{
+			pos2.x -= 1;
+			pos.x -= 32;
+		}
+
+		if (pos.y > pos2.y)pos2.y += 1;
+		else
+		{
+			pos2.y -= 1;
+			pos.y -= 32;
+		}
+
+
+		//set select rectangle
+		selectRectangle.setPoint(0, pos2);
 
 		selectRectangle.setPoint(1, sf::Vector2f(pos.x, selectRectangle.getPoint(0).y));
 		selectRectangle.setPoint(2, pos);
@@ -110,8 +140,9 @@ void MapView::startDrawingSelection()
 	drawSelectedArea = true;
 	auto mousepos = sf::Mouse::getPosition(*this);
 	auto pos = this->mapPixelToCoords(mousepos);
-	//auto id = worldmap.getTileId(pos);
-	selectRectangle.setPoint(0, pos);
+	auto id = worldmap.getTileId(pos);
+	startingSelectionTile = id;
+
 }
 
 void MapView::createTilesAtSelectedArea(std::string tileset, std::string tile)
