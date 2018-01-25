@@ -33,10 +33,32 @@ bool World::loadTextures(std::string location)
 	texture_names = new std::string[textures_list.size()];
 	for (int i = 0; i < textures_list.size(); i++)
 	{
-		Logger::i("Loading " + textures_list[i]->getVariableByName("Location")->var[0]);
-		texture[i].loadFromFile(textures_list[i]->getVariableByName("Location")->var[0]);
-		texture[i].setSmooth(0);
-		texture_names[i]=(textures_list[i]->getVariableByName("Name")->var[0]);
+		// Get location of texture
+		auto varLocation = textures_list[i]->getVariableByName("Location");
+		if (varLocation == nullptr)
+		{
+			Logger::e("Texture definition " + std::to_string(i) + " in " + location + " is invalid!");
+			continue;
+		}
+
+
+		// get name of texture
+		auto varName = textures_list[i]->getVariableByName("Name");
+		if (varName == nullptr)
+		{
+			Logger::e("Texture definition " + std::to_string(i) + " in " + location + " missing name!");
+			texture_names[i] = "Missing name texture";
+		}
+		else texture_names[i]=varName->toString(0);
+
+		Logger::i("Loading " + varLocation->toString(0));
+		auto loaded = texture[i].loadFromFile(varLocation->toString(0));
+		if (loaded)
+			texture[i].setSmooth(0);
+		else
+		{
+			Logger::e("Can't load " + location);
+		}
 	}
 	textureArraySize = textures_list.size();
 

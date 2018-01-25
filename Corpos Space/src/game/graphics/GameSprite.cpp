@@ -9,14 +9,14 @@ GameSprite::GameSprite(sf::Vector2f position, const sf::Texture &set_texture, Te
 	setPosition(position);
 	SetSprite(set_texture, spritetext);
 	auto data = spritetext->getVariableByName("Texture");
-	if (!data->isNull())texture_name = data->var[0];
+	if (data != nullptr)texture_name = data->toString(0);
 }
 GameSprite::GameSprite(const sf::Texture &set_texture, TextElement *spritetext)
 {
 
 	SetSprite(set_texture, spritetext);
 	auto data = spritetext->getVariableByName("Texture");
-	if (!data->isNull())texture_name = data->var[0];
+	if (data != nullptr)texture_name = data->toString(0);
 }
 
 
@@ -37,23 +37,41 @@ void GameSprite::SetRectangle(sf::IntRect rect)
 
 void GameSprite::SetSprite(const sf::Texture &set_texture, TextElement *spritetext)
 {
-	name = spritetext->getVariableByName("Name")->var[0];
+	// Get name
+	auto varname = spritetext->getVariableByName("Name");
+	if(varname!= nullptr) name = varname->toString(0);
+	else Logger::e("Sprite is missing name");
 	sprite.setTexture(set_texture);
 
-
+	// Get size
 	auto size = spritetext->getVariableByName("Texture_size");
-	SetRectangle(sf::IntRect(size->toInt(0), size->toInt(1), size->toInt(2), size->toInt(3)));
+	if(size != nullptr)
+		SetRectangle(sf::IntRect(size->toInt(0), size->toInt(1), size->toInt(2), size->toInt(3)));
+	else Logger::e("Sprite is missing texture size");
 
-	is_animated = spritetext->getVariableByName("Animated")->toInt(0);
-	if (is_animated)SetAnimationSheet(spritetext->getVariableByName("Animation")->var[0]);
+	// Get is animated
+	is_animated = false;
+	auto varIsAnimated = spritetext->getVariableByName("Animated");
+	if (varIsAnimated != nullptr)is_animated = varIsAnimated->toInt(0);
+
+
+	if (is_animated)
+	{
+		auto varSheet = spritetext->getVariableByName("Animation");
+		if(varSheet!= nullptr)
+			SetAnimationSheet(varSheet->toString(0));
+		else Logger::e("Sprite is missing animation");
+	}
 
 	auto size2 = spritetext->getVariableByName("Sprite_size");
-	sprite.setScale(size2->toFloat(0) / size->toFloat(2), size2->toFloat(1) / size->toFloat(3));
+	if(size2!= nullptr)sprite.setScale(size2->toFloat(0) / size->toFloat(2), size2->toFloat(1) / size->toFloat(3));
+	else Logger::e("Sprite is missing size");
 
 	auto size3 = spritetext->getVariableByName("Sprite_center");
-	sf::Vector2f origin(size3->toFloat(0), size3->toFloat(1));
+	if (size3 != nullptr)sprite.setOrigin(sf::Vector2f(size3->toFloat(0), size3->toFloat(1)));
+	else sprite.setOrigin(sf::Vector2f(0, 0));
 	//origin.x 
-	sprite.setOrigin(sf::Vector2f(size3->toFloat(0), size3->toFloat(1)));
+	
 
 }
 

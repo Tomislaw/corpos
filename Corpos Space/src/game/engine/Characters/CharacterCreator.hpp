@@ -1,6 +1,7 @@
 #ifndef CHARACTERCREATOR_HPP
 #define CHARACTERCREATOR_HPP
 #include "Soldier.hpp"
+#include "Crawler.hpp"
 namespace CharacterCreator
 {
 	// Function returning shared ptr

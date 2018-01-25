@@ -444,18 +444,38 @@ void Character::impulseVelocityX(float maxSpeed, float impulse, float delta)
 
 bool Character::setCharacter(TextElement * element)
 {
-	this->health = element->getVariableByName("Health")->toInt(0);
-	this->max_walk_speed = element->getVariableByName("Speed")->toInt(0);
+
+	if (element == nullptr)return false;
+
+	//Set speed of character
+	auto variableMaxSpeed = element->getVariableByName("Speed");
+	if(variableMaxSpeed != nullptr)
+		this->max_walk_speed = variableMaxSpeed->toInt(0);
+
+	//Set character collision box
 	auto cb = element->getVariableByName("CollisionBox");
+	if(cb != nullptr)
+	{ 
+		collision_box.left = cb->toFloat(0);
+		collision_box.top = cb->toFloat(1);
+		collision_box.width = cb->toFloat(2);
+		collision_box.height = cb->toFloat(3);
+	}
 
-	collision_box.left = cb->toFloat(0);
-	collision_box.top = cb->toFloat(1);
-	collision_box.width = cb->toFloat(2);
-	collision_box.height = cb->toFloat(3);
-
+	//Set drawable debugh box
 	rect.setSize(sf::Vector2f(collision_box.width, collision_box.height));
 	rect.setFillColor(sf::Color::Red);
-	return false;
+
+	//Set sprite of character
+	auto sprite = element->getVariableByName("Sprite");
+	if (sprite != nullptr)
+	{
+		auto spriteName = sprite->toString(0);
+		auto spriteDefinition = EntityList::getSpriteDefinition(spriteName);
+		if(spriteDefinition!= nullptr)
+		this->sprite = GameSprite(*spriteDefinition);
+	}
+	return true;
 }
 
 void Character::setAnimation()

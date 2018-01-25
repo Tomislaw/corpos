@@ -12,41 +12,81 @@ Soldier::~Soldier()
 
 bool Soldier::setCharacter(TextElement * element)
 {
+	if (element == nullptr)return false;
 	this->Character::setCharacter(element);
-	std::string sprite1 = element->getVariableByName("SpriteHead")->var[0];
-	this->head = GameSprite(*EntityList::getSpriteDefinition(sprite1));
-	auto var1 = element->getVariableByName("HeadPos");
-	headOffset = sf::Vector2f(var1->toFloat(0), var1->toFloat(1));
-	this->head.attachToEntityOffset(this, headOffset);
 
-	std::string sprite2 = element->getVariableByName("SpriteTorse")->var[0];
-	this->torse = GameSprite(*EntityList::getSpriteDefinition(sprite2));
-	auto var2 = element->getVariableByName("TorsePos");
-	torseOffset = sf::Vector2f(var2->toFloat(0), var2->toFloat(1));
-	this->torse.attachToEntityOffset(this, torseOffset);
+	//Set head part of soldier
+	auto varSpriteHead = element->getVariableByName("SpriteHead");
+	if (varSpriteHead != nullptr)
+	{
+		std::string sprite1 = varSpriteHead->toString(0);
+		this->head = GameSprite(*EntityList::getSpriteDefinition(sprite1));
 
-	std::string sprite3 = element->getVariableByName("SpriteLegs")->var[0];
-	this->legs = GameSprite(*EntityList::getSpriteDefinition(sprite3));
-	auto var3 = element->getVariableByName("LegsPos");
-	legsOffset = sf::Vector2f(var3->toFloat(0), var3->toFloat(1));
-	this->legs.attachToEntityOffset(this, legsOffset);
+		//Set offset of that part
+		auto var1 = element->getVariableByName("HeadPos");
+		if(var1!=nullptr)
+			headOffset = sf::Vector2f(var1->toFloat(0), var1->toFloat(1));
+		this->head.attachToEntityOffset(this, headOffset);
+	}
+	else Logger::e("SpriteHead in " + name + " not found!");
 
-	std::string sprite4 = element->getVariableByName("SpriteLHand")->var[0];
-	this->lhand = GameSprite(*EntityList::getSpriteDefinition(sprite4));
-	auto var4 = element->getVariableByName("LHandPos");
-	lhandOffset = sf::Vector2f(var4->toFloat(0), var4->toFloat(1));
-	this->lhand.attachToEntityOffset(this, lhandOffset);
+	//Set torse part of soldier
+	auto varSpriteTorse = element->getVariableByName("SpriteTorse");
+	if (varSpriteTorse != nullptr)
+	{
+		std::string sprite2 = varSpriteTorse->toString(0);
+		this->torse = GameSprite(*EntityList::getSpriteDefinition(sprite2));
+
+		//Set offset of that part
+		auto var2 = element->getVariableByName("TorsePos");
+		if (var2 != nullptr)
+			torseOffset = sf::Vector2f(var2->toFloat(0), var2->toFloat(1));
+		this->torse.attachToEntityOffset(this, torseOffset);
+	}
+	else Logger::e("SpriteTorse in " + name + " not found!");
+
+	//Set legs part of soldier
+	auto varSpriteLegs = element->getVariableByName("SpriteLegs");
+	if (varSpriteTorse != nullptr)
+	{
+		std::string sprite3 = varSpriteLegs->toString(0);
+		this->legs = GameSprite(*EntityList::getSpriteDefinition(sprite3));
+
+		//Set offset of that part
+		auto var3 = element->getVariableByName("LegsPos");
+		if (var3 != nullptr)
+			legsOffset = sf::Vector2f(var3->toFloat(0), var3->toFloat(1));
+		this->legs.attachToEntityOffset(this, legsOffset);
+	}
+	else Logger::e("SpriteLegs in " + name + " not found!");
+
+	//Set left hand part of soldier
+	auto varSpriteLHand = element->getVariableByName("SpriteLHand");
+	if (varSpriteTorse != nullptr)
+	{
+		std::string sprite4 = varSpriteLHand->toString(0);
+		this->lhand = GameSprite(*EntityList::getSpriteDefinition(sprite4));
+
+		//Set offset of that part
+		auto var4 = element->getVariableByName("LHandPos");
+		if (var4 != nullptr)
+			lhandOffset = sf::Vector2f(var4->toFloat(0), var4->toFloat(1));
+		this->lhand.attachToEntityOffset(this, lhandOffset);
+	}
+	else Logger::e("SpriteLHand in " + name + " not found!");
 
 	headOrigin = head.GetSprite().getOrigin();
 	lhandOrigin = lhand.GetSprite().getOrigin();
 	torseOrigin = torse.GetSprite().getOrigin();
 	legsOrigin = legs.GetSprite().getOrigin();
 
+	//TODO: make weapon
 	weapontest = GameSprite(*EntityList::getSpriteDefinition("testweapon1"));
 	weaponOrigin = weapontest.GetSprite().getOrigin();
 	weaponOffset = sf::Vector2f(1,20);
 	this->weapontest.attachToEntityOffset(this, weaponOffset);
-	return false;
+
+	return true;
 }
 
 void Soldier::draw(sf::RenderTarget & window)

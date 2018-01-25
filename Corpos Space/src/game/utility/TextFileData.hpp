@@ -25,12 +25,6 @@ struct Variable
 	//Return variable changed to float, if not found return 0.
 	float toFloat(unsigned int index);
 	std::string toString(unsigned int index);
-	//True if empty.
-	bool isNull()
-	{
-		if (var.size() <= 0)return 1;
-		return 0;
-	}
 };
 
 
@@ -45,7 +39,6 @@ public:
 
 	std::string name;
 	std::vector <Variable > variable;
-	Variable null;
 	std::string display();
 
 	Variable *getVariableByName(std::string var_name);
@@ -94,7 +87,6 @@ private:
 	bool endOfFile = false;
 
 	//Empty variable
-	TextElement null;
 
 	//Get location of executable
 	std::string getExeLocation();

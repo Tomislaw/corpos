@@ -19,7 +19,17 @@ Damageable::~Damageable()
 
 void Damageable::setDamageable(TextElement * t)
 {
-	bool isCollidable = t->getVariableByName("Collidable")->toInt(0);
+	if (t == nullptr)
+	{
+		return;
+	}
+
+	bool isCollidable = false;
+
+	auto variableIsCollidable = t->getVariableByName("Collidable");
+	if(variableIsCollidable!= nullptr) 
+		isCollidable = variableIsCollidable->toInt(0);
+
 	if (!isCollidable)
 	{
 		this->health = 0;
@@ -27,6 +37,20 @@ void Damageable::setDamageable(TextElement * t)
 		this->indestructable = true;
 	}
 	//health
+
+	auto variableHealth = t->getVariableByName("Health");
+	if (variableHealth != nullptr)
+	{ 
+		this->health = variableHealth->toInt(0);
+		this->maxHealth = this->health;
+	}
+	else
+	{
+		this->health = 0;
+		this->maxHealth = 0;
+
+	}
+
 	this->health = t->getVariableByName("Health")->toInt(0);
 	this->maxHealth = t->getVariableByName("MaxHealth")->toInt(0);
 

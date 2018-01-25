@@ -54,9 +54,31 @@ bool Tilemap::loadTileset(std::string location)
 
 	//set vtm data
 	auto tileset = file.getFirstElementByName("TILESET");
-	auto texture = tileset->getVariableByName("Texture")->toString(0);
+	if (tileset == nullptr)
+	{
+		Logger::e("Tileset in " + location +" is not defined, tileset is not loaded");
+		return false;
+	}
 
-	tm.name = tileset->getVariableByName("Name")->toString(0);
+
+	std::string texture = "";
+	auto varTexture = tileset->getVariableByName("Texture");
+	if (varTexture != nullptr)
+		texture = varTexture->toString(0);
+	else 
+	{
+		Logger::e("Texture in " + location + " is not defined, tileset is not loaded");
+		return false;
+	}
+
+	auto varName = tileset->getVariableByName("Name");
+	if (varName != nullptr)
+		tm.name = tileset->getVariableByName("Name")->toString(0);
+	else
+	{
+		Logger::e("Tileset in " + location + " have no name!");
+	}
+	
 	tm.textureName = texture;
 
 
@@ -117,15 +139,38 @@ bool Tilemap::loadMap(TextElement * tm)
 {
 	
 	auto size = tm->getVariableByName("Size");
-
-	mapSize.y = size->toInt(1);
-	mapSize.x = size->toInt(0);
-
+	if(size != nullptr)
+	{ 
+		mapSize.y = size->toInt(1);
+		mapSize.x = size->toInt(0);
+	}
+	else
+	{
+		Logger::e("Map have no size");
+		return false;
+	}
 	Logger::i("Map size: " + std::to_string(this->mapSize.x) + " " + std::to_string(this->mapSize.y));
 
 
 
-	std::string tilesetName = tm->getVariableByName("Tilesets")->var[0];
+	std::string tilesetName = "";
+	auto varTilesets = tm->getVariableByName("Tilesets");
+	if (varTilesets != nullptr)
+	{
+		tilesetName = varTilesets->toString(0);
+	}
+	else tilesetName = "tileset1";
+
+	/*auto varTilesets = tm->getVariableByName("Tilesets");
+	if (varTilesets != nullptr)
+	{
+		for each (std::string var in varTilesets->var)
+		{
+
+		}
+	}*/
+
+
 	auto vertexTileMapPointer = getVertexTileMap(tilesetName);
 	if (vertexTileMapPointer == nullptr)
 	{
@@ -140,11 +185,17 @@ bool Tilemap::loadMap(TextElement * tm)
 	for (int y = 0;y < mapSize.y;y++)
 	{
 		auto tile = tm->getVariableByName("X" + std::to_string(y));
+		if (tile == nullptr)
+		{
+			Logger::e("X" + std::to_string(y) + " is missing, map is not created");
+			return false;
+		}
 		for (int x = 0; x < mapSize.x;x++)
 		{
 	
-				TileDefinition *b = nullptr;
-				if(tile->toString(x)!="0")b = this->getTileDefinition(tile->var[x], tilesetName);
+			TileDefinition *b = nullptr;
+			if(tile->toString(x)!="0")b = this->getTileDefinition(tile->var[x], tilesetName);
+
 			//Set tile if not found
 			if (b == nullptr)
 			{

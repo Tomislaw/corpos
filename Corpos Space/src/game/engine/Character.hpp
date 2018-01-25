@@ -29,10 +29,10 @@ public:
 	virtual void draw(sf::RenderTarget &target)override;
 	virtual bool contains(sf::FloatRect & rect)override;
 	virtual bool bulletCollision(Bullet * bullet)override;
+
 protected:
 	void impulseVelocity(sf::Vector2f v,float impulse,float delta);
 	void impulseVelocityX(float maxSpeed, float impulse, float delta);
-	float health = 0;
 	int relationship_group = 0;
 	float max_walk_speed = 50;
 	bool is_standing = false;

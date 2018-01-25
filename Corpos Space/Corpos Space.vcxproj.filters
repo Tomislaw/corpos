@@ -138,6 +138,9 @@
     <ClCompile Include="src\game\utility\Quadtree.cpp">
       <Filter>Source Files\utility</Filter>
     </ClCompile>
+    <ClCompile Include="Crawler.cpp">
+      <Filter>Source Files\engine\characters</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game\main\stdafx.h">
@@ -223,6 +226,9 @@
     </ClInclude>
     <ClInclude Include="src\game\utility\Quadtree.hpp">
       <Filter>Header Files\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Crawler.hpp">
+      <Filter>Header Files\engine\characters</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

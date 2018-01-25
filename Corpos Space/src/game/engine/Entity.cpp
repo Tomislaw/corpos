@@ -13,10 +13,18 @@ Entity::Entity(TextElement * data)
 		Logger::e("Can't create enitity. Nullpointer received.");
 		return;
 	}
-	name = data->getVariableByName("Name")->toString(0);
+
+	auto varName = data->getVariableByName("Name");
+	if(varName!= nullptr)
+		name = varName->toString(0);
+	else Logger::i("One of entites don't have name.");
+
 	auto pos = data->getVariableByName("Position");
-	position.x = pos->toFloat(0);
-	position.y = pos->toFloat(1);
+	if(pos!= nullptr)
+	{
+		position.x = pos->toFloat(0);
+		position.y = pos->toFloat(1);
+	}
 }
 
 Entity::Entity(std::string name, sf::Vector2f position)

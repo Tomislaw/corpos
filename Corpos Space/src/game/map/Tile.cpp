@@ -387,26 +387,59 @@ void Tile::setDisplayType(bool LT, bool T, bool TR, bool L, bool R, bool LB, boo
 void TileDefinition::setTile(TextElement * t, const sf::Texture * texture, std::string textureName)
 {
 	this->texture = texture;
-	name = t->getVariableByName("Name")->var[0];
-	health = t->getVariableByName("Health")->toFloat().at(0);
+
+	// Set name
+	auto varname = t->getVariableByName("Name");
+	if (varname != nullptr)name = varname->toString(0);
+	else Logger::e("Tile is missing name");
+
+	//Set health
+	auto varHealth = t->getVariableByName("Health");
+	if (varHealth != nullptr)
+		health = varHealth->toFloat(0);
+	else health = 0;
+
 	this->texture_name = textureName;
-	this->is_blocking = (bool)t->getVariableByName("Block")->toInt().at(0);
-	bool is_single_sprite = (bool)t->getVariableByName("SingleImage")->toInt().at(0);
-	this->singleImage = is_single_sprite;
-	this->backgroundTile = t->getVariableByName("Background")->toString(0);
-	connectGroup = t->getVariableByName("ConnectGroup")->var[0];
+
+	//Set is blocking
+	auto varIsBlocking = t->getVariableByName("Block");
+	if (varIsBlocking != nullptr)
+		this->is_blocking = varIsBlocking->toInt(0);
+	else this->is_blocking = false;
+
+	//Set is single sprite
+	this->singleImage = true;
+	auto varIsSingleImage = t->getVariableByName("SingleImage");
+	if (varIsSingleImage != nullptr)
+		this->singleImage = varIsSingleImage->toInt(0);
+
+	//Set background tile
+	auto varBackground = t->getVariableByName("Background");
+	if(varBackground!= nullptr)
+		this->backgroundTile = varBackground->toString(0);
+	else this->backgroundTile = "0";
+
+	auto varConnectGroup = t->getVariableByName("ConnectGroup");
+	if(varConnectGroup!=nullptr)
+		connectGroup = varConnectGroup->toString(0);
+	else connectGroup = "";
+
 	auto r = t->getVariableByName("TileRect");
 
-	if (r->isNull())
+	if (r==nullptr)
 	{
 		this->tileRect = sf::IntRect(-16, -16, 32, 32);
 	}
 	else
 	{
 		auto tileRectInts = r->toInt();
+		if (tileRectInts.size() < 4)
+		{
+			Logger::e("TileRect is invalid");
+		}
 		this->tileRect = sf::IntRect(tileRectInts.at(0), tileRectInts.at(1), tileRectInts.at(2), tileRectInts.at(3));
 	}
-	if (!is_single_sprite)
+	if (!this->singleImage)
 	{
 		////Top
 		auto v =t->getAllVariablesByName("RT");
@@ -510,7 +543,7 @@ void TileDefinition::setTile(TextElement * t, const sf::Texture * texture, std::
 		this->inner.push_back(sf::IntRect(r.at(0), r.at(1), r.at(2), r.at(3)));
 	}
 
-	if (texture != nullptr || C.size()>0)
+	if (texture != nullptr && C.size()>0)
 	{
 		sf::IntRect ct;
 

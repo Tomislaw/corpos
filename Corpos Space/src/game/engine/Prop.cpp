@@ -10,32 +10,57 @@ Prop::Prop()
 
 Prop::Prop(TextElement * file) : Damageable(file)
 {
-	is_collidable = file->getVariableByName("Collidable")->toInt(0);
+	if (file == nullptr)return;
+
+
+
+	is_collidable = false;
+
+	// Set collidable flag
+	auto varCollidable = file->getVariableByName("Collidable");
+	if (varCollidable != nullptr)
+		is_collidable = varCollidable->toInt(0);
+
 	if(is_collidable)
 	{ 
 		setDamageable(file);
-	auto var = file->getVariableByName("CollisionBox");
 
-	this->collisionBox.left = var->toFloat(0);
-	this->collisionBox.top = var->toFloat(1);
-	this->collisionBox.width = var->toFloat(2);
-	this->collisionBox.height = var->toFloat(3);
+		//Set collision box
+		auto var = file->getVariableByName("CollisionBox");
+		if(var != nullptr)
+		{ 
+			this->collisionBox.left = var->toFloat(0);
+			this->collisionBox.top = var->toFloat(1);
+			this->collisionBox.width = var->toFloat(2);
+			this->collisionBox.height = var->toFloat(3);
+		}
+		else Logger::e("Damageable entity " + name + " dont have CollisionBox variable.");
 	}
 
-	std::string spr = file->getVariableByName("Sprite")->var[0];
-	auto x = EntityList::getSpriteDefinition(spr);
-	if (x == nullptr)
-	{
-		Logger::e("Sprite " + spr + " not found!");
-		return;
+	// Set sprite
+	auto varSprite = file->getVariableByName("Sprite");
+	if(varSprite != nullptr)
+	{ 
+		std::string spr = varSprite->toString(0);
+		auto x = EntityList::getSpriteDefinition(spr);
+		if (x == nullptr)
+		{
+			Logger::e("Sprite " + spr + " not found!");
+			return;
+		}
+		sprite = GameSprite(*x);
 	}
-	sprite = GameSprite(*x);
-	
+
+	//Set sprite offset
 	auto sproff = file->getVariableByName("Sprite_offest");
-	sf::Vector2f spriteoffset;
-	spriteoffset.x = sproff->toFloat(0);
-	spriteoffset.y = sproff->toFloat(1);
-	sprite.attachToEntityOffset(this, spriteoffset);
+	if(sproff!= nullptr)
+	{ 
+		sf::Vector2f spriteoffset;
+		spriteoffset.x = sproff->toFloat(0);
+		spriteoffset.y = sproff->toFloat(1);
+		sprite.attachToEntityOffset(this, spriteoffset);
+	}
+	else sprite.attachToEntity(this);
 }
 
 

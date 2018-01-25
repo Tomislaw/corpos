@@ -147,7 +147,7 @@ Variable *TextElement::getVariableByName(std::string var_name)
 	}
 
 	Logger::e("ERROR IN " + name + ", VARIABLE " + var_name + " NOT FOUND!");
-	return &null;
+	return nullptr;
 }
 
 std::vector<Variable*> TextElement::getAllVariablesByName(std::string var_name)
@@ -198,7 +198,7 @@ TextElement * TextFileData::getFirstElementByName(std::string element_name)
 		if (element[i].name == element_name) return &element[i];
 	}
 
-	return &null;
+	return nullptr;
 }
 
 std::vector<TextElement> TextFileData::getAllElements()
