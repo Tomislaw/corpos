@@ -55,6 +55,12 @@
     <Filter Include="Source Files\engine\logic">
       <UniqueIdentifier>{7a1138ca-1d32-472b-9c6a-f08f2a2cacc1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\engine\logic\ai">
+      <UniqueIdentifier>{45543535-ee5f-4d2d-85d4-b197badbab8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\engine\logic\ai">
+      <UniqueIdentifier>{5f4010d1-850f-477c-a6e7-b0b248aa3cdd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -138,7 +144,10 @@
     <ClCompile Include="src\game\utility\Quadtree.cpp">
       <Filter>Source Files\utility</Filter>
     </ClCompile>
-    <ClCompile Include="Crawler.cpp">
+    <ClCompile Include="src\game\engine\logic\ai\AiBasic.cpp">
+      <Filter>Source Files\engine\logic\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\engine\Characters\Crawler.cpp">
       <Filter>Source Files\engine\characters</Filter>
     </ClCompile>
   </ItemGroup>
@@ -227,7 +236,10 @@
     <ClInclude Include="src\game\utility\Quadtree.hpp">
       <Filter>Header Files\utility</Filter>
     </ClInclude>
-    <ClInclude Include="Crawler.hpp">
+    <ClInclude Include="src\game\engine\logic\ai\AiBasic.hpp">
+      <Filter>Header Files\engine\logic\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\engine\Characters\Crawler.hpp">
       <Filter>Header Files\engine\characters</Filter>
     </ClInclude>
   </ItemGroup>

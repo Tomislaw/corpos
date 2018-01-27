@@ -11,8 +11,6 @@ int main(int argc, char * argv[])
 	srand((unsigned)time(NULL));
 	Game game(argc, argv);
 	game.run();
-
-	system("pause");
 	return 0;
 
 }

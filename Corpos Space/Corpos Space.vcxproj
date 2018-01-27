@@ -153,13 +153,14 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Crawler.cpp" />
     <ClCompile Include="src\game\engine\Character.cpp" />
     <ClCompile Include="src\game\engine\Characters\CharacterCreator.cpp" />
+    <ClCompile Include="src\game\engine\Characters\Crawler.cpp" />
     <ClCompile Include="src\game\engine\Characters\Soldier.cpp" />
     <ClCompile Include="src\game\engine\Damageable.cpp" />
     <ClCompile Include="src\game\engine\Entity.cpp" />
     <ClCompile Include="src\game\engine\EntityList.cpp" />
+    <ClCompile Include="src\game\engine\logic\ai\AiBasic.cpp" />
     <ClCompile Include="src\game\engine\logic\Camera.cpp" />
     <ClCompile Include="src\game\engine\logic\GunFire.cpp" />
     <ClCompile Include="src\game\engine\logic\Weapon.cpp" />
@@ -182,14 +183,15 @@
     <ClCompile Include="src\game\utility\TextFileData.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Crawler.hpp" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="src\game\engine\Character.hpp" />
     <ClInclude Include="src\game\engine\Characters\CharacterCreator.hpp" />
+    <ClInclude Include="src\game\engine\Characters\Crawler.hpp" />
     <ClInclude Include="src\game\engine\Characters\Soldier.hpp" />
     <ClInclude Include="src\game\engine\Damageable.hpp" />
     <ClInclude Include="src\game\engine\Entity.hpp" />
     <ClInclude Include="src\game\engine\EntityList.hpp" />
+    <ClInclude Include="src\game\engine\logic\ai\AiBasic.hpp" />
     <ClInclude Include="src\game\engine\logic\Camera.hpp" />
     <ClInclude Include="src\game\engine\logic\GunFire.hpp" />
     <ClInclude Include="src\game\engine\logic\Weapon.hpp" />

@@ -378,7 +378,7 @@ void Character::drawDebugData(sf::RenderTarget & window)
 	else debugString += " failing";
 	if (is_jumping) debugString += " jumping";
 
-	debugString += "\n maxspeed: " + std::to_string(max_walk_speed);
+	debugString += "\n health: " + std::to_string(health) + "/" + std::to_string(maxHealth);
 	Entity::drawDebugData(window);
 }
 
@@ -461,6 +461,8 @@ bool Character::setCharacter(TextElement * element)
 {
 
 	if (element == nullptr)return false;
+
+	setDamageable(element);
 
 	//Set speed of character
 	auto variableMaxSpeed = element->getVariableByName("Speed");

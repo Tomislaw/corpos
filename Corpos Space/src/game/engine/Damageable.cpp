@@ -24,6 +24,8 @@ void Damageable::setDamageable(TextElement * t)
 		return;
 	}
 
+
+	//collidable
 	bool isCollidable = false;
 
 	auto variableIsCollidable = t->getVariableByName("Collidable");
@@ -46,13 +48,23 @@ void Damageable::setDamageable(TextElement * t)
 	}
 	else
 	{
-		this->health = 0;
-		this->maxHealth = 0;
+		this->health = -1;
+		this->maxHealth = -1;
 
 	}
 
-	this->health = t->getVariableByName("Health")->toInt(0);
-	this->maxHealth = t->getVariableByName("MaxHealth")->toInt(0);
+	//DamageFilter
+	auto variableDamagefilter = t->getVariableByName("DamageFilter");
+	if (variableDamagefilter != nullptr)
+	{
+		this->damageFilter = variableDamagefilter->toInt(0);
+	}
+	else
+	{
+		this->damageFilter = -1;
+
+	}
+
 
 	//flags
 	if (maxHealth < 0) this->indestructable = true;
@@ -60,7 +72,6 @@ void Damageable::setDamageable(TextElement * t)
 	if (maxHealth >= 0 && health <= 0)destroy();
 	else destroyed = false;
 
-	this->damageFilter = t->getVariableByName("DamageFilter")->toInt(0);
 }
 
 void Damageable::damage(int hp)
