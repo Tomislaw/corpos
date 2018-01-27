@@ -8,7 +8,6 @@ Game::Game(int argc, char * argv[])
 	world.loadTextures("bin/graphics/textures/texture_definition.txt");
 	world.loadEntitylist("bin/graphics/sprite/sprite_definitions.txt");
 	cursor.setCursor();
-	TextContainer::getInstance()->getBasicFont();
 	fpsText.setFont(TextContainer::getInstance()->getBasicFont());
 }
 

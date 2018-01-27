@@ -66,9 +66,11 @@ void Entity::drawDebugData(sf::RenderTarget & window)
 	{
 		entityDebugText.setFont(TextContainer::getInstance()->getBasicFont());
 		isInitialized = true;
+		entityDebugText.setCharacterSize(10);
 	}
 	entityDebugText.setPosition(getPosition());
-	entityDebugText.setString(name + "\n" + std::to_string(position.x) + std::to_string(position.y));
+	entityDebugText.setString(name + "\n pos: " + std::to_string(position.x) + " "+  std::to_string(position.y) + "\n" + debugString);
+	window.draw(entityDebugText);
 }
 
 void Entity::setPosition(sf::Vector2f position)

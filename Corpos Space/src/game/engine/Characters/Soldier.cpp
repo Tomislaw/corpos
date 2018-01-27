@@ -142,7 +142,7 @@ void Soldier::aim(sf::Vector2f pos)
 void Soldier::setAnimation()
 {
 	
-	Character::setAnimation();
+	//Character::setAnimation();
 	if (walk_speed.x == 0 && velocity.y == 0)
 	{
 		if (isTurnedLeft)

@@ -30,12 +30,13 @@ public:
 	virtual bool contains(sf::FloatRect & rect)override;
 	virtual bool bulletCollision(Bullet * bullet)override;
 
+	virtual void drawDebugData(sf::RenderTarget & window) override;
 protected:
 	void impulseVelocity(sf::Vector2f v,float impulse,float delta);
 	void impulseVelocityX(float maxSpeed, float impulse, float delta);
 	int relationship_group = 0;
 	float max_walk_speed = 50;
-	bool is_standing = false;
+	//bool is_standing = false;
 
 	sf::Vector2f walk_speed;
 	sf::FloatRect collision_box;
@@ -45,7 +46,8 @@ protected:
 	GameSprite sprite;
 
 	bool isTurnedLeft = false;
-
+	bool is_jumping = false;
+	bool is_standing = false;
 	virtual void setAnimation();
 private:
 

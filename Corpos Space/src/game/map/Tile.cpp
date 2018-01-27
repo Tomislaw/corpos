@@ -422,7 +422,7 @@ void TileDefinition::setTile(TextElement * t, const sf::Texture * texture, std::
 	auto varConnectGroup = t->getVariableByName("ConnectGroup");
 	if(varConnectGroup!=nullptr)
 		connectGroup = varConnectGroup->toString(0);
-	else connectGroup = "";
+	else connectGroup = "-1";
 
 	auto r = t->getVariableByName("TileRect");
 

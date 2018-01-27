@@ -36,7 +36,6 @@ Character::~Character()
 
 void Character::walkLeft()
 {
-	
 	walk_speed.x = -max_walk_speed;
 	//isTurnedLeft = true;
 }
@@ -51,10 +50,11 @@ void Character::walkRight()
 void Character::jump()
 {
 	
-	if (velocity.y == 0)
+	if (is_standing)
 	{
 		setPosition(getPosition().x, getPosition().y - 1);
 		velocity.y -= 300;
+		is_jumping = true;
 	}
 }
 
@@ -76,6 +76,7 @@ void Character::update(float time)
 	this->sprite.setPosition(getPosition());;
 	this->sprite.update(time);
 
+	if (velocity.y != 0)is_standing = false;
 	//std::cout << name << " " << collision_box.left << " " << collision_box.top << " " << collision_box.width << " " << collision_box.height << std::endl;
 }
 /*
@@ -240,6 +241,8 @@ void Character::resolveCollision()
 		{
 			this->setPosition(getPosition().x, t1.y * 32 - collision_box.height - collision_box.top);
 			if (velocity.y>0)velocity.y = 0;
+			is_jumping = false;
+			is_standing = true;
 		}
 	}
 
@@ -368,6 +371,17 @@ bool Character::bulletCollision(Bullet * bullet)
 	return false;
 }
 
+void Character::drawDebugData(sf::RenderTarget & window)
+{
+	debugString = "";
+	if (is_standing)debugString += " standing";
+	else debugString += " failing";
+	if (is_jumping) debugString += " jumping";
+
+	debugString += "\n maxspeed: " + std::to_string(max_walk_speed);
+	Entity::drawDebugData(window);
+}
+
 void Character::impulseVelocity(sf::Vector2f v, float impulse, float delta)
 {
 
@@ -415,6 +429,7 @@ void Character::impulseVelocity(sf::Vector2f v, float impulse, float delta)
 
 void Character::impulseVelocityX(float maxSpeed, float impulse, float delta)
 {
+	
 	if (maxSpeed < 0 || maxSpeed == 0 && velocity.x>0)
 	{
 		if (velocity.x -impulse*delta > maxSpeed)
@@ -434,7 +449,7 @@ void Character::impulseVelocityX(float maxSpeed, float impulse, float delta)
 		}
 		else
 		{
-			velocity.x = maxSpeed;
+ 			velocity.x = maxSpeed;
 		}
 	}
 }
@@ -480,6 +495,9 @@ bool Character::setCharacter(TextElement * element)
 
 void Character::setAnimation()
 {
+	if (velocity.x < 0)isTurnedLeft = true;
+	if (velocity.x > 0)isTurnedLeft = false;
+
 	if (walk_speed.x == 0&& velocity.y==0)
 	{
 		if (isTurnedLeft)
@@ -493,16 +511,16 @@ void Character::setAnimation()
 	}
 	else
 	{
-		if(velocity.y==0)
+		if(!is_jumping)
 		{ 
-		if (isTurnedLeft)
-		{
-			sprite.SetAnimation("walk_left");
-		}
-		else
-		{
-			sprite.SetAnimation("walk_right");
-		}
+			if (isTurnedLeft)
+			{
+				sprite.SetAnimation("walk_left");
+			}
+			else
+			{
+				sprite.SetAnimation("walk_right");
+			}
 		}
 		else
 		{

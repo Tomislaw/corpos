@@ -55,6 +55,8 @@ protected:
 	sf::Vector2f position;
 	sf::Vector2f velocity;
 
+	std::string debugString;
+
 private:
 	sf::Vector2f attachOffset;
 	Entity * parent = nullptr;

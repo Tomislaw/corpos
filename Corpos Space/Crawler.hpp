@@ -20,9 +20,13 @@ public:
 	void update(float timew) override;
 	// aim at selected point
 	void aim(sf::Vector2f pos) override {};
+
+	void jump();
 protected:
 	//set animation, walking, shooting and other
 	void setAnimation() override;
+	float jumpSpeed = 0;
+	float walkSpeed = 0;
 private:
 
 
