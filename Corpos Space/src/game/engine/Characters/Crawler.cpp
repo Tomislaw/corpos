@@ -50,6 +50,10 @@ void Crawler::jump()
 
 }
 
+void Crawler::special(unsigned int type)
+{
+}
+
 void Crawler::setAnimation()
 {
 

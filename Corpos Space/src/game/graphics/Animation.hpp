@@ -21,6 +21,9 @@ public:
 	std::string GetName() { return name; };
 	// return true if animation is not looped and it is finished
 	bool is_finished() { return this->isfinished; };;
+
+	//finish animation;
+	void finish();
 	// reset animation
 	bool reset();
 	// return animation data in string

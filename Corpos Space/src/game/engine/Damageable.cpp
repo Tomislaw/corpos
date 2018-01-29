@@ -132,7 +132,7 @@ Bullet::Bullet(Bullet & bullet, sf::Vector2f position, sf::Vector2f velocity) : 
 {
 	previousPosition = position;
 	bulletSprite = GameSprite(bullet.bulletSprite);
-	this->damage = damage;
+	this->damage = bullet.damage;
 	bulletSprite.attachToEntity(this);
 	speed = sqrtf(velocity.x * velocity.x + velocity.y * velocity.y);
 }

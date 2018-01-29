@@ -46,6 +46,10 @@ public:
 	}
 
 	sf::Vector2f getPreviousPosition() {return previousPosition;}
+	void setPreviousPosition(sf::Vector2f v) {previousPosition = v;}
+	float getBulletDefaultSpeed() { return speed; }
+
+	GameSprite getSprite() {return bulletSprite;}
 protected:
 	// sprite of bullet
 	GameSprite bulletSprite;

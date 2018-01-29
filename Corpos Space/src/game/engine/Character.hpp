@@ -3,6 +3,9 @@
 #include "Entity.hpp"
 #include "game\graphics\GameSprite.hpp"
 #include "Damageable.hpp"
+
+
+
 class Tilemap;
 class EntityList;
 //Core class for all characters
@@ -11,8 +14,10 @@ class Character :
 	public Entity, public Damageable
 {
 public:
-	Character(Tilemap * tilemap);
-	Character(TextElement * data,Tilemap * tilemap);
+	enum SpecialType{ RELOAD, GRENADE, LONGJUMP };
+
+	Character(EntityList * entityListPtr);
+	Character(TextElement * data, EntityList * entityListPtr);
 	~Character();
 
 	virtual bool setCharacter(TextElement * element);
@@ -21,7 +26,11 @@ public:
 	virtual void walkRight();
 	virtual void jump();
 	//virtual void crouch();
-	//virtual void attack();
+	virtual void startAttack();
+	virtual void stopAttack();
+
+	virtual void special(unsigned int type) = 0;
+
 	virtual void stop();
 	virtual void update(float time) override;
 	void resolveCollision();
@@ -42,12 +51,14 @@ protected:
 	sf::FloatRect collision_box;
 
 	Tilemap * map = nullptr;
+	EntityList * entlistPtr = nullptr;
 
 	GameSprite sprite;
 
 	bool isTurnedLeft = false;
 	bool is_jumping = false;
 	bool is_standing = false;
+	bool is_attacking = false;
 	virtual void setAnimation();
 private:
 

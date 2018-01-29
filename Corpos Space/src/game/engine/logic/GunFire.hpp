@@ -6,11 +6,7 @@
 class EntityList;
 
 //Logic type entity used for spawning bullets
-//TODO: spawning bullet at correct angle
-//TODO: spawning bullets in correct position
-//TODO: start fire and stop fire functions - bullet frequency managing
 //TODO: implementation in weapon class and soldier class
-//TODO: finnish other needed stuff in this class
 class GunFire :
 	public Entity
 {
@@ -23,26 +19,37 @@ public:
 	void update(float delta) override;
 	void startFire();
 	void stopFire();
-	void setBulletDefinition(Bullet & bullet);;
+	void reload();
+	void setBulletDefinition(Bullet & bullet);
+	void aim(sf::Vector2f aimPos);
+
+	virtual void draw(sf::RenderTarget & window)override;
+	virtual void drawDebugData(sf::RenderTarget & window) override;
 protected:
-	float angle;
-	float barrelLenght;
+	//float angle;
+	float radians;
+	float barrelLenght = 40;
 	Bullet bulletType;
 	EntityList* entityListPtr;
-	float frequency;
+	float frequency = 5;
 
-	unsigned int magAmmo;
-	unsigned int maxMagAmmo;
+	unsigned int magAmmo = 30;
+	unsigned int maxMagAmmo = 30;
 
-	unsigned int ammo;
-	unsigned int maxAmmo;
+	unsigned int ammo = 90;
+	unsigned int maxAmmo = 90;
 
-	float reloadTime;
+	float reloadTime = 2;
+
+	GameSprite muzzle;
 private:
-	float timeToReload;
-	float timeToNextBullet;
+	float timeToReload = 0;
+	float timeToNextBullet = 0;
 	bool isFiring = false;
 	bool isReload = false;
+
+	void fireBullet(float timeAfterUpdate);
+
 };
 
 #endif

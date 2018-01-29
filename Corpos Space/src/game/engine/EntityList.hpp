@@ -53,6 +53,7 @@ public:
 	void setPlayerEntity(std::string name);
 	// set tilemap pointer used in detecting collision
 	void setTilemapPtr(Tilemap * ptr);
+	Tilemap * getTilemapPtr() { return tilemapPtr; }
 	//objects
 	
 private:

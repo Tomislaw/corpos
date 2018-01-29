@@ -13,8 +13,10 @@ Player::~Player()
 
 void Player::events(sf::Event & e)
 {
+	if (player == nullptr)return;
 	switch (e.type)
 	{
+
 	case sf::Event::KeyPressed:
 		if (e.key.code == sf::Keyboard::A)
 		{
@@ -33,6 +35,10 @@ void Player::events(sf::Event & e)
 		if (e.key.code == sf::Keyboard::S)
 		{
 		}
+		if (e.key.code == sf::Keyboard::R)
+		{
+			player->special(Character::RELOAD);
+		}
 		break;
 
 		case sf::Event::KeyReleased:
@@ -49,6 +55,20 @@ void Player::events(sf::Event & e)
 				else player->stop();
 			}
 		break;
+
+		case sf::Event::MouseButtonPressed:
+			if (e.key.code == sf::Mouse::Left)
+			{
+				player->startAttack();
+			}
+			break;
+		case sf::Event::MouseButtonReleased:
+			if (e.key.code == sf::Mouse::Left)
+			{
+				player->stopAttack();
+			}
+			break;
+
 		// we don't process other types of events
 	default:
 		break;

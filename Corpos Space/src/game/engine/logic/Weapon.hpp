@@ -18,6 +18,7 @@ public:
 private:
 	GameSprite weapon;
 
+	float weaponangle;
 };
 #endif
 

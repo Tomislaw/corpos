@@ -1,16 +1,24 @@
 #ifndef SOLDIER_HPP
 #define SOLDIER_HPP
 #include "D:\Microsoft Visual Studio\Projects\Corpos Space\Corpos Space\src\game\engine\Character.hpp"
+
+#include "game\engine\logic\GunFire.hpp"
 // Soldier character type
 // Humanoid character type
 // Using weapon and multiple sprite parts
+
 
 class Soldier :
 	public Character
 {
 public:
 	//Main constructor TODO: add null pointer handling
-	Soldier(TextElement * data, Tilemap * tilemap) : Character(data, tilemap) {};
+	Soldier(TextElement * data, EntityList * ptr) : Character(data, ptr), test(ptr, Bullet("bullet_blue", 10, sf::Vector2f(),sf::Vector2f(0,500)))
+	{
+		
+
+
+	};
 	~Soldier();
 
 	// used in constructor, argument is pointer to text element
@@ -22,6 +30,12 @@ public:
 	void update(float timew) override;
 	// aim at selected point
 	void aim(sf::Vector2f pos) override;
+
+	virtual void startAttack()override;
+	virtual void stopAttack()override;
+
+	void special(unsigned int type) override;
+
 protected:
 	//set animation, walking, shooting and other
 	void setAnimation() override;
@@ -38,6 +52,8 @@ private:
 	// legs sprite
 	GameSprite legs;
 	//TODO: add right hand sprite
+
+	GunFire test;
 
 	//offsets and orgins used for better looking in character moving and turning
 

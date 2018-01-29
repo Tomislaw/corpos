@@ -9,7 +9,7 @@ namespace CharacterCreator
 	// TODO: add null pointer handling
 	// TODO: add more character types
 
-	std::shared_ptr <Character> create(TextElement * data, Tilemap * tilemap);
+	std::shared_ptr <Character> create(TextElement * data, EntityList * entityListPtr);
 
 }
 

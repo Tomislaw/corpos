@@ -146,7 +146,7 @@ Variable *TextElement::getVariableByName(std::string var_name)
 		if (variable[i].name == var_name) return &variable[i];
 	}
 
-	Logger::e("ERROR IN " + name + ", VARIABLE " + var_name + " NOT FOUND!");
+	Logger::d("In " + name + ", variable " + var_name + " not found");
 	return nullptr;
 }
 
@@ -157,7 +157,7 @@ std::vector<Variable*> TextElement::getAllVariablesByName(std::string var_name)
 	{
 		if (variable[i].name == var_name) vars.push_back(&variable[i]);
 	}
-	if (vars.size()==0)Logger::e("ERROR IN " + name + ", VARIABLE " + var_name + " NOT FOUND!");;
+	if (vars.size()==0)Logger::d("In " + name + ", variable " + var_name + " not found");
 	
 	return vars;
 }

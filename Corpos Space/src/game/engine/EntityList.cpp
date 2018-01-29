@@ -32,7 +32,7 @@ void EntityList::loadMap(TextFileData & file)
 	auto map_characters = file.getAllElementsByName("CHARACTER");
 	for (int i = 0; i < map_characters.size(); i++)
 	{
-		auto p = CharacterCreator::create(map_characters.at(i), tilemapPtr);
+		auto p = CharacterCreator::create(map_characters.at(i), this);
 		addCharacter(p);
 	}
 
@@ -146,16 +146,7 @@ void EntityList::events(sf::Event & e)
 	switch (e.type)
 	{
 	case sf::Event::MouseButtonPressed:
-		if(e.mouseButton.button == sf::Mouse::Left)
-		{
-		sf::Vector2f v;
-		v = Cursor::getCursorPosition();
-		v -= player.getCharacter()->getPosition();
 
-		auto p = std::shared_ptr<Bullet>(new  Bullet("bullet_blue",150,player.getCharacter()->getPosition(),v));
-		addBullet(p);
-		}
-	
 		if (e.mouseButton.button == sf::Mouse::Right)
 		{
 			auto ents = tree.GetObjectsAt(player.getCharacter()->getPosition());

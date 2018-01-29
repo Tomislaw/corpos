@@ -102,6 +102,14 @@ bool Animation::SetAnimation(TextElement *spritetext)
 	return true;
 }
 
+void Animation::finish()
+{
+	current_time = frame.size()*animation_speed;
+	current_frame = frame.size() - 1;
+	isfinished = true;
+
+}
+
 bool Animation::reset()
 {
 	current_time = 0;

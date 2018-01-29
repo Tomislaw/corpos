@@ -110,6 +110,7 @@ void Entity::attachToEntity(Entity * entity)
 	this->parent = entity;
 	this->attachOffset.x = 0;
 	this->attachOffset.y = 0;
+	if(entity!=nullptr)
 	this->setPosition(entity->getPosition());
 }
 
@@ -117,6 +118,7 @@ void Entity::attachToEntityOffset(Entity * entity, sf::Vector2f offset)
 {
 	this->parent = entity;
 	this->attachOffset = offset;
+	if (entity != nullptr)
 	this->setPosition(parent->getPosition().x + attachOffset.x, parent->getPosition().y + attachOffset.y);
 }
 

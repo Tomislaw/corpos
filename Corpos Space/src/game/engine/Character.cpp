@@ -5,10 +5,13 @@
 
 
 
-Character::Character(Tilemap * tilemap) : Entity("char",sf::Vector2f(50,50))
+Character::Character(EntityList * ptr) : Entity("char",sf::Vector2f(50,50))
 {
+	this->entlistPtr = ptr;
+	if (ptr != nullptr)
+		map = entlistPtr->getTilemapPtr();
+
 	this->max_walk_speed = 200;
-	this->map = tilemap;
 
 
 	collision_box.top = -23;//-23
@@ -23,10 +26,12 @@ Character::Character(Tilemap * tilemap) : Entity("char",sf::Vector2f(50,50))
 	rect.setFillColor(sf::Color::Red);
 	
 }
-Character::Character(TextElement * data, Tilemap * tilemap) : Entity(data)
+Character::Character(TextElement * data, EntityList * ptr) : Entity(data)
 {
 
-	this->map = tilemap;
+	this->entlistPtr = ptr;
+	if (ptr != nullptr)
+		map = entlistPtr->getTilemapPtr();
 	this->sprite.attachToEntity(this);
 
 }
@@ -56,6 +61,16 @@ void Character::jump()
 		velocity.y -= 300;
 		is_jumping = true;
 	}
+}
+
+void Character::startAttack()
+{
+	is_attacking = true;
+}
+
+void Character::stopAttack()
+{
+	is_attacking = false;
 }
 
 
@@ -449,7 +464,7 @@ void Character::impulseVelocityX(float maxSpeed, float impulse, float delta)
 		}
 		else
 		{
- 			velocity.x = maxSpeed;
+			velocity.x = maxSpeed;
 		}
 	}
 }

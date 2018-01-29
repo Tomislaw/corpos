@@ -8,7 +8,7 @@ class Crawler :
 public:
 
 
-	Crawler(TextElement * data, Tilemap * tilemap) : Character(data, tilemap) {};
+	Crawler(TextElement * data, EntityList * ptr) : Character(data, ptr) {};
 	~Crawler();
 
 	// used in constructor, argument is pointer to text element
@@ -22,6 +22,8 @@ public:
 	void aim(sf::Vector2f pos) override {};
 
 	void jump();
+
+	void special(unsigned int type) override;
 protected:
 	//set animation, walking, shooting and other
 	void setAnimation() override;

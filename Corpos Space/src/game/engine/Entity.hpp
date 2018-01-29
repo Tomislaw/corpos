@@ -49,6 +49,7 @@ public:
 	void setAttachOffset(sf::Vector2f attachOffset) { this->attachOffset = attachOffset; };
 
 	virtual bool contains(sf::FloatRect &rect);
+
 protected:
 
 	std::string name;

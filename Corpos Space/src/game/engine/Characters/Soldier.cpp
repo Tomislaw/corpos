@@ -86,6 +86,8 @@ bool Soldier::setCharacter(TextElement * element)
 	weaponOffset = sf::Vector2f(1,20);
 	this->weapontest.attachToEntityOffset(this, weaponOffset);
 
+
+	test.attachToEntity(&weapontest);
 	return true;
 }
 
@@ -97,7 +99,9 @@ void Soldier::draw(sf::RenderTarget & window)
 	torse.draw(window);
 	head.draw(window);
 	weapontest.draw(window);
-	drawDebugData(window);
+	//drawDebugData(window);
+	test.draw(window);
+	test.drawDebugData(window);
 }
 
 void Soldier::update(float timew)
@@ -108,11 +112,13 @@ void Soldier::update(float timew)
 	torse.update(timew);
 	head.update(timew);
 	weapontest.update(timew);
-	
+	test.update(timew);
 }
 
 void Soldier::aim(sf::Vector2f pos)
 {
+	test.aim(pos);
+
 	float headangle = atan2(head.getPosition().y - pos.y, head.getPosition().x - pos.x) * 180 / 3.14;
 	float armangle = atan2(lhand.getPosition().y - pos.y, lhand.getPosition().x - pos.x) * 180 / 3.14;
 	float weaponangle = atan2(weapontest.getPosition().y - pos.y, weapontest.getPosition().x - pos.x) * 180 / 3.14;
@@ -137,6 +143,26 @@ void Soldier::aim(sf::Vector2f pos)
 	head.GetSprite().setRotation(headangle);
 	lhand.GetSprite().setRotation(armangle);
 	weapontest.GetSprite().setRotation(weaponangle);
+}
+
+void Soldier::startAttack()
+{
+	test.startFire();
+}
+
+void Soldier::stopAttack()
+{
+	test.stopFire();
+}
+
+void Soldier::special(unsigned int type)
+{
+	switch (type)
+	{
+	case Character::RELOAD:
+		test.reload();
+		break;
+	}
 }
 
 void Soldier::setAnimation()
