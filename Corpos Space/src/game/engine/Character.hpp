@@ -1,5 +1,6 @@
 #ifndef CHARACTER_HPP
 #define CHARACTER_HPP
+
 #include "Entity.hpp"
 #include "game\graphics\GameSprite.hpp"
 #include "Damageable.hpp"
@@ -8,6 +9,7 @@
 
 class Tilemap;
 class EntityList;
+class AiBasic;
 //Core class for all characters
 //TODO:comment this class
 class Character :
@@ -36,10 +38,17 @@ public:
 	void resolveCollision();
 	virtual void aim(sf::Vector2f pos) { ; };
 	virtual void draw(sf::RenderTarget &target)override;
-	virtual bool contains(sf::FloatRect & rect)override;
+	virtual bool intersects(sf::FloatRect & rect)override;
 	virtual bool bulletCollision(Bullet * bullet)override;
 
 	virtual void drawDebugData(sf::RenderTarget & window) override;
+
+	EntityList * getEntityListPtr() {
+		return entlistPtr;
+	}
+
+	AiBasic * getAiController() { return ai.get(); };
+
 protected:
 	void impulseVelocity(sf::Vector2f v,float impulse,float delta);
 	void impulseVelocityX(float maxSpeed, float impulse, float delta);
@@ -49,6 +58,8 @@ protected:
 
 	sf::Vector2f walk_speed;
 	sf::FloatRect collision_box;
+
+	std::unique_ptr<AiBasic> ai;
 
 	Tilemap * map = nullptr;
 	EntityList * entlistPtr = nullptr;

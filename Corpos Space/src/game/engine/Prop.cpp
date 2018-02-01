@@ -86,15 +86,15 @@ void Prop::update(float time)
 bool Prop::bulletCollision(Bullet * bullet)
 {
 	sf::FloatRect cb = sf::FloatRect(position.x + collisionBox.left, collisionBox.top + position.y, collisionBox.width, collisionBox.height);
-	bool contains = (cb.contains(bullet->getPosition()) || cb.contains(bullet->getPreviousPosition()));
+	bool intersects = (cb.contains(bullet->getPosition()) || cb.contains(bullet->getPreviousPosition()));
 
-	if (contains == false)
+	if (intersects == false)
 	{
 		// do line interesct here
 	}
 
 
-	if (contains)
+	if (intersects)
 	{
 
 		int damage = bullet->getDamage();
@@ -111,7 +111,7 @@ bool Prop::bulletCollision(Bullet * bullet)
 	return false;
 }
 
-bool Prop::contains(sf::FloatRect & rect)
+bool Prop::intersects(sf::FloatRect & rect)
 {
 	return rect.intersects(sf::FloatRect(position.x + collisionBox.left, collisionBox.top + position.y, collisionBox.width, collisionBox.height));
 }

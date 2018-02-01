@@ -48,7 +48,7 @@ public:
 	// set attach offset
 	void setAttachOffset(sf::Vector2f attachOffset) { this->attachOffset = attachOffset; };
 
-	virtual bool contains(sf::FloatRect &rect);
+	virtual bool intersects(sf::FloatRect &rect);
 
 protected:
 

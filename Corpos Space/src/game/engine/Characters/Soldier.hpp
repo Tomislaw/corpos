@@ -13,12 +13,7 @@ class Soldier :
 {
 public:
 	//Main constructor TODO: add null pointer handling
-	Soldier(TextElement * data, EntityList * ptr) : Character(data, ptr), test(ptr, Bullet("bullet_blue", 10, sf::Vector2f(),sf::Vector2f(0,500)))
-	{
-		
-
-
-	};
+	Soldier(TextElement * data, EntityList * ptr);;
 	~Soldier();
 
 	// used in constructor, argument is pointer to text element
@@ -39,6 +34,8 @@ public:
 protected:
 	//set animation, walking, shooting and other
 	void setAnimation() override;
+
+
 private:
 
 	// weapon sprite TODO: make custom class for weapon

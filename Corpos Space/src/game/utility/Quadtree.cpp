@@ -121,7 +121,7 @@ bool Quadtree::addToChildren(Entity *object)
 }
 bool Quadtree::Contains(Entity *object)
 {
-	return object->contains(rect);
+	return object->intersects(rect);
 }
 bool Quadtree::Contains(sf::Vector2f vec)
 {

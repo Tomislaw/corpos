@@ -1,6 +1,7 @@
 #include "EntityList.hpp"
 #include "World.hpp"
 #include "src\game\main\Cursor.hpp"
+#include "src\game\engine\logic\ai\AiBasic.hpp"
 std::vector <GameSprite> EntityList::game_sprite_definitions = std::vector <GameSprite>();
 
 EntityList::EntityList()
@@ -155,6 +156,7 @@ void EntityList::events(sf::Event & e)
 			{
 				std::cout << var->getName() << " " << var->getPosition().x << " " << var->getPosition().y << std::endl;
 			}
+			player.getCharacter()->getAiController()->addNode(sf::Vector2i(3, 6), NavigationNode::MOVE_LEFT);
 		}
 		break;
 

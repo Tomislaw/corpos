@@ -1,7 +1,7 @@
 #include "Character.hpp"
 #include "game\map\Tilemap.hpp"
 #include "EntityList.hpp"
-
+#include "game\engine\logic\ai\AiBasic.hpp"
 
 
 
@@ -76,12 +76,12 @@ void Character::stopAttack()
 
 void Character::stop()
 {
-	
 	walk_speed.x = 0;
 }
 
 void Character::update(float time)
 {
+	if (ai != nullptr)ai->update(time);
 	setAnimation();
 	impulseVelocityX(walk_speed.x,1200,time);
 	velocity.y += 1000 * time;
@@ -375,7 +375,7 @@ void Character::draw(sf::RenderTarget & target)
 	
 }
 
-bool Character::contains(sf::FloatRect & rect)
+bool Character::intersects(sf::FloatRect & rect)
 {
 	return sf::FloatRect(getPosition().x + collision_box.left, getPosition().y + collision_box.top,
 		collision_box.width, collision_box.height).intersects(rect);
@@ -399,7 +399,7 @@ void Character::drawDebugData(sf::RenderTarget & window)
 
 void Character::impulseVelocity(sf::Vector2f v, float impulse, float delta)
 {
-
+	
 	float impulseX = impulse;
 	if (v.x < 0 || v.x ==0 && velocity.x>0) impulseX = -impulse;
 	float impulseY = impulse;
@@ -444,7 +444,7 @@ void Character::impulseVelocity(sf::Vector2f v, float impulse, float delta)
 
 void Character::impulseVelocityX(float maxSpeed, float impulse, float delta)
 {
-	
+
 	if (maxSpeed < 0 || maxSpeed == 0 && velocity.x>0)
 	{
 		if (velocity.x -impulse*delta > maxSpeed)

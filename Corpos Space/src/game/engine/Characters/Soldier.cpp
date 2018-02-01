@@ -1,10 +1,20 @@
 #include "Soldier.hpp"
 #include "game\map\Tilemap.hpp"
 #include "game\engine\EntityList.hpp"
+#include "game\engine\logic\ai\AiBasic.hpp"
 
 
 
 
+
+//Main constructor TODO: add null pointer handling
+
+Soldier::Soldier(TextElement * data, EntityList * ptr) : Character(data, ptr), test(ptr, Bullet("bullet_blue", 10, sf::Vector2f(), sf::Vector2f(0, 500)))
+{
+
+	ai = std::unique_ptr<AiBasic>(new AiBasic(*this));
+
+}
 
 Soldier::~Soldier()
 {

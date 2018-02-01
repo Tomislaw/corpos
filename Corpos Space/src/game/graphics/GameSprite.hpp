@@ -48,7 +48,7 @@ public:
 	// return current animation
 	Animation * getCurrentAnimation();;
 
-	virtual bool contains(sf::FloatRect & rect) override;
+	virtual bool intersects(sf::FloatRect & rect) override;
 protected:
 	bool is_animated = true;
 	unsigned int current_animation = 0;

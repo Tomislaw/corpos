@@ -23,7 +23,7 @@ public:
 	// check if bullet is in prop
 	virtual bool bulletCollision(Bullet * bullet);
 
-	virtual bool contains(sf::FloatRect & rect)override;
+	virtual bool intersects(sf::FloatRect & rect)override;
 	// TODO: make line based collision test
 protected:
 	bool is_collidable = false;

@@ -163,7 +163,7 @@ Animation * GameSprite::getCurrentAnimation() {
 	else return nullptr;
 }
 
-bool GameSprite::contains(sf::FloatRect & rect)
+bool GameSprite::intersects(sf::FloatRect & rect)
 {
 
 	return rect.intersects(sprite.getGlobalBounds());

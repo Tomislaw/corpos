@@ -128,7 +128,7 @@ bool Entity::isAttached()
 	else return false;
 }
 
-bool Entity::contains(sf::FloatRect &rect)
+bool Entity::intersects(sf::FloatRect &rect)
 {
 	return rect.contains(getPosition());
 }
