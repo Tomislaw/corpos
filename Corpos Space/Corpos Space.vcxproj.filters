@@ -150,6 +150,9 @@
     <ClCompile Include="src\game\engine\Characters\Crawler.cpp">
       <Filter>Source Files\engine\characters</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\utility\AStarSearch.cpp">
+      <Filter>Source Files\utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game\main\stdafx.h">
@@ -241,6 +244,9 @@
     </ClInclude>
     <ClInclude Include="src\game\engine\Characters\Crawler.hpp">
       <Filter>Header Files\engine\characters</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\utility\AStarSearch.hpp">
+      <Filter>Header Files\utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
