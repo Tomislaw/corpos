@@ -226,15 +226,16 @@ void TextFileData::setElements(std::vector<TextElement> set)
 
 void TextFileData::replaceElement(TextElement replace, std::string id)
 {
-
-	for (int i = 0; i < element.size();i++)
+	for (int i = 0; i < element.size(); i++)
 	{
-		if (element[i].getVariableByName("Id")->var[0] == id)
+		if (element[i].name == id)
 		{
 			element[i] = replace;
 			break;
 		}
 	}
+
+
 }
 
 // load & save
