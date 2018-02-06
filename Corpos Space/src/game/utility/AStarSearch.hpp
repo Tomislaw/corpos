@@ -1,321 +1,774 @@
-#pragma once
-class AStarSearch
-{
-public:
-	AStarSearch();
-	~AStarSearch();
-};
+/*
+A* Algorithm Implementation using STL is
+Copyright (C)2001-2005 Justin Heyes-Jones
+Permission is given by the author to freely redistribute and
+include this code in any program as long as this credit is
+given where due.
 
+COVERED CODE IS PROVIDED UNDER THIS LICENSE ON AN "AS IS" BASIS,
+WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED,
+INCLUDING, WITHOUT LIMITATION, WARRANTIES THAT THE COVERED CODE
+IS FREE OF DEFECTS, MERCHANTABLE, FIT FOR A PARTICULAR PURPOSE
+OR NON-INFRINGING. THE ENTIRE RISK AS TO THE QUALITY AND
+PERFORMANCE OF THE COVERED CODE IS WITH YOU. SHOULD ANY COVERED
+CODE PROVE DEFECTIVE IN ANY RESPECT, YOU (NOT THE INITIAL
+DEVELOPER OR ANY OTHER CONTRIBUTOR) ASSUME THE COST OF ANY
+NECESSARY SERVICING, REPAIR OR CORRECTION. THIS DISCLAIMER OF
+WARRANTY CONSTITUTES AN ESSENTIAL PART OF THIS LICENSE. NO USE
+OF ANY COVERED CODE IS AUTHORIZED HEREUNDER EXCEPT UNDER
+THIS DISCLAIMER.
+
+Use at your own risk!
+*/
+
+#ifndef STLASTAR_H
+#define STLASTAR_H
+// used for text debugging
 #include <iostream>
-#include <iomanip>
-#include <math.h>
-#include <ctime>
-#include <string>
-#include <queue>
+#include <stdio.h>
+//#include <conio.h>
+#include <assert.h>
+
+// stl includes
+#include <algorithm>
+#include <set>
+#include <vector>
+#include <cfloat>
 
 using namespace std;
 
-const int IDIM = 8; // horizontal size of the squares
-const int JDIM = 6; // vertical size size of the squares
-const int NDIR = 4; // number of possible directions to go at any position
+// fast fixed size memory allocator, used for fast node memory management
+//#include "fsa.h"
 
-					// if NDIR = 4
-const int iDir[NDIR] = { 1, 0, -1, 0 };
-const int jDir[NDIR] = { 0, 1, 0, -1 };
+// Fixed size memory allocator can be disabled to compare performance
+// Uses std new and delete instead if you turn it off
+#define USE_FSA_MEMORY 0
 
-// if NDIR = 8
-//const int iDir[NDIR] = {1, 1, 0, -1, -1, -1, 0, 1};
-//const int jDir[NDIR] = {0, 1, 1, 1, 0, -1, -1, -1};
+// disable warning that debugging information has lines that are truncated
+// occurs in stl headers
+#if defined(WIN32) && defined(_WINDOWS)
+#pragma warning( disable : 4786 )
+#endif
 
-int squares[IDIM][JDIM];
+template <class T> class AStarState;
 
-// list of closed (check-out) nodes
-int closedNodes[IDIM][JDIM];
-
-// list of open (not-yet-checked-out) nodes
-int openNodes[IDIM][JDIM];
-
-// map of directions (0: East, 1: North, 2: West, 3: South) 
-int dirMap[IDIM][JDIM];
-
-struct Location
+// The AStar search class. UserState is the users state space type
+template <class UserState> class AStarSearch
 {
-	int row, col;
 
-	Location()
+public: // data
+
+	enum
 	{
-		row = col = 0;
+		SEARCH_STATE_NOT_INITIALISED,
+		SEARCH_STATE_SEARCHING,
+		SEARCH_STATE_SUCCEEDED,
+		SEARCH_STATE_FAILED,
+		SEARCH_STATE_OUT_OF_MEMORY,
+		SEARCH_STATE_INVALID
 	};
 
-	Location(int r, int c)
-	{
-		row = r;
-		col = c;
-	};
-};
 
-class Node
-{
-	// current position
-	int rPos;
-	int cPos;
-
-	// total distance already travelled to reach the node
-	int GValue;
-
-	// FValue = GValue + remaining distance estimate
-	int FValue;  // smaller FValue gets priority
+	// A node represents a possible state in the search
+	// The user provided state type is included inside this type
 
 public:
-	Node(const Location &loc, int g, int f)
+
+	class Node
 	{
-		rPos = loc.row; cPos = loc.col; GValue = g; FValue = f;
+	public:
+
+		Node *parent; // used during the search to record the parent of successor nodes
+		Node *child; // used after the search for the application to view the search in reverse
+
+		float g; // cost of this node + it's predecessors
+		float h; // heuristic estimate of distance to goal
+		float f; // sum of cumulative cost of predecessors and self and heuristic
+
+		Node() :
+			parent(0),
+			child(0),
+			g(0.0f),
+			h(0.0f),
+			f(0.0f)
+		{
+		}
+
+		UserState m_UserState;
+	};
+
+
+	// For sorting the heap the STL needs compare function that lets us compare
+	// the f value of two nodes
+
+	class HeapCompare_f
+	{
+	public:
+
+		bool operator() (const Node *x, const Node *y) const
+		{
+			return x->f > y->f;
+		}
+	};
+
+
+public: // methods
+
+
+		// constructor just initialises private data
+	AStarSearch() :
+		m_State(SEARCH_STATE_NOT_INITIALISED),
+		m_CurrentSolutionNode(NULL),
+
+		m_AllocateNodeCount(0),
+		m_CancelRequest(false)
+	{
 	}
 
-	Location getLocation() const { return Location(rPos, cPos); }
-	int getGValue() const { return GValue; }
-	int getFValue() const { return FValue; }
+	AStarSearch(int MaxNodes) :
+		m_State(SEARCH_STATE_NOT_INITIALISED),
+		m_CurrentSolutionNode(NULL),
 
-	void calculateFValue(const Location& locDest)
+		m_AllocateNodeCount(0),
+		m_CancelRequest(false)
 	{
-		FValue = GValue + getHValue(locDest) * 10;
+	}
+
+	// call at any time to cancel the search and free up all the memory
+	void CancelSearch()
+	{
+		m_CancelRequest = true;
+	}
+
+	// Set Start and goal states
+	void SetStartAndGoalStates(UserState &Start, UserState &Goal)
+	{
+		m_CancelRequest = false;
+
+		m_Start = AllocateNode();
+		m_Goal = AllocateNode();
+
+		assert((m_Start != NULL && m_Goal != NULL));
+
+		m_Start->m_UserState = Start;
+		m_Goal->m_UserState = Goal;
+
+		m_State = SEARCH_STATE_SEARCHING;
+
+		// Initialise the AStar specific parts of the Start Node
+		// The user only needs fill out the state information
+
+		m_Start->g = 0;
+		m_Start->h = m_Start->m_UserState.GoalDistanceEstimate(m_Goal->m_UserState);
+		m_Start->f = m_Start->g + m_Start->h;
+		m_Start->parent = 0;
+
+		// Push the start node on the Open list
+
+		m_OpenList.push_back(m_Start); // heap now unsorted
+
+									   // Sort back element into heap
+		push_heap(m_OpenList.begin(), m_OpenList.end(), HeapCompare_f());
+
+		// Initialise counter for search steps
+		m_Steps = 0;
+	}
+
+	// Advances search one step 
+	unsigned int SearchStep()
+	{
+		// Firstly break if the user has not initialised the search
+		assert((m_State > SEARCH_STATE_NOT_INITIALISED) &&
+			(m_State < SEARCH_STATE_INVALID));
+
+		// Next I want it to be safe to do a searchstep once the search has succeeded...
+		if ((m_State == SEARCH_STATE_SUCCEEDED) ||
+			(m_State == SEARCH_STATE_FAILED)
+			)
+		{
+			return m_State;
+		}
+
+		// Failure is defined as emptying the open list as there is nothing left to 
+		// search...
+		// New: Allow user abort
+		if (m_OpenList.empty() || m_CancelRequest)
+		{
+			FreeAllNodes();
+			m_State = SEARCH_STATE_FAILED;
+			return m_State;
+		}
+
+		// Incremement step count
+		m_Steps++;
+
+		// Pop the best node (the one with the lowest f) 
+		Node *n = m_OpenList.front(); // get pointer to the node
+		pop_heap(m_OpenList.begin(), m_OpenList.end(), HeapCompare_f());
+		m_OpenList.pop_back();
+
+		// Check for the goal, once we pop that we're done
+		if (n->m_UserState.IsGoal(m_Goal->m_UserState))
+		{
+			// The user is going to use the Goal Node he passed in 
+			// so copy the parent pointer of n 
+			m_Goal->parent = n->parent;
+			m_Goal->g = n->g;
+
+			// A special case is that the goal was passed in as the start state
+			// so handle that here
+			if (false == n->m_UserState.IsSameState(m_Start->m_UserState))
+			{
+				FreeNode(n);
+
+				// set the child pointers in each node (except Goal which has no child)
+				Node *nodeChild = m_Goal;
+				Node *nodeParent = m_Goal->parent;
+
+				do
+				{
+					nodeParent->child = nodeChild;
+
+					nodeChild = nodeParent;
+					nodeParent = nodeParent->parent;
+
+				} while (nodeChild != m_Start); // Start is always the first node by definition
+
+			}
+
+			// delete nodes that aren't needed for the solution
+			FreeUnusedNodes();
+
+			m_State = SEARCH_STATE_SUCCEEDED;
+
+			return m_State;
+		}
+		else // not goal
+		{
+
+			// We now need to generate the successors of this node
+			// The user helps us to do this, and we keep the new nodes in
+			// m_Successors ...
+
+			m_Successors.clear(); // empty vector of successor nodes to n
+
+								  // User provides this functions and uses AddSuccessor to add each successor of
+								  // node 'n' to m_Successors
+			bool ret = n->m_UserState.GetSuccessors(this, n->parent ? &n->parent->m_UserState : NULL);
+
+			if (!ret)
+			{
+
+				typename vector< Node * >::iterator successor;
+
+				// free the nodes that may previously have been added 
+				for (successor = m_Successors.begin(); successor != m_Successors.end(); successor++)
+				{
+					FreeNode((*successor));
+				}
+
+				m_Successors.clear(); // empty vector of successor nodes to n
+
+									  // free up everything else we allocated
+				FreeAllNodes();
+
+				m_State = SEARCH_STATE_OUT_OF_MEMORY;
+				return m_State;
+			}
+
+			// Now handle each successor to the current node ...
+			for (typename vector< Node * >::iterator successor = m_Successors.begin(); successor != m_Successors.end(); successor++)
+			{
+
+				// 	The g value for this successor ...
+				float newg = n->g + n->m_UserState.GetCost((*successor)->m_UserState);
+
+				// Now we need to find whether the node is on the open or closed lists
+				// If it is but the node that is already on them is better (lower g)
+				// then we can forget about this successor
+
+				// First linear search of open list to find node
+
+				typename vector< Node * >::iterator openlist_result;
+
+				for (openlist_result = m_OpenList.begin(); openlist_result != m_OpenList.end(); openlist_result++)
+				{
+					if ((*openlist_result)->m_UserState.IsSameState((*successor)->m_UserState))
+					{
+						break;
+					}
+				}
+
+				if (openlist_result != m_OpenList.end())
+				{
+
+					// we found this state on open
+
+					if ((*openlist_result)->g <= newg)
+					{
+						FreeNode((*successor));
+
+						// the one on Open is cheaper than this one
+						continue;
+					}
+				}
+
+				typename vector< Node * >::iterator closedlist_result;
+
+				for (closedlist_result = m_ClosedList.begin(); closedlist_result != m_ClosedList.end(); closedlist_result++)
+				{
+					if ((*closedlist_result)->m_UserState.IsSameState((*successor)->m_UserState))
+					{
+						break;
+					}
+				}
+
+				if (closedlist_result != m_ClosedList.end())
+				{
+
+					// we found this state on closed
+
+					if ((*closedlist_result)->g <= newg)
+					{
+						// the one on Closed is cheaper than this one
+						FreeNode((*successor));
+
+						continue;
+					}
+				}
+
+				// This node is the best node so far with this particular state
+				// so lets keep it and set up its AStar specific data ...
+
+				(*successor)->parent = n;
+				(*successor)->g = newg;
+				(*successor)->h = (*successor)->m_UserState.GoalDistanceEstimate(m_Goal->m_UserState);
+				(*successor)->f = (*successor)->g + (*successor)->h;
+
+				// Remove successor from closed if it was on it
+
+				if (closedlist_result != m_ClosedList.end())
+				{
+					// remove it from Closed
+					FreeNode((*closedlist_result));
+					m_ClosedList.erase(closedlist_result);
+
+					// Fix thanks to ...
+					// Greg Douglas <gregdouglasmail@gmail.com>
+					// who noticed that this code path was incorrect
+					// Here we have found a new state which is already CLOSED
+					// anus
+
+				}
+
+				// Update old version of this node
+				if (openlist_result != m_OpenList.end())
+				{
+
+					FreeNode((*openlist_result));
+					m_OpenList.erase(openlist_result);
+
+					// re-make the heap 
+					// make_heap rather than sort_heap is an essential bug fix
+					// thanks to Mike Ryynanen for pointing this out and then explaining
+					// it in detail. sort_heap called on an invalid heap does not work
+					make_heap(m_OpenList.begin(), m_OpenList.end(), HeapCompare_f());
+
+				}
+
+				// heap now unsorted
+				m_OpenList.push_back((*successor));
+
+				// sort back element into heap
+				push_heap(m_OpenList.begin(), m_OpenList.end(), HeapCompare_f());
+
+			}
+
+			// push n onto Closed, as we have expanded it now
+
+			m_ClosedList.push_back(n);
+
+		} // end else (not goal so expand)
+
+		return m_State; // Succeeded bool is false at this point. 
+
+	}
+
+	// User calls this to add a successor to a list of successors
+	// when expanding the search frontier
+	bool AddSuccessor(UserState &State)
+	{
+		Node *node = AllocateNode();
+
+		if (node)
+		{
+			node->m_UserState = State;
+
+			m_Successors.push_back(node);
+
+			return true;
+		}
+
+		return false;
+	}
+
+	// Free the solution nodes
+	// This is done to clean up all used Node memory when you are done with the
+	// search
+	void FreeSolutionNodes()
+	{
+		Node *n = m_Start;
+
+		if (m_Start->child)
+		{
+			do
+			{
+				Node *del = n;
+				n = n->child;
+				FreeNode(del);
+
+				del = NULL;
+
+			} while (n != m_Goal);
+
+			FreeNode(n); // Delete the goal
+
+		}
+		else
+		{
+			// if the start node is the solution we need to just delete the start and goal
+			// nodes
+			FreeNode(m_Start);
+			FreeNode(m_Goal);
+		}
+
+	}
+
+	// Functions for traversing the solution
+
+	// Get start node
+	UserState *GetSolutionStart()
+	{
+		m_CurrentSolutionNode = m_Start;
+		if (m_Start)
+		{
+			return &m_Start->m_UserState;
+		}
+		else
+		{
+			return NULL;
+		}
+	}
+
+	// Get next node
+	UserState *GetSolutionNext()
+	{
+		if (m_CurrentSolutionNode)
+		{
+			if (m_CurrentSolutionNode->child)
+			{
+
+				Node *child = m_CurrentSolutionNode->child;
+
+				m_CurrentSolutionNode = m_CurrentSolutionNode->child;
+
+				return &child->m_UserState;
+			}
+		}
+
+		return NULL;
+	}
+
+	// Get end node
+	UserState *GetSolutionEnd()
+	{
+		m_CurrentSolutionNode = m_Goal;
+		if (m_Goal)
+		{
+			return &m_Goal->m_UserState;
+		}
+		else
+		{
+			return NULL;
+		}
+	}
+
+	// Step solution iterator backwards
+	UserState *GetSolutionPrev()
+	{
+		if (m_CurrentSolutionNode)
+		{
+			if (m_CurrentSolutionNode->parent)
+			{
+
+				Node *parent = m_CurrentSolutionNode->parent;
+
+				m_CurrentSolutionNode = m_CurrentSolutionNode->parent;
+
+				return &parent->m_UserState;
+			}
+		}
+
+		return NULL;
+	}
+
+	// Get final cost of solution
+	// Returns FLT_MAX if goal is not defined or there is no solution
+	float GetSolutionCost()
+	{
+		if (m_Goal && m_State == SEARCH_STATE_SUCCEEDED)
+		{
+			return m_Goal->g;
+		}
+		else
+		{
+			return FLT_MAX;
+		}
+	}
+
+	// For educational use and debugging it is useful to be able to view
+	// the open and closed list at each step, here are two functions to allow that.
+
+	UserState *GetOpenListStart()
+	{
+		float f, g, h;
+		return GetOpenListStart(f, g, h);
+	}
+
+	UserState *GetOpenListStart(float &f, float &g, float &h)
+	{
+		iterDbgOpen = m_OpenList.begin();
+		if (iterDbgOpen != m_OpenList.end())
+		{
+			f = (*iterDbgOpen)->f;
+			g = (*iterDbgOpen)->g;
+			h = (*iterDbgOpen)->h;
+			return &(*iterDbgOpen)->m_UserState;
+		}
+
+		return NULL;
+	}
+
+	UserState *GetOpenListNext()
+	{
+		float f, g, h;
+		return GetOpenListNext(f, g, h);
+	}
+
+	UserState *GetOpenListNext(float &f, float &g, float &h)
+	{
+		iterDbgOpen++;
+		if (iterDbgOpen != m_OpenList.end())
+		{
+			f = (*iterDbgOpen)->f;
+			g = (*iterDbgOpen)->g;
+			h = (*iterDbgOpen)->h;
+			return &(*iterDbgOpen)->m_UserState;
+		}
+
+		return NULL;
+	}
+
+	UserState *GetClosedListStart()
+	{
+		float f, g, h;
+		return GetClosedListStart(f, g, h);
+	}
+
+	UserState *GetClosedListStart(float &f, float &g, float &h)
+	{
+		iterDbgClosed = m_ClosedList.begin();
+		if (iterDbgClosed != m_ClosedList.end())
+		{
+			f = (*iterDbgClosed)->f;
+			g = (*iterDbgClosed)->g;
+			h = (*iterDbgClosed)->h;
+
+			return &(*iterDbgClosed)->m_UserState;
+		}
+
+		return NULL;
+	}
+
+	UserState *GetClosedListNext()
+	{
+		float f, g, h;
+		return GetClosedListNext(f, g, h);
+	}
+
+	UserState *GetClosedListNext(float &f, float &g, float &h)
+	{
+		iterDbgClosed++;
+		if (iterDbgClosed != m_ClosedList.end())
+		{
+			f = (*iterDbgClosed)->f;
+			g = (*iterDbgClosed)->g;
+			h = (*iterDbgClosed)->h;
+
+			return &(*iterDbgClosed)->m_UserState;
+		}
+
+		return NULL;
+	}
+
+	// Get the number of steps
+
+	int GetStepCount() { return m_Steps; }
+
+	void EnsureMemoryFreed()
+	{
+
+
+	}
+
+private: // methods
+
+		 // This is called when a search fails or is cancelled to free all used
+		 // memory 
+	void FreeAllNodes()
+	{
+		// iterate open list and delete all nodes
+		typename vector< Node * >::iterator iterOpen = m_OpenList.begin();
+
+		while (iterOpen != m_OpenList.end())
+		{
+			Node *n = (*iterOpen);
+			FreeNode(n);
+
+			iterOpen++;
+		}
+
+		m_OpenList.clear();
+
+		// iterate closed list and delete unused nodes
+		typename vector< Node * >::iterator iterClosed;
+
+		for (iterClosed = m_ClosedList.begin(); iterClosed != m_ClosedList.end(); iterClosed++)
+		{
+			Node *n = (*iterClosed);
+			FreeNode(n);
+		}
+
+		m_ClosedList.clear();
+
+		// delete the goal
+
+		FreeNode(m_Goal);
 	}
 
 
-	void updateGValue(const int & i) // i: direction
+	// This call is made by the search class when the search ends. A lot of nodes may be
+	// created that are still present when the search ends. They will be deleted by this 
+	// routine once the search ends
+	void FreeUnusedNodes()
 	{
-		GValue += (NDIR == 8 ? (i % 2 == 0 ? 10 : 14) : 10);
+		// iterate open list and delete unused nodes
+		typename vector< Node * >::iterator iterOpen = m_OpenList.begin();
+
+		while (iterOpen != m_OpenList.end())
+		{
+			Node *n = (*iterOpen);
+
+			if (!n->child)
+			{
+				FreeNode(n);
+
+				n = NULL;
+			}
+
+			iterOpen++;
+		}
+
+		m_OpenList.clear();
+
+		// iterate closed list and delete unused nodes
+		typename vector< Node * >::iterator iterClosed;
+
+		for (iterClosed = m_ClosedList.begin(); iterClosed != m_ClosedList.end(); iterClosed++)
+		{
+			Node *n = (*iterClosed);
+
+			if (!n->child)
+			{
+				FreeNode(n);
+				n = NULL;
+
+			}
+		}
+
+		m_ClosedList.clear();
+
 	}
 
-	// Estimation function for the remaining distance to the goal.
-	const int & getHValue(const Location& locDest) const
+	// Node memory management
+	Node *AllocateNode()
 	{
-		static int rd, cd, d;
-		rd = locDest.row - rPos;
-		cd = locDest.col - cPos;
 
-		// Euclidian Distance
-		// d = static_cast<int>(sqrt((double)(rd*rd+cd*cd)));
-
-		// Manhattan distance
-		d = abs(rd) + abs(cd);
-
-		// Chebyshev distance
-		//d = max(abs(rd), abs(cd));
-
-		return(d);
+#if !USE_FSA_MEMORY
+		Node *p = new Node;
+		return p;
+#endif
 	}
 
-	// Determine FValue (in the priority queue)
-	friend bool operator<(const Node & a, const Node & b)
+	void FreeNode(Node *node)
 	{
-		return a.getFValue() > b.getFValue();
+
+		m_AllocateNodeCount--;
+
+#if !USE_FSA_MEMORY
+		delete node;
+
+
+#endif
 	}
+
+private: // data
+
+		 // Heap (simple vector but used as a heap, cf. Steve Rabin's game gems article)
+	vector< Node *> m_OpenList;
+
+	// Closed list is a vector.
+	vector< Node * > m_ClosedList;
+
+	// Successors is a vector filled out by the user each type successors to a node
+	// are generated
+	vector< Node * > m_Successors;
+
+	// State
+	unsigned int m_State;
+
+	// Counts steps
+	int m_Steps;
+
+	// Start and goal state pointers
+	Node *m_Start;
+	Node *m_Goal;
+
+	Node *m_CurrentSolutionNode;
+
+
+
+	//Debug : need to keep these two iterators around
+	// for the user Dbg functions
+	typename vector< Node * >::iterator iterDbgOpen;
+	typename vector< Node * >::iterator iterDbgClosed;
+
+	// debugging : count memory allocation and free's
+	int m_AllocateNodeCount;
+
+	bool m_CancelRequest;
+
 };
 
-// A-star algorithm.
-// The path returned is a string of direction digits.
-string pathFind(const Location &locStart,
-	const Location &locFinish )
-
+template <class T> class AStarState
 {
-	// list of open (not-yet-checked-out) nodes
-	static priority_queue<Node> q[2];
+public:
+	virtual ~AStarState() {}
+	virtual float GoalDistanceEstimate(T &nodeGoal) = 0; // Heuristic function which computes the estimated cost to the goal node
+	virtual bool IsGoal(T &nodeGoal) = 0; // Returns true if this node is the goal node
+	virtual bool GetSuccessors(AStarSearch<T> *astarsearch, T *parent_node) = 0; // Retrieves all successors to this node and adds them via astarsearch.addSuccessor()
+	virtual float GetCost(T &successor) = 0; // Computes the cost of travelling from this node to the successor node
+	virtual bool IsSameState(T &rhs) = 0; // Returns true if this node is the same as the rhs node
+};
 
-	// q index
-	static int qi;
-
-	static Node* pNode1;
-	static Node* pNode2;
-	static int i, j, row, col, iNext, jNext;
-	static char c;
-	qi = 0;
-
-	// reset the Node lists (0 = ".")
-	for (j = 0; j < JDIM; j++) {
-		for (i = 0; i < IDIM; i++) {
-			closedNodes[i][j] = 0;
-			openNodes[i][j] = 0;
-		}
-	}
-
-	// create the start node and push into list of open nodes
-	pNode1 = new Node(locStart, 0, 0);
-	pNode1->calculateFValue(locFinish);
-	q[qi].push(*pNode1);
-
-	// A* search
-	while (!q[qi].empty()) {
-		// get the current node w/ the lowest FValue
-		// from the list of open nodes
-		pNode1 = new Node(q[qi].top().getLocation(),
-			q[qi].top().getGValue(), q[qi].top().getFValue());
-
-		row = (pNode1->getLocation()).row;
-		col = pNode1->getLocation().col;
-		cout << "row, col=" << row << "," << col << endl;
-
-		// remove the node from the open list
-		q[qi].pop();
-		openNodes[row][col] = 0;
-
-		// mark it on the closed nodes list
-		closedNodes[row][col] = 1;
-
-		// stop searching when the goal state is reached
-		if (row == locFinish.row && col == locFinish.col) {
-			// drawing direction map
-			cout << endl;
-			for (j = JDIM - 1; j >= 0; j--) {
-				for (i = 0; i < IDIM; i++) {
-					cout << dirMap[i][j];
-				}
-				cout << endl;
-			}
-			cout << endl;
-
-			// generate the path from finish to start from dirMap
-			string path = "";
-			while (!(row == locStart.row && col == locStart.col)) {
-				j = dirMap[row][col];
-				c = '0' + (j + NDIR / 2) % NDIR;
-				path = c + path;
-				row += iDir[j];
-				col += jDir[j];
-			}
-
-			// garbage collection
-			delete pNode1;
-
-			// empty the leftover nodes
-			while (!q[qi].empty()) q[qi].pop();
-			return path;
-		}
-
-		// generate moves in all possible directions
-		for (i = 0; i < NDIR; i++) {
-			iNext = row + iDir[i];
-			jNext = col + jDir[i];
-
-			// if not wall (obstacle) nor in the closed list
-			if (!(iNext < 0 || iNext > IDIM - 1 || jNext < 0 || jNext > JDIM - 1 ||
-				squares[iNext][jNext] == 1 || closedNodes[iNext][jNext] == 1)) {
-
-				// generate a child node
-				pNode2 = new Node(Location(iNext, jNext), pNode1->getGValue(), pNode1->getFValue());
-				pNode2->updateGValue(i);
-				pNode2->calculateFValue(locFinish);
-
-				// if it is not in the open list then add into that
-				if (openNodes[iNext][jNext] == 0) {
-					openNodes[iNext][jNext] = pNode2->getFValue();
-					q[qi].push(*pNode2);
-					// mark its parent node direction
-					dirMap[iNext][jNext] = (i + NDIR / 2) % NDIR;
-				}
-
-				// already in the open list
-				else if (openNodes[iNext][jNext] > pNode2->getFValue()) {
-					// update the FValue info
-					openNodes[iNext][jNext] = pNode2->getFValue();
-
-					// update the parent direction info,  mark its parent node direction
-					dirMap[iNext][jNext] = (i + NDIR / 2) % NDIR;
-
-					// replace the node by emptying one q to the other one
-					// except the node to be replaced will be ignored
-					// and the new node will be pushed in instead
-					while (!(q[qi].top().getLocation().row == iNext &&
-						q[qi].top().getLocation().col == jNext)) {
-						q[1 - qi].push(q[qi].top());
-						q[qi].pop();
-					}
-
-					// remove the wanted node
-					q[qi].pop();
-
-					// empty the larger size q to the smaller one
-					if (q[qi].size() > q[1 - qi].size()) qi = 1 - qi;
-					while (!q[qi].empty()) {
-						q[1 - qi].push(q[qi].top());
-						q[qi].pop();
-					}
-					qi = 1 - qi;
-
-					// add the better node instead
-					q[qi].push(*pNode2);
-				}
-				else delete pNode2;
-			}
-		}
-		delete pNode1;
-	}
-	// no path found
-	return "";
-}
-/*
-int main()
-{
-	// create empty squares
-	for (int j = 0; j < JDIM; j++) {
-		for (int i = 0; i < IDIM; i++) squares[i][j] = 0;
-	}
-
-	// make wall
-	squares[4][2] = 1;
-	squares[4][3] = 1;
-	squares[4][4] = 1;
-
-	// starting and ending positions
-	int iStart = 2, jStart = 3;
-	int iEnd = 6, jEnd = 3;
-
-	cout << "Grid Size (IDIM,JDIM): " << IDIM << "," << JDIM << endl;
-	cout << "Start: " << iStart << "," << jStart << endl;
-	cout << "Finish: " << iEnd << "," << jEnd << endl;
-
-	clock_t start = clock();
-
-	// get the path
-	string path = pathFind(Location(iStart, jStart), Location(iEnd, jEnd));
-
-	clock_t end = clock();
-	double time = double(end - start);
-	cout << "Time (ms): " << time << endl;
-	cout << "path: " << path << endl;
-
-	// follow the path on the squares and display it 
-	if (path.length() > 0) {
-		char c;
-		int m, n;
-		int i = iStart;
-		int j = jStart;
-		squares[i][j] = 2;
-		for (m = 0; m < path.length(); m++) {
-			c = path.at(m);
-			n = atoi(&c);
-			i = i + iDir[n];
-			j = j + jDir[n];
-			squares[i][j] = 3;
-		}
-		squares[i][j] = 4;
-
-		// display the squares with the path
-		for (j = JDIM - 1; j >= 0; j--) {
-			for (i = 0; i < IDIM; i++) {
-				if (squares[i][j] == 0)
-					cout << ".";
-				else if (squares[i][j] == 1)
-					cout << "O"; //obstacle
-				else if (squares[i][j] == 2)
-					cout << "I"; //Initial
-				else if (squares[i][j] == 3)
-					cout << "P"; //path
-				else if (squares[i][j] == 4)
-					cout << "F"; //final
-			}
-			cout << endl;
-		}
-	}
-	return(0);
-}*/
+#endif

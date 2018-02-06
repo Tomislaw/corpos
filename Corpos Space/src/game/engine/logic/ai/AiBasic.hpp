@@ -3,18 +3,20 @@
 #include "game\engine\Character.hpp"
 #include <queue>
 
-struct NavigationNode
+
+
+
+struct NavNode
 {
-	sf::Vector2f position;
+	sf::Vector2i tilePosition;
 	int type;
 	float timeToSpendOn = 2;
 
 	bool isReached(Character & character)
 	{
-		auto rect = sf::FloatRect(position - sf::Vector2f(10, 10), sf::Vector2f(20, 20));
-		return character.intersects(rect);
+		return character.getStandingTileId() == tilePosition;
 	}
-	enum Type { MOVE_LEFT, MOVE_RIGHT, MOVE_UP, MOVE_DOWN, JUMP };
+	enum Type {LADDER, WALK, JUMP };
 };
 
 
@@ -32,12 +34,14 @@ public:
 		;
 	}
 
+	virtual void drawDebugData(sf::RenderTarget &target);
+
 	enum Behavior { IDLE, ALERTED,ENGAGE,SUSPICIOUS,PANIC };
 
 	void addNode(sf::Vector2i tileId, int type)
 	{
-		NavigationNode node;
-		node.position = sf::Vector2f(tileId.x * 32 + 16, tileId.y * 32 + 16);
+		NavNode node;
+		node.tilePosition = tileId;
 		node.type = type;
 		navigationNodes.push(node);
 	}
@@ -46,10 +50,11 @@ protected:
 	EntityList * entityListPtr = nullptr;
 	Tilemap * tilemapPtr = nullptr;
 
-	std::queue<NavigationNode> navigationNodes;
+	std::queue<NavNode> navigationNodes;
 
 	int behavior = 0;
-
+	bool isInitialized = false;
+	sf::Text entityDebugText;
 
 
 };

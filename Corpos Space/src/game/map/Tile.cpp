@@ -126,8 +126,14 @@ void Tile::setDisplayType(bool LT, bool T, bool TR, bool L, bool R, bool LB, boo
 
 void Tile::setPosition(sf::Vector2f pos)
 {
-	sf::Vector2u tileSize(32, 32);
 	Entity::setPosition(pos);
+	if (tile.size() < 16)
+	{
+		Logger::e("Size of tile vector is to small. Current is " + std::to_string(tile.size()));
+		return;
+	}
+	sf::Vector2u tileSize(32, 32);
+
 	if (singleImage)
 	{
 		tile[0]->position = sf::Vector2f(pos.x + tileRect.left , pos.y + tileRect.top);

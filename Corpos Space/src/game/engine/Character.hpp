@@ -12,6 +12,17 @@ class EntityList;
 class AiBasic;
 //Core class for all characters
 //TODO:comment this class
+
+
+struct NavigationNodeCharacterData
+{
+	unsigned int characterWidth = 1;
+	unsigned int characterHeight = 2;
+	unsigned int characterJumpHeight = 1;
+	bool canUseLadder = true;
+	bool isFlyingOne = false;
+};
+
 class Character :
 	public Entity, public Damageable
 {
@@ -24,6 +35,8 @@ public:
 
 	virtual bool setCharacter(TextElement * element);
 
+	virtual void walkUp();
+	virtual void walkDown();
 	virtual void walkLeft();
 	virtual void walkRight();
 	virtual void jump();
@@ -49,6 +62,12 @@ public:
 
 	AiBasic * getAiController() { return ai.get(); };
 
+	sf::Vector2i getStandingTileId();
+
+	const  NavigationNodeCharacterData & getNavigationNodeCharacterData()
+	{
+		return navCharData;
+	}
 protected:
 	void impulseVelocity(sf::Vector2f v,float impulse,float delta);
 	void impulseVelocityX(float maxSpeed, float impulse, float delta);
@@ -71,10 +90,12 @@ protected:
 	bool is_standing = false;
 	bool is_attacking = false;
 	virtual void setAnimation();
+
+	NavigationNodeCharacterData navCharData;
 private:
 
 	// returns on which tile character is standing
-	sf::Vector2i getStandingTileId();
+	
 	sf::RectangleShape rect;
 	
 };

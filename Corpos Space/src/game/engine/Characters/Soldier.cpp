@@ -9,7 +9,7 @@
 
 //Main constructor TODO: add null pointer handling
 
-Soldier::Soldier(TextElement * data, EntityList * ptr) : Character(data, ptr), test(ptr, Bullet("bullet_blue", 10, sf::Vector2f(), sf::Vector2f(0, 500)))
+Soldier::Soldier(TextElement * data, EntityList * ptr) : Character(data, ptr), test(ptr, Bullet("bullet_blue", 150, sf::Vector2f(), sf::Vector2f(0, 500)))
 {
 
 	ai = std::unique_ptr<AiBasic>(new AiBasic(*this));
@@ -24,6 +24,8 @@ bool Soldier::setCharacter(TextElement * element)
 {
 	if (element == nullptr)return false;
 	this->Character::setCharacter(element);
+
+	navCharData.canUseLadder = true;
 
 	//Set head part of soldier
 	auto varSpriteHead = element->getVariableByName("SpriteHead");
@@ -112,6 +114,7 @@ void Soldier::draw(sf::RenderTarget & window)
 	//drawDebugData(window);
 	test.draw(window);
 	test.drawDebugData(window);
+	ai->drawDebugData(window);
 }
 
 void Soldier::update(float timew)
@@ -123,6 +126,8 @@ void Soldier::update(float timew)
 	head.update(timew);
 	weapontest.update(timew);
 	test.update(timew);
+	
+
 }
 
 void Soldier::aim(sf::Vector2f pos)

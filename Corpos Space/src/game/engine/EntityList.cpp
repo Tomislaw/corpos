@@ -156,7 +156,28 @@ void EntityList::events(sf::Event & e)
 			{
 				std::cout << var->getName() << " " << var->getPosition().x << " " << var->getPosition().y << std::endl;
 			}
-			player.getCharacter()->getAiController()->addNode(sf::Vector2i(3, 6), NavigationNode::MOVE_LEFT);
+			player.getCharacter()->getAiController()->addNode(sf::Vector2i(13, 6), NavNode::WALK);
+			player.getCharacter()->getAiController()->addNode(sf::Vector2i(12, 6), NavNode::WALK);
+			player.getCharacter()->getAiController()->addNode(sf::Vector2i(11, 5), NavNode::JUMP);
+			player.getCharacter()->getAiController()->addNode(sf::Vector2i(10, 5), NavNode::WALK);
+			player.getCharacter()->getAiController()->addNode(sf::Vector2i(7, 6), NavNode::WALK);
+			player.getCharacter()->getAiController()->addNode(sf::Vector2i(6, 5), NavNode::JUMP);
+			player.getCharacter()->getAiController()->addNode(sf::Vector2i(5, 5), NavNode::WALK);
+			player.getCharacter()->getAiController()->addNode(sf::Vector2i(5, 4), NavNode::JUMP);
+			player.getCharacter()->getAiController()->addNode(sf::Vector2i(4, 4), NavNode::WALK);
+			player.getCharacter()->getAiController()->addNode(sf::Vector2i(4, 3), NavNode::JUMP);
+			player.getCharacter()->getAiController()->addNode(sf::Vector2i(3, 3), NavNode::WALK);
+			player.getCharacter()->getAiController()->addNode(sf::Vector2i(3, 2), NavNode::JUMP);
+			player.getCharacter()->getAiController()->addNode(sf::Vector2i(2, 2), NavNode::WALK);
+			player.getCharacter()->getAiController()->addNode(sf::Vector2i(2, 1), NavNode::JUMP);
+			player.getCharacter()->getAiController()->addNode(sf::Vector2i(1, 1), NavNode::WALK);
+			player.getCharacter()->getAiController()->addNode(sf::Vector2i(1, 0), NavNode::JUMP);
+			player.getCharacter()->getAiController()->addNode(sf::Vector2i(0, 0), NavNode::WALK);
+			player.getCharacter()->getAiController()->addNode(sf::Vector2i(7, 6), NavNode::WALK);
+			
+			
+			
+			
 		}
 		break;
 

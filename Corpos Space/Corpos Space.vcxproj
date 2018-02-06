@@ -161,6 +161,7 @@
     <ClCompile Include="src\game\engine\Entity.cpp" />
     <ClCompile Include="src\game\engine\EntityList.cpp" />
     <ClCompile Include="src\game\engine\logic\ai\AiBasic.cpp" />
+    <ClCompile Include="src\game\engine\logic\ai\NavigationNode.cpp" />
     <ClCompile Include="src\game\engine\logic\Camera.cpp" />
     <ClCompile Include="src\game\engine\logic\GunFire.cpp" />
     <ClCompile Include="src\game\engine\logic\Weapon.cpp" />
@@ -193,6 +194,7 @@
     <ClInclude Include="src\game\engine\Entity.hpp" />
     <ClInclude Include="src\game\engine\EntityList.hpp" />
     <ClInclude Include="src\game\engine\logic\ai\AiBasic.hpp" />
+    <ClInclude Include="src\game\engine\logic\ai\NavigationNode.hpp" />
     <ClInclude Include="src\game\engine\logic\Camera.hpp" />
     <ClInclude Include="src\game\engine\logic\GunFire.hpp" />
     <ClInclude Include="src\game\engine\logic\Weapon.hpp" />

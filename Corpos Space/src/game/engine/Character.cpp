@@ -24,6 +24,12 @@ Character::Character(EntityList * ptr) : Entity("char",sf::Vector2f(50,50))
 
 	rect.setSize(sf::Vector2f(collision_box.width, collision_box.height));
 	rect.setFillColor(sf::Color::Red);
+
+	navCharData.characterWidth = 1 + collision_box.width / 32;
+	navCharData.characterHeight = 1 + collision_box.height / 32;
+	navCharData.characterJumpHeight = 1;
+	navCharData.isFlyingOne = false;
+	navCharData.canUseLadder = false;
 	
 }
 Character::Character(TextElement * data, EntityList * ptr) : Entity(data)
@@ -55,7 +61,7 @@ void Character::walkRight()
 void Character::jump()
 {
 	
-	if (is_standing)
+	if (is_standing&&!is_jumping)
 	{
 		setPosition(getPosition().x, getPosition().y - 1);
 		velocity.y -= 300;
@@ -508,6 +514,14 @@ bool Character::setCharacter(TextElement * element)
 		this->sprite = GameSprite(*spriteDefinition);
 	}
 	return true;
+}
+
+void Character::walkUp()
+{
+}
+
+void Character::walkDown()
+{
 }
 
 void Character::setAnimation()
