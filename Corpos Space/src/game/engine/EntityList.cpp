@@ -156,6 +156,12 @@ void EntityList::events(sf::Event & e)
 			{
 				std::cout << var->getName() << " " << var->getPosition().x << " " << var->getPosition().y << std::endl;
 			}
+			
+			auto tile = tilemapPtr->getTileId(cursorPos.x, cursorPos.y);
+			std::cout << "Going to: " << tile.x << " " << tile.y << std::endl;
+			player.getCharacter()->getAiController()->getPath(tile);
+
+			return;
 			player.getCharacter()->getAiController()->addNode(sf::Vector2i(13, 6), NavNode::WALK);
 			player.getCharacter()->getAiController()->addNode(sf::Vector2i(12, 6), NavNode::WALK);
 			player.getCharacter()->getAiController()->addNode(sf::Vector2i(11, 5), NavNode::JUMP);
@@ -174,7 +180,6 @@ void EntityList::events(sf::Event & e)
 			player.getCharacter()->getAiController()->addNode(sf::Vector2i(1, 0), NavNode::JUMP);
 			player.getCharacter()->getAiController()->addNode(sf::Vector2i(0, 0), NavNode::WALK);
 			player.getCharacter()->getAiController()->addNode(sf::Vector2i(7, 6), NavNode::WALK);
-			
 			
 			
 			
@@ -252,6 +257,8 @@ void EntityList::draw(sf::RenderWindow & window)
 	}
 	window.draw(particleSystem);
 	tree.draw(window);
+
+	cursorPos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
 }
 
 bool EntityList::checkBulletCollision(Bullet * bullet)

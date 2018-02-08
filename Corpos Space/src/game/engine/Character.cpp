@@ -569,6 +569,12 @@ void Character::setAnimation()
 
 }
 
+Tilemap * Character::getTilemapPtr() {
+	if(entlistPtr == nullptr)
+		return nullptr;
+	else return entlistPtr->getTilemapPtr();
+}
+
 sf::Vector2i Character::getStandingTileId()
 {
 	if (map == nullptr)return sf::Vector2i(-1, -1);

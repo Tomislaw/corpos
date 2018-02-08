@@ -1,6 +1,7 @@
 #ifndef AIBASIC_HPP
 #define AIBASIC_HPP
 #include "game\engine\Character.hpp"
+#include "NavigationNode.hpp"
 #include <queue>
 
 
@@ -45,12 +46,21 @@ public:
 		node.type = type;
 		navigationNodes.push(node);
 	}
+	void getPath(sf::Vector2i tile);
+
 protected:
+	
+
+
+	AStarSearch<NavigationNode> astarsearch;
 	Character & character;
 	EntityList * entityListPtr = nullptr;
 	Tilemap * tilemapPtr = nullptr;
 
 	std::queue<NavNode> navigationNodes;
+	
+
+
 
 	int behavior = 0;
 	bool isInitialized = false;

@@ -125,6 +125,7 @@
     <ClCompile Include="QSFMLCanvas.cpp" />
     <ClCompile Include="SpriteBrowser.cpp" />
     <ClCompile Include="SpriteView.cpp" />
+    <ClCompile Include="TileView.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="CorposEditor.h">
@@ -210,6 +211,7 @@
     <ClInclude Include="GeneratedFiles\ui_NewMapForms.h" />
     <ClInclude Include="GeneratedFiles\ui_OptionsForms.h" />
     <ClInclude Include="GeneratedFiles\ui_SpriteBrowser.h" />
+    <ClInclude Include="TileView.h" />
     <CustomBuild Include="NewMapForms.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing NewMapForms.h...</Message>

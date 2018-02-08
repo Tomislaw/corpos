@@ -69,6 +69,8 @@ private:
 	Player player;
 
 	Tilemap * tilemapPtr =nullptr;
+
+	sf::Vector2f cursorPos;
 };
 
 #endif

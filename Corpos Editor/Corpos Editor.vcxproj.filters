@@ -89,6 +89,9 @@
     <ClCompile Include="..\Corpos Space\src\game\graphics\TextContainer.cpp">
       <Filter>_INCLUDECPP</Filter>
     </ClCompile>
+    <ClCompile Include="TileView.cpp">
+      <Filter>Source Files\TileView</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Resource Files">
@@ -140,6 +143,12 @@
     </Filter>
     <Filter Include="Header Files\MapView">
       <UniqueIdentifier>{d2d2a66e-4df5-47f5-b438-6843fd69df10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\TileView">
+      <UniqueIdentifier>{b2f28d7f-8e85-4804-bb4d-dabc026af980}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\TileView">
+      <UniqueIdentifier>{e23a1783-7734-48ee-acbf-485cd8887039}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -207,6 +216,9 @@
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_MapForm.h">
       <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TileView.h">
+      <Filter>Header Files\TileView</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

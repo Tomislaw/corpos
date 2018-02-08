@@ -59,6 +59,7 @@ public:
 	EntityList * getEntityListPtr() {
 		return entlistPtr;
 	}
+	Tilemap * getTilemapPtr();
 
 	AiBasic * getAiController() { return ai.get(); };
 
@@ -68,6 +69,9 @@ public:
 	{
 		return navCharData;
 	}
+
+	bool isStanding() {return is_standing;};
+	bool isJumping() { return is_standing; };
 protected:
 	void impulseVelocity(sf::Vector2f v,float impulse,float delta);
 	void impulseVelocityX(float maxSpeed, float impulse, float delta);

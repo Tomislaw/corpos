@@ -115,6 +115,11 @@ class Tile : public Entity
 
 	int getHealth() { return health; }
 	int getMaxHealth() {return maxHealth ; }
+
+	TileDefinition * getTileDefinition() {
+		return definition
+			;
+	}
 	private:
 
 	// pointer to tile definition

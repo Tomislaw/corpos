@@ -23,7 +23,10 @@ public:
 	bool canStand(int x, int y);
 
 	// return false if character is too big to be here
-	bool canWalk(int x, int y);
+	bool canFit(int x, int y);
+
+	// only used for character with size 2,4,6..2n
+	bool canWalkToTile(int x, int y);
 
 	float GetCost(NavigationNode &successor);
 	bool IsSameState(NavigationNode &rhs);
@@ -42,16 +45,18 @@ public:
 	};
 	void setCharacterData(const NavigationNodeCharacterData * d) {data = d ; };
 
-	void setJumpHeight(unsigned int height) { jumpHeight = height;};
-	unsigned int getJumpHeight() { return jumpHeight; }
+	enum Type { CENTER_POSITION,FLY, JUMP, WALK,CLIMB,FALL, BEFORE_JUMP,AFTER_JUMP };
+	int type = Type::WALK;
+
+	
 private:
-
-	unsigned int jumpHeight = 0;
-
+	const NavigationNodeCharacterData * data = nullptr;
+	int jumpDistancePassed = 0;
 	//	Vector2i *map_size;
 	//std::vector <Tile> *tilemap;
 	std::function < Tile*(sf::Vector2i)> getTile;
 
-	const NavigationNodeCharacterData * data;
+	
+
 	//bool IsCharacter
 };

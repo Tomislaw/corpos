@@ -49,8 +49,15 @@ namespace Tests
 			d.name = "block";
 			Tile block(&d, std::vector<sf::Vertex*>(), sf::Vector2f());
 
-			int value = 0;
-			if (v.x < 0 || v.y < 0 || v.x > 9 || v.y > 9)value = 0;
+			int value = 0;;
+			if (v.x < 0 || v.y < 0 || v.x > 9 || v.y > 9)
+			{
+				std::string debugStr = "";
+				debugStr += "nullptr";
+				debugStr += " (" + std::to_string(v.x) + "," + std::to_string(v.y) + ")";
+				WriteLine(debugStr);
+				return nullptr;
+			}
 			else value = test[v.y][v.x];
 
 			std::string debugStr = "";
@@ -87,9 +94,9 @@ namespace Tests
 
 			WriteLine("   size 2");
 			WriteLine("test1");
-			Assert::AreEqual(true,node.canStand(1,8));
+			Assert::AreEqual(false,node.canStand(6,8));
 			WriteLine("test2");
-			Assert::AreEqual(false,node.canStand(2, 8));
+			Assert::AreEqual(true,node.canStand(2, 8));
 
 			data.characterWidth = 3;
 			node.setCharacterData(&data);
@@ -104,44 +111,91 @@ namespace Tests
 
 
 		}
-		TEST_METHOD(canWalk)
+		TEST_METHOD(canFit)
 		{
-			WriteLine("canWalk()");
+			WriteLine("canFit()");
 
 			NavigationNodeCharacterData data;
 			data.characterWidth = 1;
 			data.characterHeight = 3;
-
+			
 
 			NavigationNode node;
 			node.setFunctionGetTile(std::bind(&NavigationNodeTest::getTile, this, std::placeholders::_1));
 			node.setCharacterData(&data);
-
 			WriteLine("   size 1x3");
 			WriteLine("test1");
-			Assert::AreEqual(false, node.canWalk(0, 8));
+			Assert::AreEqual(false, node.canFit(0, 8));
 			WriteLine("test2");
-			Assert::AreEqual(true, node.canWalk(1, 8));
+			Assert::AreEqual(true, node.canFit(1, 8));
+			WriteLine("test2");
+			Assert::AreEqual(false, node.canFit(1, 9));
 
 			data.characterWidth = 3;
 			node.setCharacterData(&data);
 
 			WriteLine("   size 3x2");
 			WriteLine("test1");
-			Assert::AreEqual(false, node.canWalk(1, 8));
+			Assert::AreEqual(false, node.canFit(1, 8));
 			WriteLine("test2");
-			Assert::AreEqual(true, node.canWalk(2, 8));
+			Assert::AreEqual(true, node.canFit(2, 8));
 
 			data.characterWidth = 2;
 			node.setCharacterData(&data);
 
 			WriteLine("   size 2x2");
 			WriteLine("test1");
-			Assert::AreEqual(false, node.canWalk(1, 8));
+			Assert::AreEqual(false, node.canFit(1, 8));
 			WriteLine("test2");
-			Assert::AreEqual(true, node.canWalk(2, 8));
+			Assert::AreEqual(true, node.canFit(2, 8));
 
 		}
+		TEST_METHOD(canMoveToTile)
+		{
+
+			WriteLine("canMoveToTile()");
+
+			NavigationNodeCharacterData data;
+			data.characterWidth = 2;
+			data.characterHeight = 2;
+
+			NavigationNode node;
+			node.x = 1;
+			node.y = 8;
+
+			node.setCharacterData(&data);
+			node.setFunctionGetTile(std::bind(&NavigationNodeTest::getTile, this, std::placeholders::_1));
+
+
+			WriteLine("test1");
+			Assert::AreEqual(true,node.canWalkToTile(2,8));
+
+			node.x = 2;
+			node.y = 8;
+			WriteLine("test2");
+			Assert::AreEqual(false, node.canWalkToTile(3, 8));
+
+			node.x = 3;
+			node.y = 8;
+
+			WriteLine("test3");
+			Assert::AreEqual(false, node.canWalkToTile(2, 8));
+
+			node.x = 8;
+			node.y = 8;
+
+			WriteLine("test4");
+			Assert::AreEqual(true, node.canWalkToTile(7, 8));
+
+			node.x = 7;
+			node.y = 8;
+
+			WriteLine("test5");
+			Assert::AreEqual(false, node.canWalkToTile(6, 8));
+
+		}
+
+
 		TEST_METHOD(canWalk_Speedtestx500)
 		{
 			NavigationNodeCharacterData data;
@@ -155,7 +209,7 @@ namespace Tests
 
 			for (int i = 0; i < 250; i++)
 			{
-				Assert::AreEqual(true, node.canWalk(2, 8));
+				Assert::AreEqual(true, node.canFit(2, 8));
 			}
 
 			data.characterWidth = 2;
@@ -163,7 +217,7 @@ namespace Tests
 
 			for (int i = 0; i < 250; i++)
 			{
-				Assert::AreEqual(true, node.canWalk(2, 8));
+				Assert::AreEqual(true, node.canFit(2, 8));
 			}
 			
 		}

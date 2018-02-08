@@ -99,6 +99,7 @@ public:
 	// return pointer to function GetTExture. 
 	std::function<sf::Texture*(std::string)> &getFunctionGetTexture();
 private:
+
 	sf::Vector2i mapSize;
 	//TODO: maybe change it to std::map instead of vector?
 	std::vector<VertexTileMap> vtm;
