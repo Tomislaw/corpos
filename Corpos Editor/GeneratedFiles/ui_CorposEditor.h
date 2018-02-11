@@ -269,11 +269,8 @@ public:
         QObject::connect(actionExit, SIGNAL(triggered()), CorposEditorClass, SLOT(close()));
         QObject::connect(actionOptions, SIGNAL(triggered()), CorposEditorClass, SLOT(showOptionsForms()));
         QObject::connect(actionTile_browser, SIGNAL(toggled(bool)), tileDock, SLOT(setVisible(bool)));
-        QObject::connect(tileDock, SIGNAL(visibilityChanged(bool)), actionTile_browser, SLOT(setChecked(bool)));
         QObject::connect(actionEntity_list, SIGNAL(toggled(bool)), entityDock, SLOT(setVisible(bool)));
-        QObject::connect(consoleDock, SIGNAL(visibilityChanged(bool)), actionOutput_window, SLOT(setChecked(bool)));
         QObject::connect(actionOutput_window, SIGNAL(toggled(bool)), consoleDock, SLOT(setVisible(bool)));
-        QObject::connect(entityDock, SIGNAL(visibilityChanged(bool)), actionEntity_list, SLOT(setChecked(bool)));
         QObject::connect(actionSprite_browser, SIGNAL(triggered()), CorposEditorClass, SLOT(showSpriteBrowserForms()));
         QObject::connect(actionLoad_Map, SIGNAL(triggered()), CorposEditorClass, SLOT(loadMap()));
         QObject::connect(mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)), CorposEditorClass, SLOT(loadTileDefinitions(QMdiSubWindow*)));
@@ -281,6 +278,7 @@ public:
         QObject::connect(actionNew_Map, SIGNAL(triggered()), CorposEditorClass, SLOT(newMap()));
         QObject::connect(tileListWidget, SIGNAL(itemPressed(QListWidgetItem*)), CorposEditorClass, SLOT(tileSelected(QListWidgetItem*)));
         QObject::connect(lineEdit_TileFilter, SIGNAL(textChanged(QString)), CorposEditorClass, SLOT(tileFilter(QString)));
+        QObject::connect(menuView, SIGNAL(aboutToShow()), CorposEditorClass, SLOT(updateMenuView()));
 
         QMetaObject::connectSlotsByName(CorposEditorClass);
     } // setupUi

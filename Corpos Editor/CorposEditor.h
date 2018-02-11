@@ -43,4 +43,5 @@ void newMap();
 void loadTileDefinitions(QMdiSubWindow*);
 void tileSelected(QListWidgetItem*);
 void tileFilter(QString);
+void updateMenuView();
 };

@@ -335,22 +335,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>tileDock</sender>
-   <signal>visibilityChanged(bool)</signal>
-   <receiver>actionTile_browser</receiver>
-   <slot>setChecked(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>879</x>
-     <y>213</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>actionEntity_list</sender>
    <signal>toggled(bool)</signal>
    <receiver>entityDock</receiver>
@@ -367,22 +351,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>consoleDock</sender>
-   <signal>visibilityChanged(bool)</signal>
-   <receiver>actionOutput_window</receiver>
-   <slot>setChecked(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>515</x>
-     <y>691</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>actionOutput_window</sender>
    <signal>toggled(bool)</signal>
    <receiver>consoleDock</receiver>
@@ -395,22 +363,6 @@
     <hint type="destinationlabel">
      <x>515</x>
      <y>691</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>entityDock</sender>
-   <signal>visibilityChanged(bool)</signal>
-   <receiver>actionEntity_list</receiver>
-   <slot>setChecked(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>879</x>
-     <y>499</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-1</x>
-     <y>-1</y>
     </hint>
    </hints>
   </connection>
@@ -526,6 +478,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>menuView</sender>
+   <signal>aboutToShow()</signal>
+   <receiver>CorposEditorClass</receiver>
+   <slot>updateMenuView()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>84</x>
+     <y>62</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>515</x>
+     <y>398</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>showOptionsForms()</slot>
@@ -537,5 +505,6 @@
   <slot>newMap()</slot>
   <slot>tileSelected(QListWidgetItem*)</slot>
   <slot>tileFilter(QString)</slot>
+  <slot>updateMenuView()</slot>
  </slots>
 </ui>

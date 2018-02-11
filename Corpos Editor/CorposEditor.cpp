@@ -364,3 +364,10 @@ void CorposEditor::tileFilter(QString str)
 	
 }
 
+void CorposEditor::updateMenuView()
+{
+	ui.actionOutput_window->setChecked(ui.consoleDock->isVisible());
+	ui.actionTile_browser->setChecked(ui.tileDock->isVisible());
+	ui.actionEntity_list->setChecked(ui.entityDock->isVisible());
+}
+
