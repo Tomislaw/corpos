@@ -37,9 +37,6 @@ CorposEditor::CorposEditor(QWidget *parent)
 	//connect(ui.actionOptions, SIGNAL(triggered()), this, SLOT(showOptionsForms()));
 
 	//ui.mdiArea->addSubWindow();
-
-	ui.treeWidgetTiles->setColumnCount(2);
-	ui.treeWidgetTiles->setHeaderLabels(QStringList() << "Name" << "Type");
 }
 
 void CorposEditor::showOptionsForms()
@@ -210,37 +207,75 @@ void CorposEditor::loadTileDefinitions(QMdiSubWindow * window)
 	if (win != nullptr)
 	{
 		ui.actionSave->setEnabled(true);
-		ui.treeWidgetTiles->clear();
+		ui.tileListWidget->clear();
 	
 		auto vtm = win->getVertexTileMap();
 		
+		auto addTile = [](VertexTileMap * m, TileDefinition * d, QListWidget * list) {
 
-		QTreeWidgetItem* airTile = new QTreeWidgetItem(ui.treeWidgetTiles);
-		airTile->setText(0, "air");
-		airTile->setText(1, "background");
+			//Create main widget
+			QWidget *tileWidget = new QWidget;
 
+			//Create tile view
+			TileView *view = new TileView(tileWidget, QPoint(), QSize(34, 34));
+			view->setTile(d);
+
+			//create label name and type
+			QLabel * labelName = new QLabel();;
+			QLabel * labelType = new QLabel();
+			labelName->setAccessibleName("name");
+			if (d)
+			{
+				labelName->setText(QString::fromStdString(d->name));
+
+				if (d->is_blocking == true)labelType->setText("tile");
+				else labelType->setText("background");
+			}
+			else 
+			{
+				labelName = new QLabel("air");
+				labelType->setText("background");
+			}
+
+			//create label tileset
+			QLabel * labelTileset = new QLabel();
+			labelTileset->setAccessibleName("tileset");
+			if (m)
+			{
+				labelTileset->setText(QString::fromStdString(m->name));
+			}
+			else labelTileset->setText("");
+
+
+			//set layout
+			QHBoxLayout *layout = new QHBoxLayout;
+			layout->addWidget(view);
+			layout->addWidget(labelName);
+			layout->addWidget(labelType);
+			layout->addWidget(labelTileset);
+			tileWidget->setLayout(layout);
+
+			//add item
+			QListWidgetItem* item;
+			item = new QListWidgetItem(list);
+			list->addItem(item);
+			item->setSizeHint(tileWidget->minimumSizeHint());
+			list->setItemWidget(item, tileWidget);
+		};
+
+
+		addTile(nullptr, nullptr, ui.tileListWidget);
 		for(size_t i = 0; i <  vtm.size(); i++)
 		{
 			auto m = &vtm.at(i);
 			Logger::d(m->textureName);
 			
-			QTreeWidgetItem* tileset = new QTreeWidgetItem(ui.treeWidgetTiles);
-			tileset->setText(0, QString::fromStdString(m->name));
-			tileset->setText(1, "tileset");
 
 			for(size_t j = 0; j <  m->definitions.size();j++)
 			{
-				auto d = &m->definitions.at(j);
-				Logger::d(d->name);
+				auto d = &m->definitions[j];
+				addTile(m, d, ui.tileListWidget);
 
-				QTreeWidgetItem* tile = new QTreeWidgetItem();
-				tile->setText(0, QString::fromStdString(d->name));
-				if (d->is_blocking == true)tile->setText(1, "tile");
-				else tile->setText(1, "background");
-				
-				//tile->setToolTip(0, tr(d->toString().c_str()));
-				//tile->setToolTip(1, tr(d->toString().c_str()));
-				tileset->addChild(tile);
 			}
 
 		}
@@ -249,13 +284,16 @@ void CorposEditor::loadTileDefinitions(QMdiSubWindow * window)
 	}
 	else
 	{
-		ui.treeWidgetTiles->clear();
+		ui.tileListWidget->clear();
 	}
 
 }
 
-void CorposEditor::tileBrowserSelected(QTreeWidgetItem *item, int)
+
+
+void CorposEditor::tileSelected(QListWidgetItem *item)
 {
+	
 	if (item == nullptr)
 	{
 		selectedTile = "";
@@ -263,18 +301,66 @@ void CorposEditor::tileBrowserSelected(QTreeWidgetItem *item, int)
 	}
 	else
 	{
-		if (item->parent() == nullptr)
+		auto widget = ui.tileListWidget->itemWidget(item);
+
+		std::string name = "";
+		std::string tileset = "";
+		for each (QWidget* var in widget->children())
 		{
+			auto w = dynamic_cast<QLabel *>(var);
+			if (w)
+			{
+				if (w->accessibleName().contains("name"))
+				{
+	
+					name = w->text().toStdString();
+					
+				}
+				if (w->accessibleName().contains("tileset"))
+				{
+					tileset = w->text().toStdString();
+				}
+
+			}
+		}
+
+		if (name == "")
+		{
+			Logger::e("Selected tile is invalid!");
 			selectedTile = "";
 			selectedTileset = "";
-			if (item->text(0).toStdString() == "air")
-				selectedTile = "0";
 		}
 		else
-		{ 
-			selectedTile = item->text(0).toStdString();
-			selectedTileset = item->parent()->text(0).toStdString();
+		{
+			selectedTile = name;
+			selectedTileset = tileset;
+		}
+
+	}
+}
+
+void CorposEditor::tileFilter(QString str)
+{
+	for(int i = 0; i < ui.tileListWidget->count(); i++)
+	{
+		QListWidgetItem* item = ui.tileListWidget->item(i);
+		auto widget = ui.tileListWidget->itemWidget(item);
+		for each (QWidget* var in widget->children())
+		{
+			auto w = dynamic_cast<QLabel *>(var);
+			if (w)
+			{
+				if (w->accessibleName().contains("name"))
+				{
+					
+					auto name = w->text().toLower();
+					item->setHidden(!name.contains(str.toLower()));
+					break;
+				}
+
+			}
 		}
 	}
+	
 }
 

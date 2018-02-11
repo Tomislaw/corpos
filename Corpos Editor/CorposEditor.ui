@@ -117,7 +117,7 @@
     <string>Tile browser</string>
    </property>
    <attribute name="dockWidgetArea">
-    <number>2</number>
+    <number>1</number>
    </attribute>
    <widget class="QWidget" name="dockWidgetContents_12">
     <layout class="QVBoxLayout" name="verticalLayout">
@@ -128,13 +128,7 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <widget class="QTreeWidget" name="treeWidgetTiles">
-          <column>
-           <property name="text">
-            <string notr="true">1</string>
-           </property>
-          </column>
-         </widget>
+         <widget class="QListWidget" name="tileListWidget"/>
         </item>
         <item>
          <widget class="QLabel" name="label">
@@ -144,7 +138,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit_2"/>
+         <widget class="QLineEdit" name="lineEdit_TileFilter"/>
         </item>
        </layout>
       </widget>
@@ -469,22 +463,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>treeWidgetTiles</sender>
-   <signal>itemPressed(QTreeWidgetItem*,int)</signal>
-   <receiver>CorposEditorClass</receiver>
-   <slot>tileBrowserSelected(QTreeWidgetItem*,int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>868</x>
-     <y>141</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>1031</x>
-     <y>143</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>actionSave</sender>
    <signal>triggered()</signal>
    <receiver>CorposEditorClass</receiver>
@@ -516,6 +494,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>tileListWidget</sender>
+   <signal>itemPressed(QListWidgetItem*)</signal>
+   <receiver>CorposEditorClass</receiver>
+   <slot>tileSelected(QListWidgetItem*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>150</x>
+     <y>366</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>515</x>
+     <y>398</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lineEdit_TileFilter</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>CorposEditorClass</receiver>
+   <slot>tileFilter(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>150</x>
+     <y>492</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>515</x>
+     <y>398</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>showOptionsForms()</slot>
@@ -525,5 +535,7 @@
   <slot>tileBrowserSelected(QTreeWidgetItem*,int)</slot>
   <slot>saveMap()</slot>
   <slot>newMap()</slot>
+  <slot>tileSelected(QListWidgetItem*)</slot>
+  <slot>tileFilter(QString)</slot>
  </slots>
 </ui>

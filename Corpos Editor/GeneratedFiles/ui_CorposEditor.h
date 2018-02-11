@@ -21,6 +21,7 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QListView>
+#include <QtWidgets/QListWidget>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMdiArea>
 #include <QtWidgets/QMenu>
@@ -28,7 +29,6 @@
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QToolBar>
-#include <QtWidgets/QTreeWidget>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
@@ -64,9 +64,9 @@ public:
     QVBoxLayout *verticalLayout;
     QGroupBox *browseTileToolbox;
     QVBoxLayout *verticalLayout_2;
-    QTreeWidget *treeWidgetTiles;
+    QListWidget *tileListWidget;
     QLabel *label;
-    QLineEdit *lineEdit_2;
+    QLineEdit *lineEdit_TileFilter;
     QDockWidget *entityDock;
     QWidget *dockWidgetContents;
     QVBoxLayout *verticalLayout_4;
@@ -174,29 +174,26 @@ public:
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
-        treeWidgetTiles = new QTreeWidget(browseTileToolbox);
-        QTreeWidgetItem *__qtreewidgetitem = new QTreeWidgetItem();
-        __qtreewidgetitem->setText(0, QStringLiteral("1"));
-        treeWidgetTiles->setHeaderItem(__qtreewidgetitem);
-        treeWidgetTiles->setObjectName(QStringLiteral("treeWidgetTiles"));
+        tileListWidget = new QListWidget(browseTileToolbox);
+        tileListWidget->setObjectName(QStringLiteral("tileListWidget"));
 
-        verticalLayout_2->addWidget(treeWidgetTiles);
+        verticalLayout_2->addWidget(tileListWidget);
 
         label = new QLabel(browseTileToolbox);
         label->setObjectName(QStringLiteral("label"));
 
         verticalLayout_2->addWidget(label);
 
-        lineEdit_2 = new QLineEdit(browseTileToolbox);
-        lineEdit_2->setObjectName(QStringLiteral("lineEdit_2"));
+        lineEdit_TileFilter = new QLineEdit(browseTileToolbox);
+        lineEdit_TileFilter->setObjectName(QStringLiteral("lineEdit_TileFilter"));
 
-        verticalLayout_2->addWidget(lineEdit_2);
+        verticalLayout_2->addWidget(lineEdit_TileFilter);
 
 
         verticalLayout->addWidget(browseTileToolbox);
 
         tileDock->setWidget(dockWidgetContents_12);
-        CorposEditorClass->addDockWidget(static_cast<Qt::DockWidgetArea>(2), tileDock);
+        CorposEditorClass->addDockWidget(static_cast<Qt::DockWidgetArea>(1), tileDock);
         entityDock = new QDockWidget(CorposEditorClass);
         entityDock->setObjectName(QStringLiteral("entityDock"));
         dockWidgetContents = new QWidget();
@@ -280,9 +277,10 @@ public:
         QObject::connect(actionSprite_browser, SIGNAL(triggered()), CorposEditorClass, SLOT(showSpriteBrowserForms()));
         QObject::connect(actionLoad_Map, SIGNAL(triggered()), CorposEditorClass, SLOT(loadMap()));
         QObject::connect(mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)), CorposEditorClass, SLOT(loadTileDefinitions(QMdiSubWindow*)));
-        QObject::connect(treeWidgetTiles, SIGNAL(itemPressed(QTreeWidgetItem*,int)), CorposEditorClass, SLOT(tileBrowserSelected(QTreeWidgetItem*,int)));
         QObject::connect(actionSave, SIGNAL(triggered()), CorposEditorClass, SLOT(saveMap()));
         QObject::connect(actionNew_Map, SIGNAL(triggered()), CorposEditorClass, SLOT(newMap()));
+        QObject::connect(tileListWidget, SIGNAL(itemPressed(QListWidgetItem*)), CorposEditorClass, SLOT(tileSelected(QListWidgetItem*)));
+        QObject::connect(lineEdit_TileFilter, SIGNAL(textChanged(QString)), CorposEditorClass, SLOT(tileFilter(QString)));
 
         QMetaObject::connectSlotsByName(CorposEditorClass);
     } // setupUi

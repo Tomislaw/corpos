@@ -3,13 +3,14 @@
 #include "qsfmlcanvas.h"
 #include <SFML/Graphics.hpp>
 #include <game\map\Tile.hpp>
+#include <GameDataHolder.h>
 class TileView : public QSFMLCanvas
 {
 public:
 	TileView(QWidget* Parent, const QPoint& Position, const QSize& Size);
 	void OnInit();
 	void OnUpdate();
-	void setTile(TileDefinition tiledef);
+	void setTile(TileDefinition * tiledef);
 	void onResize();
 	void setViewSize(float size);
 private:
@@ -18,5 +19,6 @@ private:
 	std::vector<sf::Vertex*> tilePtr;
 	sf::View view;
 	Tile tile;
+	sf::Texture * texture = nullptr;
 };
 #endif // MYCANVAS_H

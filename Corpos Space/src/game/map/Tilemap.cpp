@@ -350,6 +350,7 @@ bool Tilemap::loadMap(TextElement * tm)
 
 Tile * Tilemap::getTile(int x, int y)
 {
+	if (tilemap.size() < x + y * mapSize.x)return nullptr;
 	if (x<0 || y<0 || x >= mapSize.x || y >= mapSize.y)return nullptr;
 	return &tilemap.at(x + y * mapSize.x);
 }
@@ -366,6 +367,7 @@ Tile * Tilemap::getTile(sf::Vector2f position)
 
 Tile * Tilemap::getBackgroundTile(int x, int y)
 {
+	if (bgtilemap.size() < x + y * mapSize.x)return nullptr;
 	if (x<0 || y<0 || x >= mapSize.x || y >= mapSize.y)return nullptr;
 	return &bgtilemap.at(x + y * mapSize.x);
 	

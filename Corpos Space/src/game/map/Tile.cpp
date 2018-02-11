@@ -129,7 +129,7 @@ void Tile::setPosition(sf::Vector2f pos)
 	Entity::setPosition(pos);
 	if (tile.size() < 16)
 	{
-		Logger::e("Size of tile vector is to small. Current is " + std::to_string(tile.size()));
+		//Logger::e("Size of tile vector is to small. Current is " + std::to_string(tile.size()));
 		return;
 	}
 	sf::Vector2u tileSize(32, 32);

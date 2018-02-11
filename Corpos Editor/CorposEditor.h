@@ -4,7 +4,7 @@
 #include "ui_CorposEditor.h"
 #include <fstream>
 #include "options.h"
-
+#include "TileView.h"
 #include "OptionsForms.h"
 #include "NewMapForms.h"
 #include "SpriteBrowser.h"
@@ -33,6 +33,7 @@ private:
 
 	QMdiSubWindow * windowPtr = nullptr;
 
+
 public slots:
 void showOptionsForms();
 void showSpriteBrowserForms();
@@ -40,5 +41,6 @@ void loadMap();
 void saveMap();
 void newMap();
 void loadTileDefinitions(QMdiSubWindow*);
-void tileBrowserSelected(QTreeWidgetItem*, int);
+void tileSelected(QListWidgetItem*);
+void tileFilter(QString);
 };
