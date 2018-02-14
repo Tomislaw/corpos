@@ -92,6 +92,15 @@
     <ClCompile Include="TileView.cpp">
       <Filter>Source Files\TileView</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_TilesetEditor.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_TilesetEditor.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="TilesetEditor.cpp">
+      <Filter>Source Files\TileView</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Resource Files">
@@ -194,6 +203,12 @@
     <CustomBuild Include="MapForm.h">
       <Filter>Header Files\MapView</Filter>
     </CustomBuild>
+    <CustomBuild Include="TilesetEditor.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="TilesetEditor.h">
+      <Filter>Header Files\TileView</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_OptionsForms.h">
@@ -219,6 +234,9 @@
     </ClInclude>
     <ClInclude Include="TileView.h">
       <Filter>Header Files\TileView</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_TilesetEditor.h">
+      <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

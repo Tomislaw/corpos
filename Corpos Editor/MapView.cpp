@@ -4,7 +4,7 @@
 
 MapView::MapView(QWidget * Parent, const QPoint & Position, const QSize & Size) : QSFMLCanvas(Parent, Position, Size)
 {
-
+	setMinimumSize(800, 800);
 	worldmap.getFunctionGetTexture() = std::bind(&GameDataHolder::getTexture, GameDataHolder::getInstance(), std::placeholders::_1);
 
 	selectRectangle.setPointCount(4);
@@ -117,7 +117,7 @@ void MapView::setTileAtMousePosition(std::string tileset, std::string tile)
 	if (tile == "")return;
 
 	TileDefinition* t = nullptr;
-	if (!(tile == "0"&&tileset == ""))
+	if (!((tile == "0" || tile == "air") &&tileset == ""))
 	{
 		t = worldmap.getTileDefinition(tile, tileset);
 	}

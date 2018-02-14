@@ -5,6 +5,8 @@ MapForm::MapForm(QWidget *parent, std::string mapLocation)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
+	setMinimumSize(800, 800);
+
 	QWidget::setWindowTitle(QString::fromStdString(mapLocation));
 
 	mapView = new MapView(this, QPoint(0,0),QSize(1000,1000));

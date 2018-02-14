@@ -1,4 +1,12 @@
 <RCC>
-    <qresource prefix="CorposEditor">
+    <qresource prefix="/CorposEditor">
+        <file>Resources/icons/save.png</file>
+        <file>Resources/icons/corposFileEditor.png</file>
+        <file>Resources/icons/corposSpace.png</file>
+        <file>Resources/icons/new.png</file>
+        <file>Resources/icons/open.png</file>
+        <file>Resources/icons/spriteBrowser.png</file>
+        <file>Resources/icons/spriteEditor.png</file>
+        <file>Resources/icons/tilesetEditor.png</file>
     </qresource>
 </RCC>

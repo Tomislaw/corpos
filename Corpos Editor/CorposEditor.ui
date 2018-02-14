@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>CorposEditor</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="CorposEditor.qrc">
+    <normaloff>:/CorposEditor/Resources/icons/corposSpace.png</normaloff>:/CorposEditor/Resources/icons/corposSpace.png</iconset>
+  </property>
   <property name="dockOptions">
    <set>QMainWindow::AllowNestedDocks|QMainWindow::AllowTabbedDocks|QMainWindow::AnimatedDocks</set>
   </property>
@@ -73,6 +77,10 @@
     </property>
     <addaction name="actionSprite_browser"/>
     <addaction name="separator"/>
+    <addaction name="actionSprite_editor"/>
+    <addaction name="actionTileset_editor"/>
+    <addaction name="actionCorposFile_editor"/>
+    <addaction name="separator"/>
     <addaction name="actionOptions"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
@@ -80,6 +88,7 @@
      <string>Help</string>
     </property>
     <addaction name="actionInfo"/>
+    <addaction name="actionHelp"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -89,7 +98,14 @@
     <addaction name="actionEntity_list"/>
     <addaction name="actionOutput_window"/>
    </widget>
+   <widget class="QMenu" name="menuMap">
+    <property name="title">
+     <string>Map</string>
+    </property>
+    <addaction name="actionRefresh"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuMap"/>
    <addaction name="menuTools"/>
    <addaction name="menuView"/>
    <addaction name="menuHelp"/>
@@ -101,6 +117,19 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionNew_Map"/>
+   <addaction name="actionLoad_Map"/>
+   <addaction name="actionSave"/>
+   <addaction name="separator"/>
+   <addaction name="actionRun_map"/>
+   <addaction name="separator"/>
+   <addaction name="actionSprite_browser"/>
+   <addaction name="actionTileset_editor"/>
+   <addaction name="actionSprite_editor"/>
+   <addaction name="actionCorposFile_editor"/>
+   <addaction name="separator"/>
+   <addaction name="actionHelp"/>
+   <addaction name="actionInfo"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QDockWidget" name="tileDock">
@@ -200,11 +229,19 @@
    </widget>
   </widget>
   <action name="actionNew_Map">
+   <property name="icon">
+    <iconset resource="CorposEditor.qrc">
+     <normaloff>:/CorposEditor/Resources/icons/new.png</normaloff>:/CorposEditor/Resources/icons/new.png</iconset>
+   </property>
    <property name="text">
     <string>New</string>
    </property>
   </action>
   <action name="actionLoad_Map">
+   <property name="icon">
+    <iconset resource="CorposEditor.qrc">
+     <normaloff>:/CorposEditor/Resources/icons/open.png</normaloff>:/CorposEditor/Resources/icons/open.png</iconset>
+   </property>
    <property name="text">
     <string>Load</string>
    </property>
@@ -230,6 +267,13 @@
    </property>
   </action>
   <action name="actionRun_map">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="CorposEditor.qrc">
+     <normaloff>:/CorposEditor/Resources/icons/corposSpace.png</normaloff>:/CorposEditor/Resources/icons/corposSpace.png</iconset>
+   </property>
    <property name="text">
     <string>Run map</string>
    </property>
@@ -268,6 +312,10 @@
    </property>
   </action>
   <action name="actionSprite_browser">
+   <property name="icon">
+    <iconset resource="CorposEditor.qrc">
+     <normaloff>:/CorposEditor/Resources/icons/spriteBrowser.png</normaloff>:/CorposEditor/Resources/icons/spriteBrowser.png</iconset>
+   </property>
    <property name="text">
     <string>Sprite browser</string>
    </property>
@@ -276,8 +324,55 @@
    <property name="enabled">
     <bool>false</bool>
    </property>
+   <property name="icon">
+    <iconset resource="CorposEditor.qrc">
+     <normaloff>:/CorposEditor/Resources/icons/save.png</normaloff>:/CorposEditor/Resources/icons/save.png</iconset>
+   </property>
    <property name="text">
-    <string>Save</string>
+    <string>Save file</string>
+   </property>
+  </action>
+  <action name="actionRefresh">
+   <property name="text">
+    <string>Refresh</string>
+   </property>
+  </action>
+  <action name="actionTileset_editor">
+   <property name="icon">
+    <iconset resource="CorposEditor.qrc">
+     <normaloff>:/CorposEditor/Resources/icons/tilesetEditor.png</normaloff>:/CorposEditor/Resources/icons/tilesetEditor.png</iconset>
+   </property>
+   <property name="text">
+    <string>Tileset editor</string>
+   </property>
+  </action>
+  <action name="actionSprite_editor">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="CorposEditor.qrc">
+     <normaloff>:/CorposEditor/Resources/icons/spriteEditor.png</normaloff>:/CorposEditor/Resources/icons/spriteEditor.png</iconset>
+   </property>
+   <property name="text">
+    <string>Sprite editor</string>
+   </property>
+  </action>
+  <action name="actionCorposFile_editor">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="CorposEditor.qrc">
+     <normaloff>:/CorposEditor/Resources/icons/corposFileEditor.png</normaloff>:/CorposEditor/Resources/icons/corposFileEditor.png</iconset>
+   </property>
+   <property name="text">
+    <string>CorposFile editor</string>
+   </property>
+  </action>
+  <action name="actionHelp">
+   <property name="text">
+    <string>Help</string>
    </property>
   </action>
  </widget>
@@ -471,22 +566,6 @@
     <hint type="sourcelabel">
      <x>150</x>
      <y>492</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>515</x>
-     <y>398</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>menuView</sender>
-   <signal>aboutToShow()</signal>
-   <receiver>CorposEditorClass</receiver>
-   <slot>updateMenuView()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>84</x>
-     <y>62</y>
     </hint>
     <hint type="destinationlabel">
      <x>515</x>

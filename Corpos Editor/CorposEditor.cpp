@@ -233,7 +233,7 @@ void CorposEditor::loadTileDefinitions(QMdiSubWindow * window)
 			}
 			else 
 			{
-				labelName = new QLabel("air");
+				labelName->setText("air");
 				labelType->setText("background");
 			}
 
@@ -268,7 +268,6 @@ void CorposEditor::loadTileDefinitions(QMdiSubWindow * window)
 		for(size_t i = 0; i <  vtm.size(); i++)
 		{
 			auto m = &vtm.at(i);
-			Logger::d(m->textureName);
 			
 
 			for(size_t j = 0; j <  m->definitions.size();j++)
@@ -280,13 +279,14 @@ void CorposEditor::loadTileDefinitions(QMdiSubWindow * window)
 
 		}
 		
-		
+		Logger::e(std::to_string(window->size().height()));
 	}
 	else
 	{
 		ui.tileListWidget->clear();
 	}
 
+	
 }
 
 
@@ -312,7 +312,7 @@ void CorposEditor::tileSelected(QListWidgetItem *item)
 			{
 				if (w->accessibleName().contains("name"))
 				{
-	
+					
 					name = w->text().toStdString();
 					
 				}
