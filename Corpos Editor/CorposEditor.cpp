@@ -34,6 +34,7 @@ CorposEditor::CorposEditor(QWidget *parent)
 	optionsForm = new OptionsForms();
 	spriteForm = new SpriteBrowser();
 	newMapforms = new NewMapForms(this);
+	tilesetEditor = new TilesetEditor();
 	//connect(ui.actionOptions, SIGNAL(triggered()), this, SLOT(showOptionsForms()));
 
 	//ui.mdiArea->addSubWindow();
@@ -47,17 +48,24 @@ void CorposEditor::showOptionsForms()
 
 CorposEditor::~CorposEditor()
 {
-	//if (optionsForm != nullptr)
-		delete optionsForm;
+	if (optionsForm != nullptr)
+	optionsForm->close();
+	delete optionsForm;
+
 	//if (spriteForm != nullptr)
-		delete spriteForm;
-	//if (newMapforms != nullptr)
-		delete newMapforms;
+	delete spriteForm;
+
+	if (newMapforms != nullptr)
+		newMapforms->close();
+	delete newMapforms;
+
+	delete tilesetEditor;
 }
 
 void CorposEditor::createMap(int sizex, int sizey, std::string name)
 {
-	this->ui.mdiArea->addSubWindow(new MapForm(this, sizex, sizey,name));
+	this->ui.mdiArea->addSubWindow(new MapForm(this, sizex, sizey, name))->showFullScreen();
+
 }
 
 void CorposEditor::writeConsole(std::string info)
@@ -71,6 +79,12 @@ void CorposEditor::showSpriteBrowserForms()
 		spriteForm->show();
 }
 
+void CorposEditor::showTilesetEditor()
+{
+	if (tilesetEditor != nullptr)
+		tilesetEditor->show();
+}
+
 void CorposEditor::loadMap()
 {
 	WCHAR filename[MAX_PATH];
@@ -80,10 +94,10 @@ void CorposEditor::loadMap()
 	ZeroMemory(&ofn, sizeof(ofn));
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = NULL;  // If you have a window to center over, put its HANDLE here
-	ofn.lpstrFilter = L".txt\0*.exe\0Any File\0*.*\0";
+	ofn.lpstrFilter = L".txt\0*.txt\0Any File\0*.*\0";
 	ofn.lpstrFile = filename;
 	ofn.nMaxFile = MAX_PATH;
-	ofn.lpstrTitle = L"Select a File, yo!";
+	ofn.lpstrTitle = L"Select a file";
 	ofn.Flags = OFN_DONTADDTORECENT | OFN_FILEMUSTEXIST;
 
 	if (GetOpenFileName(&ofn))
@@ -93,7 +107,7 @@ void CorposEditor::loadMap()
 		std::wstring ws(filename);
 		std::string str(ws.begin(), ws.end());
 
-		this->ui.mdiArea->addSubWindow(new MapForm(this, str));
+		this->ui.mdiArea->addSubWindow(new MapForm(this, str))->showFullScreen();
 	}
 	else
 	{
@@ -119,6 +133,7 @@ void CorposEditor::loadMap()
 		default: std::cout << "You cancelled.\n";
 		}
 	}
+
 }
 
 void CorposEditor::saveMap()

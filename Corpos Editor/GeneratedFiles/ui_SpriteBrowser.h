@@ -83,6 +83,9 @@ public:
         SpriteBrowser->setWindowModality(Qt::NonModal);
         SpriteBrowser->resize(882, 556);
         SpriteBrowser->setContextMenuPolicy(Qt::DefaultContextMenu);
+        QIcon icon;
+        icon.addFile(QStringLiteral(":/CorposEditor/Resources/icons/spriteBrowser.png"), QSize(), QIcon::Normal, QIcon::Off);
+        SpriteBrowser->setWindowIcon(icon);
         verticalLayout_3 = new QVBoxLayout(SpriteBrowser);
         verticalLayout_3->setSpacing(6);
         verticalLayout_3->setContentsMargins(11, 11, 11, 11);
@@ -299,11 +302,11 @@ public:
         QObject::connect(listAnimations, SIGNAL(currentRowChanged(int)), SpriteBrowser, SLOT(animationSelected(int)));
         QObject::connect(buttonStart, SIGNAL(released()), SpriteBrowser, SLOT(timerStart()));
         QObject::connect(buttonStop, SIGNAL(released()), SpriteBrowser, SLOT(timerStop()));
-        QObject::connect(sliderFrame, SIGNAL(sliderMoved(int)), SpriteBrowser, SLOT(sliderChanged(int)));
+        QObject::connect(sliderFrame, SIGNAL(valueChanged(int)), SpriteBrowser, SLOT(sliderChanged(int)));
         QObject::connect(splitter_2, SIGNAL(splitterMoved(int,int)), SpriteBrowser, SLOT(onResize()));
         QObject::connect(splitter_3, SIGNAL(splitterMoved(int,int)), SpriteBrowser, SLOT(onResize()));
         QObject::connect(splitter, SIGNAL(splitterMoved(int,int)), SpriteBrowser, SLOT(onResize()));
-        QObject::connect(sliderSize, SIGNAL(sliderMoved(int)), SpriteBrowser, SLOT(sizeSliderChanged(int)));
+        QObject::connect(sliderSize, SIGNAL(valueChanged(int)), SpriteBrowser, SLOT(sizeSliderChanged(int)));
         QObject::connect(buttonSetSpeed, SIGNAL(released()), SpriteBrowser, SLOT(animationSpeedChanged()));
 
         QMetaObject::connectSlotsByName(SpriteBrowser);

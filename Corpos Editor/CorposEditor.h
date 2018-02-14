@@ -11,6 +11,7 @@
 #include "MapForm.h"
 #include <QMdiSubWindow>
 #include <qmessagebox.h>
+#include <TilesetEditor.h>
 class CorposEditor : public QMainWindow
 {
 	Q_OBJECT
@@ -28,6 +29,7 @@ private:
 	Ui::CorposEditorClass ui;
 	OptionsForms * optionsForm = nullptr;
 	SpriteBrowser * spriteForm = nullptr;
+	TilesetEditor * tilesetEditor = nullptr;
 	NewMapForms * newMapforms = nullptr;
 	void writeConsole(std::string info);
 
@@ -37,6 +39,7 @@ private:
 public slots:
 void showOptionsForms();
 void showSpriteBrowserForms();
+void showTilesetEditor();
 void loadMap();
 void saveMap();
 void newMap();

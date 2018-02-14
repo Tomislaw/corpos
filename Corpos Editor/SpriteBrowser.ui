@@ -19,6 +19,10 @@
   <property name="windowTitle">
    <string>Sprite browser</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="CorposEditor.qrc">
+    <normaloff>:/CorposEditor/Resources/icons/spriteBrowser.png</normaloff>:/CorposEditor/Resources/icons/spriteBrowser.png</iconset>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
     <widget class="QSplitter" name="splitter">
@@ -296,7 +300,9 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="CorposEditor.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>lineFilter</sender>
@@ -380,7 +386,7 @@
   </connection>
   <connection>
    <sender>sliderFrame</sender>
-   <signal>sliderMoved(int)</signal>
+   <signal>valueChanged(int)</signal>
    <receiver>SpriteBrowser</receiver>
    <slot>sliderChanged(int)</slot>
    <hints>
@@ -444,7 +450,7 @@
   </connection>
   <connection>
    <sender>sliderSize</sender>
-   <signal>sliderMoved(int)</signal>
+   <signal>valueChanged(int)</signal>
    <receiver>SpriteBrowser</receiver>
    <slot>sizeSliderChanged(int)</slot>
    <hints>

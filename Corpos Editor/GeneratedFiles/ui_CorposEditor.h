@@ -344,6 +344,7 @@ public:
         QObject::connect(actionNew_Map, SIGNAL(triggered()), CorposEditorClass, SLOT(newMap()));
         QObject::connect(tileListWidget, SIGNAL(itemPressed(QListWidgetItem*)), CorposEditorClass, SLOT(tileSelected(QListWidgetItem*)));
         QObject::connect(lineEdit_TileFilter, SIGNAL(textChanged(QString)), CorposEditorClass, SLOT(tileFilter(QString)));
+        QObject::connect(actionTileset_editor, SIGNAL(triggered()), CorposEditorClass, SLOT(showTilesetEditor()));
 
         QMetaObject::connectSlotsByName(CorposEditorClass);
     } // setupUi
