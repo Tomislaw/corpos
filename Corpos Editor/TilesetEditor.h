@@ -63,6 +63,9 @@ public:
 	/*! Reload texture list in combobox_Texture.*/
 	void reloadData();
 
+	/*! Reload tile list in treeWidget_Tiles.*/
+	void reloadTileDefinitions();
+
 	/*! Set text in lineedit when choosed texture from combobox */
 	void selectedTexture(QString);
 
@@ -92,11 +95,24 @@ public:
 	*/
 	void updateFrameEditorData();
 
-	/*!
-		Replace data in selected frame with given data.
-	*/
+	/*! Replace data in selected frame with given data.*/
 	void editFrame();
+	/*! Delete selected frame.*/
+	void deleteFrame();
+	/*! Duplicate selected frame.*/
+	void duplicateFrame();
 	
+	/*! Add frame.*/
+	void addFrame();
+
+	/*! Replace data in selected tile with given data.*/
+	void editTile();
+	/*! Delete selected tile.*/
+	void deleteTile();
+	/*! Duplicate selected tile.*/
+	void duplicateTile();
+	/*! Add tile.*/
+	void addTile();
 
 private:
 	/*!

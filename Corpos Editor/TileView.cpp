@@ -7,6 +7,7 @@
 #include <iostream>
 #include <string>
 #include <QDir>
+#include <QLabel>
 TileView::TileView(QWidget* Parent, const QPoint& Position, const QSize& Size) : QSFMLCanvas(Parent, Position, Size)
 {
 	tileDrawable.resize(16);
@@ -17,6 +18,8 @@ TileView::TileView(QWidget* Parent, const QPoint& Position, const QSize& Size) :
 	tileDrawable.setPrimitiveType(sf::PrimitiveType::Quads);
 	setFixedSize(Size);
 	update();
+
+	//label_info = new QLabel("");
 }
 void TileView::OnInit()
 {

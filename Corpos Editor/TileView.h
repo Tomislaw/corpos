@@ -24,5 +24,6 @@ private:
 	std::vector<sf::Vertex*> tilePtr;
 	Tile tile;
 	sf::Texture * texture = nullptr;
+	//QLabel * label_info = nullptr;
 };
 #endif // MYCANVAS_H

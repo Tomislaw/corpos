@@ -16,7 +16,7 @@ public:
 	std::string texture_name = "";
 
 	// Health, -1 is indestructabl
-	float health = - 1;
+	int health = - 1;
 
 	//contains diffirent parts of tile
 	//left top
@@ -133,8 +133,8 @@ class Tile : public Entity
 	//used in creating drawable vertex
 	sf::IntRect tileRect;
 
-	float health;
-	float maxHealth;
+	int health;
+	int maxHealth;
 	int display_type = 0;
 	bool is_blocking = false;
 	bool singleImage = false;

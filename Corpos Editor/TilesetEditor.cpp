@@ -52,14 +52,23 @@ void TilesetEditor::onSelectedTileDefinition(QTreeWidgetItem * item, int)
 		ui.lineEdit_background->setText(QString::fromStdString(tiledefinition.backgroundTile));
 		ui.lineEdit_connectGroup->setText(QString::fromStdString(tiledefinition.connectGroup));
 		ui.spinBox_health->setValue(tiledefinition.health);
-		//ui.comboBox_tileType
-		ui.lineEdit_tileName->setText(QString::fromStdString(tiledefinition.name));
-		
 
+		if (tiledefinition.is_blocking)
+		{
+			int index = ui.comboBox_tileType->findData("tile", Qt::DisplayRole);
+			ui.comboBox_tileType->setCurrentIndex(index);
+		}
+		else
+		{
+			int index = ui.comboBox_tileType->findData("background", Qt::DisplayRole);
+			ui.comboBox_tileType->setCurrentIndex(index);
+		}	
+		ui.checkBox_singleImage->setChecked(tiledefinition.singleImage);
+		ui.lineEdit_tileName->setText(QString::fromStdString(tiledefinition.name));
 		ui.spinBox_tileRectX->setValue(tiledefinition.tileRect.left);
-		ui.spinBox_tileRectX->setValue(tiledefinition.tileRect.top);
-		ui.spinBox_tileRectX->setValue(tiledefinition.tileRect.width);
-		ui.spinBox_tileRectX->setValue(tiledefinition.tileRect.height);
+		ui.spinBox_TilerectY->setValue(tiledefinition.tileRect.top);
+		ui.spinBox_TilerectW->setValue(tiledefinition.tileRect.width);
+		ui.spinBox_TilerectH->setValue(tiledefinition.tileRect.height);
 	}
 
 
@@ -278,6 +287,29 @@ void TilesetEditor::reloadData()
 	tileView->update();
 }
 
+void TilesetEditor::reloadTileDefinitions()
+{
+	ui.treeWidget_Tiles->clear();
+
+	for each (auto td in tileDefinitions)
+	{
+		auto widget = new QTreeWidgetItem(ui.treeWidget_Tiles);
+		widget->setText(0, QString::fromStdString(td.name));
+		if (td.is_blocking)widget->setText(1, "tile");
+		else widget->setText(1, "background");
+		widget->setText(2, QString::fromStdString(td.backgroundTile));
+		widget->setText(3, QString::fromStdString(std::to_string(td.health)));
+		if (td.singleImage)widget->setText(4, "true");
+		else widget->setText(4, "false");
+
+		ui.treeWidget_Tiles->addTopLevelItem(widget);
+	}
+
+	selectdTileId = -1;
+	ui.treeWidget_tilesGrid->clear();
+
+}
+
 void TilesetEditor::selectedTexture(QString text)
 {
 	ui.lineEdit_Texture->setText(text);
@@ -285,7 +317,11 @@ void TilesetEditor::selectedTexture(QString text)
 
 void TilesetEditor::onSelectedTileFrame(QTreeWidgetItem * item, int)
 {
-	if (selectdTileId != -1);
+	if (selectdTileId == -1)
+	{
+		ui.treeWidget_tilesGrid->clear();
+		return;
+	}
 	auto tileDefinition = &tileDefinitions[selectdTileId];
 	
 	auto type = item->text(0).toStdString();
@@ -363,6 +399,131 @@ void TilesetEditor::editFrame()
 	
 	
 	
+}
+
+void TilesetEditor::deleteFrame()
+{
+	if (selectdTileId == -1)return;
+	deleteFrameFromTile(tileDefinitions[selectdTileId], selectedRectangle, selectetRectangleType);
+
+	// deselect item
+	selectetRectangleType = error;
+
+	//reload tileFrames;
+	onSelectedTileDefinition(ui.treeWidget_Tiles->currentItem(), 0);
+}
+
+void TilesetEditor::duplicateFrame()
+{
+	if (selectdTileId == -1)return;
+	addFrameToTile(tileDefinitions[selectdTileId], selectedRectangle, selectetRectangleType);
+
+	// deselect item
+	selectetRectangleType = error;
+
+	//reload tileFrames;
+	onSelectedTileDefinition(ui.treeWidget_Tiles->currentItem(), 0);
+}
+
+void TilesetEditor::addFrame()
+{
+	if (selectdTileId == -1)return;
+	int type = getFrameType(ui.comboBox_frameType->currentText().toStdString());
+	if (type == error)return;
+
+	//add frame
+	int x = ui.spinBox_posX->value();
+	int y = ui.spinBox_posY->value();
+	int w = ui.spinBox_sizeX->value();
+	int h = ui.spinBox_sizeY->value();
+
+	addFrameToTile(tileDefinitions[selectdTileId], sf::IntRect(x, y, w, h), type);
+
+	// deselect item
+	selectetRectangleType = error;
+
+	//reload tileFrames;
+	onSelectedTileDefinition(ui.treeWidget_Tiles->currentItem(), 0);
+}
+
+void TilesetEditor::editTile()
+{
+	if (selectdTileId == -1)return;
+
+	TileDefinition & tile = tileDefinitions[selectdTileId];
+
+	tile.name				= ui.lineEdit_tileName->text().toStdString();
+	tile.backgroundTile		= ui.lineEdit_background->text().toStdString();
+	tile.connectGroup		=	ui.lineEdit_connectGroup->text().toStdString();
+	tile.health				= ui.spinBox_health->value();
+
+	if (ui.comboBox_tileType->currentText() == "background")
+		tile.is_blocking = false;
+	else tile.is_blocking = true;
+
+	tile.singleImage = ui.checkBox_singleImage->isChecked();
+
+	tile.tileRect.left		= ui.spinBox_tileRectX->value();
+	tile.tileRect.top		= ui.spinBox_TilerectY->value();
+	tile.tileRect.width		= ui.spinBox_TilerectW->value();
+	tile.tileRect.height	= ui.spinBox_TilerectH->value();
+
+	reloadTileDefinitions();
+	
+}
+
+void TilesetEditor::deleteTile()
+{
+	if (selectdTileId == -1)return;
+	tileDefinitions.erase(tileDefinitions.begin() + selectdTileId);
+
+	reloadTileDefinitions();
+}
+
+void TilesetEditor::duplicateTile()
+{
+	if (selectdTileId == -1)return;
+	tileDefinitions.push_back(TileDefinition(tileDefinitions[selectdTileId]));
+
+	reloadTileDefinitions();
+}
+
+void TilesetEditor::addTile()
+{
+	TileDefinition tile;
+
+	tile.name = ui.lineEdit_tileName->text().toStdString();
+	tile.backgroundTile = ui.lineEdit_background->text().toStdString();
+	tile.connectGroup = ui.lineEdit_connectGroup->text().toStdString();
+	tile.health = ui.spinBox_health->value();
+
+	if (ui.comboBox_tileType->currentText() == "background")
+		tile.is_blocking = false;
+	else tile.is_blocking = true;
+
+	tile.singleImage = ui.checkBox_singleImage->isChecked();
+
+	tile.tileRect.left = ui.spinBox_tileRectX->value();
+	tile.tileRect.top = ui.spinBox_TilerectY->value();
+	tile.tileRect.width = ui.spinBox_TilerectW->value();
+	tile.tileRect.height = ui.spinBox_TilerectH->value();
+
+	if (tile.singleImage)
+	{
+		tile.inner.push_back(sf::IntRect());
+	}
+	else
+	{
+		tile.LT.push_back(sf::IntRect()); tile.T.push_back(sf::IntRect()), tile.RT.push_back(sf::IntRect());
+		tile.L.push_back(sf::IntRect()); tile.C.push_back(sf::IntRect()), tile.R.push_back(sf::IntRect());
+		tile.LB.push_back(sf::IntRect()); tile.B.push_back(sf::IntRect()), tile.RB.push_back(sf::IntRect());
+
+		tile.IRB.push_back(sf::IntRect()); tile.ILB.push_back(sf::IntRect());
+		tile.IRT.push_back(sf::IntRect()); tile.ILT.push_back(sf::IntRect());
+	}
+
+	tileDefinitions.push_back(tile);
+	reloadTileDefinitions();
 }
 
 void TilesetEditor::saveTileset()
@@ -541,7 +702,7 @@ int TilesetEditor::getFrameType(std::string type)
 	else if (type == "right") IType = Right;
 	else if (type == "inner") IType = Inner;
 	else if (type == "center") IType = Center;
-	else if (type == "top-left ") IType = LeftTop;
+	else if (type == "top-left") IType = LeftTop;
 	else if (type == "bottom-left") IType = LeftBottom;
 	else if (type == "top-right") IType = RightTop;
 	else if (type == "bottom-right") IType = RightBottom;

@@ -74,17 +74,17 @@ public:
     QFrame *frame_4;
     QGridLayout *gridLayout_3;
     QPushButton *pushButton_AddTile;
-    QPushButton *pushButton_DeleteFile;
     QPushButton *pushButton_DuplicateTile;
     QPushButton *pushButton_ChangeTile;
+    QPushButton *pushButton_DeleteFile;
     QGroupBox *groupBox_2;
     QVBoxLayout *verticalLayout_4;
     QTreeWidget *treeWidget_tilesGrid;
     QFrame *frame_3;
     QGridLayout *gridLayout_2;
-    QPushButton *pushButton_3;
-    QPushButton *pushButton_4;
-    QPushButton *pushButton_5;
+    QPushButton *pushButton_AddFrame;
+    QPushButton *pushButton_DuplicateFrame;
+    QPushButton *pushButton_DeleteFrame;
     QWidget *widget_2;
     QVBoxLayout *verticalLayout_2;
     QGroupBox *groupBox_TextureView;
@@ -228,21 +228,25 @@ public:
         horizontalLayout_9->setContentsMargins(0, 0, 0, 0);
         spinBox_tileRectX = new QSpinBox(widget_7);
         spinBox_tileRectX->setObjectName(QStringLiteral("spinBox_tileRectX"));
+        spinBox_tileRectX->setMinimum(-99);
 
         horizontalLayout_9->addWidget(spinBox_tileRectX);
 
         spinBox_TilerectY = new QSpinBox(widget_7);
         spinBox_TilerectY->setObjectName(QStringLiteral("spinBox_TilerectY"));
+        spinBox_TilerectY->setMinimum(-99);
 
         horizontalLayout_9->addWidget(spinBox_TilerectY);
 
         spinBox_TilerectW = new QSpinBox(widget_7);
         spinBox_TilerectW->setObjectName(QStringLiteral("spinBox_TilerectW"));
+        spinBox_TilerectW->setMinimum(-99);
 
         horizontalLayout_9->addWidget(spinBox_TilerectW);
 
         spinBox_TilerectH = new QSpinBox(widget_7);
         spinBox_TilerectH->setObjectName(QStringLiteral("spinBox_TilerectH"));
+        spinBox_TilerectH->setMinimum(-99);
 
         horizontalLayout_9->addWidget(spinBox_TilerectH);
 
@@ -276,6 +280,8 @@ public:
 
         spinBox_health = new QSpinBox(frame_5);
         spinBox_health->setObjectName(QStringLiteral("spinBox_health"));
+        spinBox_health->setMinimum(-1);
+        spinBox_health->setMaximum(999999);
 
         gridLayout_4->addWidget(spinBox_health, 4, 1, 1, 1);
 
@@ -330,11 +336,6 @@ public:
 
         gridLayout_3->addWidget(pushButton_AddTile, 1, 0, 1, 1);
 
-        pushButton_DeleteFile = new QPushButton(frame_4);
-        pushButton_DeleteFile->setObjectName(QStringLiteral("pushButton_DeleteFile"));
-
-        gridLayout_3->addWidget(pushButton_DeleteFile, 2, 1, 1, 1);
-
         pushButton_DuplicateTile = new QPushButton(frame_4);
         pushButton_DuplicateTile->setObjectName(QStringLiteral("pushButton_DuplicateTile"));
 
@@ -344,6 +345,11 @@ public:
         pushButton_ChangeTile->setObjectName(QStringLiteral("pushButton_ChangeTile"));
 
         gridLayout_3->addWidget(pushButton_ChangeTile, 2, 0, 1, 1);
+
+        pushButton_DeleteFile = new QPushButton(frame_4);
+        pushButton_DeleteFile->setObjectName(QStringLiteral("pushButton_DeleteFile"));
+
+        gridLayout_3->addWidget(pushButton_DeleteFile, 2, 1, 1, 1);
 
 
         verticalLayout_5->addWidget(frame_4);
@@ -381,20 +387,20 @@ public:
         gridLayout_2->setSpacing(6);
         gridLayout_2->setContentsMargins(11, 11, 11, 11);
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
-        pushButton_3 = new QPushButton(frame_3);
-        pushButton_3->setObjectName(QStringLiteral("pushButton_3"));
+        pushButton_AddFrame = new QPushButton(frame_3);
+        pushButton_AddFrame->setObjectName(QStringLiteral("pushButton_AddFrame"));
 
-        gridLayout_2->addWidget(pushButton_3, 0, 0, 1, 1);
+        gridLayout_2->addWidget(pushButton_AddFrame, 0, 0, 1, 1);
 
-        pushButton_4 = new QPushButton(frame_3);
-        pushButton_4->setObjectName(QStringLiteral("pushButton_4"));
+        pushButton_DuplicateFrame = new QPushButton(frame_3);
+        pushButton_DuplicateFrame->setObjectName(QStringLiteral("pushButton_DuplicateFrame"));
 
-        gridLayout_2->addWidget(pushButton_4, 0, 1, 1, 1);
+        gridLayout_2->addWidget(pushButton_DuplicateFrame, 0, 1, 1, 1);
 
-        pushButton_5 = new QPushButton(frame_3);
-        pushButton_5->setObjectName(QStringLiteral("pushButton_5"));
+        pushButton_DeleteFrame = new QPushButton(frame_3);
+        pushButton_DeleteFrame->setObjectName(QStringLiteral("pushButton_DeleteFrame"));
 
-        gridLayout_2->addWidget(pushButton_5, 1, 1, 1, 1);
+        gridLayout_2->addWidget(pushButton_DeleteFrame, 1, 1, 1, 1);
 
 
         verticalLayout_4->addWidget(frame_3);
@@ -764,6 +770,13 @@ public:
         QObject::connect(spinBox_sizeY, SIGNAL(valueChanged(int)), TilesetEditor, SLOT(updateFrameEditorData()));
         QObject::connect(pushButton_ChangeFrame, SIGNAL(clicked()), TilesetEditor, SLOT(editFrame()));
         QObject::connect(actionSave, SIGNAL(triggered()), TilesetEditor, SLOT(saveTileset()));
+        QObject::connect(pushButton_AddTile, SIGNAL(clicked()), TilesetEditor, SLOT(addTile()));
+        QObject::connect(pushButton_ChangeTile, SIGNAL(clicked()), TilesetEditor, SLOT(editTile()));
+        QObject::connect(pushButton_DuplicateTile, SIGNAL(clicked()), TilesetEditor, SLOT(duplicateTile()));
+        QObject::connect(pushButton_AddFrame, SIGNAL(clicked()), TilesetEditor, SLOT(addFrame()));
+        QObject::connect(pushButton_DuplicateFrame, SIGNAL(clicked()), TilesetEditor, SLOT(duplicateFrame()));
+        QObject::connect(pushButton_DeleteFrame, SIGNAL(clicked()), TilesetEditor, SLOT(deleteFrame()));
+        QObject::connect(pushButton_DeleteFile, SIGNAL(clicked()), TilesetEditor, SLOT(deleteTile()));
 
         QMetaObject::connectSlotsByName(TilesetEditor);
     } // setupUi
@@ -800,17 +813,17 @@ public:
         label_9->setText(QApplication::translate("TilesetEditor", "Size:", Q_NULLPTR));
         label_10->setText(QApplication::translate("TilesetEditor", "Group:", Q_NULLPTR));
         pushButton_AddTile->setText(QApplication::translate("TilesetEditor", "Add", Q_NULLPTR));
-        pushButton_DeleteFile->setText(QApplication::translate("TilesetEditor", "Delete", Q_NULLPTR));
         pushButton_DuplicateTile->setText(QApplication::translate("TilesetEditor", "Duplicate", Q_NULLPTR));
         pushButton_ChangeTile->setText(QApplication::translate("TilesetEditor", "Change", Q_NULLPTR));
+        pushButton_DeleteFile->setText(QApplication::translate("TilesetEditor", "Delete", Q_NULLPTR));
         groupBox_2->setTitle(QApplication::translate("TilesetEditor", "Tile grid", Q_NULLPTR));
         QTreeWidgetItem *___qtreewidgetitem1 = treeWidget_tilesGrid->headerItem();
         ___qtreewidgetitem1->setText(2, QApplication::translate("TilesetEditor", "Size", Q_NULLPTR));
         ___qtreewidgetitem1->setText(1, QApplication::translate("TilesetEditor", "Position", Q_NULLPTR));
         ___qtreewidgetitem1->setText(0, QApplication::translate("TilesetEditor", "Type", Q_NULLPTR));
-        pushButton_3->setText(QApplication::translate("TilesetEditor", "Add", Q_NULLPTR));
-        pushButton_4->setText(QApplication::translate("TilesetEditor", "Duplicate", Q_NULLPTR));
-        pushButton_5->setText(QApplication::translate("TilesetEditor", "Delete", Q_NULLPTR));
+        pushButton_AddFrame->setText(QApplication::translate("TilesetEditor", "Add", Q_NULLPTR));
+        pushButton_DuplicateFrame->setText(QApplication::translate("TilesetEditor", "Duplicate", Q_NULLPTR));
+        pushButton_DeleteFrame->setText(QApplication::translate("TilesetEditor", "Delete", Q_NULLPTR));
         groupBox_TextureView->setTitle(QApplication::translate("TilesetEditor", "Texture view", Q_NULLPTR));
         groupBox_4->setTitle(QString());
         groupBox_8->setTitle(QApplication::translate("TilesetEditor", "Type", Q_NULLPTR));
@@ -829,7 +842,7 @@ public:
          << QApplication::translate("TilesetEditor", "inner-top-left", Q_NULLPTR)
          << QApplication::translate("TilesetEditor", "inner-top-right", Q_NULLPTR)
          << QApplication::translate("TilesetEditor", "inner-bottom-right", Q_NULLPTR)
-         << QApplication::translate("TilesetEditor", "inner-top-right", Q_NULLPTR)
+         << QApplication::translate("TilesetEditor", "inner-bottom-left", Q_NULLPTR)
         );
         groupBox_5->setTitle(QApplication::translate("TilesetEditor", "Position", Q_NULLPTR));
         groupBox_7->setTitle(QApplication::translate("TilesetEditor", "Size", Q_NULLPTR));

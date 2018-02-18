@@ -128,16 +128,32 @@
                  <number>0</number>
                 </property>
                 <item>
-                 <widget class="QSpinBox" name="spinBox_tileRectX"/>
+                 <widget class="QSpinBox" name="spinBox_tileRectX">
+                  <property name="minimum">
+                   <number>-99</number>
+                  </property>
+                 </widget>
                 </item>
                 <item>
-                 <widget class="QSpinBox" name="spinBox_TilerectY"/>
+                 <widget class="QSpinBox" name="spinBox_TilerectY">
+                  <property name="minimum">
+                   <number>-99</number>
+                  </property>
+                 </widget>
                 </item>
                 <item>
-                 <widget class="QSpinBox" name="spinBox_TilerectW"/>
+                 <widget class="QSpinBox" name="spinBox_TilerectW">
+                  <property name="minimum">
+                   <number>-99</number>
+                  </property>
+                 </widget>
                 </item>
                 <item>
-                 <widget class="QSpinBox" name="spinBox_TilerectH"/>
+                 <widget class="QSpinBox" name="spinBox_TilerectH">
+                  <property name="minimum">
+                   <number>-99</number>
+                  </property>
+                 </widget>
                 </item>
                </layout>
               </widget>
@@ -186,7 +202,14 @@
               <widget class="QLineEdit" name="lineEdit_tileName"/>
              </item>
              <item row="4" column="1">
-              <widget class="QSpinBox" name="spinBox_health"/>
+              <widget class="QSpinBox" name="spinBox_health">
+               <property name="minimum">
+                <number>-1</number>
+               </property>
+               <property name="maximum">
+                <number>999999</number>
+               </property>
+              </widget>
              </item>
              <item row="5" column="0">
               <widget class="QLabel" name="label_4">
@@ -248,13 +271,6 @@
                </property>
               </widget>
              </item>
-             <item row="2" column="1">
-              <widget class="QPushButton" name="pushButton_DeleteFile">
-               <property name="text">
-                <string>Delete</string>
-               </property>
-              </widget>
-             </item>
              <item row="1" column="1">
               <widget class="QPushButton" name="pushButton_DuplicateTile">
                <property name="text">
@@ -266,6 +282,13 @@
               <widget class="QPushButton" name="pushButton_ChangeTile">
                <property name="text">
                 <string>Change</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QPushButton" name="pushButton_DeleteFile">
+               <property name="text">
+                <string>Delete</string>
                </property>
               </widget>
              </item>
@@ -325,21 +348,21 @@
             </property>
             <layout class="QGridLayout" name="gridLayout_2">
              <item row="0" column="0">
-              <widget class="QPushButton" name="pushButton_3">
+              <widget class="QPushButton" name="pushButton_AddFrame">
                <property name="text">
                 <string>Add</string>
                </property>
               </widget>
              </item>
              <item row="0" column="1">
-              <widget class="QPushButton" name="pushButton_4">
+              <widget class="QPushButton" name="pushButton_DuplicateFrame">
                <property name="text">
                 <string>Duplicate</string>
                </property>
               </widget>
              </item>
              <item row="1" column="1">
-              <widget class="QPushButton" name="pushButton_5">
+              <widget class="QPushButton" name="pushButton_DeleteFrame">
                <property name="text">
                 <string>Delete</string>
                </property>
@@ -462,7 +485,7 @@
                </item>
                <item>
                 <property name="text">
-                 <string>inner-top-right</string>
+                 <string>inner-bottom-left</string>
                 </property>
                </item>
               </widget>
@@ -967,7 +990,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>176</x>
-     <y>307</y>
+     <y>272</y>
     </hint>
     <hint type="destinationlabel">
      <x>533</x>
@@ -1158,8 +1181,8 @@
    <slot>onSelectedTileFrame(QTreeWidgetItem*,int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>117</x>
-     <y>669</y>
+     <x>151</x>
+     <y>861</y>
     </hint>
     <hint type="destinationlabel">
      <x>7</x>
@@ -1174,8 +1197,8 @@
    <slot>updateFrameEditorData()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>541</x>
-     <y>886</y>
+     <x>594</x>
+     <y>943</y>
     </hint>
     <hint type="destinationlabel">
      <x>542</x>
@@ -1190,8 +1213,8 @@
    <slot>updateFrameEditorData()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>593</x>
-     <y>881</y>
+     <x>662</x>
+     <y>943</y>
     </hint>
     <hint type="destinationlabel">
      <x>571</x>
@@ -1206,8 +1229,8 @@
    <slot>updateFrameEditorData()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>738</x>
-     <y>894</y>
+     <x>752</x>
+     <y>943</y>
     </hint>
     <hint type="destinationlabel">
      <x>659</x>
@@ -1222,8 +1245,8 @@
    <slot>updateFrameEditorData()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>804</x>
-     <y>894</y>
+     <x>818</x>
+     <y>943</y>
     </hint>
     <hint type="destinationlabel">
      <x>709</x>
@@ -1238,8 +1261,8 @@
    <slot>editFrame()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>867</x>
-     <y>881</y>
+     <x>930</x>
+     <y>938</y>
     </hint>
     <hint type="destinationlabel">
      <x>858</x>
@@ -1263,6 +1286,118 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>pushButton_AddTile</sender>
+   <signal>clicked()</signal>
+   <receiver>TilesetEditor</receiver>
+   <slot>addTile()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>96</x>
+     <y>564</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1</x>
+     <y>560</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_ChangeTile</sender>
+   <signal>clicked()</signal>
+   <receiver>TilesetEditor</receiver>
+   <slot>editTile()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>117</x>
+     <y>598</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>8</x>
+     <y>600</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_DuplicateTile</sender>
+   <signal>clicked()</signal>
+   <receiver>TilesetEditor</receiver>
+   <slot>duplicateTile()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>240</x>
+     <y>558</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>7</x>
+     <y>539</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_AddFrame</sender>
+   <signal>clicked()</signal>
+   <receiver>TilesetEditor</receiver>
+   <slot>addFrame()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>105</x>
+     <y>892</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>9</x>
+     <y>895</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_DuplicateFrame</sender>
+   <signal>clicked()</signal>
+   <receiver>TilesetEditor</receiver>
+   <slot>duplicateFrame()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>230</x>
+     <y>902</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>7</x>
+     <y>875</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_DeleteFrame</sender>
+   <signal>clicked()</signal>
+   <receiver>TilesetEditor</receiver>
+   <slot>deleteFrame()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>200</x>
+     <y>929</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>2</x>
+     <y>932</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_DeleteFile</sender>
+   <signal>clicked()</signal>
+   <receiver>TilesetEditor</receiver>
+   <slot>deleteTile()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>268</x>
+     <y>595</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>5</x>
+     <y>507</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>loadTileset()</slot>
@@ -1274,5 +1409,12 @@
   <slot>updateFrameEditorData()</slot>
   <slot>editFrame()</slot>
   <slot>saveTileset()</slot>
+  <slot>addTile()</slot>
+  <slot>editTile()</slot>
+  <slot>duplicateTile()</slot>
+  <slot>deleteTile()</slot>
+  <slot>addFrame()</slot>
+  <slot>duplicateFrame()</slot>
+  <slot>deleteFrame()</slot>
  </slots>
 </ui>
