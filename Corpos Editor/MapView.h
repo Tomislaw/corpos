@@ -27,9 +27,10 @@ public:
 	void startDrawingSelection();
 	void createTilesAtSelectedArea(std::string tileset, std::string tile);
 	bool saveToFile(std::string location);
+	void setViewSize(float size);
 private:
 
-
+	float viewSize = 1;
 	Tilemap worldmap;
 
 	sf::ConvexShape selectRectangle;

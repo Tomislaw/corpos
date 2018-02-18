@@ -13,11 +13,15 @@ public:
 	void setTile(TileDefinition * tiledef);
 	void onResize();
 	void setViewSize(float size);
+	void setTileCollidables(bool a, bool b, bool c,
+							bool d,	/*x*/	bool e,
+							bool f, bool g, bool h);
+	sf::View view;
+
 private:
 	float size = 1;
 	sf::VertexArray tileDrawable;
 	std::vector<sf::Vertex*> tilePtr;
-	sf::View view;
 	Tile tile;
 	sf::Texture * texture = nullptr;
 };

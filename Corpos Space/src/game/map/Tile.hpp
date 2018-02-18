@@ -69,6 +69,8 @@ public:
 	std::string toString();
 
 	std::vector<sf::Color> destroyParticleColors;
+
+	TextElement generateTextElement();
 };
 
 struct Particle;

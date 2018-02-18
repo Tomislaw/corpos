@@ -30,7 +30,6 @@
 #include <QtWidgets/QSpinBox>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
-#include <QtWidgets/QToolButton>
 #include <QtWidgets/QTreeWidget>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -53,16 +52,25 @@ public:
     QTreeWidget *treeWidget_Tiles;
     QFrame *frame_5;
     QGridLayout *gridLayout_4;
-    QLabel *label_3;
-    QLabel *label;
+    QWidget *widget_7;
+    QHBoxLayout *horizontalLayout_9;
+    QSpinBox *spinBox_tileRectX;
+    QSpinBox *spinBox_TilerectY;
+    QSpinBox *spinBox_TilerectW;
+    QSpinBox *spinBox_TilerectH;
     QLabel *label_2;
-    QComboBox *comboBox_2;
+    QLabel *label_3;
+    QComboBox *comboBox_tileType;
+    QLabel *label;
+    QLineEdit *lineEdit_tileName;
+    QSpinBox *spinBox_health;
     QLabel *label_4;
-    QCheckBox *checkBox;
-    QLineEdit *lineEdit;
-    QSpinBox *spinBox_5;
     QLabel *label_8;
-    QLineEdit *lineEdit_4;
+    QCheckBox *checkBox_singleImage;
+    QLineEdit *lineEdit_background;
+    QLabel *label_9;
+    QLabel *label_10;
+    QLineEdit *lineEdit_connectGroup;
     QFrame *frame_4;
     QGridLayout *gridLayout_3;
     QPushButton *pushButton_AddTile;
@@ -79,42 +87,49 @@ public:
     QPushButton *pushButton_5;
     QWidget *widget_2;
     QVBoxLayout *verticalLayout_2;
-    QGroupBox *groupBox_3;
+    QGroupBox *groupBox_TextureView;
+    QVBoxLayout *verticalLayout_6;
+    QVBoxLayout *verticalLayout_TextureView;
     QGroupBox *groupBox_4;
     QHBoxLayout *horizontalLayout_3;
     QGroupBox *groupBox_8;
     QHBoxLayout *horizontalLayout_6;
-    QComboBox *comboBox;
+    QComboBox *comboBox_frameType;
     QGroupBox *groupBox_5;
     QHBoxLayout *horizontalLayout_4;
-    QSpinBox *spinBox;
-    QSpinBox *spinBox_2;
+    QSpinBox *spinBox_posX;
+    QSpinBox *spinBox_posY;
     QGroupBox *groupBox_7;
     QHBoxLayout *horizontalLayout_5;
-    QSpinBox *spinBox_3;
-    QSpinBox *spinBox_4;
+    QSpinBox *spinBox_sizeX;
+    QSpinBox *spinBox_sizeY;
+    QPushButton *pushButton_ChangeFrame;
+    QSpacerItem *horizontalSpacer;
     QWidget *widget_3;
     QVBoxLayout *verticalLayout_3;
     QGroupBox *groupBox_9;
     QGridLayout *gridLayout_5;
+    QLabel *label_Name;
+    QLabel *label_Texture;
+    QLineEdit *lineEdit_tilesetName;
+    QLabel *label_6;
     QWidget *widget_4;
     QHBoxLayout *horizontalLayout_7;
-    QLineEdit *lineEdit_3;
-    QToolButton *toolButton;
+    QLabel *label_Texturesize;
     QWidget *widget_5;
     QGridLayout *gridLayout_6;
     QSpinBox *spinBox_6;
     QSpinBox *spinBox_7;
-    QLabel *label_7;
-    QLabel *label_Texturesize;
-    QLabel *label_Texture;
-    QLabel *label_Name;
-    QLabel *label_6;
-    QPushButton *pushButton_7;
     QLabel *label_5;
-    QLineEdit *lineEdit_2;
+    QPushButton *pushButton_ChangeTileset;
+    QLabel *label_7;
+    QWidget *widget_6;
+    QHBoxLayout *horizontalLayout_8;
+    QLineEdit *lineEdit_Texture;
+    QComboBox *comboBox_Texture;
     QGroupBox *groupBox_6;
     QGridLayout *gridLayout;
+    QFrame *frameTileView;
     QCheckBox *checkBox_LeftBottom;
     QCheckBox *checkBox_RightBottom;
     QCheckBox *checkBox_Bottom;
@@ -123,7 +138,7 @@ public:
     QCheckBox *checkBox_RightTop;
     QCheckBox *checkBox_Top;
     QCheckBox *checkBox_LeftTop;
-    QFrame *frameTileView;
+    QPushButton *pushButton_Randomize;
     QSpacerItem *verticalSpacer;
     QFrame *frame_2;
     QHBoxLayout *horizontalLayout_2;
@@ -136,7 +151,7 @@ public:
     {
         if (TilesetEditor->objectName().isEmpty())
             TilesetEditor->setObjectName(QStringLiteral("TilesetEditor"));
-        TilesetEditor->resize(1067, 1107);
+        TilesetEditor->resize(1460, 1015);
         QIcon icon;
         icon.addFile(QStringLiteral(":/CorposEditor/Resources/icons/tilesetEditor.png"), QSize(), QIcon::Normal, QIcon::Off);
         TilesetEditor->setWindowIcon(icon);
@@ -204,55 +219,100 @@ public:
         gridLayout_4->setSpacing(6);
         gridLayout_4->setContentsMargins(11, 11, 11, 11);
         gridLayout_4->setObjectName(QStringLiteral("gridLayout_4"));
-        label_3 = new QLabel(frame_5);
-        label_3->setObjectName(QStringLiteral("label_3"));
+        widget_7 = new QWidget(frame_5);
+        widget_7->setObjectName(QStringLiteral("widget_7"));
+        horizontalLayout_9 = new QHBoxLayout(widget_7);
+        horizontalLayout_9->setSpacing(1);
+        horizontalLayout_9->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_9->setObjectName(QStringLiteral("horizontalLayout_9"));
+        horizontalLayout_9->setContentsMargins(0, 0, 0, 0);
+        spinBox_tileRectX = new QSpinBox(widget_7);
+        spinBox_tileRectX->setObjectName(QStringLiteral("spinBox_tileRectX"));
 
-        gridLayout_4->addWidget(label_3, 4, 0, 1, 1);
+        horizontalLayout_9->addWidget(spinBox_tileRectX);
 
-        label = new QLabel(frame_5);
-        label->setObjectName(QStringLiteral("label"));
+        spinBox_TilerectY = new QSpinBox(widget_7);
+        spinBox_TilerectY->setObjectName(QStringLiteral("spinBox_TilerectY"));
 
-        gridLayout_4->addWidget(label, 0, 0, 1, 1);
+        horizontalLayout_9->addWidget(spinBox_TilerectY);
+
+        spinBox_TilerectW = new QSpinBox(widget_7);
+        spinBox_TilerectW->setObjectName(QStringLiteral("spinBox_TilerectW"));
+
+        horizontalLayout_9->addWidget(spinBox_TilerectW);
+
+        spinBox_TilerectH = new QSpinBox(widget_7);
+        spinBox_TilerectH->setObjectName(QStringLiteral("spinBox_TilerectH"));
+
+        horizontalLayout_9->addWidget(spinBox_TilerectH);
+
+
+        gridLayout_4->addWidget(widget_7, 6, 1, 1, 1);
 
         label_2 = new QLabel(frame_5);
         label_2->setObjectName(QStringLiteral("label_2"));
 
         gridLayout_4->addWidget(label_2, 2, 0, 1, 1);
 
-        comboBox_2 = new QComboBox(frame_5);
-        comboBox_2->setObjectName(QStringLiteral("comboBox_2"));
+        label_3 = new QLabel(frame_5);
+        label_3->setObjectName(QStringLiteral("label_3"));
 
-        gridLayout_4->addWidget(comboBox_2, 2, 1, 1, 1);
+        gridLayout_4->addWidget(label_3, 4, 0, 1, 1);
+
+        comboBox_tileType = new QComboBox(frame_5);
+        comboBox_tileType->setObjectName(QStringLiteral("comboBox_tileType"));
+
+        gridLayout_4->addWidget(comboBox_tileType, 2, 1, 1, 1);
+
+        label = new QLabel(frame_5);
+        label->setObjectName(QStringLiteral("label"));
+
+        gridLayout_4->addWidget(label, 0, 0, 1, 1);
+
+        lineEdit_tileName = new QLineEdit(frame_5);
+        lineEdit_tileName->setObjectName(QStringLiteral("lineEdit_tileName"));
+
+        gridLayout_4->addWidget(lineEdit_tileName, 0, 1, 1, 1);
+
+        spinBox_health = new QSpinBox(frame_5);
+        spinBox_health->setObjectName(QStringLiteral("spinBox_health"));
+
+        gridLayout_4->addWidget(spinBox_health, 4, 1, 1, 1);
 
         label_4 = new QLabel(frame_5);
         label_4->setObjectName(QStringLiteral("label_4"));
 
         gridLayout_4->addWidget(label_4, 5, 0, 1, 1);
 
-        checkBox = new QCheckBox(frame_5);
-        checkBox->setObjectName(QStringLiteral("checkBox"));
-
-        gridLayout_4->addWidget(checkBox, 5, 1, 1, 1);
-
-        lineEdit = new QLineEdit(frame_5);
-        lineEdit->setObjectName(QStringLiteral("lineEdit"));
-
-        gridLayout_4->addWidget(lineEdit, 0, 1, 1, 1);
-
-        spinBox_5 = new QSpinBox(frame_5);
-        spinBox_5->setObjectName(QStringLiteral("spinBox_5"));
-
-        gridLayout_4->addWidget(spinBox_5, 4, 1, 1, 1);
-
         label_8 = new QLabel(frame_5);
         label_8->setObjectName(QStringLiteral("label_8"));
 
         gridLayout_4->addWidget(label_8, 3, 0, 1, 1);
 
-        lineEdit_4 = new QLineEdit(frame_5);
-        lineEdit_4->setObjectName(QStringLiteral("lineEdit_4"));
+        checkBox_singleImage = new QCheckBox(frame_5);
+        checkBox_singleImage->setObjectName(QStringLiteral("checkBox_singleImage"));
 
-        gridLayout_4->addWidget(lineEdit_4, 3, 1, 1, 1);
+        gridLayout_4->addWidget(checkBox_singleImage, 5, 1, 1, 1);
+
+        lineEdit_background = new QLineEdit(frame_5);
+        lineEdit_background->setObjectName(QStringLiteral("lineEdit_background"));
+
+        gridLayout_4->addWidget(lineEdit_background, 3, 1, 1, 1);
+
+        label_9 = new QLabel(frame_5);
+        label_9->setObjectName(QStringLiteral("label_9"));
+
+        gridLayout_4->addWidget(label_9, 6, 0, 1, 1);
+
+        label_10 = new QLabel(frame_5);
+        label_10->setObjectName(QStringLiteral("label_10"));
+
+        gridLayout_4->addWidget(label_10, 7, 0, 1, 1);
+
+        lineEdit_connectGroup = new QLineEdit(frame_5);
+        lineEdit_connectGroup->setObjectName(QStringLiteral("lineEdit_connectGroup"));
+
+        gridLayout_4->addWidget(lineEdit_connectGroup, 7, 1, 1, 1);
 
 
         verticalLayout_5->addWidget(frame_5);
@@ -356,12 +416,22 @@ public:
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
-        groupBox_3 = new QGroupBox(widget_2);
-        groupBox_3->setObjectName(QStringLiteral("groupBox_3"));
-        sizePolicy1.setHeightForWidth(groupBox_3->sizePolicy().hasHeightForWidth());
-        groupBox_3->setSizePolicy(sizePolicy1);
+        groupBox_TextureView = new QGroupBox(widget_2);
+        groupBox_TextureView->setObjectName(QStringLiteral("groupBox_TextureView"));
+        sizePolicy1.setHeightForWidth(groupBox_TextureView->sizePolicy().hasHeightForWidth());
+        groupBox_TextureView->setSizePolicy(sizePolicy1);
+        verticalLayout_6 = new QVBoxLayout(groupBox_TextureView);
+        verticalLayout_6->setSpacing(6);
+        verticalLayout_6->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_6->setObjectName(QStringLiteral("verticalLayout_6"));
+        verticalLayout_TextureView = new QVBoxLayout();
+        verticalLayout_TextureView->setSpacing(6);
+        verticalLayout_TextureView->setObjectName(QStringLiteral("verticalLayout_TextureView"));
 
-        verticalLayout_2->addWidget(groupBox_3);
+        verticalLayout_6->addLayout(verticalLayout_TextureView);
+
+
+        verticalLayout_2->addWidget(groupBox_TextureView);
 
         groupBox_4 = new QGroupBox(widget_2);
         groupBox_4->setObjectName(QStringLiteral("groupBox_4"));
@@ -375,10 +445,10 @@ public:
         horizontalLayout_6->setSpacing(6);
         horizontalLayout_6->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
-        comboBox = new QComboBox(groupBox_8);
-        comboBox->setObjectName(QStringLiteral("comboBox"));
+        comboBox_frameType = new QComboBox(groupBox_8);
+        comboBox_frameType->setObjectName(QStringLiteral("comboBox_frameType"));
 
-        horizontalLayout_6->addWidget(comboBox);
+        horizontalLayout_6->addWidget(comboBox_frameType);
 
 
         horizontalLayout_3->addWidget(groupBox_8);
@@ -389,17 +459,23 @@ public:
         horizontalLayout_4->setSpacing(6);
         horizontalLayout_4->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
-        spinBox = new QSpinBox(groupBox_5);
-        spinBox->setObjectName(QStringLiteral("spinBox"));
-        sizePolicy4.setHeightForWidth(spinBox->sizePolicy().hasHeightForWidth());
-        spinBox->setSizePolicy(sizePolicy4);
+        spinBox_posX = new QSpinBox(groupBox_5);
+        spinBox_posX->setObjectName(QStringLiteral("spinBox_posX"));
+        sizePolicy4.setHeightForWidth(spinBox_posX->sizePolicy().hasHeightForWidth());
+        spinBox_posX->setSizePolicy(sizePolicy4);
+        spinBox_posX->setMinimumSize(QSize(50, 0));
+        spinBox_posX->setMinimum(-9999);
+        spinBox_posX->setMaximum(9999);
 
-        horizontalLayout_4->addWidget(spinBox);
+        horizontalLayout_4->addWidget(spinBox_posX);
 
-        spinBox_2 = new QSpinBox(groupBox_5);
-        spinBox_2->setObjectName(QStringLiteral("spinBox_2"));
+        spinBox_posY = new QSpinBox(groupBox_5);
+        spinBox_posY->setObjectName(QStringLiteral("spinBox_posY"));
+        spinBox_posY->setMinimumSize(QSize(50, 0));
+        spinBox_posY->setMinimum(-9999);
+        spinBox_posY->setMaximum(99999);
 
-        horizontalLayout_4->addWidget(spinBox_2);
+        horizontalLayout_4->addWidget(spinBox_posY);
 
 
         horizontalLayout_3->addWidget(groupBox_5);
@@ -410,18 +486,33 @@ public:
         horizontalLayout_5->setSpacing(6);
         horizontalLayout_5->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
-        spinBox_3 = new QSpinBox(groupBox_7);
-        spinBox_3->setObjectName(QStringLiteral("spinBox_3"));
+        spinBox_sizeX = new QSpinBox(groupBox_7);
+        spinBox_sizeX->setObjectName(QStringLiteral("spinBox_sizeX"));
+        spinBox_sizeX->setMinimumSize(QSize(50, 0));
+        spinBox_sizeX->setMinimum(-9999);
+        spinBox_sizeX->setMaximum(9999);
 
-        horizontalLayout_5->addWidget(spinBox_3);
+        horizontalLayout_5->addWidget(spinBox_sizeX);
 
-        spinBox_4 = new QSpinBox(groupBox_7);
-        spinBox_4->setObjectName(QStringLiteral("spinBox_4"));
+        spinBox_sizeY = new QSpinBox(groupBox_7);
+        spinBox_sizeY->setObjectName(QStringLiteral("spinBox_sizeY"));
+        spinBox_sizeY->setMinimumSize(QSize(50, 0));
+        spinBox_sizeY->setMinimum(-9999);
+        spinBox_sizeY->setMaximum(9999);
 
-        horizontalLayout_5->addWidget(spinBox_4);
+        horizontalLayout_5->addWidget(spinBox_sizeY);
 
 
         horizontalLayout_3->addWidget(groupBox_7);
+
+        pushButton_ChangeFrame = new QPushButton(groupBox_4);
+        pushButton_ChangeFrame->setObjectName(QStringLiteral("pushButton_ChangeFrame"));
+
+        horizontalLayout_3->addWidget(pushButton_ChangeFrame);
+
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_3->addItem(horizontalSpacer);
 
 
         verticalLayout_2->addWidget(groupBox_4);
@@ -447,6 +538,26 @@ public:
         gridLayout_5->setSpacing(6);
         gridLayout_5->setContentsMargins(11, 11, 11, 11);
         gridLayout_5->setObjectName(QStringLiteral("gridLayout_5"));
+        label_Name = new QLabel(groupBox_9);
+        label_Name->setObjectName(QStringLiteral("label_Name"));
+
+        gridLayout_5->addWidget(label_Name, 0, 1, 1, 1);
+
+        label_Texture = new QLabel(groupBox_9);
+        label_Texture->setObjectName(QStringLiteral("label_Texture"));
+
+        gridLayout_5->addWidget(label_Texture, 3, 1, 1, 1);
+
+        lineEdit_tilesetName = new QLineEdit(groupBox_9);
+        lineEdit_tilesetName->setObjectName(QStringLiteral("lineEdit_tilesetName"));
+
+        gridLayout_5->addWidget(lineEdit_tilesetName, 0, 2, 1, 1);
+
+        label_6 = new QLabel(groupBox_9);
+        label_6->setObjectName(QStringLiteral("label_6"));
+
+        gridLayout_5->addWidget(label_6, 3, 0, 1, 1);
+
         widget_4 = new QWidget(groupBox_9);
         widget_4->setObjectName(QStringLiteral("widget_4"));
         horizontalLayout_7 = new QHBoxLayout(widget_4);
@@ -454,15 +565,10 @@ public:
         horizontalLayout_7->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_7->setObjectName(QStringLiteral("horizontalLayout_7"));
         horizontalLayout_7->setContentsMargins(0, 0, 0, 0);
-        lineEdit_3 = new QLineEdit(widget_4);
-        lineEdit_3->setObjectName(QStringLiteral("lineEdit_3"));
+        label_Texturesize = new QLabel(widget_4);
+        label_Texturesize->setObjectName(QStringLiteral("label_Texturesize"));
 
-        horizontalLayout_7->addWidget(lineEdit_3);
-
-        toolButton = new QToolButton(widget_4);
-        toolButton->setObjectName(QStringLiteral("toolButton"));
-
-        horizontalLayout_7->addWidget(toolButton);
+        horizontalLayout_7->addWidget(label_Texturesize);
 
 
         gridLayout_5->addWidget(widget_4, 4, 1, 1, 1);
@@ -488,45 +594,40 @@ public:
 
         gridLayout_5->addWidget(widget_5, 4, 2, 1, 1);
 
-        label_7 = new QLabel(groupBox_9);
-        label_7->setObjectName(QStringLiteral("label_7"));
-
-        gridLayout_5->addWidget(label_7, 0, 2, 1, 1);
-
-        label_Texturesize = new QLabel(groupBox_9);
-        label_Texturesize->setObjectName(QStringLiteral("label_Texturesize"));
-
-        gridLayout_5->addWidget(label_Texturesize, 3, 2, 1, 1);
-
-        label_Texture = new QLabel(groupBox_9);
-        label_Texture->setObjectName(QStringLiteral("label_Texture"));
-
-        gridLayout_5->addWidget(label_Texture, 3, 1, 1, 1);
-
-        label_Name = new QLabel(groupBox_9);
-        label_Name->setObjectName(QStringLiteral("label_Name"));
-
-        gridLayout_5->addWidget(label_Name, 3, 0, 1, 1);
-
-        label_6 = new QLabel(groupBox_9);
-        label_6->setObjectName(QStringLiteral("label_6"));
-
-        gridLayout_5->addWidget(label_6, 0, 1, 1, 1);
-
-        pushButton_7 = new QPushButton(groupBox_9);
-        pushButton_7->setObjectName(QStringLiteral("pushButton_7"));
-
-        gridLayout_5->addWidget(pushButton_7, 5, 2, 1, 1);
-
         label_5 = new QLabel(groupBox_9);
         label_5->setObjectName(QStringLiteral("label_5"));
 
         gridLayout_5->addWidget(label_5, 0, 0, 1, 1);
 
-        lineEdit_2 = new QLineEdit(groupBox_9);
-        lineEdit_2->setObjectName(QStringLiteral("lineEdit_2"));
+        pushButton_ChangeTileset = new QPushButton(groupBox_9);
+        pushButton_ChangeTileset->setObjectName(QStringLiteral("pushButton_ChangeTileset"));
 
-        gridLayout_5->addWidget(lineEdit_2, 4, 0, 1, 1);
+        gridLayout_5->addWidget(pushButton_ChangeTileset, 5, 2, 1, 1);
+
+        label_7 = new QLabel(groupBox_9);
+        label_7->setObjectName(QStringLiteral("label_7"));
+
+        gridLayout_5->addWidget(label_7, 4, 0, 1, 1);
+
+        widget_6 = new QWidget(groupBox_9);
+        widget_6->setObjectName(QStringLiteral("widget_6"));
+        horizontalLayout_8 = new QHBoxLayout(widget_6);
+        horizontalLayout_8->setSpacing(1);
+        horizontalLayout_8->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_8->setObjectName(QStringLiteral("horizontalLayout_8"));
+        horizontalLayout_8->setContentsMargins(0, 0, 0, 0);
+        lineEdit_Texture = new QLineEdit(widget_6);
+        lineEdit_Texture->setObjectName(QStringLiteral("lineEdit_Texture"));
+
+        horizontalLayout_8->addWidget(lineEdit_Texture);
+
+        comboBox_Texture = new QComboBox(widget_6);
+        comboBox_Texture->setObjectName(QStringLiteral("comboBox_Texture"));
+
+        horizontalLayout_8->addWidget(comboBox_Texture);
+
+
+        gridLayout_5->addWidget(widget_6, 3, 2, 1, 1);
 
 
         verticalLayout_3->addWidget(groupBox_9);
@@ -542,6 +643,14 @@ public:
         gridLayout->setContentsMargins(11, 11, 11, 11);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
         gridLayout->setSizeConstraint(QLayout::SetMinimumSize);
+        frameTileView = new QFrame(groupBox_6);
+        frameTileView->setObjectName(QStringLiteral("frameTileView"));
+        frameTileView->setMinimumSize(QSize(100, 100));
+        frameTileView->setFrameShape(QFrame::Box);
+        frameTileView->setFrameShadow(QFrame::Raised);
+
+        gridLayout->addWidget(frameTileView, 1, 1, 1, 1);
+
         checkBox_LeftBottom = new QCheckBox(groupBox_6);
         checkBox_LeftBottom->setObjectName(QStringLiteral("checkBox_LeftBottom"));
 
@@ -582,13 +691,10 @@ public:
 
         gridLayout->addWidget(checkBox_LeftTop, 0, 0, 1, 1);
 
-        frameTileView = new QFrame(groupBox_6);
-        frameTileView->setObjectName(QStringLiteral("frameTileView"));
-        frameTileView->setMinimumSize(QSize(100, 100));
-        frameTileView->setFrameShape(QFrame::Box);
-        frameTileView->setFrameShadow(QFrame::Raised);
+        pushButton_Randomize = new QPushButton(groupBox_6);
+        pushButton_Randomize->setObjectName(QStringLiteral("pushButton_Randomize"));
 
-        gridLayout->addWidget(frameTileView, 1, 1, 1, 1);
+        gridLayout->addWidget(pushButton_Randomize, 3, 2, 1, 1);
 
 
         verticalLayout_3->addWidget(groupBox_6);
@@ -614,7 +720,7 @@ public:
         TilesetEditor->setCentralWidget(mainWidget);
         menuBar = new QMenuBar(TilesetEditor);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1067, 26));
+        menuBar->setGeometry(QRect(0, 0, 1460, 26));
         menuFile = new QMenu(menuBar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         TilesetEditor->setMenuBar(menuBar);
@@ -639,7 +745,25 @@ public:
 
         retranslateUi(TilesetEditor);
         QObject::connect(actionOpen, SIGNAL(triggered()), TilesetEditor, SLOT(loadTileset()));
-        QObject::connect(treeWidget_Tiles, SIGNAL(itemPressed(QTreeWidgetItem*,int)), TilesetEditor, SLOT(loadTileGrid(QTreeWidgetItem*,int)));
+        QObject::connect(treeWidget_Tiles, SIGNAL(itemPressed(QTreeWidgetItem*,int)), TilesetEditor, SLOT(onSelectedTileDefinition(QTreeWidgetItem*,int)));
+        QObject::connect(checkBox_LeftTop, SIGNAL(toggled(bool)), TilesetEditor, SLOT(updateTileView()));
+        QObject::connect(checkBox_Top, SIGNAL(toggled(bool)), TilesetEditor, SLOT(updateTileView()));
+        QObject::connect(checkBox_RightTop, SIGNAL(toggled(bool)), TilesetEditor, SLOT(updateTileView()));
+        QObject::connect(checkBox_Right, SIGNAL(toggled(bool)), TilesetEditor, SLOT(updateTileView()));
+        QObject::connect(checkBox_RightBottom, SIGNAL(toggled(bool)), TilesetEditor, SLOT(updateTileView()));
+        QObject::connect(checkBox_Bottom, SIGNAL(toggled(bool)), TilesetEditor, SLOT(updateTileView()));
+        QObject::connect(checkBox_LeftBottom, SIGNAL(toggled(bool)), TilesetEditor, SLOT(updateTileView()));
+        QObject::connect(checkBox_Left, SIGNAL(toggled(bool)), TilesetEditor, SLOT(updateTileView()));
+        QObject::connect(pushButton_Randomize, SIGNAL(clicked()), TilesetEditor, SLOT(updateTileView()));
+        QObject::connect(comboBox_Texture, SIGNAL(currentTextChanged(QString)), TilesetEditor, SLOT(selectedTexture(QString)));
+        QObject::connect(pushButton_ChangeTileset, SIGNAL(clicked()), TilesetEditor, SLOT(changeTileset()));
+        QObject::connect(treeWidget_tilesGrid, SIGNAL(itemPressed(QTreeWidgetItem*,int)), TilesetEditor, SLOT(onSelectedTileFrame(QTreeWidgetItem*,int)));
+        QObject::connect(spinBox_posX, SIGNAL(valueChanged(int)), TilesetEditor, SLOT(updateFrameEditorData()));
+        QObject::connect(spinBox_posY, SIGNAL(valueChanged(int)), TilesetEditor, SLOT(updateFrameEditorData()));
+        QObject::connect(spinBox_sizeX, SIGNAL(valueChanged(int)), TilesetEditor, SLOT(updateFrameEditorData()));
+        QObject::connect(spinBox_sizeY, SIGNAL(valueChanged(int)), TilesetEditor, SLOT(updateFrameEditorData()));
+        QObject::connect(pushButton_ChangeFrame, SIGNAL(clicked()), TilesetEditor, SLOT(editFrame()));
+        QObject::connect(actionSave, SIGNAL(triggered()), TilesetEditor, SLOT(saveTileset()));
 
         QMetaObject::connectSlotsByName(TilesetEditor);
     } // setupUi
@@ -654,23 +778,27 @@ public:
         mainWidget->setWindowTitle(QApplication::translate("TilesetEditor", "Tileset editor", Q_NULLPTR));
         groupBox->setTitle(QApplication::translate("TilesetEditor", "Tile", Q_NULLPTR));
         QTreeWidgetItem *___qtreewidgetitem = treeWidget_Tiles->headerItem();
+        ___qtreewidgetitem->setText(6, QApplication::translate("TilesetEditor", "Connect group", Q_NULLPTR));
+        ___qtreewidgetitem->setText(5, QApplication::translate("TilesetEditor", "Nowa kolumna", Q_NULLPTR));
         ___qtreewidgetitem->setText(4, QApplication::translate("TilesetEditor", "SingleImage", Q_NULLPTR));
         ___qtreewidgetitem->setText(3, QApplication::translate("TilesetEditor", "Health", Q_NULLPTR));
         ___qtreewidgetitem->setText(2, QApplication::translate("TilesetEditor", "Background", Q_NULLPTR));
         ___qtreewidgetitem->setText(1, QApplication::translate("TilesetEditor", "Type", Q_NULLPTR));
         ___qtreewidgetitem->setText(0, QApplication::translate("TilesetEditor", "Name", Q_NULLPTR));
-        label_3->setText(QApplication::translate("TilesetEditor", "Health:", Q_NULLPTR));
-        label->setText(QApplication::translate("TilesetEditor", "Name: ", Q_NULLPTR));
         label_2->setText(QApplication::translate("TilesetEditor", "Type:", Q_NULLPTR));
-        comboBox_2->clear();
-        comboBox_2->insertItems(0, QStringList()
+        label_3->setText(QApplication::translate("TilesetEditor", "Health:", Q_NULLPTR));
+        comboBox_tileType->clear();
+        comboBox_tileType->insertItems(0, QStringList()
          << QApplication::translate("TilesetEditor", "tile", Q_NULLPTR)
          << QApplication::translate("TilesetEditor", "background", Q_NULLPTR)
          << QApplication::translate("TilesetEditor", "ladder", Q_NULLPTR)
         );
+        label->setText(QApplication::translate("TilesetEditor", "Name: ", Q_NULLPTR));
         label_4->setText(QApplication::translate("TilesetEditor", "SingleImage:", Q_NULLPTR));
-        checkBox->setText(QString());
         label_8->setText(QApplication::translate("TilesetEditor", "Background:", Q_NULLPTR));
+        checkBox_singleImage->setText(QString());
+        label_9->setText(QApplication::translate("TilesetEditor", "Size:", Q_NULLPTR));
+        label_10->setText(QApplication::translate("TilesetEditor", "Group:", Q_NULLPTR));
         pushButton_AddTile->setText(QApplication::translate("TilesetEditor", "Add", Q_NULLPTR));
         pushButton_DeleteFile->setText(QApplication::translate("TilesetEditor", "Delete", Q_NULLPTR));
         pushButton_DuplicateTile->setText(QApplication::translate("TilesetEditor", "Duplicate", Q_NULLPTR));
@@ -683,32 +811,37 @@ public:
         pushButton_3->setText(QApplication::translate("TilesetEditor", "Add", Q_NULLPTR));
         pushButton_4->setText(QApplication::translate("TilesetEditor", "Duplicate", Q_NULLPTR));
         pushButton_5->setText(QApplication::translate("TilesetEditor", "Delete", Q_NULLPTR));
-        groupBox_3->setTitle(QApplication::translate("TilesetEditor", "Texture view", Q_NULLPTR));
+        groupBox_TextureView->setTitle(QApplication::translate("TilesetEditor", "Texture view", Q_NULLPTR));
         groupBox_4->setTitle(QString());
         groupBox_8->setTitle(QApplication::translate("TilesetEditor", "Type", Q_NULLPTR));
-        comboBox->clear();
-        comboBox->insertItems(0, QStringList()
+        comboBox_frameType->clear();
+        comboBox_frameType->insertItems(0, QStringList()
          << QApplication::translate("TilesetEditor", "top-left", Q_NULLPTR)
          << QApplication::translate("TilesetEditor", "top", Q_NULLPTR)
          << QApplication::translate("TilesetEditor", "top-right", Q_NULLPTR)
          << QApplication::translate("TilesetEditor", "left", Q_NULLPTR)
          << QApplication::translate("TilesetEditor", "inner", Q_NULLPTR)
+         << QApplication::translate("TilesetEditor", "center", Q_NULLPTR)
          << QApplication::translate("TilesetEditor", "right", Q_NULLPTR)
          << QApplication::translate("TilesetEditor", "bottom-left", Q_NULLPTR)
          << QApplication::translate("TilesetEditor", "bottom", Q_NULLPTR)
          << QApplication::translate("TilesetEditor", "bottom-right", Q_NULLPTR)
+         << QApplication::translate("TilesetEditor", "inner-top-left", Q_NULLPTR)
+         << QApplication::translate("TilesetEditor", "inner-top-right", Q_NULLPTR)
+         << QApplication::translate("TilesetEditor", "inner-bottom-right", Q_NULLPTR)
+         << QApplication::translate("TilesetEditor", "inner-top-right", Q_NULLPTR)
         );
         groupBox_5->setTitle(QApplication::translate("TilesetEditor", "Position", Q_NULLPTR));
         groupBox_7->setTitle(QApplication::translate("TilesetEditor", "Size", Q_NULLPTR));
+        pushButton_ChangeFrame->setText(QApplication::translate("TilesetEditor", "Change", Q_NULLPTR));
         groupBox_9->setTitle(QApplication::translate("TilesetEditor", "Tileset", Q_NULLPTR));
-        toolButton->setText(QApplication::translate("TilesetEditor", "...", Q_NULLPTR));
-        label_7->setText(QApplication::translate("TilesetEditor", "Texture size:", Q_NULLPTR));
-        label_Texturesize->setText(QApplication::translate("TilesetEditor", "0,0", Q_NULLPTR));
-        label_Texture->setText(QApplication::translate("TilesetEditor", "none", Q_NULLPTR));
         label_Name->setText(QApplication::translate("TilesetEditor", "none", Q_NULLPTR));
+        label_Texture->setText(QApplication::translate("TilesetEditor", "none", Q_NULLPTR));
         label_6->setText(QApplication::translate("TilesetEditor", "Texture:", Q_NULLPTR));
-        pushButton_7->setText(QApplication::translate("TilesetEditor", "Change", Q_NULLPTR));
+        label_Texturesize->setText(QApplication::translate("TilesetEditor", "0,0", Q_NULLPTR));
         label_5->setText(QApplication::translate("TilesetEditor", "Name:", Q_NULLPTR));
+        pushButton_ChangeTileset->setText(QApplication::translate("TilesetEditor", "Change", Q_NULLPTR));
+        label_7->setText(QApplication::translate("TilesetEditor", "Texture size:", Q_NULLPTR));
         groupBox_6->setTitle(QApplication::translate("TilesetEditor", "Tile view", Q_NULLPTR));
         checkBox_LeftBottom->setText(QApplication::translate("TilesetEditor", "Left, Bottom", Q_NULLPTR));
         checkBox_RightBottom->setText(QApplication::translate("TilesetEditor", "Right, Bottom", Q_NULLPTR));
@@ -718,6 +851,7 @@ public:
         checkBox_RightTop->setText(QApplication::translate("TilesetEditor", "Right, Top", Q_NULLPTR));
         checkBox_Top->setText(QApplication::translate("TilesetEditor", "Top", Q_NULLPTR));
         checkBox_LeftTop->setText(QApplication::translate("TilesetEditor", "Left, Top", Q_NULLPTR));
+        pushButton_Randomize->setText(QApplication::translate("TilesetEditor", "Randomize", Q_NULLPTR));
         menuFile->setTitle(QApplication::translate("TilesetEditor", "File", Q_NULLPTR));
     } // retranslateUi
 

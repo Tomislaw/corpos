@@ -60,8 +60,8 @@ void MapForm::mouseMoveEvent(QMouseEvent * e)
 {
 	if (isRightMouseMoving)
 	{
-	int moveX = lastMousePos.x - e->x();
-	int moveY = lastMousePos.y - e->y();
+	int moveX = (lastMousePos.x - e->x())*viewSize;
+	int moveY = (lastMousePos.y - e->y())*viewSize;
 
 	mapView->view.move(sf::Vector2f(moveX, moveY));
 	mapView->setView(mapView->view);
@@ -130,16 +130,12 @@ void MapForm::wheelEvent(QWheelEvent * e)
 {
 
 
-
-
-	viewSize += e->angleDelta().y() / 1000.f;
-
-
-
-	Logger::i(std::to_string(viewSize));
-	mapView->view.zoom(0.5f);
-	mapView->setView(mapView->view);
-
+	if(!((viewSize < 0.2 &&  e->angleDelta().y()<0) || (viewSize >= 4)&& e->angleDelta().y()>0))
+		viewSize += e->angleDelta().y() / 1000.f;
+	else return;
+	if (viewSize < 0.2)viewSize = 0.16;
+	if ((viewSize >= 4))viewSize = 4;
+	mapView->setViewSize(viewSize);
 	mapView->update();
 }
 

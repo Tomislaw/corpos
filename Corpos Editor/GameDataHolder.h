@@ -20,9 +20,11 @@ public:
 	void loadSprites();
 	sf::Texture * getTexture(std::string texture);
 	std::vector <GameSprite> * getSpriteList();
+	std::vector <std::string> & getTextureList();
+
 private:
 	std::vector <GameSprite> game_sprite_definitions;
-	std::string *texture_names;
+	std::vector <std::string> texture_names;
 	sf::Texture *texture;
 	int textureArraySize;
 };

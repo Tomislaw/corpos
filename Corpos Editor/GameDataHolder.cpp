@@ -21,7 +21,7 @@ GameDataHolder * GameDataHolder::getInstance()
 GameDataHolder::~GameDataHolder()
 {
 	delete texture;
-	delete texture_names;
+	//delete texture_names;
 }
 
 void GameDataHolder::loadTextures()
@@ -36,13 +36,12 @@ void GameDataHolder::loadTextures()
 	Logger::i("Found " + std::to_string(textures_list.size()) + " textures");
 
 	texture = new sf::Texture[textures_list.size()];
-	texture_names = new std::string[textures_list.size()];
 	for (int i = 0; i < textures_list.size(); i++)
 	{
 		//Logger::i("Loading " + textures_list[i]->getVariableByName("Location")->var[0]);
 		texture[i].loadFromFile(textures_list[i]->getVariableByName("Location")->var[0]);
 		texture[i].setSmooth(0);
-		texture_names[i] = (textures_list[i]->getVariableByName("Name")->var[0]);
+		texture_names.push_back((textures_list[i]->getVariableByName("Name")->var[0]));
 	}
 	textureArraySize = textures_list.size();
 
@@ -68,6 +67,11 @@ sf::Texture * GameDataHolder::getTexture(std::string texture)
 std::vector<GameSprite>* GameDataHolder::getSpriteList()
 {
 	return &game_sprite_definitions;
+}
+
+std::vector<std::string>& GameDataHolder::getTextureList()
+{
+	return texture_names;
 }
 
 void GameDataHolder::loadSprites()

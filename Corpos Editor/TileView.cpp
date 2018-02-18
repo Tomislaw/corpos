@@ -20,7 +20,6 @@ TileView::TileView(QWidget* Parent, const QPoint& Position, const QSize& Size) :
 }
 void TileView::OnInit()
 {
-	view.setCenter(0, 0);
 	update();
 }
 void TileView::OnUpdate()
@@ -31,6 +30,7 @@ void TileView::OnUpdate()
 
 	if (!texture)return;
 	draw(tileDrawable,texture);
+
 }
 
 void TileView::setTile(TileDefinition * tiledef)
@@ -48,12 +48,21 @@ void TileView::onResize()
 {
 	sf::Vector2f Size(getSize().x * this->size, getSize().y*this->size);
 	view.setSize(Size);
-	view.setCenter(sf::Vector2f());
 	this->setView(view);
+	update();
 }
 
 void TileView::setViewSize(float size)
 {
 	this->size = size;
-	onResize();
+	sf::Vector2f Size(getSize().x * this->size, getSize().y*this->size);
+	view.setSize(Size);
+	this->setView(view);
+	update();
+}
+
+void TileView::setTileCollidables(bool a, bool b, bool c, bool d, bool e, bool f, bool g, bool h)
+{
+	tile.setDisplayType(a,b,c,d,e,f,g,h);
+	update();
 }

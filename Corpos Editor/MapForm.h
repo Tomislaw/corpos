@@ -28,7 +28,7 @@ public slots:
 private:
 	Ui::MapForm ui;
 	MapView * mapView;
-	double viewSize = 1;
+	float viewSize = 1;
 	QTimer timer;
 	sf::Vector2f lastMousePos;
 	sf::Vector2f startShiftMousePos;

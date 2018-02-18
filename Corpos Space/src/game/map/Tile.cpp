@@ -734,3 +734,69 @@ std::string TileDefinition::toString()
 	data += "\nBlock:" + std::to_string(this->is_blocking);
 	return data;
 }
+
+TextElement TileDefinition::generateTextElement()
+{
+	TextElement element;
+	element.name = "TILE";
+
+	Variable name;
+	name.name = "Name";
+	name.var.push_back(this->name);
+	element.variable.push_back(name);
+
+	Variable health;
+	health.name = "Health";
+	health.var.push_back(std::to_string(this->health));
+	element.variable.push_back(health);
+
+	Variable block;
+	block.name = "Block";
+	block.var.push_back(std::to_string(this->is_blocking));
+	element.variable.push_back(block);
+
+	Variable single;
+	single.name = "SingleImage";
+	single.var.push_back(std::to_string(this->singleImage));
+	element.variable.push_back(single);
+
+	Variable background;
+	background.name = "Background";
+	background.var.push_back(backgroundTile);
+	element.variable.push_back(background);
+
+	Variable connectGroup;
+	connectGroup.name = "ConnectGroup";
+	connectGroup.var.push_back(this->connectGroup);
+	element.variable.push_back(connectGroup);
+
+
+	auto addRectangleData = [](TextElement & element, sf::IntRect rect, std::string name)->void 
+	{
+		Variable rectvar;
+		rectvar.name = name;
+		rectvar.var.push_back(std::to_string(rect.left));
+		rectvar.var.push_back(std::to_string(rect.top));
+		rectvar.var.push_back(std::to_string(rect.width));
+		rectvar.var.push_back(std::to_string(rect.height));
+		element.variable.push_back(rectvar);
+	};
+	addRectangleData(element, tileRect, "TileRect");
+	for each (auto rect in L)addRectangleData(element, rect, "L");
+	for each (auto rect in R)addRectangleData(element, rect, "R");
+	for each (auto rect in T)addRectangleData(element, rect, "T");
+	for each (auto rect in B)addRectangleData(element, rect, "B");
+	for each (auto rect in LT)addRectangleData(element, rect, "LT");
+	for each (auto rect in RT)addRectangleData(element, rect, "RT");
+	for each (auto rect in LB)addRectangleData(element, rect, "LB");
+	for each (auto rect in RB)addRectangleData(element, rect, "RB");
+	for each (auto rect in IRB)addRectangleData(element, rect, "IRB");
+	for each (auto rect in IRT)addRectangleData(element, rect, "IRT");
+	for each (auto rect in ILT)addRectangleData(element, rect, "ILT");
+	for each (auto rect in ILB)addRectangleData(element, rect, "ILB");
+	for each (auto rect in inner)addRectangleData(element, rect, "inner");
+	for each (auto rect in C)addRectangleData(element, rect, "C");
+
+
+	return element;
+}

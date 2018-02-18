@@ -101,6 +101,21 @@
     <ClCompile Include="TilesetEditor.cpp">
       <Filter>Source Files\TileView</Filter>
     </ClCompile>
+    <ClCompile Include="FrameEditor.cpp">
+      <Filter>Source Files\TileView</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_FrameEditor.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_QSFMLCanvas.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_QSFMLCanvas.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_FrameEditor.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Resource Files">
@@ -207,6 +222,9 @@
       <Filter>Form Files</Filter>
     </CustomBuild>
     <CustomBuild Include="TilesetEditor.h">
+      <Filter>Header Files\TileView</Filter>
+    </CustomBuild>
+    <CustomBuild Include="FrameEditor.h">
       <Filter>Header Files\TileView</Filter>
     </CustomBuild>
   </ItemGroup>

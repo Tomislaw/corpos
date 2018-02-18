@@ -7,7 +7,7 @@
 #include <QTimer>
 class QSFMLCanvas : public QWidget, public sf::RenderWindow
 {
-	//Q_OBJECT
+	Q_OBJECT
 public:
 	explicit QSFMLCanvas(QWidget *parent, const QPoint& Position, const QSize& Size, unsigned int FrameTime = 0);
 	virtual void showEvent(QShowEvent*);

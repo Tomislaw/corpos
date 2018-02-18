@@ -22,7 +22,7 @@ MapView::~MapView()
 void MapView::OnInit()
 {
 	view.setCenter(50, 50);
-	onResize();
+	update();
 }
 void MapView::OnUpdate()
 {
@@ -82,10 +82,11 @@ void MapView::OnUpdate()
 
 void MapView::onResize()
 {
-	sf::Vector2f size(getSize().x, getSize().y);
+	sf::Vector2f size(getSize().x * viewSize, getSize().y * viewSize);
 
 	view.setSize(size);
 	this->setView(view);
+	update();
 }
 
 
@@ -199,4 +200,14 @@ bool MapView::saveToFile(std::string location)
 	items.push_back(worldmap.generateTextElement());
 	map.setElements(items);
 	return map.saveToFile(location);
+}
+
+void MapView::setViewSize(float s)
+{
+	viewSize = s;
+	sf::Vector2f size(getSize().x * viewSize, getSize().y * viewSize);
+
+	view.setSize(size);
+	this->setView(view);
+	update();
 }

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1067</width>
-    <height>1107</height>
+    <width>1460</width>
+    <height>1015</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -88,6 +88,16 @@
               <string>SingleImage</string>
              </property>
             </column>
+            <column>
+             <property name="text">
+              <string>Nowa kolumna</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Connect group</string>
+             </property>
+            </column>
            </widget>
           </item>
           <item>
@@ -99,18 +109,37 @@
              <enum>QFrame::Raised</enum>
             </property>
             <layout class="QGridLayout" name="gridLayout_4">
-             <item row="4" column="0">
-              <widget class="QLabel" name="label_3">
-               <property name="text">
-                <string>Health:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="0">
-              <widget class="QLabel" name="label">
-               <property name="text">
-                <string>Name: </string>
-               </property>
+             <item row="6" column="1">
+              <widget class="QWidget" name="widget_7" native="true">
+               <layout class="QHBoxLayout" name="horizontalLayout_9">
+                <property name="spacing">
+                 <number>1</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <widget class="QSpinBox" name="spinBox_tileRectX"/>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="spinBox_TilerectY"/>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="spinBox_TilerectW"/>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="spinBox_TilerectH"/>
+                </item>
+               </layout>
               </widget>
              </item>
              <item row="2" column="0">
@@ -120,8 +149,15 @@
                </property>
               </widget>
              </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="label_3">
+               <property name="text">
+                <string>Health:</string>
+               </property>
+              </widget>
+             </item>
              <item row="2" column="1">
-              <widget class="QComboBox" name="comboBox_2">
+              <widget class="QComboBox" name="comboBox_tileType">
                <item>
                 <property name="text">
                  <string>tile</string>
@@ -139,25 +175,25 @@
                </item>
               </widget>
              </item>
+             <item row="0" column="0">
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>Name: </string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="lineEdit_tileName"/>
+             </item>
+             <item row="4" column="1">
+              <widget class="QSpinBox" name="spinBox_health"/>
+             </item>
              <item row="5" column="0">
               <widget class="QLabel" name="label_4">
                <property name="text">
                 <string>SingleImage:</string>
                </property>
               </widget>
-             </item>
-             <item row="5" column="1">
-              <widget class="QCheckBox" name="checkBox">
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="1">
-              <widget class="QLineEdit" name="lineEdit"/>
-             </item>
-             <item row="4" column="1">
-              <widget class="QSpinBox" name="spinBox_5"/>
              </item>
              <item row="3" column="0">
               <widget class="QLabel" name="label_8">
@@ -166,8 +202,32 @@
                </property>
               </widget>
              </item>
+             <item row="5" column="1">
+              <widget class="QCheckBox" name="checkBox_singleImage">
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
              <item row="3" column="1">
-              <widget class="QLineEdit" name="lineEdit_4"/>
+              <widget class="QLineEdit" name="lineEdit_background"/>
+             </item>
+             <item row="6" column="0">
+              <widget class="QLabel" name="label_9">
+               <property name="text">
+                <string>Size:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="7" column="0">
+              <widget class="QLabel" name="label_10">
+               <property name="text">
+                <string>Group:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="7" column="1">
+              <widget class="QLineEdit" name="lineEdit_connectGroup"/>
              </item>
             </layout>
            </widget>
@@ -304,7 +364,7 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="QGroupBox" name="groupBox_3">
+        <widget class="QGroupBox" name="groupBox_TextureView">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
            <horstretch>0</horstretch>
@@ -314,6 +374,11 @@
          <property name="title">
           <string>Texture view</string>
          </property>
+         <layout class="QVBoxLayout" name="verticalLayout_6">
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_TextureView"/>
+          </item>
+         </layout>
         </widget>
        </item>
        <item>
@@ -329,7 +394,7 @@
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_6">
              <item>
-              <widget class="QComboBox" name="comboBox">
+              <widget class="QComboBox" name="comboBox_frameType">
                <item>
                 <property name="text">
                  <string>top-left</string>
@@ -357,6 +422,11 @@
                </item>
                <item>
                 <property name="text">
+                 <string>center</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
                  <string>right</string>
                 </property>
                </item>
@@ -375,6 +445,26 @@
                  <string>bottom-right</string>
                 </property>
                </item>
+               <item>
+                <property name="text">
+                 <string>inner-top-left</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>inner-top-right</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>inner-bottom-right</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>inner-top-right</string>
+                </property>
+               </item>
               </widget>
              </item>
             </layout>
@@ -387,17 +477,42 @@
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_4">
              <item>
-              <widget class="QSpinBox" name="spinBox">
+              <widget class="QSpinBox" name="spinBox_posX">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
+               <property name="minimumSize">
+                <size>
+                 <width>50</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="minimum">
+                <number>-9999</number>
+               </property>
+               <property name="maximum">
+                <number>9999</number>
+               </property>
               </widget>
              </item>
              <item>
-              <widget class="QSpinBox" name="spinBox_2"/>
+              <widget class="QSpinBox" name="spinBox_posY">
+               <property name="minimumSize">
+                <size>
+                 <width>50</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="minimum">
+                <number>-9999</number>
+               </property>
+               <property name="maximum">
+                <number>99999</number>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>
@@ -409,13 +524,59 @@
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_5">
              <item>
-              <widget class="QSpinBox" name="spinBox_3"/>
+              <widget class="QSpinBox" name="spinBox_sizeX">
+               <property name="minimumSize">
+                <size>
+                 <width>50</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="minimum">
+                <number>-9999</number>
+               </property>
+               <property name="maximum">
+                <number>9999</number>
+               </property>
+              </widget>
              </item>
              <item>
-              <widget class="QSpinBox" name="spinBox_4"/>
+              <widget class="QSpinBox" name="spinBox_sizeY">
+               <property name="minimumSize">
+                <size>
+                 <width>50</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="minimum">
+                <number>-9999</number>
+               </property>
+               <property name="maximum">
+                <number>9999</number>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_ChangeFrame">
+            <property name="text">
+             <string>Change</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
           </item>
          </layout>
         </widget>
@@ -444,6 +605,30 @@
           <string>Tileset</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_5">
+          <item row="0" column="1">
+           <widget class="QLabel" name="label_Name">
+            <property name="text">
+             <string>none</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QLabel" name="label_Texture">
+            <property name="text">
+             <string>none</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QLineEdit" name="lineEdit_tilesetName"/>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_6">
+            <property name="text">
+             <string>Texture:</string>
+            </property>
+           </widget>
+          </item>
           <item row="4" column="1">
            <widget class="QWidget" name="widget_4" native="true">
             <layout class="QHBoxLayout" name="horizontalLayout_7">
@@ -463,12 +648,9 @@
               <number>0</number>
              </property>
              <item>
-              <widget class="QLineEdit" name="lineEdit_3"/>
-             </item>
-             <item>
-              <widget class="QToolButton" name="toolButton">
+              <widget class="QLabel" name="label_Texturesize">
                <property name="text">
-                <string>...</string>
+                <string>0,0</string>
                </property>
               </widget>
              </item>
@@ -502,48 +684,6 @@
             </layout>
            </widget>
           </item>
-          <item row="0" column="2">
-           <widget class="QLabel" name="label_7">
-            <property name="text">
-             <string>Texture size:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="2">
-           <widget class="QLabel" name="label_Texturesize">
-            <property name="text">
-             <string>0,0</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <widget class="QLabel" name="label_Texture">
-            <property name="text">
-             <string>none</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="label_Name">
-            <property name="text">
-             <string>none</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QLabel" name="label_6">
-            <property name="text">
-             <string>Texture:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="2">
-           <widget class="QPushButton" name="pushButton_7">
-            <property name="text">
-             <string>Change</string>
-            </property>
-           </widget>
-          </item>
           <item row="0" column="0">
            <widget class="QLabel" name="label_5">
             <property name="text">
@@ -551,8 +691,46 @@
             </property>
            </widget>
           </item>
+          <item row="5" column="2">
+           <widget class="QPushButton" name="pushButton_ChangeTileset">
+            <property name="text">
+             <string>Change</string>
+            </property>
+           </widget>
+          </item>
           <item row="4" column="0">
-           <widget class="QLineEdit" name="lineEdit_2"/>
+           <widget class="QLabel" name="label_7">
+            <property name="text">
+             <string>Texture size:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="2">
+           <widget class="QWidget" name="widget_6" native="true">
+            <layout class="QHBoxLayout" name="horizontalLayout_8">
+             <property name="spacing">
+              <number>1</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QLineEdit" name="lineEdit_Texture"/>
+             </item>
+             <item>
+              <widget class="QComboBox" name="comboBox_Texture"/>
+             </item>
+            </layout>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -581,6 +759,22 @@
           <property name="sizeConstraint">
            <enum>QLayout::SetMinimumSize</enum>
           </property>
+          <item row="1" column="1">
+           <widget class="QFrame" name="frameTileView">
+            <property name="minimumSize">
+             <size>
+              <width>100</width>
+              <height>100</height>
+             </size>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::Box</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+           </widget>
+          </item>
           <item row="2" column="0">
            <widget class="QCheckBox" name="checkBox_LeftBottom">
             <property name="text">
@@ -637,19 +831,10 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="1">
-           <widget class="QFrame" name="frameTileView">
-            <property name="minimumSize">
-             <size>
-              <width>100</width>
-              <height>100</height>
-             </size>
-            </property>
-            <property name="frameShape">
-             <enum>QFrame::Box</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
+          <item row="3" column="2">
+           <widget class="QPushButton" name="pushButton_Randomize">
+            <property name="text">
+             <string>Randomize</string>
             </property>
            </widget>
           </item>
@@ -690,7 +875,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1067</width>
+     <width>1460</width>
      <height>26</height>
     </rect>
    </property>
@@ -778,11 +963,11 @@
    <sender>treeWidget_Tiles</sender>
    <signal>itemPressed(QTreeWidgetItem*,int)</signal>
    <receiver>TilesetEditor</receiver>
-   <slot>loadTileGrid(QTreeWidgetItem*,int)</slot>
+   <slot>onSelectedTileDefinition(QTreeWidgetItem*,int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>142</x>
-     <y>361</y>
+     <x>176</x>
+     <y>307</y>
     </hint>
     <hint type="destinationlabel">
      <x>533</x>
@@ -790,9 +975,304 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>checkBox_LeftTop</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>TilesetEditor</receiver>
+   <slot>updateTileView()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1207</x>
+     <y>297</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1070</x>
+     <y>272</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_Top</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>TilesetEditor</receiver>
+   <slot>updateTileView()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1314</x>
+     <y>297</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1065</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_RightTop</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>TilesetEditor</receiver>
+   <slot>updateTileView()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1425</x>
+     <y>297</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1066</x>
+     <y>258</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_Right</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>TilesetEditor</receiver>
+   <slot>updateTileView()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1425</x>
+     <y>364</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1063</x>
+     <y>342</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_RightBottom</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>TilesetEditor</receiver>
+   <slot>updateTileView()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1425</x>
+     <y>431</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1062</x>
+     <y>415</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_Bottom</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>TilesetEditor</receiver>
+   <slot>updateTileView()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1314</x>
+     <y>431</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1071</x>
+     <y>440</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_LeftBottom</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>TilesetEditor</receiver>
+   <slot>updateTileView()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1207</x>
+     <y>431</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1066</x>
+     <y>465</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_Left</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>TilesetEditor</receiver>
+   <slot>updateTileView()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1207</x>
+     <y>364</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1062</x>
+     <y>382</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_Randomize</sender>
+   <signal>clicked()</signal>
+   <receiver>TilesetEditor</receiver>
+   <slot>updateTileView()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1425</x>
+     <y>466</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1073</x>
+     <y>499</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>comboBox_Texture</sender>
+   <signal>currentTextChanged(QString)</signal>
+   <receiver>TilesetEditor</receiver>
+   <slot>selectedTexture(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1425</x>
+     <y>166</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1104</x>
+     <y>155</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_ChangeTileset</sender>
+   <signal>clicked()</signal>
+   <receiver>TilesetEditor</receiver>
+   <slot>changeTileset()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1425</x>
+     <y>230</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1099</x>
+     <y>215</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>treeWidget_tilesGrid</sender>
+   <signal>itemPressed(QTreeWidgetItem*,int)</signal>
+   <receiver>TilesetEditor</receiver>
+   <slot>onSelectedTileFrame(QTreeWidgetItem*,int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>117</x>
+     <y>669</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>7</x>
+     <y>672</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinBox_posX</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>TilesetEditor</receiver>
+   <slot>updateFrameEditorData()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>541</x>
+     <y>886</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>542</x>
+     <y>972</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinBox_posY</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>TilesetEditor</receiver>
+   <slot>updateFrameEditorData()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>593</x>
+     <y>881</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>571</x>
+     <y>937</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinBox_sizeX</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>TilesetEditor</receiver>
+   <slot>updateFrameEditorData()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>738</x>
+     <y>894</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>659</x>
+     <y>935</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinBox_sizeY</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>TilesetEditor</receiver>
+   <slot>updateFrameEditorData()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>804</x>
+     <y>894</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>709</x>
+     <y>935</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_ChangeFrame</sender>
+   <signal>clicked()</signal>
+   <receiver>TilesetEditor</receiver>
+   <slot>editFrame()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>867</x>
+     <y>881</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>858</x>
+     <y>939</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionSave</sender>
+   <signal>triggered()</signal>
+   <receiver>TilesetEditor</receiver>
+   <slot>saveTileset()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>729</x>
+     <y>482</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>loadTileset()</slot>
-  <slot>loadTileGrid(QTreeWidgetItem*,int)</slot>
+  <slot>onSelectedTileDefinition(QTreeWidgetItem*,int)</slot>
+  <slot>updateTileView()</slot>
+  <slot>selectedTexture(QString)</slot>
+  <slot>changeTileset()</slot>
+  <slot>onSelectedTileFrame(QTreeWidgetItem*,int)</slot>
+  <slot>updateFrameEditorData()</slot>
+  <slot>editFrame()</slot>
+  <slot>saveTileset()</slot>
  </slots>
 </ui>
