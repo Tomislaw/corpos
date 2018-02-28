@@ -130,16 +130,31 @@ void AiBasic::drawDebugData(sf::RenderTarget & target)
 		//draw debug text
 		entityDebugText.setPosition(line[1].position);
 
-		switch (test.front().type)
+		switch (test.front().debugType)
 		{
-		case NavNode::WALK:
+		case NavigationNode::WALK:
 			entityDebugText.setString("walk");
 			break;
-		case NavNode::JUMP:
+		case NavigationNode::JUMP:
 			entityDebugText.setString("jump");
 			break;
-		case NavNode::LADDER:
-			entityDebugText.setString("ladder");
+		case NavigationNode::AFTER_JUMP:
+			entityDebugText.setString("after_jump");
+			break;
+		case NavigationNode::BEFORE_JUMP:
+			entityDebugText.setString("before_jump");
+			break;
+		case NavigationNode::CENTER_POSITION:
+			entityDebugText.setString("center_position");
+			break;
+		case NavigationNode::CLIMB:
+			entityDebugText.setString("climb");
+			break;
+		case NavigationNode::FLY:
+			entityDebugText.setString("fly");
+			break;
+		case NavigationNode::FALL:
+			entityDebugText.setString("fall");
 			break;
 		default:
 			entityDebugText.setString("ERROR");
@@ -200,7 +215,7 @@ void AiBasic::getPath(sf::Vector2i tile)
 			nodeEnd.setCharacterData(&character.getNavigationNodeCharacterData());
 			nodeEnd.setFunctionGetTile(std::bind(getTile, std::placeholders::_1));
 
-			if (!nodeEnd.canFit(tile.x, tile.y))
+			if (!nodeEnd.canMoveToTile(tile.x, tile.y))
 			{
 				std::cout << "Cant fit here" << std::endl;
 				return;
@@ -250,11 +265,14 @@ void AiBasic::getPath(sf::Vector2i tile)
 					if (node->type == NavigationNode::WALK || node->type == NavigationNode::FALL || node->type == NavigationNode::BEFORE_JUMP || node->type == NavigationNode::AFTER_JUMP)
 					{
 						addNode(sf::Vector2i(node->x, node->y),NavNode::WALK);
+						navigationNodes.back().debugType = node->type;
 					}
-					if (node->type == NavigationNode::JUMP)
+					else if (node->type == NavigationNode::JUMP)
 					{
 						addNode(sf::Vector2i(node->x, node->y), NavNode::JUMP);
+						navigationNodes.back().debugType = node->type;
 					}
+					
 						//node->PrintNodeInfo();
 					steps++;
 

@@ -12,7 +12,7 @@ struct NavNode
 	sf::Vector2i tilePosition;
 	int type;
 	float timeToSpendOn = 2;
-
+	int debugType = 0;
 	bool isReached(Character & character)
 	{
 		return character.getStandingTileId() == tilePosition;

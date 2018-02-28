@@ -25,11 +25,6 @@ Character::Character(EntityList * ptr) : Entity("char",sf::Vector2f(50,50))
 	rect.setSize(sf::Vector2f(collision_box.width, collision_box.height));
 	rect.setFillColor(sf::Color::Red);
 
-	navCharData.characterWidth = 1 + collision_box.width / 32;
-	navCharData.characterHeight = 1 + collision_box.height / 32;
-	navCharData.characterJumpHeight = 1;
-	navCharData.isFlyingOne = false;
-	navCharData.canUseLadder = false;
 	
 }
 Character::Character(TextElement * data, EntityList * ptr) : Entity(data)
@@ -375,8 +370,8 @@ void Character::resolveCollision()
 
 void Character::draw(sf::RenderTarget & target)
 {
-	rect.setPosition(sf::Vector2f(getPosition().x + collision_box.left, getPosition().y + collision_box.top));
-	target.draw(rect);
+	//rect.setPosition(sf::Vector2f(getPosition().x + collision_box.left, getPosition().y + collision_box.top));
+	//target.draw(rect);
 	sprite.draw(target);
 	
 }
@@ -513,6 +508,13 @@ bool Character::setCharacter(TextElement * element)
 		if(spriteDefinition!= nullptr)
 		this->sprite = GameSprite(*spriteDefinition);
 	}
+
+	navCharData.characterWidth = 1 + collision_box.width / 32;
+	navCharData.characterHeight = 1 + collision_box.height / 32;
+	navCharData.characterJumpHeight = 1;
+	navCharData.isFlyingOne = false;
+	navCharData.canUseLadder = false;
+
 	return true;
 }
 

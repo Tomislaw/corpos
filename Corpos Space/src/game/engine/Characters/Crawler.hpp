@@ -1,14 +1,14 @@
 #ifndef CRAWLER_HPP
 #define CRAWLER_HPP
-#include "D:\Microsoft Visual Studio\Projects\Corpos Space\Corpos Space\src\game\engine\Character.hpp"
-#include "D:\Microsoft Visual Studio\Projects\Corpos Space\Corpos Space\src\game\engine\Character.hpp"
+#include "game\engine\Character.hpp"
+
 class Crawler :
 	public Character
 {
 public:
 
 
-	Crawler(TextElement * data, EntityList * ptr) : Character(data, ptr) {};
+	Crawler(TextElement * data, EntityList * ptr);;
 	~Crawler();
 
 	// used in constructor, argument is pointer to text element

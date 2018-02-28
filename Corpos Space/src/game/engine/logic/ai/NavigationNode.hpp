@@ -19,14 +19,12 @@ public:
 	bool GetSuccesorsGroundNode(AStarSearch<NavigationNode> *astarsearch, NavigationNode *parent_node);
 	bool GetSuccesorsAirNode(AStarSearch<NavigationNode> *astarsearch, NavigationNode *parent_node);
 
-	// return true if character can stand on tile
-	bool canStand(int x, int y);
-
-	// return false if character is too big to be here
-	bool canFit(int x, int y);
-
-	// only used for character with size 2,4,6..2n
+	// return true if character can walk to tile
 	bool canWalkToTile(int x, int y);
+
+	// return false if character is to big to move to tile
+	bool canMoveToTile(int x, int y);
+
 
 	float GetCost(NavigationNode &successor);
 	bool IsSameState(NavigationNode &rhs);

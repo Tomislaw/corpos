@@ -109,13 +109,13 @@ bool NavigationNode::GetSuccesorsGroundNode(AStarSearch<NavigationNode>* astarse
 	}
 	else
 	{
-		if (!canStand(x, y))
+		if (!canWalkToTile(x, y))
 		{
 			type = NavigationNode::CENTER_POSITION;
 			NavigationNode NewNode;
 
 			//LEFT
-			if (canFit(x - 1, y)&& canStand(x - 1, y))
+			if (canMoveToTile(x - 1, y)&& canWalkToTile(x - 1, y))
 			{
 				NewNode = NavigationNode(x - 1, y);
 				NewNode.setFunctionGetTile(getTile);
@@ -125,7 +125,7 @@ bool NavigationNode::GetSuccesorsGroundNode(AStarSearch<NavigationNode>* astarse
 			}
 			//RIGHT
 
-			if (canFit(x + 1, y)&& canStand(x + 1, y))
+			if (canMoveToTile(x + 1, y)&& canWalkToTile(x + 1, y))
 			{
 				NewNode = NavigationNode(x + 1, y);
 				NewNode.setFunctionGetTile(getTile);
@@ -147,12 +147,12 @@ bool NavigationNode::GetSuccesorsGroundNode(AStarSearch<NavigationNode>* astarse
 		//LEFT
 		if (!((parent_x == x - 1) && (parent_y == y)))
 		{
-			if (canFit(x - 1, y))
+			if (canMoveToTile(x - 1, y))
 			{
 				NewNode = NavigationNode(x - 1, y);
 				NewNode.setFunctionGetTile(getTile);
 				NewNode.setCharacterData(data);
-				if (canStand(x - 1, y))
+				if (canWalkToTile(x - 1, y))
 				{
 					NewNode.type = NavigationNode::WALK;
 					astarsearch->AddSuccessor(NewNode);
@@ -160,12 +160,15 @@ bool NavigationNode::GetSuccesorsGroundNode(AStarSearch<NavigationNode>* astarse
 					
 				else
 				{
-					NewNode.type = NavigationNode::FALL;
-					NewNode.jumpDistancePassed = data->characterJumpHeight+1;
-					astarsearch->AddSuccessor(NewNode);
-					NewNode.type = NavigationNode::BEFORE_JUMP;
-					NewNode.jumpDistancePassed = 0;
-					astarsearch->AddSuccessor(NewNode);
+					if (data->characterWidth == 1)
+					{
+						NewNode.type = NavigationNode::FALL;
+						NewNode.jumpDistancePassed = data->characterJumpHeight+1;
+						astarsearch->AddSuccessor(NewNode);
+						NewNode.type = NavigationNode::BEFORE_JUMP;
+						NewNode.jumpDistancePassed = 0;
+						astarsearch->AddSuccessor(NewNode);
+					}
 				}
 				//astarsearch->AddSuccessor(NewNode);
 			}
@@ -174,34 +177,75 @@ bool NavigationNode::GetSuccesorsGroundNode(AStarSearch<NavigationNode>* astarse
 		//RIGHT
 		if (!((parent_x == x + 1) && (parent_y == y)))
 		{
-			if (canFit(x + 1, y))
+			if (canMoveToTile(x + 1, y))
 			{
 				NewNode = NavigationNode(x + 1, y);
 				NewNode.setFunctionGetTile(getTile);
 				NewNode.setCharacterData(data);
-				if (canStand(x + 1, y))
+				if (canWalkToTile(x + 1, y))
 				{
 					NewNode.type = NavigationNode::WALK;
 					astarsearch->AddSuccessor(NewNode);
 				}
 				else
 				{
-					NewNode.type = NavigationNode::FALL;
-					NewNode.jumpDistancePassed = data->characterJumpHeight + 1;
-					astarsearch->AddSuccessor(NewNode);
-					NewNode.type = NavigationNode::BEFORE_JUMP;
-					NewNode.jumpDistancePassed = 0;
-					astarsearch->AddSuccessor(NewNode);
+					if (data->characterWidth == 1)
+					{
+						NewNode.type = NavigationNode::FALL;
+						NewNode.jumpDistancePassed = data->characterJumpHeight + 1;
+						astarsearch->AddSuccessor(NewNode);
+						NewNode.type = NavigationNode::BEFORE_JUMP;
+						NewNode.jumpDistancePassed = 0;
+						astarsearch->AddSuccessor(NewNode);
+					}
 
 				}
 				
+			}
+
+			// RIGHT BOTTOM
+			if (!((parent_x == x + 1) && (parent_y == y + 1)))
+			{
+				if (canMoveToTile(x + 1, y + 1))
+				{
+					NewNode = NavigationNode(x + 1, y + 1);
+					NewNode.setFunctionGetTile(getTile);
+					NewNode.setCharacterData(data);
+					if (canWalkToTile(x + 1, y + 1))
+						NewNode.type = NavigationNode::WALK;
+					else
+					{
+						NewNode.type = NavigationNode::FALL;
+						NewNode.jumpDistancePassed = jumpDistancePassed + 2;
+					}
+					astarsearch->AddSuccessor(NewNode);
+				}
+			}
+
+			// LEFT BOTTOM
+			if (!((parent_x == x - 1) && (parent_y == y + 1)))
+			{
+				if (canMoveToTile(x - 1, y + 1))
+				{
+					NewNode = NavigationNode(x - 1, y + 1);
+					NewNode.setFunctionGetTile(getTile);
+					NewNode.setCharacterData(data);
+					if (canWalkToTile(x - 1, y + 1))
+						NewNode.type = NavigationNode::WALK;
+					else
+					{
+						NewNode.type = NavigationNode::FALL;
+						NewNode.jumpDistancePassed = jumpDistancePassed + 2;
+					}
+					astarsearch->AddSuccessor(NewNode);
+				}
 			}
 		}
 		
 		//TOP
 		if (!((parent_x == x) && (parent_y == y - 1)))
 		{
-			if (canFit(x, y - 1))
+			if (canMoveToTile(x, y - 1))
 			{
 				NewNode = NavigationNode(x, y - 1);
 				NewNode.setFunctionGetTile(getTile);
@@ -216,7 +260,7 @@ bool NavigationNode::GetSuccesorsGroundNode(AStarSearch<NavigationNode>* astarse
 		//LEFT TOP
 		if (!((parent_x == x - 1) && (parent_y == y - 1)))
 		{
-			if (canFit(x - 1, y - 1)&& canFit(x - 1, y))
+			if (canMoveToTile(x - 1, y - 1))
 			{
 				NewNode = NavigationNode(x - 1, y - 1);
 				NewNode.setFunctionGetTile(getTile);
@@ -230,7 +274,7 @@ bool NavigationNode::GetSuccesorsGroundNode(AStarSearch<NavigationNode>* astarse
 		//RIGHT TOP
 		if (!((parent_x == x + 1) && (parent_y == y - 1)))
 		{
-			if (canFit(x + 1, y - 1)&& canFit(x + 1, y))
+			if (canMoveToTile(x + 1, y - 1))
 			{
 				NewNode = NavigationNode(x + 1, y - 1);
 				NewNode.setFunctionGetTile(getTile);
@@ -241,12 +285,13 @@ bool NavigationNode::GetSuccesorsGroundNode(AStarSearch<NavigationNode>* astarse
 			}
 		}
 	}
+	//only for 1 width characters
 	if (type == NavigationNode::BEFORE_JUMP)
 	{
 		//TOP
 		if (!((parent_x == x) && (parent_y == y - 1)))
 		{
-			if (canFit(x, y - 1))
+			if (canMoveToTile(x, y - 1))
 			{
 				NewNode = NavigationNode(x, y - 1);
 				NewNode.setFunctionGetTile(getTile);
@@ -261,7 +306,7 @@ bool NavigationNode::GetSuccesorsGroundNode(AStarSearch<NavigationNode>* astarse
 		//LEFT TOP
 		if (!((parent_x == x - 1) && (parent_y == y - 1)))
 		{
-			if (canFit(x - 1, y - 1) && canFit(x - 1, y))
+			if (canMoveToTile(x - 1, y - 1))
 			{
 				NewNode = NavigationNode(x - 1, y - 1);
 				NewNode.setFunctionGetTile(getTile);
@@ -275,7 +320,7 @@ bool NavigationNode::GetSuccesorsGroundNode(AStarSearch<NavigationNode>* astarse
 		//RIGHT TOP
 		if (!((parent_x == x + 1) && (parent_y == y - 1)))
 		{
-			if (canFit(x + 1, y - 1) && canFit(x + 1, y))
+			if (canMoveToTile(x + 1, y - 1))
 			{
 				NewNode = NavigationNode(x + 1, y - 1);
 				NewNode.setFunctionGetTile(getTile);
@@ -295,7 +340,7 @@ bool NavigationNode::GetSuccesorsGroundNode(AStarSearch<NavigationNode>* astarse
 			//TOP
 			if (!((parent_x == x) && (parent_y == y - 1)))
 			{
-				if (canFit(x, y - 1))
+				if (canMoveToTile(x, y - 1))
 				{
 					NewNode = NavigationNode(x, y - 1);
 					NewNode.setFunctionGetTile(getTile);
@@ -308,7 +353,7 @@ bool NavigationNode::GetSuccesorsGroundNode(AStarSearch<NavigationNode>* astarse
 			//LEFT TOP
 			if (!((parent_x == x - 1) && (parent_y == y - 1)))
 			{
-				if (canFit(x - 1, y - 1))
+				if (canMoveToTile(x - 1, y - 1))
 				{
 					NewNode = NavigationNode(x - 1, y - 1);
 					NewNode.setFunctionGetTile(getTile);
@@ -322,7 +367,7 @@ bool NavigationNode::GetSuccesorsGroundNode(AStarSearch<NavigationNode>* astarse
 			//RIGHT TOP
 			if (!((parent_x == x + 1) && (parent_y == y - 1)))
 			{
-				if (canFit(x + 1, y - 1))
+				if (canMoveToTile(x + 1, y - 1))
 				{
 					NewNode = NavigationNode(x + 1, y - 1);
 					NewNode.setFunctionGetTile(getTile);
@@ -338,12 +383,12 @@ bool NavigationNode::GetSuccesorsGroundNode(AStarSearch<NavigationNode>* astarse
 			//BOTTOM
 			if (!((parent_x == x) && (parent_y == y + 1)))
 			{
-				if (canFit(x, y + 1))
+				if (canMoveToTile(x, y + 1))
 				{
 					NewNode = NavigationNode(x, y + 1);
 					NewNode.setFunctionGetTile(getTile);
 					NewNode.setCharacterData(data);
-					if (canStand(x, y + 1))
+					if (canWalkToTile(x, y + 1))
 						NewNode.type = NavigationNode::WALK;
 					else
 					{
@@ -357,12 +402,12 @@ bool NavigationNode::GetSuccesorsGroundNode(AStarSearch<NavigationNode>* astarse
 			// RIGHT BOTTOM
 			if (!((parent_x == x + 1) && (parent_y == y + 1)))
 			{
-				if (canFit(x + 1, y + 1))
+				if (canMoveToTile(x + 1, y + 1))
 				{
 					NewNode = NavigationNode(x + 1, y + 1);
 					NewNode.setFunctionGetTile(getTile);
 					NewNode.setCharacterData(data);
-					if (canStand(x + 1, y + 1))
+					if (canWalkToTile(x + 1, y + 1))
 						NewNode.type = NavigationNode::WALK;
 					else
 					{
@@ -376,13 +421,13 @@ bool NavigationNode::GetSuccesorsGroundNode(AStarSearch<NavigationNode>* astarse
 			// LEFT BOTTOM
 			if (!((parent_x == x - 1) && (parent_y == y + 1)))
 			{
-				if (canFit(x - 1, y + 1))
+				if (canMoveToTile(x - 1, y + 1))
 				{
 					NewNode = NavigationNode(x - 1, y + 1);
 					NewNode.setFunctionGetTile(getTile);
 					NewNode.setCharacterData(data);
 					NewNode.jumpDistancePassed = jumpDistancePassed + 1;
-					if (canStand(x - 1, y + 1))
+					if (canWalkToTile(x - 1, y + 1))
 						NewNode.type = NavigationNode::WALK;
 					else
 					{
@@ -396,12 +441,12 @@ bool NavigationNode::GetSuccesorsGroundNode(AStarSearch<NavigationNode>* astarse
 			//LEFT
 			if (!((parent_x == x - 1) && (parent_y == y)))
 			{
-				if (canFit(x - 1, y))
+				if (canMoveToTile(x - 1, y))
 				{
 					NewNode = NavigationNode(x - 1, y);
 					NewNode.setFunctionGetTile(getTile);
 					NewNode.setCharacterData(data);
-					if (canStand(x - 1, y))
+					if (canWalkToTile(x - 1, y))
 					{
 						NewNode.type = NavigationNode::WALK;
 					}
@@ -418,12 +463,12 @@ bool NavigationNode::GetSuccesorsGroundNode(AStarSearch<NavigationNode>* astarse
 			//RIGHT
 			if (!((parent_x == x + 1) && (parent_y == y)))
 			{
-				if (canFit(x + 1, y))
+				if (canMoveToTile(x + 1, y))
 				{
 					NewNode = NavigationNode(x + 1, y);
 					NewNode.setFunctionGetTile(getTile);
 					NewNode.setCharacterData(data);
-					if (canStand(x + 1, y))
+					if (canWalkToTile(x + 1, y))
 						NewNode.type = NavigationNode::WALK;
 					else
 					{
@@ -441,13 +486,13 @@ bool NavigationNode::GetSuccesorsGroundNode(AStarSearch<NavigationNode>* astarse
 		//BOTTOM
 		if (!((parent_x == x) && (parent_y == y + 1)))
 		{
-			if (canFit(x, y + 1))
+			if (canMoveToTile(x, y + 1))
 			{
 				NewNode = NavigationNode(x, y + 1);
 				NewNode.setFunctionGetTile(getTile);
 				NewNode.setCharacterData(data);
 					
-				if (canStand(x, y + 1))
+				if (canWalkToTile(x, y + 1))
 					NewNode.type = NavigationNode::WALK;
 				else
 				{
@@ -463,12 +508,12 @@ bool NavigationNode::GetSuccesorsGroundNode(AStarSearch<NavigationNode>* astarse
 			// RIGHT BOTTOM
 			if (!((parent_x == x + 1) && (parent_y == y + 1)))
 			{
-				if (canFit(x + 1, y + 1))
+				if (canMoveToTile(x + 1, y + 1))
 				{
 					NewNode = NavigationNode(x + 1, y + 1);
 					NewNode.setFunctionGetTile(getTile);
 					NewNode.setCharacterData(data);
-					if (canStand(x + 1, y + 1))
+					if (canWalkToTile(x + 1, y + 1))
 						NewNode.type = NavigationNode::WALK;
 					else
 					{
@@ -482,12 +527,12 @@ bool NavigationNode::GetSuccesorsGroundNode(AStarSearch<NavigationNode>* astarse
 			// LEFT BOTTOM
 			if (!((parent_x == x - 1) && (parent_y == y + 1)))
 			{
-				if (canFit(x - 1, y + 1))
+				if (canMoveToTile(x - 1, y + 1))
 				{
 					NewNode = NavigationNode(x - 1, y + 1);
 					NewNode.setFunctionGetTile(getTile);
 					NewNode.setCharacterData(data);
-					if (canStand(x - 1, y + 1))
+					if (canWalkToTile(x - 1, y + 1))
 						NewNode.type = NavigationNode::WALK;
 					else
 					{
@@ -521,7 +566,7 @@ bool NavigationNode::GetSuccesorsAirNode(AStarSearch<NavigationNode>* astarsearc
 	//LEFT
 	if (!((parent_x == x - 1) && (parent_y == y)))
 	{
-		if (canFit(x - 1, y))
+		if (canMoveToTile(x - 1, y))
 		{
 			NewNode = NavigationNode(x - 1, y);
 			NewNode.setFunctionGetTile(getTile);
@@ -536,7 +581,7 @@ bool NavigationNode::GetSuccesorsAirNode(AStarSearch<NavigationNode>* astarsearc
 	//TOP
 	if ( !((parent_x == x) && (parent_y == y - 1)))
 	{
-		if (canFit(x, y - 1))
+		if (canMoveToTile(x, y - 1))
 		{
 			NewNode = NavigationNode(x, y - 1);
 			NewNode.setFunctionGetTile(getTile);
@@ -549,7 +594,7 @@ bool NavigationNode::GetSuccesorsAirNode(AStarSearch<NavigationNode>* astarsearc
 	//RIGHT
 	if (!((parent_x == x + 1) && (parent_y == y)))
 	{
-		if (canFit(x + 1, y))
+		if (canMoveToTile(x + 1, y))
 		{
 			NewNode = NavigationNode(x + 1, y);
 			NewNode.setFunctionGetTile(getTile);
@@ -562,7 +607,7 @@ bool NavigationNode::GetSuccesorsAirNode(AStarSearch<NavigationNode>* astarsearc
 	//BOTTOM
 	if (!((parent_x == x) && (parent_y == y + 1)))
 	{
-		if (canFit(x, y + 1))
+		if (canMoveToTile(x, y + 1))
 		{
 			NewNode = NavigationNode(x, y + 1);
 			NewNode.setFunctionGetTile(getTile);
@@ -578,7 +623,7 @@ bool NavigationNode::GetSuccesorsAirNode(AStarSearch<NavigationNode>* astarsearc
 	//LEFT TOP
 	if ( !((parent_x == x - 1) && (parent_y == y - 1)))
 	{
-		if (canFit(x-1, y - 1))
+		if (canMoveToTile(x-1, y - 1))
 		{
 			NewNode = NavigationNode(x - 1, y - 1);
 			NewNode.setFunctionGetTile(getTile);
@@ -591,7 +636,7 @@ bool NavigationNode::GetSuccesorsAirNode(AStarSearch<NavigationNode>* astarsearc
 	//RIGHT TOP
 	if ( !((parent_x == x + 1) && (parent_y == y - 1)))
 	{
-		if (canFit(x + 1, y - 1))
+		if (canMoveToTile(x + 1, y - 1))
 		{
 			NewNode = NavigationNode(x + 1, y - 1);
 			NewNode.setFunctionGetTile(getTile);
@@ -604,7 +649,7 @@ bool NavigationNode::GetSuccesorsAirNode(AStarSearch<NavigationNode>* astarsearc
 	// RIGHT BOTTOM
 	if ( !((parent_x == x + 1) && (parent_y == y + 1)))
 	{
-		if (canFit(x + 1, y + 1))
+		if (canMoveToTile(x + 1, y + 1))
 		{
 			NewNode = NavigationNode(x + 1, y + 1);
 			NewNode.setFunctionGetTile(getTile);
@@ -617,7 +662,7 @@ bool NavigationNode::GetSuccesorsAirNode(AStarSearch<NavigationNode>* astarsearc
 	// LEFT BOTTOM
 	if ( !((parent_x == x - 1) && (parent_y == y + 1)))
 	{
-		if (canFit(x - 1, y + 1))
+		if (canMoveToTile(x - 1, y + 1))
 		{
 			NewNode = NavigationNode(x - 1, y + 1);
 			NewNode.setFunctionGetTile(getTile);
@@ -630,7 +675,7 @@ bool NavigationNode::GetSuccesorsAirNode(AStarSearch<NavigationNode>* astarsearc
 	return true;
 }
 
-bool NavigationNode::canStand(int x, int y)
+bool NavigationNode::canWalkToTile(int x, int y)
 {
 	if (data == nullptr)return false;
 	int characterWidth = data->characterWidth;
@@ -646,18 +691,52 @@ bool NavigationNode::canStand(int x, int y)
 	else
 	{
 		int sideSize = 0;
-		if (characterWidth % 2 == 1)
-			sideSize = (characterWidth - 1) / 2;
-		else
-			return canWalkToTile(x, y);
-
-		for (int i = x- sideSize; i <= x+ sideSize; i++)
+		if (characterWidth % 2 == 1) // for 3,5,7,...,2n+1 width characters
 		{
-			Tile * tile = GetTile(i, y + 1);
-			if (tile == nullptr)continue;
-			else if (tile->isBlocking())return true;
+			sideSize = (characterWidth - 1) / 2;
+
+			for (int i = x - sideSize; i <= x + sideSize; i++)
+			{
+				Tile * tile = GetTile(i, y + 1);
+				if (tile == nullptr)continue;
+				else if (tile->isBlocking())return true;
+			}
+			return false;
+
 		}
-		return false;
+		else // for 2,4,6,...,2n width characters
+		{
+			sideSize = data->characterWidth / 2;
+
+			int dir = this->x - x;
+			if (this->y == y && (dir != 1 || dir != -1))
+			{
+				int start = x;
+				if (dir == 1)start = this->x;
+
+
+				for (int i = start - sideSize; i < start + sideSize; i++)
+				{
+					Tile * tile = GetTile(i, y + 1);
+					if (tile != nullptr)
+						if (tile->isBlocking())return true;
+				}
+
+			}
+			else
+			{
+				for (int i = x - sideSize; i <= x + sideSize; i++)
+				{
+					Tile * tile = GetTile(i, y + 1);
+					if (tile == nullptr)continue;
+					else if (tile->isBlocking())return true;
+				}
+				return false;
+			}
+			return false;
+		}
+
+
 	}
 		
 }
@@ -668,7 +747,7 @@ bool NavigationNode::canStand(int x, int y)
 // of our map the answer is the map terrain value at this node since that is 
 // conceptually where we're moving
 
-bool NavigationNode::canFit(int x, int y)
+bool NavigationNode::canMoveToTile(int x, int y)
 {
 
 	if (data == nullptr)
@@ -679,6 +758,8 @@ bool NavigationNode::canFit(int x, int y)
 	int characterWidth = data->characterWidth;
 	int characterHeight = data->characterHeight;
 
+	//while moving crosswise
+	if (y != this->y)characterHeight += 1;
 	
 	/*
 	* Check if can stand here
@@ -725,38 +806,7 @@ bool NavigationNode::canFit(int x, int y)
 
 }
 
-bool NavigationNode::canWalkToTile(int x, int y)
-{
-	if (data == nullptr)return false;
-	int sideSize = data->characterWidth / 2;
 
-	int dir = this->x - x;
-	if (this->y == y && dir != 1 && dir != -1)
-	{
-		int start = x;
-		if (dir == 1)start = this->x;
-
-
-		for (int i = start - sideSize; i < start + sideSize; i++)
-		{
-			Tile * tile = GetTile(i, y+1);
-			if (tile != nullptr)
-				if (tile->isBlocking())return true;
-		}
-
-	}
-	else
-	{
-		for (int i = x - sideSize; i <= x + sideSize; i++)
-		{
-			Tile * tile = GetTile(i, y + 1);
-			if (tile == nullptr)continue;
-			else if (tile->isBlocking())return true;
-		}
-		return false;
-	}
-	return false;
-}
 
 float NavigationNode::GetCost(NavigationNode &successor)
 {
