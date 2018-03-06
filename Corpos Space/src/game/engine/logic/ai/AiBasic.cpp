@@ -170,10 +170,40 @@ void AiBasic::drawDebugData(sf::RenderTarget & target)
 
 void AiBasic::getPath(sf::Vector2i tile)
 {
+		AStar::Node startNode(character.getStandingTileId());
 
-	
-	
-		std::vector<sf::Vector2i> path;
+		if (character.getNavigationNodeCharacterData().isFlyingOne)
+		{
+			startNode.type = AStar::Node::FLY;
+		}
+		else
+		{
+			if (!character.isStanding())return;
+
+			startNode.type = AStar::Node::WALK;
+
+		}
+
+
+		auto p = pathfind.findPath(startNode, tile);
+		
+		for each (auto var in p)
+		{
+			if (var->type == NavigationNode::WALK || var->type == NavigationNode::FALL || var->type == NavigationNode::BEFORE_JUMP || var->type == NavigationNode::AFTER_JUMP)
+			{
+				addNode(var->coordinates, NavNode::WALK);
+				navigationNodes.back().debugType = var->type;
+			}
+			else if (var->type == NavigationNode::JUMP)
+			{
+				addNode(var->coordinates, NavNode::JUMP);
+				navigationNodes.back().debugType = var->type;
+			}
+		}
+		pathfind.releaseNodes();
+		return;
+
+		/*std::vector<sf::Vector2i> path;
 
 
 		auto tilePtr = character.getTilemapPtr();
@@ -212,6 +242,7 @@ void AiBasic::getPath(sf::Vector2i tile)
 			NavigationNode nodeEnd;
 			nodeEnd.x = tile.x;
 			nodeEnd.y = tile.y;
+			nodeEnd.type = NavigationNode::WALK;
 			nodeEnd.setCharacterData(&character.getNavigationNodeCharacterData());
 			nodeEnd.setFunctionGetTile(std::bind(getTile, std::placeholders::_1));
 
@@ -220,6 +251,7 @@ void AiBasic::getPath(sf::Vector2i tile)
 				std::cout << "Cant fit here" << std::endl;
 				return;
 			}
+
 
 			// Set Start and goal states
 
@@ -301,6 +333,6 @@ void AiBasic::getPath(sf::Vector2i tile)
 
 
 
-		//return path;
+		//return path;*/
 
 }

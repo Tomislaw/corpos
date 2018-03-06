@@ -156,6 +156,9 @@
     <ClCompile Include="src\game\engine\logic\ai\NavigationNode.cpp">
       <Filter>Source Files\engine\logic\ai</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\utility\Pathfind.cpp">
+      <Filter>Source Files\engine\logic\ai</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game\main\stdafx.h">
@@ -253,6 +256,9 @@
     </ClInclude>
     <ClInclude Include="src\game\engine\logic\ai\NavigationNode.hpp">
       <Filter>Header Files\engine\logic\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\utility\Pathfind.hpp">
+      <Filter>Header Files\utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

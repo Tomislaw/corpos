@@ -6,6 +6,7 @@
 #include "game\utility\TextFileData.hpp"
 #include "game\engine\EntityList.hpp"
 #include "game\map\Tilemap.hpp"
+#include "game\utility\Pathfind.hpp"
 #include <functional>
 //One of the main classes that contains EntityList(enitity container) and tilemap.
 //

@@ -9,6 +9,11 @@ World::World()
 
 	//Set getTexture function for world map
 	this->tilemap.getFunctionGetTexture() = std::bind(&World::getTexture, std::placeholders::_1);
+
+
+	auto getTile = [&](int x, int y) { return tilemap.getTile(x,y); };
+
+	AStar::PathFind::getTile = std::bind(getTile,std::placeholders::_1, std::placeholders::_2);
 }
 
 

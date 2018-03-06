@@ -3,7 +3,7 @@
 #include "game\engine\Character.hpp"
 #include "NavigationNode.hpp"
 #include <queue>
-
+#include "game\utility\Pathfind.hpp"
 
 
 
@@ -50,7 +50,7 @@ public:
 
 protected:
 	
-
+	AStar::PathFind pathfind;
 
 	AStarSearch<NavigationNode> astarsearch;
 	Character & character;

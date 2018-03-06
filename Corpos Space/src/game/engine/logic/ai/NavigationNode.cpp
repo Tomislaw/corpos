@@ -759,7 +759,7 @@ bool NavigationNode::canMoveToTile(int x, int y)
 	int characterHeight = data->characterHeight;
 
 	//while moving crosswise
-	if (y != this->y)characterHeight += 1;
+	//if (y != this->y)characterHeight += 1;
 	
 	/*
 	* Check if can stand here
