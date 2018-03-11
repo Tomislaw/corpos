@@ -82,6 +82,7 @@ void Character::stop()
 
 void Character::update(float time)
 {
+
 	if (ai != nullptr)ai->update(time);
 	setAnimation();
 	impulseVelocityX(walk_speed.x,1200,time);
@@ -395,6 +396,9 @@ void Character::drawDebugData(sf::RenderTarget & window)
 	if (is_jumping) debugString += " jumping";
 
 	debugString += "\n health: " + std::to_string(health) + "/" + std::to_string(maxHealth);
+
+	auto pos = getStandingTileId();
+	debugString += "\n pos: x:" + std::to_string(pos.x) + " y:" + std::to_string(pos.y);
 	Entity::drawDebugData(window);
 }
 
@@ -580,6 +584,12 @@ Tilemap * Character::getTilemapPtr() {
 sf::Vector2i Character::getStandingTileId()
 {
 	if (map == nullptr)return sf::Vector2i(-1, -1);
-	auto CBPosition = sf::Vector2f(getPosition().x , getPosition().y + collision_box.top + collision_box.height-1);
-	return map->getTileId(CBPosition);
+
+	return map->getTileId(getCenteredPosition());
+}
+
+sf::Vector2f Character::getCenteredPosition()
+{
+	return sf::Vector2f(getPosition().x + collision_box.left + +collision_box.width / 2,
+		getPosition().y + collision_box.top + collision_box.height - 1);
 }

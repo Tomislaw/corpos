@@ -64,6 +64,7 @@ public:
 	AiBasic * getAiController() { return ai.get(); };
 
 	sf::Vector2i getStandingTileId();
+	sf::Vector2f getCenteredPosition();
 
 	const  NavigationNodeCharacterData & getNavigationNodeCharacterData()
 	{

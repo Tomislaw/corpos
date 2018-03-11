@@ -48,7 +48,38 @@ void AiBasic::update(float delta)
 		switch (type)
 		{
 		case NavNode::WALK:
-			if (character.getStandingTileId().x > node->tilePosition.x)
+
+
+			if (false)
+			{
+
+				if (character.getCenteredPosition().x > node->tilePosition.x * 32+16)
+				{
+					character.walkLeft();
+				}
+				else if (character.getCenteredPosition().x < node->tilePosition.x * 32+16)
+				{
+					character.walkRight();
+				}
+
+				if (character.getCenteredPosition().y + character.getVelocity().y > node->tilePosition.y * 32 + 32)
+				{
+					if (character.getCenteredPosition().x + character.getVelocity().x> node->tilePosition.x * 32 + 16)
+					{
+						character.walkLeft();
+					}
+					else if (character.getCenteredPosition().x + character.getVelocity().x< node->tilePosition.x * 32 + 16)
+					{
+						character.walkRight();
+					}
+				}
+
+			}
+			//	character.stop();
+
+
+
+			if (character.getCenteredPosition().x > node->tilePosition.x)
 			{
 				 character.walkLeft();
 			}

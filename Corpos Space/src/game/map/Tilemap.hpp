@@ -65,8 +65,9 @@ public:
 	// return tile definition from chosen vertex tile map, nullptr if not found
 	TileDefinition * getTileDefinition(std::string tile, std::string tilesetName);
 	// change position to tile id
-	sf::Vector2i getTileId(sf::Vector2f position);
-	sf::Vector2i getTileId(float x, float y);
+	static sf::Vector2i getTileId(sf::Vector2f position);
+	static sf::Vector2i getTileId(float x, float y);
+	static sf::Vector2f getTilePos(sf::Vector2i TileId);
 	//return map size
 	sf::Vector2f getMapSize();
 

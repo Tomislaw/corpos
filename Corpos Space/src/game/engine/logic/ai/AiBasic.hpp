@@ -15,7 +15,12 @@ struct NavNode
 	int debugType = 0;
 	bool isReached(Character & character)
 	{
-		return character.getStandingTileId() == tilePosition;
+		auto charTilePos = character.getStandingTileId();
+		if (!character.isStanding() && charTilePos.y >= tilePosition.y && type == WALK)
+		{
+			return (charTilePos.y > tilePosition.y);
+		}
+		else return charTilePos == tilePosition;
 	}
 	enum Type {LADDER, WALK, JUMP };
 };

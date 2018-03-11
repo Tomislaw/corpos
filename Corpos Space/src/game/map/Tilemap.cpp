@@ -456,7 +456,15 @@ sf::Vector2i Tilemap::getTileId(sf::Vector2f v)
 
 sf::Vector2i Tilemap::getTileId(float x, float y)
 {
+
 	return getTileId(sf::Vector2f(x,y));
+}
+
+sf::Vector2f Tilemap::getTilePos(sf::Vector2i TileId)
+{
+	int x = TileId.x * 32-16;
+	int y = TileId.y * 32-16;
+	return sf::Vector2f(x,y);
 }
 
 sf::Vector2f Tilemap::getMapSize()

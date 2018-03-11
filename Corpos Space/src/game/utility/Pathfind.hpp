@@ -68,6 +68,7 @@ namespace AStar
 
 
 		bool canWalkToTile(Node * node, int x, int y);
+		bool canStandOnTile(int x, int y);
 		bool canMoveToTile(Node * node, int x, int y);
 
 		std::vector<Node> getSuccesors(Node * node );

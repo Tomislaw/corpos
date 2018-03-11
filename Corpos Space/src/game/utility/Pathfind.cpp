@@ -136,7 +136,15 @@ NodeDeque PathFind::findPath(Node source_, sf::Vector2i target_)
 		current = ClosedSet.back();
 		for each (auto node in ClosedSet)
 		{
-			if (current->H > node->H)current = node;
+			if (current->H >= node->H)
+			{
+				if (current->H == node->H)
+				{
+					if (current->F > node->F)current = node;
+				}
+				else current = node;
+			}
+
 
 		}
 	}
@@ -264,6 +272,33 @@ bool PathFind::canWalkToTile(Node * node,int x, int y)
 
 }
 
+bool AStar::PathFind::canStandOnTile(int x, int y)
+{
+	int characterWidth = character.characterWidth;
+
+	if (characterWidth <= 1)
+	{
+		Tile * tile = getTile(x, y + 1);
+		if (tile == nullptr)return false;
+		else return tile->isBlocking();
+	}
+	else
+	{
+		int sideSize = 0;
+		sideSize = (characterWidth - 1) / 2;
+
+		for (int i = x - sideSize; i <= x + sideSize; i++)
+		{
+			Tile * tile = getTile(i, y + 1);
+			if (tile == nullptr)continue;
+			else if (tile->isBlocking())return true;
+		}
+		return false;
+
+		}
+		
+}
+
 
 
 
@@ -350,7 +385,7 @@ std::vector<Node> AStar::PathFind::getGroundSuccesors(Node * node)
 	}
 	else
 	{
-		//if (!canWalkToTile(node,x, y))
+		if (!canWalkToTile(node,x, y))
 		{
 			node->type = Node::CENTER_POSITION;
 			
@@ -370,9 +405,10 @@ std::vector<Node> AStar::PathFind::getGroundSuccesors(Node * node)
 				Succesor.type = Node::WALK;
 				astarsearch.push_back(Succesor);
 			}
-			
-		}
-		return astarsearch;
+			if(astarsearch.size()!=0)
+			return astarsearch;
+		}		
+		node->type = Node::WALK;
 	}
 
 
@@ -659,7 +695,8 @@ std::vector<Node> AStar::PathFind::getGroundSuccesors(Node * node)
 			//LEFT
 			if (!((parent_x == x - 1) && (parent_y == y)))
 			{
-				if (canMoveToTile(node, x - 1, y))
+				//if (canMoveToTile(node, x - 1, y))
+				if (canStandOnTile(x - 1, y))
 				{
 					Succesor = Node(x - 1, y, node);
 
@@ -680,7 +717,7 @@ std::vector<Node> AStar::PathFind::getGroundSuccesors(Node * node)
 			//RIGHT
 			if (!((parent_x == x + 1) && (parent_y == y)))
 			{
-				if (canMoveToTile(node, x + 1, y))
+				if (canStandOnTile(x + 1, y))
 				{
 					Succesor = Node(x + 1, y, node);
 
