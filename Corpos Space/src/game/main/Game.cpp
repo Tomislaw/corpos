@@ -5,8 +5,10 @@
 Game::Game(int argc, char * argv[])
 {
 	sf::Vector2u windowSize(500,500);
-	world.loadTextures("bin/graphics/textures/texture_definition.txt");
-	world.loadEntitylist("bin/graphics/sprite/sprite_definitions.txt");
+	GameAssetsManager::loadTextures("bin/graphics/textures/texture_definition.txt");
+	GameAssetsManager::loadSprites("bin/graphics/sprite/sprite_definitions.txt");
+	world.loadMap("bin/map/mm.txt");
+	//world.loadEntitylist("bin/graphics/sprite/sprite_definitions.txt");
 	cursor.setCursor();
 	fpsText.setFont(TextContainer::getInstance()->getBasicFont());
 }
@@ -14,6 +16,7 @@ Game::Game(int argc, char * argv[])
 
 Game::~Game()
 {
+	delete GameAssetsManager::getInstance();
 }
 
 bool Game::run()
@@ -123,4 +126,5 @@ void Game::events(sf::Event event)
 
 		if (event.type == sf::Event::Closed)
 			window->close();
+
 }

@@ -120,9 +120,6 @@
     <ClCompile Include="src\game\engine\Characters\Soldier.cpp">
       <Filter>Source Files\engine\characters</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\engine\Characters\CharacterCreator.cpp">
-      <Filter>Source Files\engine\characters</Filter>
-    </ClCompile>
     <ClCompile Include="src\game\main\Cursor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -158,6 +155,12 @@
     </ClCompile>
     <ClCompile Include="src\game\utility\Pathfind.cpp">
       <Filter>Source Files\engine\logic\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\engine\Characters\CharacterFactory.cpp">
+      <Filter>Source Files\engine\characters</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\graphics\GameAssetsManager.cpp">
+      <Filter>Source Files\graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -218,9 +221,6 @@
     <ClInclude Include="src\game\engine\Characters\Soldier.hpp">
       <Filter>Header Files\engine\characters</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\engine\Characters\CharacterCreator.hpp">
-      <Filter>Header Files\engine\characters</Filter>
-    </ClInclude>
     <ClInclude Include="src\game\main\Cursor.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -260,6 +260,12 @@
     <ClInclude Include="src\game\utility\Pathfind.hpp">
       <Filter>Header Files\utility</Filter>
     </ClInclude>
+    <ClInclude Include="src\game\engine\Characters\CharacterFactory.hpp">
+      <Filter>Header Files\engine\characters</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\graphics\GameAssetsManager.hpp">
+      <Filter>Header Files\graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Corpos Space.rc">
@@ -268,6 +274,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="$(SolutionDir)other\icon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\other\defaultTexture.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

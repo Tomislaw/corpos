@@ -19,7 +19,7 @@ Character::Character(EntityList * ptr) : Entity("char",sf::Vector2f(50,50))
 	collision_box.height = 56;
 	collision_box.width = 30;
 
-	this->sprite = GameSprite(*EntityList::getSpriteDefinition("player"));
+	this->sprite = GameSprite(*GameAssetsManager::getSprite("player"));
 	this->sprite.attachToEntity(this);
 
 	rect.setSize(sf::Vector2f(collision_box.width, collision_box.height));
@@ -508,7 +508,7 @@ bool Character::setCharacter(TextElement * element)
 	if (sprite != nullptr)
 	{
 		auto spriteName = sprite->toString(0);
-		auto spriteDefinition = EntityList::getSpriteDefinition(spriteName);
+		auto spriteDefinition = GameAssetsManager::getSprite(spriteName);
 		if(spriteDefinition!= nullptr)
 		this->sprite = GameSprite(*spriteDefinition);
 	}

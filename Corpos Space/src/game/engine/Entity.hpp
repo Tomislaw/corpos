@@ -6,6 +6,7 @@
 #include <memory>
 #include "game\utility\TextFileData.hpp"
 #include "game\graphics\TextContainer.hpp"
+#include "game\graphics\GameAssetsManager.hpp"
 // Entity - main base class
 /*
 */

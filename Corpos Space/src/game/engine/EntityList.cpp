@@ -7,11 +7,6 @@ std::vector <GameSprite> EntityList::game_sprite_definitions = std::vector <Game
 EntityList::EntityList()
 	: particleSystem(100)
 {
-	particleSystem.addParticle(sf::Vector2f(83,-150), sf::Vector2f(10,10),sf::Color::Red);
-	particleSystem.addParticle(sf::Vector2f(85, -130), sf::Vector2f(-10,10), sf::Color::Red);
-	particleSystem.addParticle(sf::Vector2f(82, -130), sf::Vector2f(-6, 10), sf::Color::Red);
-	particleSystem.addParticle(sf::Vector2f(87, -110), sf::Vector2f(-30, 10), sf::Color::Red);
-	particleSystem.addParticle(sf::Vector2f(89, -100), sf::Vector2f(15, 10), sf::Color::Red);
 }
 
 
@@ -33,7 +28,7 @@ void EntityList::loadMap(TextFileData & file)
 	auto map_characters = file.getAllElementsByName("CHARACTER");
 	for (int i = 0; i < map_characters.size(); i++)
 	{
-		auto p = CharacterCreator::create(map_characters.at(i), this);
+		auto p = CharacterFactory::create(map_characters.at(i), this);
 		addCharacter(p);
 	}
 
@@ -101,20 +96,6 @@ std::vector<Entity*> EntityList::findEntities(std::string name)
 	return ents;
 }
 
-GameSprite * EntityList::getSpriteDefinition(std::string name)
-{
-	std::vector<GameSprite>::iterator it = game_sprite_definitions.begin();
-	while (it != game_sprite_definitions.end())
-	{
-
-		if (it->getName() == name)
-		{
-			return it._Ptr;
-		}
-		++it;
-	}
-	return nullptr;
-}
 
 void EntityList::loadSpriteDefinition(std::string location)
 {
@@ -127,7 +108,7 @@ void EntityList::loadSpriteDefinition(std::string location)
 	{
 		std::string s = entities.at(i)->getVariableByName("Texture")->var[0];
 		std::string n = entities.at(i)->getVariableByName("Name")->var[0];
-		sf::Texture * t = World::getTexture(s);
+		sf::Texture * t = GameAssetsManager::getTexture(s);
 		if (t == nullptr)
 		{
 			Logger::e("Texture \"" + s + "\" not found! Sprite \"" + n + "\" not created!");
@@ -162,30 +143,14 @@ void EntityList::events(sf::Event & e)
 			player.getCharacter()->getAiController()->getPath(tile);
 
 			return;
-			player.getCharacter()->getAiController()->addNode(sf::Vector2i(13, 6), NavNode::WALK);
-			player.getCharacter()->getAiController()->addNode(sf::Vector2i(12, 6), NavNode::WALK);
-			player.getCharacter()->getAiController()->addNode(sf::Vector2i(11, 5), NavNode::JUMP);
-			player.getCharacter()->getAiController()->addNode(sf::Vector2i(10, 5), NavNode::WALK);
-			player.getCharacter()->getAiController()->addNode(sf::Vector2i(7, 6), NavNode::WALK);
-			player.getCharacter()->getAiController()->addNode(sf::Vector2i(6, 5), NavNode::JUMP);
-			player.getCharacter()->getAiController()->addNode(sf::Vector2i(5, 5), NavNode::WALK);
-			player.getCharacter()->getAiController()->addNode(sf::Vector2i(5, 4), NavNode::JUMP);
-			player.getCharacter()->getAiController()->addNode(sf::Vector2i(4, 4), NavNode::WALK);
-			player.getCharacter()->getAiController()->addNode(sf::Vector2i(4, 3), NavNode::JUMP);
-			player.getCharacter()->getAiController()->addNode(sf::Vector2i(3, 3), NavNode::WALK);
-			player.getCharacter()->getAiController()->addNode(sf::Vector2i(3, 2), NavNode::JUMP);
-			player.getCharacter()->getAiController()->addNode(sf::Vector2i(2, 2), NavNode::WALK);
-			player.getCharacter()->getAiController()->addNode(sf::Vector2i(2, 1), NavNode::JUMP);
-			player.getCharacter()->getAiController()->addNode(sf::Vector2i(1, 1), NavNode::WALK);
-			player.getCharacter()->getAiController()->addNode(sf::Vector2i(1, 0), NavNode::JUMP);
-			player.getCharacter()->getAiController()->addNode(sf::Vector2i(0, 0), NavNode::WALK);
-			player.getCharacter()->getAiController()->addNode(sf::Vector2i(7, 6), NavNode::WALK);
 			
 			
 			
 		}
-		break;
-
+	break;
+	case sf::Event::Resized:
+		//camera.
+	break;
 	}
 }
 
@@ -233,7 +198,7 @@ void EntityList::update(float time)
 
 void EntityList::draw(sf::RenderWindow & window)
 {
-	camera.setNormalView(window);
+	camera.setForegroundView(window);
 	std::vector<std::shared_ptr <Character>>::iterator it = characters.begin();
 	while (it != characters.end())
 	{

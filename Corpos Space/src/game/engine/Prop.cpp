@@ -42,7 +42,7 @@ Prop::Prop(TextElement * file) : Damageable(file)
 	if(varSprite != nullptr)
 	{ 
 		std::string spr = varSprite->toString(0);
-		auto x = EntityList::getSpriteDefinition(spr);
+		auto x = GameAssetsManager::getSprite(spr);
 		if (x == nullptr)
 		{
 			Logger::e("Sprite " + spr + " not found!");

@@ -32,7 +32,7 @@ bool Soldier::setCharacter(TextElement * element)
 	if (varSpriteHead != nullptr)
 	{
 		std::string sprite1 = varSpriteHead->toString(0);
-		this->head = GameSprite(*EntityList::getSpriteDefinition(sprite1));
+		this->head = GameSprite(*GameAssetsManager::getSprite(sprite1));
 
 		//Set offset of that part
 		auto var1 = element->getVariableByName("HeadPos");
@@ -47,7 +47,7 @@ bool Soldier::setCharacter(TextElement * element)
 	if (varSpriteTorse != nullptr)
 	{
 		std::string sprite2 = varSpriteTorse->toString(0);
-		this->torse = GameSprite(*EntityList::getSpriteDefinition(sprite2));
+		this->torse = GameSprite(*GameAssetsManager::getSprite(sprite2));
 
 		//Set offset of that part
 		auto var2 = element->getVariableByName("TorsePos");
@@ -62,7 +62,7 @@ bool Soldier::setCharacter(TextElement * element)
 	if (varSpriteTorse != nullptr)
 	{
 		std::string sprite3 = varSpriteLegs->toString(0);
-		this->legs = GameSprite(*EntityList::getSpriteDefinition(sprite3));
+		this->legs = GameSprite(*GameAssetsManager::getSprite(sprite3));
 
 		//Set offset of that part
 		auto var3 = element->getVariableByName("LegsPos");
@@ -77,7 +77,7 @@ bool Soldier::setCharacter(TextElement * element)
 	if (varSpriteTorse != nullptr)
 	{
 		std::string sprite4 = varSpriteLHand->toString(0);
-		this->lhand = GameSprite(*EntityList::getSpriteDefinition(sprite4));
+		this->lhand = GameSprite(*GameAssetsManager::getSprite(sprite4));
 
 		//Set offset of that part
 		auto var4 = element->getVariableByName("LHandPos");
@@ -93,7 +93,7 @@ bool Soldier::setCharacter(TextElement * element)
 	legsOrigin = legs.GetSprite().getOrigin();
 
 	//TODO: make weapon
-	weapontest = GameSprite(*EntityList::getSpriteDefinition("testweapon1"));
+	weapontest = GameSprite(*GameAssetsManager::getSprite("testweapon1"));
 	weaponOrigin = weapontest.GetSprite().getOrigin();
 	weaponOffset = sf::Vector2f(1,20);
 	this->weapontest.attachToEntityOffset(this, weaponOffset);

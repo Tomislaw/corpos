@@ -2,7 +2,7 @@
 #define ENTITYLIST_HPP
 
 #include <vector>
-#include "Characters\CharacterCreator.hpp"
+#include "Characters\CharacterFactory.hpp"
 #include "game\engine\Prop.hpp"
 #include "game\engine\Player.hpp"
 #include "game\graphics\ParticleSystem.hpp"
@@ -30,8 +30,6 @@ public:
 	// find entites by name, TODO: change pointer to reference
 	std::vector<Entity*> findEntities(std::string name);
 
-	// return sprite definition TODO: maybe make singleton class with all textures&sprite definitions
-	static GameSprite* getSpriteDefinition(std::string name);
 	// load sprite definitions
 	static void loadSpriteDefinition(std::string location);
 

@@ -141,7 +141,7 @@ Bullet::Bullet(std::string bulletSpriteName, int damage, sf::Vector2f position, 
 {
 
 
-	bulletSprite = GameSprite(*EntityList::getSpriteDefinition(bulletSpriteName));
+	bulletSprite = GameSprite(*GameAssetsManager::getSprite(bulletSpriteName));
 	this->damage = damage;
 	bulletSprite.attachToEntity(this);
 	speed = sqrtf(velocity.x * velocity.x + velocity.y * velocity.y);

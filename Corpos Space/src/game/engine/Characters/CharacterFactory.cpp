@@ -1,6 +1,6 @@
-#include "CharacterCreator.hpp"
+#include "CharacterFactory.hpp"
 
-std::shared_ptr<Character> CharacterCreator::create(TextElement * data, EntityList * entityListPtr)
+std::shared_ptr<Character> CharacterFactory::create(TextElement * data, EntityList * entityListPtr)
 {
 	std::string a = data->getVariableByName("CharacterDefinition")->var[0];
 	TextFileData file;

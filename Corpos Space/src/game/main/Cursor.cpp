@@ -13,7 +13,7 @@ Cursor::~Cursor()
 
 void Cursor::setCursor()
 {
-	cursor = GameSprite(*EntityList::getSpriteDefinition("cursor"));
+	cursor = GameSprite(*GameAssetsManager::getSprite("cursor"));
 	cursor.SetAnimation("crosshair");
 }
 

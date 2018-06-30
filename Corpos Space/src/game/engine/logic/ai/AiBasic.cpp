@@ -89,8 +89,8 @@ void AiBasic::update(float delta)
 				 character.walkRight();
 			}
 
-			if (character.getStandingTileId().x == node->tilePosition.x) 
-				character.stop();
+			//if (character.getStandingTileId().x == node->tilePosition.x) 
+				//character.stop();
 			break;
 		case NavNode::JUMP:
 			if (character.isJumping() || character.isStanding())

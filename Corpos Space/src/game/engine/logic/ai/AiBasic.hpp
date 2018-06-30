@@ -54,7 +54,7 @@ public:
 	void getPath(sf::Vector2i tile);
 
 protected:
-	
+	//class object used for pathfinding
 	AStar::PathFind pathfind;
 
 	AStarSearch<NavigationNode> astarsearch;

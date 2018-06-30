@@ -2,7 +2,7 @@
 #define CHARACTERCREATOR_HPP
 #include "Soldier.hpp"
 #include "Crawler.hpp"
-namespace CharacterCreator
+namespace CharacterFactory
 {
 	// Function returning shared ptr
 	// Creates character from text element and assignt it tilemap pointer
