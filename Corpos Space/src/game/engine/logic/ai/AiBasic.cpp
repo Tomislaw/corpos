@@ -13,32 +13,32 @@ AiBasic::AiBasic(Character & character) : character(character)
 
 void AiBasic::update(float delta)
 {
-	if (!navigationNodes.empty())
+	if (!path.empty())
 	{
 		// delete node if reached
 
-		auto node = &navigationNodes.front();
+		auto node = &path.front();
 		if (node->isReached(character))
 		{
-			navigationNodes.pop();
-			if (navigationNodes.empty())
+			path.pop_front();
+			if (path.empty())
 			{
 				character.stop();
 				return;
 			}
 			else
 			{
-				node = &navigationNodes.front();
+				node = &path.front();
 			}
 		}
 		
 		
 
-		node->timeToSpendOn -= delta;
+		node->timeSpend -= delta;
 		//clear queue if reaching takes too much time
-		if (node->timeToSpendOn < 0)
+		if (node->timeSpend < 0)
 		{
-			while (!navigationNodes.empty()) navigationNodes.pop();
+			while (!path.empty()) path.pop_front();
 			character.stop();
 			return;
 		}
@@ -47,72 +47,57 @@ void AiBasic::update(float delta)
 
 		switch (type)
 		{
-		case NavNode::WALK:
-
-
-			if (false)
+		case AStar::Node::WALK:
+		case AStar::Node::BEFORE_JUMP:
+		case AStar::Node::CENTER_POSITION:
+			if (character.isStanding())
 			{
-
-				if (character.getCenteredPosition().x > node->tilePosition.x * 32+16)
-				{
+				if (character.getStandingTileId().x > node->coordinates.x)
 					character.walkLeft();
-				}
-				else if (character.getCenteredPosition().x < node->tilePosition.x * 32+16)
-				{
+				else if (character.getStandingTileId().x < node->coordinates.x)
 					character.walkRight();
-				}
-
-				if (character.getCenteredPosition().y + character.getVelocity().y > node->tilePosition.y * 32 + 32)
-				{
-					if (character.getCenteredPosition().x + character.getVelocity().x> node->tilePosition.x * 32 + 16)
-					{
-						character.walkLeft();
-					}
-					else if (character.getCenteredPosition().x + character.getVelocity().x< node->tilePosition.x * 32 + 16)
-					{
-						character.walkRight();
-					}
-				}
-
 			}
-			//	character.stop();
-
-
-
-			if (character.getCenteredPosition().x > node->tilePosition.x)
+			else
 			{
-				 character.walkLeft();
+				float xpos = character.getCenteredPosition().x + character.getVelocity().x * delta * 10;
+				if(xpos < node->coordinates.x * 32)character.walkRight();
+				else if (xpos > node->coordinates.x * 32 +32 )character.walkLeft();
+				else if (character.getStandingTileId().x > node->coordinates.x)
+					character.walkLeft();
+				else if (character.getStandingTileId().x < node->coordinates.x)
+					character.walkRight();
 			}
-			
-			if (character.getStandingTileId().x< node->tilePosition.x) 
-			{ 
-				 character.walkRight();
-			}
-
-			//if (character.getStandingTileId().x == node->tilePosition.x) 
-				//character.stop();
 			break;
+		case AStar::Node::FALL:
+		case AStar::Node::AFTER_JUMP:
+
+				if (character.getStandingTileId().x > node->coordinates.x)
+					character.walkLeft();
+				else if (character.getStandingTileId().x < node->coordinates.x)
+					character.walkRight();
+
+			break;
+
+
 		case NavNode::JUMP:
 			if (character.isJumping() || character.isStanding())
 			{
-				if (character.getStandingTileId().x > node->tilePosition.x)
+				if (character.getStandingTileId().x > node->coordinates.x)
 				{
 					character.walkLeft();
 				}
 
-				if (character.getStandingTileId().x < node->tilePosition.x)
+				if (character.getStandingTileId().x < node->coordinates.x)
 				{
 					character.walkRight();
 				}
+
+
 			}
-			if (character.getStandingTileId().x == node->tilePosition.x) character.stop();
+
 			character.jump();
 			break;
-		case NavNode::LADDER:
-			if (character.getStandingTileId().y > node->tilePosition.y)
-				character.walkUp();
-			else character.walkDown();
-			break;
+
 		default:
 			//navigationNodes.p
 			break;
@@ -132,59 +117,55 @@ void AiBasic::drawDebugData(sf::RenderTarget & target)
 {
 
 
-	if (navigationNodes.empty())return;
+	if (path.empty())return;
 
 	if (isInitialized == false)
 	{
 		entityDebugText.setFont(TextContainer::getInstance()->getBasicFont());
+		entityDebugText.setColor(sf::Color::Red);
 		isInitialized = true;
 		entityDebugText.setCharacterSize(6);
 	}
 	
 	
-
-
-	//not efficent, but only used in debug so it is not important
-	std::queue<NavNode>test = std::queue<NavNode>(navigationNodes);
 	sf::VertexArray line(sf::LinesStrip, 2);
 
 	auto starttile = character.getStandingTileId();
 	line[0].position = sf::Vector2f(starttile.x * 32 + 16, starttile.y * 32 + 16);
 
-	while (!test.empty())
+	for each (auto node in path)
 	{
-		auto tile = test.front().tilePosition;
+		auto tile = node.coordinates;
 		line[1].position = sf::Vector2f(tile.x * 32 + 16, tile.y * 32 + 16);
 
 		target.draw(line);
 
 		//draw debug text
 		entityDebugText.setPosition(line[1].position);
-
-		switch (test.front().debugType)
+		switch (node.type)
 		{
-		case NavigationNode::WALK:
+		case AStar::Node::WALK:
 			entityDebugText.setString("walk");
 			break;
-		case NavigationNode::JUMP:
+		case AStar::Node::JUMP:
 			entityDebugText.setString("jump");
 			break;
-		case NavigationNode::AFTER_JUMP:
+		case AStar::Node::AFTER_JUMP:
 			entityDebugText.setString("after_jump");
 			break;
-		case NavigationNode::BEFORE_JUMP:
+		case  AStar::Node::BEFORE_JUMP:
 			entityDebugText.setString("before_jump");
 			break;
-		case NavigationNode::CENTER_POSITION:
+		case  AStar::Node::CENTER_POSITION:
 			entityDebugText.setString("center_position");
 			break;
-		case NavigationNode::CLIMB:
+		case AStar::Node::CLIMB:
 			entityDebugText.setString("climb");
 			break;
-		case NavigationNode::FLY:
+		case  AStar::Node::FLY:
 			entityDebugText.setString("fly");
 			break;
-		case NavigationNode::FALL:
+		case  AStar::Node::FALL:
 			entityDebugText.setString("fall");
 			break;
 		default:
@@ -195,7 +176,6 @@ void AiBasic::drawDebugData(sf::RenderTarget & target)
 
 		line[0].position = line[1].position;
 
-		test.pop();
 	}
 }
 
@@ -216,22 +196,9 @@ void AiBasic::getPath(sf::Vector2i tile)
 		}
 
 
-		auto p = pathfind.findPath(startNode, tile);
-		
-		for each (auto var in p)
-		{
-			if (var->type == NavigationNode::WALK || var->type == NavigationNode::FALL || var->type == NavigationNode::BEFORE_JUMP || var->type == NavigationNode::AFTER_JUMP)
-			{
-				addNode(var->coordinates, NavNode::WALK);
-				navigationNodes.back().debugType = var->type;
-			}
-			else if (var->type == NavigationNode::JUMP)
-			{
-				addNode(var->coordinates, NavNode::JUMP);
-				navigationNodes.back().debugType = var->type;
-			}
-		}
-		pathfind.releaseNodes();
+		path = pathfind.findPath(startNode, tile);
+
+
 		return;
 
 		/*std::vector<sf::Vector2i> path;

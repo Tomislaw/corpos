@@ -25,21 +25,31 @@ namespace AStar
 	using CoordinateList = std::list<sf::Vector2i>;
 	using GetTile = std::function<Tile*(int x,int y)>;
 	
-	struct Node
+
+
+	class Node
 	{
+	public:
 		Node(sf::Vector2i coord_, Node *parent_ = nullptr);
 		Node(int x,int y, Node *parent_ = nullptr);
-		uint G, H,F;
-		sf::Vector2i coordinates;
-		Node *parent;
-		uint getScore();
-		uint type, jumpDistancePassed;
-		enum Type { CENTER_POSITION, FLY, JUMP, WALK, CLIMB, FALL, BEFORE_JUMP, AFTER_JUMP };
-		bool isSame(Node * node);
 
+		bool isReached(Character & character);
+		bool isSame(Node * node);
+		uint getScore();
 		uint getCost(Node * node);
+
+		uint G, H, F;
+		sf::Vector2i coordinates;
+
+		Node *parent;
+		uint jumpDistancePassed;
+		uint type;
+		enum Type { CENTER_POSITION, FLY, JUMP, WALK, CLIMB, FALL, BEFORE_JUMP, AFTER_JUMP };
+
+		// how much time character have left to reach node
+		float timeSpend = 3;
+
 		
-		std::vector<Node> getSuccesors();
 	};
 
 	class NodeCompare_F
@@ -54,7 +64,7 @@ namespace AStar
 
 
 	using NodeSet = std::set<Node*>;
-	using NodeDeque = std::deque<Node*>;
+	using NodeDeque = std::deque<Node>;
 	using NodeVector = std::vector<Node*>;
 	class PathFind
 	{
@@ -65,15 +75,10 @@ namespace AStar
 		PathFind();
 		void setHeuristic(HeuristicFunction heuristic_);
 		NodeDeque findPath(Node source_, sf::Vector2i target_);
+		//Check if can still walk this path
+		bool checkPath(NodeDeque & path);
 
-
-		bool canWalkToTile(Node * node, int x, int y);
-		bool canStandOnTile(int x, int y);
-		bool canMoveToTile(Node * node, int x, int y);
-
-		std::vector<Node> getSuccesors(Node * node );
-		std::vector<Node> getGroundSuccesors(Node * node);
-		std::vector<Node> getAirSuccesors(Node * node);
+	
 
 		NavigationNodeCharacterData character;
 		static GetTile getTile;
@@ -85,6 +90,14 @@ namespace AStar
 		void releaseNodes(NodeVector& nodes_);
 		Node* findNodeOnList(NodeSet& nodes_, sf::Vector2i coordinates_);
 		Node* findNodeOnList(NodeVector& nodes_, Node & node);
+
+		bool canWalkToTile(Node * node, int x, int y);
+		bool canStandOnTile(int x, int y);
+		bool canMoveToTile(Node * node, int x, int y);
+
+		std::vector<Node> getSuccesors(Node * node);
+		std::vector<Node> getGroundSuccesors(Node * node);
+		std::vector<Node> getAirSuccesors(Node * node);
 
 		NodeVector OpenSet, ClosedSet;
 	};

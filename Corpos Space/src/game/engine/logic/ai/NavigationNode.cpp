@@ -389,7 +389,7 @@ bool NavigationNode::GetSuccesorsGroundNode(AStarSearch<NavigationNode>* astarse
 					NewNode.setFunctionGetTile(getTile);
 					NewNode.setCharacterData(data);
 					if (canWalkToTile(x, y + 1))
-						NewNode.type = NavigationNode::WALK;
+						NewNode.type = NavigationNode::FALL;
 					else
 					{
 						NewNode.type = NavigationNode::FALL;
@@ -408,7 +408,7 @@ bool NavigationNode::GetSuccesorsGroundNode(AStarSearch<NavigationNode>* astarse
 					NewNode.setFunctionGetTile(getTile);
 					NewNode.setCharacterData(data);
 					if (canWalkToTile(x + 1, y + 1))
-						NewNode.type = NavigationNode::WALK;
+						NewNode.type = NavigationNode::FALL;
 					else
 					{
 						NewNode.type = NavigationNode::FALL;
@@ -428,7 +428,7 @@ bool NavigationNode::GetSuccesorsGroundNode(AStarSearch<NavigationNode>* astarse
 					NewNode.setCharacterData(data);
 					NewNode.jumpDistancePassed = jumpDistancePassed + 1;
 					if (canWalkToTile(x - 1, y + 1))
-						NewNode.type = NavigationNode::WALK;
+						NewNode.type = NavigationNode::FALL;
 					else
 					{
 						NewNode.type = NavigationNode::FALL;
@@ -493,7 +493,7 @@ bool NavigationNode::GetSuccesorsGroundNode(AStarSearch<NavigationNode>* astarse
 				NewNode.setCharacterData(data);
 					
 				if (canWalkToTile(x, y + 1))
-					NewNode.type = NavigationNode::WALK;
+					NewNode.type = NavigationNode::FALL;
 				else
 				{
 					NewNode.type = NavigationNode::FALL;
@@ -514,7 +514,7 @@ bool NavigationNode::GetSuccesorsGroundNode(AStarSearch<NavigationNode>* astarse
 					NewNode.setFunctionGetTile(getTile);
 					NewNode.setCharacterData(data);
 					if (canWalkToTile(x + 1, y + 1))
-						NewNode.type = NavigationNode::WALK;
+						NewNode.type = NavigationNode::FALL;
 					else
 					{
 						NewNode.type = NavigationNode::FALL;
@@ -533,7 +533,7 @@ bool NavigationNode::GetSuccesorsGroundNode(AStarSearch<NavigationNode>* astarse
 					NewNode.setFunctionGetTile(getTile);
 					NewNode.setCharacterData(data);
 					if (canWalkToTile(x - 1, y + 1))
-						NewNode.type = NavigationNode::WALK;
+						NewNode.type = NavigationNode::FALL;
 					else
 					{
 						NewNode.type = NavigationNode::FALL;

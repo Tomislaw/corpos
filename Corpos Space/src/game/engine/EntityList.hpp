@@ -57,10 +57,11 @@ public:
 private:
 	Quadtree tree;
 
-	static std::vector <GameSprite> game_sprite_definitions;
+
 	std::vector<std::shared_ptr <Character>> characters;
 	std::vector<std::shared_ptr <Prop>> props;
 	std::vector<std::shared_ptr <Bullet>> bullets;
+
 	ParticleSystem particleSystem;
 
 	Camera camera;

@@ -153,14 +153,14 @@
     <ClCompile Include="src\game\engine\logic\ai\NavigationNode.cpp">
       <Filter>Source Files\engine\logic\ai</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\utility\Pathfind.cpp">
-      <Filter>Source Files\engine\logic\ai</Filter>
-    </ClCompile>
     <ClCompile Include="src\game\engine\Characters\CharacterFactory.cpp">
       <Filter>Source Files\engine\characters</Filter>
     </ClCompile>
     <ClCompile Include="src\game\graphics\GameAssetsManager.cpp">
       <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\utility\Pathfind.cpp">
+      <Filter>Source Files\utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

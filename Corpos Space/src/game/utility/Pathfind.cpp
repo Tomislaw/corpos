@@ -23,6 +23,8 @@ AStar::Node::Node(int x, int y, Node * parent_)
 	type = jumpDistancePassed = 0;
 }
 
+
+
 uint AStar::Node::getScore()
 {
 	return G + H;
@@ -37,6 +39,12 @@ uint AStar::Node::getCost(Node * node)
 {
 	if (node->coordinates.x == coordinates.x || node->coordinates.y == coordinates.y)return 10;
 	return 14;
+}
+
+bool AStar::Node::isReached(Character & character)
+{
+	auto charTilePos = character.getStandingTileId();
+	return charTilePos == coordinates;
 }
 
 
@@ -151,13 +159,35 @@ NodeDeque PathFind::findPath(Node source_, sf::Vector2i target_)
 
 	while (current != nullptr) 
 	{
-		path.push_front(current);
+		path.push_front(Node(*current));
+		path.front().parent == nullptr;
 		current = current->parent;
 	}
-
+	releaseNodes();
 
 
 	return path;
+}
+
+bool AStar::PathFind::checkPath(NodeDeque & path)
+{
+	for (int i = 0; i < path.size() - 1; i++)
+	{
+
+			bool founddNode = false;
+			auto nodes = getSuccesors(&path[i]);
+			for each (auto node in nodes)
+			{
+				if (path[i + 1].isSame(&node))
+				{
+					founddNode = true;
+					break;
+				}
+			}
+			if (founddNode)continue;
+			else return false;
+		}
+	return true;
 }
 
 Node* PathFind::findNodeOnList(NodeSet& nodes_, sf::Vector2i coordinates_)

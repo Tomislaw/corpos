@@ -44,26 +44,19 @@ public:
 
 	enum Behavior { IDLE, ALERTED,ENGAGE,SUSPICIOUS,PANIC };
 
-	void addNode(sf::Vector2i tileId, int type)
-	{
-		NavNode node;
-		node.tilePosition = tileId;
-		node.type = type;
-		navigationNodes.push(node);
-	}
+
 	void getPath(sf::Vector2i tile);
 
 protected:
 	//class object used for pathfinding
 	AStar::PathFind pathfind;
+	AStar::NodeDeque path;
 
-	AStarSearch<NavigationNode> astarsearch;
 	Character & character;
 	EntityList * entityListPtr = nullptr;
 	Tilemap * tilemapPtr = nullptr;
 
-	std::queue<NavNode> navigationNodes;
-	
+
 
 
 
