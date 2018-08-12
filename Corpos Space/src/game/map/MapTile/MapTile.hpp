@@ -6,6 +6,15 @@ class MapTile
 private:
 	std::vector<std::shared_ptr<AbstractTile >> tiles;
 
+	static bool shouldConnectToTile(std::shared_ptr<AbstractTile> tile, MapTile * mapTile)
+	{
+		if (mapTile == nullptr)return false;
+		for each (auto var in mapTile->getTiles())
+		{
+			if (tile->isConnectingToTile(var))return true;
+		}
+		return false;
+	}
 public:
 	void appendTile(std::shared_ptr<AbstractTile> tile)
 	{
@@ -21,6 +30,27 @@ public:
 	{
 		return tiles;
 	}
+
+	void updateConnectingToTiles(
+		MapTile * LT, MapTile * T, MapTile * RT,
+		MapTile * L,			   MapTile * R,
+		MapTile * LB, MapTile  * B, MapTile * RB
+		)
+	{
+		for each (auto tile in tiles)
+		{
+			tile->updateTextureCoords(shouldConnectToTile(tile,LT),
+				shouldConnectToTile(tile, T),
+				shouldConnectToTile(tile, RT),
+				shouldConnectToTile(tile, L),
+				shouldConnectToTile(tile, R),
+				shouldConnectToTile(tile, LB),
+				shouldConnectToTile(tile, B),
+				shouldConnectToTile(tile, RB));
+		}
+	}
+
+
 };
 
 

@@ -1,7 +1,6 @@
 #ifndef	TILEMAP_HPP
 #define TILEMAP_HPP
 #include "Tile.hpp"
-
 class EntityList;
 //Struct with all tilemap graphic related studd
 // 

@@ -6,6 +6,7 @@
 #include "game\utility\TextFileData.hpp"
 #include "game\engine\EntityList.hpp"
 #include "game\map\Tilemap.hpp"
+#include "game\map\Tilemap.h"
 #include "game\utility\Pathfind.hpp"
 #include <functional>
 #include "game\graphics\GameAssetsManager.hpp"
@@ -32,6 +33,7 @@ protected:
 
 	EntityList entitylist;
 	Tilemap tilemap;
+	TileMap tilemap2;
 	sf::Sprite background;
 private:
 	static std::string *texture_names;

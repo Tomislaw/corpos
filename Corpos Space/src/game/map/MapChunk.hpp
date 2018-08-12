@@ -21,10 +21,10 @@ public:
 	std::string getTextureName() { return textureName; }
 private:
 	//foreground
-	sf::VertexArray foreground;
+	std::shared_ptr<sf::VertexArray> foreground;
 	//background
-	sf::VertexArray background;
-
+	std::shared_ptr<sf::VertexArray> background;
+	
 
 	std::string textureName;
 	const sf::Texture* texture;
@@ -41,13 +41,7 @@ public:
 
 	void appendTile(std::shared_ptr<AbstractTile> tile);
 
-	void load()
-	{
-		for each (TextureChunk chunk in textureChunks)
-		{
-			chunk.load();
-		}
-	}
+	void load();
 
 	void unload();
 

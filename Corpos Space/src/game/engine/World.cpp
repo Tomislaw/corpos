@@ -36,8 +36,10 @@ void World::draw(sf::RenderWindow & window)
 	window.draw(background);
 
 	//entitylist.getCurrentCamera().setNormalView(window);
-	tilemap.drawBackground(window);
-	tilemap.draw(window);
+	//tilemap.drawBackground(window);
+	//tilemap.draw(window);
+	tilemap2.drawBackground(window);
+	tilemap2.draw(window);
 	entitylist.draw(window);
 }
 
@@ -56,6 +58,10 @@ void World::loadMap(std::string map)
 	//its important to load tilemap first
 	tilemap.loadTileset("bin/graphics/tileset/tileset1.txt");
 	tilemap.loadMap(tm);
+
+	tilemap2.loadTileset("bin/graphics/tileset/tileset1.txt");
+	tilemap2.loadMap(*tm);
+
 	//load it after tilemap
 	entitylist.loadMap(file);
 

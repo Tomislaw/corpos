@@ -47,11 +47,11 @@ private:
 				return;
 			}
 
-			for each (auto tileset in definitions)
+			for (int i = 0; i < definitions.size(); i++)
 			{
-				if (tileset.name == tileStr[0])
+				if (definitions[i].name == tileStr[0])
 				{
-					auto def = tileset.getTileDefinition(tileStr[1]);
+					auto def = definitions[i].getTileDefinition(tileStr[1]);
 					if (def != nullptr)
 					{
 						tile.appendTile(TileFactory::create(def, position));
@@ -59,6 +59,7 @@ private:
 					return;
 				}
 			}
+
 		}		//if using main tileset		
 		else    //{tile_name}
 		{

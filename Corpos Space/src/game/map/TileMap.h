@@ -2,8 +2,8 @@
 #define TILEMAP_H
 #include "MapTile\MapTileFactory.hpp"
 #include "MapChunk.hpp"
-const int MAPCHUNK_SIZE_X = 10;
-const int MAPCHUNK_SIZE_Y = 10;
+const int MAPCHUNK_SIZE_X = 30;
+const int MAPCHUNK_SIZE_Y = 30;
 
 class TileMap
 {
@@ -23,6 +23,7 @@ public:
 	bool loadMap(TextElement & tm)
 	{
 		map.clear();
+	
 		auto size = tm.getVariableByName("Size");
 		if (size != nullptr)
 		{
@@ -71,6 +72,8 @@ public:
 
 		generateBackgroundTiles();
 		generateMapChunks();
+		refreashMap();
+		chunks[0].load();
 		//refreashMap();
 		return false;
 	}
@@ -91,34 +94,46 @@ public:
 
 				if (left != nullptr && left->getMainTile()!=nullptr)
 				{
-					bool shouldAddBackground = !center->getMainTile()->isSameGroup(left->getMainTile());
+					bool shouldAddBackground = !center->getMainTile()->isConnectingToTile(left->getMainTile());
 					if (shouldAddBackground)
 					{
-						center->appendTile(left->getMainTile());
+						auto copy = TileFactory::create(left->getMainTile()->getTileDefinitionPtr(),
+							center->getMainTile()->getId());
+
+						center->appendTile(copy);
 					}
 				}
 				if (right != nullptr&& right->getMainTile() != nullptr)
 				{
-					bool shouldAddBackground = !center->getMainTile()->isSameGroup(right->getMainTile());
+					bool shouldAddBackground = !center->getMainTile()->isConnectingToTile(right->getMainTile());
 					if (shouldAddBackground)
 					{
-						center->appendTile(right->getMainTile());
+						auto copy = TileFactory::create(right->getMainTile()->getTileDefinitionPtr(),
+							center->getMainTile()->getId());
+
+						center->appendTile(copy);
 					}
 				}
 				if (top != nullptr&& top->getMainTile() != nullptr)
 				{
-					bool shouldAddBackground = !center->getMainTile()->isSameGroup(top->getMainTile());
+					bool shouldAddBackground = !center->getMainTile()->isConnectingToTile(top->getMainTile());
 					if (shouldAddBackground)
 					{
-						center->appendTile(top->getMainTile());
+						auto copy = TileFactory::create(top->getMainTile()->getTileDefinitionPtr(),
+							center->getMainTile()->getId());
+
+						center->appendTile(copy);
 					}
 				}
 				if (bottom != nullptr&& bottom->getMainTile() != nullptr)
 				{
-					bool shouldAddBackground = !center->getMainTile()->isSameGroup(bottom->getMainTile());
+					bool shouldAddBackground = !center->getMainTile()->isConnectingToTile(bottom->getMainTile());
 					if (shouldAddBackground)
 					{
-						center->appendTile(bottom->getMainTile());
+						auto copy = TileFactory::create(bottom->getMainTile()->getTileDefinitionPtr(),
+							center->getMainTile()->getId());
+
+						center->appendTile(copy);
 					}
 				}
 			}
@@ -150,10 +165,55 @@ public:
 				{
 					chunk->appendTile(tile);
 				}
-				
+
 			}
 		}
 	}
+
+	void refreashMap()
+	{
+		for (int y = 0; y < mapSize.y; y++)
+		{
+			for (int x = 0; x < mapSize.x; x++)
+			{
+				refreashTile(x, y);
+			}
+		}
+	}
+
+	// refreash tile at selected pos
+	void refreashTile(int x, int y)
+	{
+		auto tile = getTile(x, y);
+		if (tile != nullptr)
+		{
+			tile->updateConnectingToTiles(getTile(x - 1, y - 1), getTile(x, y - 1), getTile(x + 1, y - 1),
+				getTile(x - 1, y), getTile(x + 1, y),
+				getTile(x - 1, y + 1), getTile(x, y + 1), getTile(x + 1, y + 1));
+		}
+	}
+	// refreash near tiles, used after tile is destroyed
+	void refreashNearTiles(int x, int y)
+	{
+		refreashTile(x - 1, y - 1); refreashTile(x, y - 1); refreashTile(x + 1, y - 1);
+		refreashTile(x - 1, y); refreashTile(x + 1, y);
+		refreashTile(x - 1, y + 1); refreashTile(x, y + 1); refreashTile(x + 1, y + 1);
+	}
+
+
+	// draw it
+	void draw(sf::RenderTarget &window)
+	{
+		if (chunks.size() != 0)
+			chunks[0].drawForeground(window);
+	}
+	// draw background tiles
+	void drawBackground(sf::RenderTarget &window)
+	{
+		if (chunks.size() != 0)
+			chunks[0].drawBackground(window);
+	}
+
 	MapTile * getTile(int x, int y)
 	{
 		if (map.size() <= x + y * mapSize.x)return nullptr;

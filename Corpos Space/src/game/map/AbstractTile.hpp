@@ -1,6 +1,7 @@
 #include <SFML\Graphics.hpp>
 #include "game\engine\Collideable.hpp"
 #include "TileDefinition.hpp"
+#include "game\utility\Flags.h"
 #ifndef	ABSTRACT_TILE_HPP
 #define ABSTRACT_TILE_HPP
 
@@ -14,7 +15,7 @@ public:
 
 	AbstractTile(std::shared_ptr<TileDefinition> tiledef, sf::Vector2i pos);
 
-	void load(sf::VertexArray& array);
+	void load(std::shared_ptr<sf::VertexArray> array);
 	void unload();
 
 	void replace(std::shared_ptr<TileDefinition> tiledef);
@@ -29,11 +30,13 @@ public:
 	bool isBlocking();
 	bool isBackground();
 	bool isShowTilesBehind();
-	bool isSameGroup(AbstractTile & tile);
-	bool isSameGroup(std::shared_ptr<AbstractTile> tile);
+	bool isConnectingToTile(AbstractTile & tile);
+	bool isConnectingToTile(std::shared_ptr<AbstractTile> tile);
 	bool isDestroyed();;
 
+	std::shared_ptr<TileDefinition> getTileDefinitionPtr() { return definition; };
 	const TileDefinition & getTileDefinition() { return *definition.get(); };
+
 	sf::Vector2i getId() { return position; };
 	sf::Vector2f getPosition()
 	{
@@ -50,12 +53,18 @@ public:
 	sf::Vector2i position;
 
 		//flags
-	__int8 alignTiles = 0;
+	Flags8 alignTiles = 0;
 	bool destroyed = false;
 
-	std::vector<sf::Vertex * > tile;
+	unsigned int startingPos;
+	__int8 vertexCount = 0;
+	std::shared_ptr<sf::VertexArray> array;
 	std::shared_ptr<TileDefinition> definition;
 
+	sf::Vertex & vertex(unsigned int id)
+	{
+		return (*array)[id + startingPos];
+	}
 
 };
 

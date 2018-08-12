@@ -177,6 +177,9 @@
     <ClCompile Include="src\game\map\DefaultTile.cpp">
       <Filter>Source Files\map</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\utility\String.cpp">
+      <Filter>Source Files\utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game\main\stdafx.h">
@@ -315,6 +318,9 @@
       <Filter>Header Files\map</Filter>
     </ClInclude>
     <ClInclude Include="src\game\utility\String.hpp">
+      <Filter>Header Files\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\utility\Flags.h">
       <Filter>Header Files\utility</Filter>
     </ClInclude>
   </ItemGroup>

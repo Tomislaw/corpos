@@ -4,23 +4,25 @@ TextureChunk::TextureChunk(const sf::Texture * texture, const std::string textur
 {
 	this->texture = texture;
 	this->textureName = textureName;
+	foreground = std::make_shared<sf::VertexArray>(sf::Quads);
+	background = std::make_shared<sf::VertexArray>(sf::Quads);
 }
 
 void TextureChunk::load()
 {
-	for each (auto tile in tiles)
+	for (int i = 0; i < tiles.size(); i++)
 	{
-		if(tile->isBackground())
-			tile->load(background);
+		if (tiles[i]->isBackground())
+			tiles[i]->load(background);
 		else
-			tile->load(foreground);
+			tiles[i]->load(foreground);
 	}
 }
 
 void TextureChunk::unload()
 {
-	foreground.clear();
-	background.clear();
+	foreground->clear();
+	background->clear();
 	for each (auto tile in tiles)
 	{
 		tile->unload();
@@ -30,12 +32,12 @@ void TextureChunk::unload()
 
 void TextureChunk::drawForeground(sf::RenderTarget & target)
 {
-	target.draw(foreground, texture);
+	target.draw(*foreground, texture);
 }
 
 void TextureChunk::drawBackground(sf::RenderTarget & target)
 {
-	target.draw(background, texture);
+	target.draw(*background, texture);
 }
 
 void TextureChunk::appendTile(std::shared_ptr<AbstractTile> tile)
@@ -43,42 +45,52 @@ void TextureChunk::appendTile(std::shared_ptr<AbstractTile> tile)
 	tiles.push_back(tile);
 }
 
+
+
+
 void MapChunk::appendTile(std::shared_ptr<AbstractTile> tile)
 {
 	if (tile == nullptr)return;
-	for each (auto chunk in textureChunks)
+
+	for (int i = 0; i < textureChunks.size(); i++)
 	{
-		if (chunk.getTextureName() == tile->getTileDefinition().texture_name)
-		{
-			chunk.appendTile(tile);
-			return;
-		}
+		textureChunks[i].appendTile(tile);
+		return;
 	}
+
 	textureChunks.push_back(TextureChunk(tile->getTileDefinition().texture,
 	tile->getTileDefinition().texture_name));
 	textureChunks.back().appendTile(tile);
 }
 
+void MapChunk::load()
+{
+	for (int i = 0; i < textureChunks.size(); i++)
+	{
+		textureChunks[i].load();
+	}
+}
+
 void MapChunk::unload()
 {
-	for each (TextureChunk chunk in textureChunks)
+	for (int i = 0; i < textureChunks.size(); i++)
 	{
-		chunk.unload();
+		textureChunks[i].unload();
 	}
 }
 
 void MapChunk::drawForeground(sf::RenderTarget & target)
 {
-	for each (TextureChunk chunk in textureChunks)
+	for (int i = 0; i < textureChunks.size(); i++)
 	{
-		chunk.drawForeground(target);
+		textureChunks[i].drawForeground(target);
 	}
 }
 
 void MapChunk::drawBackground(sf::RenderTarget & target)
 {
-	for each (TextureChunk chunk in textureChunks)
+	for (int i = 0; i < textureChunks.size(); i++)
 	{
-		chunk.drawBackground(target);
+		textureChunks[i].drawBackground(target);
 	}
 }

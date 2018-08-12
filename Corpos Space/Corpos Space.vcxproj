@@ -188,6 +188,7 @@
     <ClCompile Include="src\game\utility\Logger.cpp" />
     <ClCompile Include="src\game\utility\Pathfind.cpp" />
     <ClCompile Include="src\game\utility\Quadtree.cpp" />
+    <ClCompile Include="src\game\utility\String.cpp" />
     <ClCompile Include="src\game\utility\TextFileData.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -231,6 +232,7 @@
     <ClInclude Include="src\game\map\Tilemap.hpp" />
     <ClInclude Include="src\game\map\TileSet.hpp" />
     <ClInclude Include="src\game\utility\AStarSearch.hpp" />
+    <ClInclude Include="src\game\utility\Flags.h" />
     <ClInclude Include="src\game\utility\Intersection.hpp" />
     <ClInclude Include="src\game\utility\Logger.hpp" />
     <ClInclude Include="src\game\utility\Pathfind.hpp" />
