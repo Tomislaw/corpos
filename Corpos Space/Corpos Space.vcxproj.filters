@@ -61,6 +61,9 @@
     <Filter Include="Source Files\engine\logic\ai">
       <UniqueIdentifier>{5f4010d1-850f-477c-a6e7-b0b248aa3cdd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\map\MapTile">
+      <UniqueIdentifier>{4bfe0656-cba0-42ee-b7f4-cfe8da86bfec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -161,6 +164,18 @@
     </ClCompile>
     <ClCompile Include="src\game\utility\Pathfind.cpp">
       <Filter>Source Files\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\map\TileDefinition.cpp">
+      <Filter>Source Files\map</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\map\MapChunk.cpp">
+      <Filter>Source Files\map</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\map\AbstractTile.cpp">
+      <Filter>Source Files\map</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\map\DefaultTile.cpp">
+      <Filter>Source Files\map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -265,6 +280,42 @@
     </ClInclude>
     <ClInclude Include="src\game\graphics\GameAssetsManager.hpp">
       <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\map\AbstractTile.hpp">
+      <Filter>Header Files\map</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\map\TileDefinition.hpp">
+      <Filter>Header Files\map</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\map\MapChunk.hpp">
+      <Filter>Header Files\map</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\map\DefaultTile.hpp">
+      <Filter>Header Files\map</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\map\TileFactory.hpp">
+      <Filter>Header Files\map</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\engine\Collideable.hpp">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\utility\Intersection.hpp">
+      <Filter>Header Files\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\map\TileMap.h">
+      <Filter>Header Files\map</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\map\MapTile\MapTile.hpp">
+      <Filter>Header Files\map\MapTile</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\map\MapTile\MapTileFactory.hpp">
+      <Filter>Header Files\map\MapTile</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\map\TileSet.hpp">
+      <Filter>Header Files\map</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\utility\String.hpp">
+      <Filter>Header Files\utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -75,6 +75,7 @@
     <ClCompile Include="..\Corpos Space\src\game\graphics\GameSprite.cpp" />
     <ClCompile Include="..\Corpos Space\src\game\graphics\TextContainer.cpp" />
     <ClCompile Include="..\Corpos Space\src\game\map\Tile.cpp" />
+    <ClCompile Include="..\Corpos Space\src\game\map\TileDefinition.cpp" />
     <ClCompile Include="..\Corpos Space\src\game\map\Tilemap.cpp" />
     <ClCompile Include="..\Corpos Space\src\game\utility\Logger.cpp" />
     <ClCompile Include="..\Corpos Space\src\game\utility\TextFileData.cpp" />

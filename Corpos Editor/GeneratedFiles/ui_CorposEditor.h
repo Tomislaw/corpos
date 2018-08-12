@@ -226,7 +226,7 @@ public:
         verticalLayout_2->addWidget(tileListWidget);
 
         label = new QLabel(browseTileToolbox);
-        label->setObjectName(QStringLiteral("label_info"));
+        label->setObjectName(QStringLiteral("label"));
 
         verticalLayout_2->addWidget(label);
 

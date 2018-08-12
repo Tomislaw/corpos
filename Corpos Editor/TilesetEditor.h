@@ -1,5 +1,5 @@
-#ifndef TILESET_H
-#define TILESET_H
+#ifndef TILESET_EDITOR_HPP
+#define TILESET_EDITOR_HPP
 
 #include <QWidget>
 #include "ui_TilesetEditor.h"

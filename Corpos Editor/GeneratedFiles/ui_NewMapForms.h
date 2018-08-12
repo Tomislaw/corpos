@@ -91,7 +91,7 @@ public:
         horizontalLayout->setContentsMargins(11, 11, 11, 11);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         label = new QLabel(frame);
-        label->setObjectName(QStringLiteral("label_info"));
+        label->setObjectName(QStringLiteral("label"));
 
         horizontalLayout->addWidget(label);
 

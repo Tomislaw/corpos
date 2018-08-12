@@ -178,7 +178,11 @@
     <ClCompile Include="src\game\main\Cursor.cpp" />
     <ClCompile Include="src\game\main\Game.cpp" />
     <ClCompile Include="src\game\main\stdafx.cpp" />
+    <ClCompile Include="src\game\map\AbstractTile.cpp" />
+    <ClCompile Include="src\game\map\DefaultTile.cpp" />
+    <ClCompile Include="src\game\map\MapChunk.cpp" />
     <ClCompile Include="src\game\map\Tile.cpp" />
+    <ClCompile Include="src\game\map\TileDefinition.cpp" />
     <ClCompile Include="src\game\map\Tilemap.cpp" />
     <ClCompile Include="src\game\utility\AStarSearch.cpp" />
     <ClCompile Include="src\game\utility\Logger.cpp" />
@@ -192,6 +196,7 @@
     <ClInclude Include="src\game\engine\Characters\CharacterFactory.hpp" />
     <ClInclude Include="src\game\engine\Characters\Crawler.hpp" />
     <ClInclude Include="src\game\engine\Characters\Soldier.hpp" />
+    <ClInclude Include="src\game\engine\Collideable.hpp" />
     <ClInclude Include="src\game\engine\Damageable.hpp" />
     <ClInclude Include="src\game\engine\Entity.hpp" />
     <ClInclude Include="src\game\engine\EntityList.hpp" />
@@ -214,12 +219,23 @@
     <ClInclude Include="src\game\main\Game.hpp" />
     <ClInclude Include="src\game\main\stdafx.h" />
     <ClInclude Include="src\game\main\targetver.h" />
+    <ClInclude Include="src\game\map\AbstractTile.hpp" />
+    <ClInclude Include="src\game\map\DefaultTile.hpp" />
+    <ClInclude Include="src\game\map\MapChunk.hpp" />
+    <ClInclude Include="src\game\map\MapTile\MapTile.hpp" />
+    <ClInclude Include="src\game\map\MapTile\MapTileFactory.hpp" />
     <ClInclude Include="src\game\map\Tile.hpp" />
+    <ClInclude Include="src\game\map\TileDefinition.hpp" />
+    <ClInclude Include="src\game\map\TileFactory.hpp" />
+    <ClInclude Include="src\game\map\TileMap.h" />
     <ClInclude Include="src\game\map\Tilemap.hpp" />
+    <ClInclude Include="src\game\map\TileSet.hpp" />
     <ClInclude Include="src\game\utility\AStarSearch.hpp" />
+    <ClInclude Include="src\game\utility\Intersection.hpp" />
     <ClInclude Include="src\game\utility\Logger.hpp" />
     <ClInclude Include="src\game\utility\Pathfind.hpp" />
     <ClInclude Include="src\game\utility\Quadtree.hpp" />
+    <ClInclude Include="src\game\utility\String.hpp" />
     <ClInclude Include="src\game\utility\TextFileData.hpp" />
   </ItemGroup>
   <ItemGroup>

@@ -116,6 +116,9 @@
     <ClCompile Include="GeneratedFiles\Release\moc_FrameEditor.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="..\Corpos Space\src\game\map\TileDefinition.cpp">
+      <Filter>_INCLUDECPP</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Resource Files">
