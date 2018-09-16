@@ -4,7 +4,7 @@
 #include <vector>
 #include <SFML\Graphics.hpp>
 #include "Particle.hpp"
-class Tilemap;
+class TileMap;
 
 // particle systen
 class ParticleSystem : public sf::Drawable, public sf::Transformable
@@ -15,7 +15,7 @@ public:
 	// update all particles
 	void update(float elapsed);
 	// set tilemap pointer used in checking collision
-	void setTilemapPointer(Tilemap * tilemap);
+	void setTileMapPointer(TileMap * tilemap);
 	// add particle
 	void addParticle(sf::Vector2f position, sf::Vector2f velocity, sf::Color color);
 private:
@@ -25,15 +25,13 @@ private:
 
 private:
 
-
-
-	
+	TileMap * tileMapPtr = nullptr;
 
 	std::vector<Particle> particles;
 	sf::VertexArray vertices;
 	size_t lastVertice = 0;
 	float particeLifetime = 5; // in seconds
-	Tilemap * tilemapPtr = nullptr;
+	
 };
 
 #endif

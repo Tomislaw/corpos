@@ -54,7 +54,7 @@ protected:
 
 	Character & character;
 	EntityList * entityListPtr = nullptr;
-	Tilemap * tilemapPtr = nullptr;
+	TileMap * tilemapPtr = nullptr;
 
 
 

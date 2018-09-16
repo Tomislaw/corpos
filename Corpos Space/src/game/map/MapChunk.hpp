@@ -1,6 +1,6 @@
 #include <SFML\Graphics.hpp>
 #include "AbstractTile.hpp"
-
+#include <set>
 #ifndef	MAP_CHUNK_HPP
 #define MAP_CHUNK_HPP
 
@@ -29,7 +29,15 @@ private:
 	std::string textureName;
 	const sf::Texture* texture;
 
-	std::vector<std::shared_ptr<AbstractTile >> tiles;
+	//set drawing order
+	struct CustomComparator {
+		bool operator() (const std::shared_ptr<AbstractTile > &a, const std::shared_ptr<AbstractTile > &b)
+		{
+			return *a.get() < *b.get();
+		};
+	};
+	std::multiset<std::shared_ptr<AbstractTile >, CustomComparator> tiles;
+	//std::vector<std::shared_ptr<AbstractTile >> tiles;
 
 };
 

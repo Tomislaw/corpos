@@ -65,6 +65,25 @@ public:
 			tileDefinitions.push_back(t);
 		}
 
+		setBackgroundTileDefinitions();
+		return true;
+	}
+
+private:
+	void setBackgroundTileDefinitions()
+	{
+		for each (auto def in tileDefinitions)
+		{
+			if (def->backgroundTile == "")
+			{
+				continue;
+			}
+			else
+			{
+				auto bgDef = getTileDefinition(def->backgroundTile);
+				def->backgroundTileDefinition = bgDef;
+			}
+		}
 	}
 };
 

@@ -10,12 +10,12 @@ TextureChunk::TextureChunk(const sf::Texture * texture, const std::string textur
 
 void TextureChunk::load()
 {
-	for (int i = 0; i < tiles.size(); i++)
+	for each (auto tile in tiles)
 	{
-		if (tiles[i]->isBackground())
-			tiles[i]->load(background);
+		if (tile->isBackground())
+			tile->load(background);
 		else
-			tiles[i]->load(foreground);
+			tile->load(foreground);
 	}
 }
 
@@ -42,7 +42,7 @@ void TextureChunk::drawBackground(sf::RenderTarget & target)
 
 void TextureChunk::appendTile(std::shared_ptr<AbstractTile> tile)
 {
-	tiles.push_back(tile);
+	tiles.insert(tile);
 }
 
 

@@ -1,5 +1,5 @@
 #include "Character.hpp"
-#include "game\map\Tilemap.hpp"
+#include "game\map\Tilemap.h"
 #include "EntityList.hpp"
 #include "game\engine\logic\ai\AiBasic.hpp"
 
@@ -9,7 +9,7 @@ Character::Character(EntityList * ptr) : Entity("char",sf::Vector2f(50,50))
 {
 	this->entlistPtr = ptr;
 	if (ptr != nullptr)
-		map = entlistPtr->getTilemapPtr();
+		map = entlistPtr->getTileMapPtr();
 
 	this->max_walk_speed = 200;
 
@@ -32,7 +32,7 @@ Character::Character(TextElement * data, EntityList * ptr) : Entity(data)
 
 	this->entlistPtr = ptr;
 	if (ptr != nullptr)
-		map = entlistPtr->getTilemapPtr();
+		map = entlistPtr->getTileMapPtr();
 	this->sprite.attachToEntity(this);
 
 }
@@ -186,6 +186,7 @@ void Character::resolveCollision()
 	auto t4 = map->getTileId(cornerRT);
 
 	//checking corner collision
+
 	if (map->isTileBlocking(t1.x, t1.y))leftBottom = true;;
 	if (map->isTileBlocking(t2.x, t2.y))leftTop = true;;
 	if (map->isTileBlocking(t3.x, t3.y))rightBottom = true;
@@ -575,10 +576,10 @@ void Character::setAnimation()
 
 }
 
-Tilemap * Character::getTilemapPtr() {
+TileMap * Character::getTileMapPtr() {
 	if(entlistPtr == nullptr)
 		return nullptr;
-	else return entlistPtr->getTilemapPtr();
+	else return entlistPtr->getTileMapPtr();
 }
 
 sf::Vector2i Character::getStandingTileId()

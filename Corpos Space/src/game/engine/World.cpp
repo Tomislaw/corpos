@@ -1,13 +1,9 @@
 #include "World.hpp"
 
-std::string * World::texture_names = nullptr;
-sf::Texture * World::texture = nullptr;
-int World::textureArraySize = 0;
-
 World::World()
 {
-	entitylist.setTilemapPtr(&tilemap);
-
+	//entitylist.setTilemapPtr(&tilemap);
+	entitylist.setTileMapPtr(&tilemap2);
 	//Set getTexture function for world map
 	tilemap.getFunctionGetTexture() = std::bind(&GameAssetsManager::getTexture, std::placeholders::_1);
 

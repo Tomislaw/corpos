@@ -7,7 +7,7 @@
 
 
 
-class Tilemap;
+class TileMap;
 class EntityList;
 class AiBasic;
 //Core class for all characters
@@ -59,7 +59,7 @@ public:
 	EntityList * getEntityListPtr() {
 		return entlistPtr;
 	}
-	Tilemap * getTilemapPtr();
+	TileMap * getTileMapPtr();
 
 	AiBasic * getAiController() { return ai.get(); };
 
@@ -85,7 +85,7 @@ protected:
 
 	std::unique_ptr<AiBasic> ai;
 
-	Tilemap * map = nullptr;
+	TileMap * map = nullptr;
 	EntityList * entlistPtr = nullptr;
 
 	GameSprite sprite;

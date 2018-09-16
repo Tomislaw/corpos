@@ -5,20 +5,18 @@
 #ifndef	DEFAULT_TILE_HPP
 #define DEFAULT_TILE_HPP
 
-class DefaultTile : public AbstractTile
+class DefaultTile : public AbstractTile, public Damageable
 {
 public:
 	DefaultTile(std::shared_ptr<TileDefinition> definition, sf::Vector2i position);
 
-	void damage(int damage);
-
-	bool collide(sf::Vector2f & before, sf::Vector2f & after, sf::Vector2f * collidePoint);
-
+	void destroy() override
+	{
+		AbstractTile::destroy();
+		Damageable::destroy();
+	}
 private:
-
-
-	int health = 0;
-	int maxHealth = 0;
+	
 };
 
 #endif

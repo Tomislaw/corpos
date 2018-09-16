@@ -1,5 +1,5 @@
 #include "AiBasic.hpp"
-#include "game\map\Tilemap.hpp"
+#include "game\map\Tilemap.h"
 #include "game\engine\EntityList.hpp"
 
 
@@ -8,7 +8,7 @@
 AiBasic::AiBasic(Character & character) : character(character)
 {
 	entityListPtr = character.getEntityListPtr();
-	if (entityListPtr != nullptr)tilemapPtr = entityListPtr->getTilemapPtr();
+	if (entityListPtr != nullptr)tilemapPtr = entityListPtr->getTileMapPtr();
 }
 
 void AiBasic::update(float delta)

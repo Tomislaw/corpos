@@ -64,7 +64,19 @@ protected:
 };
 // interface for damagable entities
 // TODO: comment this class
-class Damageable
+class Destructable 
+{
+public:
+	Destructable();
+
+	virtual void destroy();
+	virtual bool isDestroyed();
+
+protected:
+	bool destroyed = false;
+};
+
+class Damageable : public Destructable
 {
 public:
 	Damageable();
@@ -79,11 +91,10 @@ public:
 	virtual void setMaxHealth(int health);
 	virtual bool isIndestructable();
 	virtual void setIndestructable(bool is_indestructable);
-	virtual void destroy();
-	virtual bool isDestroyed();
 
 
-	virtual bool bulletCollision(Bullet * bullet) = 0;
+
+	virtual bool bulletCollision(Bullet * bullet) { return false; };
 	////bool checkFilter(int filter)
 	//{
 	//
@@ -93,7 +104,7 @@ protected:
 
 	int health = 0;
 	int maxHealth = 0;
-	bool destroyed = false;
+
 
 	bool indestructable = false;
 	__int8 damageFilter = -1;

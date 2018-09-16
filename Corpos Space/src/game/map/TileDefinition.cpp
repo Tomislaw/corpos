@@ -339,10 +339,10 @@ std::string TileDefinition::toString()
 {
 
 	std::string data;
-	data += "Name:" + this->name;
-	data += "\nTexture name:" + this->texture_name;
-	data += "\nHealth:" + std::to_string(this->health);
-	data += "\nBlock:" + std::to_string(this->is_blocking);
+	data += "name:" + this->name;
+	data += "\ntexture name:" + this->texture_name;
+	data += "\nhealth:" + std::to_string(this->health);
+	data += "\nblock:" + std::to_string(this->is_blocking);
 	return data;
 }
 

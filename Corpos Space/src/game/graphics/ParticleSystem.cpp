@@ -1,5 +1,5 @@
 #include "ParticleSystem.hpp"
-#include "game\map\Tilemap.hpp"
+#include "game\map\TileMap.h"
 
 static float particleSize = 1.5f;
 
@@ -10,7 +10,6 @@ ParticleSystem::ParticleSystem(unsigned int count)
 	vertices.setPrimitiveType(sf::Quads);
 	particles.resize(count, Particle());
 
-	this->tilemapPtr = tilemapPtr;
 }
 
 void ParticleSystem::update(float elapsed)
@@ -31,10 +30,11 @@ void ParticleSystem::update(float elapsed)
 		p.position += p.velocity * elapsed;
 
 
-		if (tilemapPtr != nullptr)
+		if (tileMapPtr != nullptr)
 		{
-	
-			if (tilemapPtr->isTileBlocking(tilemapPtr->getTileId(p.position)))
+			auto tile = tileMapPtr->getTile(tileMapPtr->getTileId(p.position));
+			bool isColideWithTile = tile != nullptr && tile->getMainTile()->isBlocking();
+			if (isColideWithTile)
 			{
 				p.velocity.x = -p.velocity.x;
 				p.velocity.y = -p.velocity.y;
@@ -69,9 +69,9 @@ void ParticleSystem::update(float elapsed)
 
 }
 
-void ParticleSystem::setTilemapPointer(Tilemap * tilemap)
+void ParticleSystem::setTileMapPointer(TileMap * tilemap)
 {
-	this->tilemapPtr = tilemap;
+	this->tileMapPtr = tilemap;
 }
 
 void ParticleSystem::draw(sf::RenderTarget & target, sf::RenderStates states) const

@@ -8,7 +8,8 @@
 #include "game\graphics\ParticleSystem.hpp"
 #include "game\engine\logic\Camera.hpp"
 #include "game\utility\Quadtree.hpp"
-class Tilemap; 
+//class Tilemap; 
+class TileMap;
 class EntityList
 {
 public:
@@ -50,8 +51,10 @@ public:
 	// set player entity for player class
 	void setPlayerEntity(std::string name);
 	// set tilemap pointer used in detecting collision
-	void setTilemapPtr(Tilemap * ptr);
-	Tilemap * getTilemapPtr() { return tilemapPtr; }
+	//void setTilemapPtr(Tilemap * ptr);
+	void setTileMapPtr(TileMap * ptr);
+	//Tilemap * getTilemapPtr() { return tilemapPtr; }
+	TileMap * getTileMapPtr() { return tileMapPtr; }
 	//objects
 	
 private:
@@ -67,8 +70,8 @@ private:
 	Camera camera;
 	Player player;
 
-	Tilemap * tilemapPtr =nullptr;
-
+	//Tilemap * tilemapPtr = nullptr;
+	TileMap * tileMapPtr = nullptr;
 	sf::Vector2f cursorPos;
 };
 

@@ -28,20 +28,12 @@ public:
 	void events(sf::Event e);
 	// load map
 	void loadMap(std::string map);
+
 protected:
-
-
 	EntityList entitylist;
 	Tilemap tilemap;
 	TileMap tilemap2;
 	sf::Sprite background;
-private:
-	static std::string *texture_names;
-	static sf::Texture *texture;
-	static int textureArraySize;
-
-
-
 
 };
 

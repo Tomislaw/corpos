@@ -15,8 +15,12 @@ EntityList::~EntityList()
 
 void EntityList::loadMap(TextFileData & file)
 {
-	if (tilemapPtr == nullptr)return;
-	tree = Quadtree(sf::Vector2f(), tilemapPtr->getMapSize(), 0, 4, 5);
+	//if (tilemapPtr == nullptr)return;
+	//tree = Quadtree(sf::Vector2f(), tilemapPtr->getMapSize(), 0, 4, 5);
+
+	if (tileMapPtr == nullptr)return;
+	tree = Quadtree(sf::Vector2f(), tileMapPtr->getMapSize(), 0, 4, 5);
+
 	auto map_props = file.getAllElementsByName("PROP");
 	for (int i = 0; i < map_props.size(); i++)
 	{
@@ -115,7 +119,7 @@ void EntityList::events(sf::Event & e)
 				std::cout << var->getName() << " " << var->getPosition().x << " " << var->getPosition().y << std::endl;
 			}
 			
-			auto tile = tilemapPtr->getTileId(cursorPos.x, cursorPos.y);
+			auto tile = tileMapPtr->getTileId(cursorPos.x, cursorPos.y);
 			std::cout << "Going to: " << tile.x << " " << tile.y << std::endl;
 			player.getCharacter()->getAiController()->getPath(tile);
 
@@ -207,7 +211,7 @@ bool EntityList::checkBulletCollision(Bullet * bullet)
 {
 
 	if (bullet->isDestroyed() || bullet->isDuringDestroying())return false;
-	if (tilemapPtr == nullptr)
+	if (tileMapPtr == nullptr)
 	{
 		bullet->kill();
 		return true;
@@ -224,35 +228,49 @@ bool EntityList::checkBulletCollision(Bullet * bullet)
 			}
 		}
 
-		auto tilesInLine = this->tilemapPtr->getTilesFromLine(bullet->getPreviousPosition(), bullet->getPosition());
+		auto tilesInLine = this->tileMapPtr->getTilesFromLine(bullet->getPreviousPosition(), bullet->getPosition());
 
-		for each (Tile* tile in tilesInLine)
+		for each (MapTile* mapTile in tilesInLine)
 		{
-			if (tile == nullptr)
+			if (mapTile == nullptr)
 			{
 				bullet->destroy();
 				return true;
 			}
+
+			if (mapTile->getMainTile() == nullptr)
+			{
+				return false;
+			}
+
+			auto tile = mapTile->getMainTile();
+
 			if (tile->isBlocking())
 			{
+				DefaultTile* defaultTile = dynamic_cast<DefaultTile*>(tile.get());
+				if (defaultTile == nullptr)
+				{
+					bullet->destroy();
+					continue;
+				}
 				int damage = bullet->getDamage();
-				bullet->decreaseDamage(tile->getHealth());
-				tile->damage(damage);
+				bullet->decreaseDamage(defaultTile->getHealth());
+				defaultTile->damage(damage);
 
 				if (tile->isDestroyed())
 				{
-					sf::Vector2i tilePos = tilemapPtr->getTileId(tile->getPosition());
-					tilemapPtr->refreashNearTiles(tilePos.x, tilePos.y);
+					sf::Vector2i tilePos = tileMapPtr->getTileId(tile->getPosition());
+					tileMapPtr->destroyTile(tilePos.x, tilePos.y);
 
-					for (size_t i = 0; i < 8; i++)
+					/*for (size_t i = 0; i < 8; i++)
 					{
 						auto p = tile->getRandomParticle();
 						particleSystem.addParticle(p.position, p.velocity, tile->getRandomParticleColor());
-					}
+					}*/
 				}
 				if (bullet->isDestroyed() || bullet->isDuringDestroying())
 				{
-					bullet->correctBulletPositionAfterDestroy(tile->getCollisionBox());
+					//bullet->correctBulletPositionAfterDestroy(tile->getCollisionBox());
 				}
 
 				return true;
@@ -278,10 +296,11 @@ void EntityList::setPlayerEntity(std::string name)
 		if (it->get()->getName() == name)
 		{
 			player.setCharacter(it->get());
-			if(tilemapPtr!= nullptr)camera = Camera(
-				sf::IntRect(0,0,tilemapPtr->getMapSize().x, tilemapPtr->getMapSize().y), 
-				it->get());
-
+			if (tileMapPtr != nullptr) {
+				camera = Camera(
+					sf::IntRect(0, 0, tileMapPtr->getMapSize().x, tileMapPtr->getMapSize().y),
+					it->get());
+			}
 			return;
 		}
 		++it;
@@ -289,8 +308,14 @@ void EntityList::setPlayerEntity(std::string name)
 	Logger::e("Character with name \"" + name + "\" not found!");
 }
 
-void EntityList::setTilemapPtr(Tilemap * ptr)
+//void EntityList::setTilemapPtr(Tilemap * ptr)
+//{
+//	tilemapPtr = ptr;
+//	particleSystem.setTilemapPointer(ptr);
+//}
+
+void EntityList::setTileMapPtr(TileMap * ptr)
 {
-	tilemapPtr = ptr;
-	particleSystem.setTilemapPointer(ptr);
+	tileMapPtr = ptr;
+	particleSystem.setTileMapPointer(ptr);
 }

@@ -111,16 +111,6 @@ void Damageable::setIndestructable(bool is_indestructable)
 	indestructable = is_indestructable;
 }
 
-void Damageable::destroy()
-{
-	destroyed = true;
-}
-
-bool Damageable::isDestroyed()
-{
-	return destroyed;
-}
-
 
 
 
@@ -227,4 +217,18 @@ void Bullet::correctBulletPositionAfterDestroy(sf::FloatRect collisionBox)
 void Bullet::kill()
 {
 	destroyed = true;
+}
+
+Destructable::Destructable()
+{
+}
+
+void Destructable::destroy()
+{
+	destroyed = true;
+}
+
+bool Destructable::isDestroyed()
+{
+	return destroyed;
 }

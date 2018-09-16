@@ -2,7 +2,7 @@
 
 AbstractTile::AbstractTile(std::shared_ptr<TileDefinition> tiledef, sf::Vector2i pos)
 {
-	this->position = pos;
+	this->id = pos;
 	definition = tiledef;
 }
 
@@ -13,7 +13,7 @@ void AbstractTile::load(std::shared_ptr<sf::VertexArray> vertexArray)
 
 	if (definition->singleImage) vertexCount = 4;
 	else vertexCount = 16;
-	
+
 	startingPos = vertexArray->getVertexCount();
 	for (int i = 0; i < vertexCount; i++)
 	{
@@ -35,9 +35,9 @@ void AbstractTile::replace(std::shared_ptr<TileDefinition> tiledef)
 	update();
 }
 
-void AbstractTile::updateTextureCoords(bool LT, bool T, bool RT, 
-										bool L,			 bool R, 
-										bool LB, bool B, bool RB)
+void AbstractTile::updateTextureCoords(bool LT, bool T, bool RT,
+	bool L, bool R,
+	bool LB, bool B, bool RB)
 {
 	if (destroyed) return;
 	alignTiles.setFlags(0);
@@ -46,7 +46,7 @@ void AbstractTile::updateTextureCoords(bool LT, bool T, bool RT,
 	alignTiles.setBit(5, LB); alignTiles.setBit(6, B); alignTiles.setBit(7, RB);
 
 
-	if (vertexCount==0)
+	if (vertexCount == 0)
 	{
 		return;
 	}
@@ -92,11 +92,12 @@ void AbstractTile::updateTextureCoords(bool LT, bool T, bool RT,
 
 }
 
-void AbstractTile::updatePositionCoords(sf::Vector2i pos)
+void AbstractTile::updatePositionCoords(sf::Vector2i id)
 {
 	if (destroyed)return;
-	this->position = pos;
-	if (vertexCount == 0 || array==nullptr)
+	this->id = id;
+	auto pos = getPosition();
+	if (vertexCount == 0 || array == nullptr)
 	{
 		return;
 	}
@@ -104,33 +105,33 @@ void AbstractTile::updatePositionCoords(sf::Vector2i pos)
 	if (vertexCount == 4)
 	{
 		auto r = definition->getInnerRect();
-		vertex(0).position = sf::Vector2f(pos.x * TILE_SIZE + tileRect.left, pos.y * TILE_SIZE + tileRect.top);
-		vertex(1).position = sf::Vector2f(pos.x * TILE_SIZE + tileRect.left + tileRect.width, pos.y * TILE_SIZE + tileRect.top);
-		vertex(2).position = sf::Vector2f(pos.x * TILE_SIZE + tileRect.left + tileRect.width, pos.y * TILE_SIZE + tileRect.top + tileRect.height);
-		vertex(3).position = sf::Vector2f(pos.x * TILE_SIZE + tileRect.left, pos.y * TILE_SIZE + tileRect.top + tileRect.height);
+		vertex(0).position = sf::Vector2f(pos.x + tileRect.left, pos.y + tileRect.top);
+		vertex(1).position = sf::Vector2f(pos.x + tileRect.left + tileRect.width, pos.y + tileRect.top);
+		vertex(2).position = sf::Vector2f(pos.x + tileRect.left + tileRect.width, pos.y + tileRect.top + tileRect.height);
+		vertex(3).position = sf::Vector2f(pos.x + tileRect.left, pos.y + tileRect.top + tileRect.height);
 		return;
 	}
 	if (vertexCount == 16)
 	{
-		vertex(0).position = sf::Vector2f(pos.x* TILE_SIZE + tileRect.left, pos.y* TILE_SIZE + tileRect.top);
-		vertex(1).position = sf::Vector2f(pos.x* TILE_SIZE, pos.y* TILE_SIZE + tileRect.top);
-		vertex(2).position = sf::Vector2f(pos.x* TILE_SIZE, pos.y* TILE_SIZE);
-		vertex(3).position = sf::Vector2f(pos.x* TILE_SIZE + tileRect.left, pos.y* TILE_SIZE);
+		vertex(0).position = sf::Vector2f(pos.x + tileRect.left, pos.y + tileRect.top);
+		vertex(1).position = sf::Vector2f(pos.x, pos.y + tileRect.top);
+		vertex(2).position = sf::Vector2f(pos.x, pos.y);
+		vertex(3).position = sf::Vector2f(pos.x + tileRect.left, pos.y);
 
-		vertex(4).position = sf::Vector2f(pos.x* TILE_SIZE, pos.y * TILE_SIZE + tileRect.top);
-		vertex(5).position = sf::Vector2f(pos.x* TILE_SIZE + tileRect.left + tileRect.width, pos.y* TILE_SIZE + tileRect.top);
-		vertex(6).position = sf::Vector2f(pos.x* TILE_SIZE + tileRect.left + tileRect.width, pos.y* TILE_SIZE);
-		vertex(7).position = sf::Vector2f(pos.x* TILE_SIZE, pos.y* TILE_SIZE);
+		vertex(4).position = sf::Vector2f(pos.x, pos.y + tileRect.top);
+		vertex(5).position = sf::Vector2f(pos.x + tileRect.left + tileRect.width, pos.y + tileRect.top);
+		vertex(6).position = sf::Vector2f(pos.x + tileRect.left + tileRect.width, pos.y);
+		vertex(7).position = sf::Vector2f(pos.x, pos.y);
 
-		vertex(8).position = sf::Vector2f(pos.x* TILE_SIZE + tileRect.left, pos.y* TILE_SIZE);
-		vertex(9).position = sf::Vector2f(pos.x* TILE_SIZE, pos.y* TILE_SIZE);
-		vertex(10).position = sf::Vector2f(pos.x* TILE_SIZE, pos.y* TILE_SIZE + tileRect.top + tileRect.height);
-		vertex(11).position = sf::Vector2f(pos.x * TILE_SIZE + tileRect.left, pos.y * TILE_SIZE + tileRect.top + tileRect.height);
+		vertex(8).position = sf::Vector2f(pos.x + tileRect.left, pos.y);
+		vertex(9).position = sf::Vector2f(pos.x, pos.y);
+		vertex(10).position = sf::Vector2f(pos.x, pos.y + tileRect.top + tileRect.height);
+		vertex(11).position = sf::Vector2f(pos.x + tileRect.left, pos.y + tileRect.top + tileRect.height);
 
-		vertex(12).position = sf::Vector2f(pos.x* TILE_SIZE, pos.y* TILE_SIZE);
-		vertex(13).position = sf::Vector2f(pos.x * TILE_SIZE + tileRect.left + tileRect.width, pos.y* TILE_SIZE);
-		vertex(14).position = sf::Vector2f(pos.x * TILE_SIZE + tileRect.left + tileRect.width, pos.y * TILE_SIZE + tileRect.top + tileRect.height);
-		vertex(15).position = sf::Vector2f(pos.x* TILE_SIZE, pos.y * TILE_SIZE + tileRect.top + tileRect.height);
+		vertex(12).position = sf::Vector2f(pos.x, pos.y);
+		vertex(13).position = sf::Vector2f(pos.x + tileRect.left + tileRect.width, pos.y);
+		vertex(14).position = sf::Vector2f(pos.x + tileRect.left + tileRect.width, pos.y + tileRect.top + tileRect.height);
+		vertex(15).position = sf::Vector2f(pos.x, pos.y + tileRect.top + tileRect.height);
 		return;
 	}
 	Logger::e("Invalid vertex count in tile.");
@@ -140,7 +141,7 @@ void AbstractTile::updatePositionCoords(sf::Vector2i pos)
 void AbstractTile::update()
 {
 	if (destroyed)return;
-	this->updatePositionCoords(position);
+	this->updatePositionCoords(id);
 	this->updateTextureCoords(
 		alignTiles.getBit(0), alignTiles.getBit(1), alignTiles.getBit(2),
 		alignTiles.getBit(3), /*-----------------*/ alignTiles.getBit(4),
@@ -150,11 +151,11 @@ void AbstractTile::update()
 
 bool AbstractTile::isBlocking() { return definition->is_blocking && !destroyed; }
 
-bool AbstractTile::isBackground() { return definition->is_blocking; }
+bool AbstractTile::isBackground() { return !definition->is_blocking; }
 
 bool AbstractTile::isShowTilesBehind()
 {
-	return !alignTiles.noFlagsSet(); // || definition.isShowTilesBehind;
+	return !alignTiles.allFlagsSet(); // || definition.isShowTilesBehind;
 }
 
 
@@ -166,20 +167,33 @@ bool AbstractTile::isConnectingToTile(std::shared_ptr<AbstractTile> tile)
 
 bool AbstractTile::isConnectingToTile(AbstractTile & tile)
 {
-	bool isLowerInHierarchy;
-	isLowerInHierarchy = tile.definition->name > this->definition->name;
-	if (tile.definition->connectGroup == "-1")
+	if (tile.destroyed)return false;
+
+	auto tileDefinition = tile.getTileDefinitionPtr();
+
+	if (this->isBackground() != tile.isBackground())
 	{
-		return tile.definition->name == this->definition->name || isLowerInHierarchy;
+		if (this->isBackground())
+		{
+			if (tile.getBackgroundTileDefinition().expired())return false;
+			else tileDefinition = tile.getBackgroundTileDefinition().lock();
+		}
+		else return false;
 	}
-	else return tile.definition->connectGroup == this->definition->connectGroup || isLowerInHierarchy;
+
+	bool isLowerInHierarchy;
+	isLowerInHierarchy = tileDefinition->name > this->definition->name;
+	if (tileDefinition->connectGroup == "-1")
+	{
+		return tileDefinition->name == this->definition->name || isLowerInHierarchy;
+	}
+	else return tileDefinition->connectGroup == this->definition->connectGroup || isLowerInHierarchy;
 }
 
-bool AbstractTile::isDestroyed() { return destroyed; }
 
-void AbstractTile::destroy() { 
-	destroyed = true;
-	for (int i = 0; i < vertexCount;i++)
+void AbstractTile::destroy() {
+	Destructable::destroy();
+	for (int i = 0; i < vertexCount; i++)
 	{
 		vertex(i).position = sf::Vector2f();
 	}

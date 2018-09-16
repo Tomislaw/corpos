@@ -1,5 +1,6 @@
 #include <SFML\Graphics.hpp>
 #include "game\utility\TextFileData.hpp"
+#include <memory>
 
 #ifndef	TILE_DEFINITION_HPP
 #define TILE_DEFINITION_HPP
@@ -57,6 +58,7 @@ public:
 	std::string connectGroup = "";
 	//background tile
 	std::string backgroundTile = "";
+	std::weak_ptr<TileDefinition> backgroundTileDefinition;
 
 	void setTile(TextElement *t, const sf::Texture * texture, std::string textureName);
 	sf::IntRect getLTRect(bool L, bool LT, bool T);
