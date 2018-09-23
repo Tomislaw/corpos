@@ -1,6 +1,6 @@
 #include "Pathfind.hpp"
 #include <algorithm>
-#include "game\map\Tile.hpp"
+#include "game\map\MapTile\MapTile.hpp"
 
 using namespace std::placeholders;
 using namespace AStar;
@@ -245,9 +245,9 @@ bool PathFind::canWalkToTile(Node * node,int x, int y)
 
 	if (characterWidth <= 1)
 	{
-		Tile * tile = getTile(x, y + 1);
+		MapTile * tile = getTile(x, y + 1);
 		if (tile == nullptr)return false;
-		else return tile->isBlocking();
+		return tile->isBlocking();
 	}
 	else
 	{
@@ -258,7 +258,7 @@ bool PathFind::canWalkToTile(Node * node,int x, int y)
 
 			for (int i = x - sideSize; i <= x + sideSize; i++)
 			{
-				Tile * tile = getTile(i, y + 1);
+				MapTile * tile = getTile(i, y + 1);
 				if (tile == nullptr)continue;
 				else if (tile->isBlocking())return true;
 			}
@@ -278,7 +278,7 @@ bool PathFind::canWalkToTile(Node * node,int x, int y)
 
 				for (int i = start - sideSize; i < start + sideSize; i++)
 				{
-					Tile * tile = getTile(i, y + 1);
+					MapTile * tile = getTile(i, y + 1);
 					if (tile != nullptr)
 						if (tile->isBlocking())return true;
 				}
@@ -288,7 +288,7 @@ bool PathFind::canWalkToTile(Node * node,int x, int y)
 			{
 				for (int i = x - sideSize; i <= x + sideSize; i++)
 				{
-					Tile * tile = getTile(i, y + 1);
+					MapTile * tile = getTile(i, y + 1);
 					if (tile == nullptr)continue;
 					else if (tile->isBlocking())return true;
 				}
@@ -308,7 +308,7 @@ bool AStar::PathFind::canStandOnTile(int x, int y)
 
 	if (characterWidth <= 1)
 	{
-		Tile * tile = getTile(x, y + 1);
+		MapTile * tile = getTile(x, y + 1);
 		if (tile == nullptr)return false;
 		else return tile->isBlocking();
 	}
@@ -319,7 +319,7 @@ bool AStar::PathFind::canStandOnTile(int x, int y)
 
 		for (int i = x - sideSize; i <= x + sideSize; i++)
 		{
-			Tile * tile = getTile(i, y + 1);
+			MapTile * tile = getTile(i, y + 1);
 			if (tile == nullptr)continue;
 			else if (tile->isBlocking())return true;
 		}
@@ -354,7 +354,7 @@ bool PathFind::canMoveToTile(Node * node, int x, int y)
 	{
 		for (int i = y - characterHeight + 1; i <= y; i++)
 		{
-			Tile * tile = getTile(x, i);
+			MapTile * tile = getTile(x, i);
 			if (tile != nullptr)
 			{
 				if (tile->isBlocking())return false;
@@ -374,7 +374,7 @@ bool PathFind::canMoveToTile(Node * node, int x, int y)
 	{
 		for (int j = y - characterHeight + 1; j <= y; j++)
 		{
-			Tile * tile = getTile(i, j);
+			MapTile * tile = getTile(i, j);
 			if (tile != nullptr)
 			{
 

@@ -66,6 +66,7 @@ public:
 					return false;
 				}
 
+	
 				appendTile(MapTileFactory::create(tile->var.at(x), sf::Vector2i(x, y), tilesets));
 			}
 		}
@@ -99,13 +100,14 @@ public:
 		auto center = getTile(x, y);
 		if (center->getMainTile() == nullptr)return;
 
+		auto bg = TileFactory::create(center->getMainTile()->getBackgroundTileDefinition(),
+			center->getMainTile()->getId());
+		center->appendTile(bg);
+
 		auto maybeAppendTile = [](MapTile * center, MapTile * tile)
 		{
 			if (tile == nullptr)return;
 			if (tile->getMainTile() == nullptr)return;
-
-			//auto centerMain = center->getMainTile()->getTileDefinitionPtr();
-			//auto tileMain = tile->getMainTile()->getTileDefinitionPtr();
 
 			bool shouldAddForeground = !center->getMainTile()->isConnectingToTile(tile->getMainTile());
 			if (shouldAddForeground)
@@ -128,14 +130,7 @@ public:
 
 		};
 
-		auto centerBgTile = center->getMainTile()->getBackgroundTileDefinition();
-		if (!centerBgTile.expired())
-		{
-			auto copy = TileFactory::create(centerBgTile,
-				center->getMainTile()->getId());
-
-			center->appendTile(copy);
-		}
+	
 
 		auto left = getTile(x - 1, y);
 		auto right = getTile(x + 1, y);

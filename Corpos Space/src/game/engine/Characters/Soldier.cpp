@@ -9,7 +9,7 @@
 
 //Main constructor TODO: add null pointer handling
 
-Soldier::Soldier(TextElement * data, EntityList * ptr) : Character(data, ptr), test(ptr, Bullet("bullet_blue", 150, sf::Vector2f(), sf::Vector2f(0, 500)))
+Soldier::Soldier(TextElement * data, EntityList * ptr) : Character(data, ptr), test(ptr, Bullet("bullet_blue", 150, sf::Vector2f(), sf::Vector2f(0, 1500)))
 {
 
 	ai = std::unique_ptr<AiBasic>(new AiBasic(*this));

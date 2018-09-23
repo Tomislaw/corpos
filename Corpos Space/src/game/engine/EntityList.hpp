@@ -31,8 +31,6 @@ public:
 	// find entites by name, TODO: change pointer to reference
 	std::vector<Entity*> findEntities(std::string name);
 
-	// load sprite definitions
-	static void loadSpriteDefinition(std::string location);
 
 	// keyboard-mouse events
 	void events(sf::Event & e);

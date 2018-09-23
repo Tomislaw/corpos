@@ -31,7 +31,7 @@ public:
 
 protected:
 	EntityList entitylist;
-	Tilemap tilemap;
+	//Tilemap tilemap;
 	TileMap tilemap2;
 	sf::Sprite background;
 

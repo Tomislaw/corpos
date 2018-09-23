@@ -40,16 +40,29 @@ void AbstractTile::updateTextureCoords(bool LT, bool T, bool RT,
 	bool LB, bool B, bool RB)
 {
 	if (destroyed) return;
+
+	bool isInitialized = true;
+
+	for (int i = 0; i < vertexCount; i++)
+	{
+		if (vertex(i).texCoords.x != 0 || vertex(i).texCoords.y)
+		{
+			isInitialized = false;
+			break;
+		}
+	}
+
+	bool changeLT = isInitialized || !(alignTiles.getBit(0) == LT && alignTiles.getBit(1) == T && alignTiles.getBit(3) == L);
+	bool changeRT = isInitialized || !(alignTiles.getBit(1) == T && alignTiles.getBit(2) == RT && alignTiles.getBit(4) == R);
+	bool changeLB = isInitialized || !(alignTiles.getBit(3) == L && alignTiles.getBit(5) == LB && alignTiles.getBit(6) == B);
+	bool changeRB = isInitialized || !(alignTiles.getBit(6) == B && alignTiles.getBit(7) == RB && alignTiles.getBit(4) == R);
+
 	alignTiles.setFlags(0);
 	alignTiles.setBit(0, LT); alignTiles.setBit(1, T); alignTiles.setBit(2, RT);
 	alignTiles.setBit(3, L);						   alignTiles.setBit(4, R);
 	alignTiles.setBit(5, LB); alignTiles.setBit(6, B); alignTiles.setBit(7, RB);
 
-
-	if (vertexCount == 0)
-	{
-		return;
-	}
+	if (vertexCount == 0) return;
 
 	if (vertexCount == 4)
 	{
@@ -62,29 +75,39 @@ void AbstractTile::updateTextureCoords(bool LT, bool T, bool RT,
 	}
 	if (vertexCount == 16)
 	{
-		auto r = definition->getLTRect(L, LT, T);
-		vertex(0).texCoords = sf::Vector2f(r.left, r.top);
-		vertex(1).texCoords = sf::Vector2f(r.left + r.width, r.top);
-		vertex(2).texCoords = sf::Vector2f(r.left + r.width, r.top + r.height);
-		vertex(3).texCoords = sf::Vector2f(r.left, r.top + r.height);
-
-		r = definition->getRTRect(T, RT, R);
-		vertex(4).texCoords = sf::Vector2f(r.left, r.top);
-		vertex(5).texCoords = sf::Vector2f(r.left + r.width, r.top);
-		vertex(6).texCoords = sf::Vector2f(r.left + r.width, r.top + r.height);
-		vertex(7).texCoords = sf::Vector2f(r.left, r.top + r.height);
-
-		r = definition->getLBRect(B, LB, L);
-		vertex(8).texCoords = sf::Vector2f(r.left, r.top);
-		vertex(9).texCoords = sf::Vector2f(r.left + r.width, r.top);
-		vertex(10).texCoords = sf::Vector2f(r.left + r.width, r.top + r.height);
-		vertex(11).texCoords = sf::Vector2f(r.left, r.top + r.height);
-
-		r = definition->getRBRect(R, RB, B);
-		vertex(12).texCoords = sf::Vector2f(r.left, r.top);
-		vertex(13).texCoords = sf::Vector2f(r.left + r.width, r.top);
-		vertex(14).texCoords = sf::Vector2f(r.left + r.width, r.top + r.height);
-		vertex(15).texCoords = sf::Vector2f(r.left, r.top + r.height);
+		sf::IntRect r;
+		if (changeLT)
+		{
+			r = definition->getLTRect(L, LT, T);
+			vertex(0).texCoords = sf::Vector2f(r.left, r.top);
+			vertex(1).texCoords = sf::Vector2f(r.left + r.width, r.top);
+			vertex(2).texCoords = sf::Vector2f(r.left + r.width, r.top + r.height);
+			vertex(3).texCoords = sf::Vector2f(r.left, r.top + r.height);
+		}
+		if (changeRT)
+		{
+			r = definition->getRTRect(T, RT, R);
+			vertex(4).texCoords = sf::Vector2f(r.left, r.top);
+			vertex(5).texCoords = sf::Vector2f(r.left + r.width, r.top);
+			vertex(6).texCoords = sf::Vector2f(r.left + r.width, r.top + r.height);
+			vertex(7).texCoords = sf::Vector2f(r.left, r.top + r.height);
+		}
+		if (changeLB)
+		{
+			r = definition->getLBRect(B, LB, L);
+			vertex(8).texCoords = sf::Vector2f(r.left, r.top);
+			vertex(9).texCoords = sf::Vector2f(r.left + r.width, r.top);
+			vertex(10).texCoords = sf::Vector2f(r.left + r.width, r.top + r.height);
+			vertex(11).texCoords = sf::Vector2f(r.left, r.top + r.height);
+		}
+		if (changeRB)
+		{
+			r = definition->getRBRect(R, RB, B);
+			vertex(12).texCoords = sf::Vector2f(r.left, r.top);
+			vertex(13).texCoords = sf::Vector2f(r.left + r.width, r.top);
+			vertex(14).texCoords = sf::Vector2f(r.left + r.width, r.top + r.height);
+			vertex(15).texCoords = sf::Vector2f(r.left, r.top + r.height);
+		}
 		return;
 	}
 	Logger::e("Invalid vertex count in tile.");

@@ -5,6 +5,7 @@
 #include <SFML\Graphics.hpp>
 #include "Particle.hpp"
 class TileMap;
+class MapTile;
 
 // particle systen
 class ParticleSystem : public sf::Drawable, public sf::Transformable
@@ -18,6 +19,7 @@ public:
 	void setTileMapPointer(TileMap * tilemap);
 	// add particle
 	void addParticle(sf::Vector2f position, sf::Vector2f velocity, sf::Color color);
+	void onTileDestroy(MapTile * tile);
 private:
 
 	// draw it

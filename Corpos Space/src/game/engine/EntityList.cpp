@@ -179,7 +179,7 @@ void EntityList::update(float time)
 
 void EntityList::draw(sf::RenderWindow & window)
 {
-	camera.setForegroundView(window);
+	
 	std::vector<std::shared_ptr <Character>>::iterator it = characters.begin();
 	while (it != characters.end())
 	{
@@ -261,12 +261,8 @@ bool EntityList::checkBulletCollision(Bullet * bullet)
 				{
 					sf::Vector2i tilePos = tileMapPtr->getTileId(tile->getPosition());
 					tileMapPtr->destroyTile(tilePos.x, tilePos.y);
+					particleSystem.onTileDestroy(tileMapPtr->getTile(tilePos.x, tilePos.y));
 
-					/*for (size_t i = 0; i < 8; i++)
-					{
-						auto p = tile->getRandomParticle();
-						particleSystem.addParticle(p.position, p.velocity, tile->getRandomParticleColor());
-					}*/
 				}
 				if (bullet->isDestroyed() || bullet->isDuringDestroying())
 				{

@@ -15,7 +15,7 @@ For more information visit https://opensource.org/licenses/ISC.
 #include "game\engine\Character.hpp"
 
 
-class Tile;
+class MapTile;
 
 namespace AStar
 {
@@ -23,7 +23,7 @@ namespace AStar
 	using uint = unsigned int;
 	using HeuristicFunction = std::function<uint(sf::Vector2i, sf::Vector2i)>;
 	using CoordinateList = std::list<sf::Vector2i>;
-	using GetTile = std::function<Tile*(int x,int y)>;
+	using GetTile = std::function<MapTile*(int x,int y)>;
 	
 
 

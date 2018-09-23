@@ -81,6 +81,7 @@ public:
 			if(destroyOnlyForeground && !tile->isBackground())
 				tile->destroy();
 		}
+		
 	}
 
 	void clearBackgroundTiles()
@@ -110,6 +111,12 @@ public:
 				else str += tile->toString();
 			}
 		}
+	}
+
+	bool isBlocking()
+	{
+		if (mainTile == nullptr) return false;
+		else return mainTile->isBlocking();
 	}
 
 private:
