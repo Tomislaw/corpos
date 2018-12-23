@@ -18,7 +18,6 @@ public:
 	World();
 	~World();
 
-
 	// update map
 	void update(float delta);
 	// draw it
@@ -34,7 +33,6 @@ protected:
 	//Tilemap tilemap;
 	TileMap tilemap2;
 	sf::Sprite background;
-
 };
 
 #endif

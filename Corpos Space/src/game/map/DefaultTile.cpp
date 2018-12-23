@@ -5,4 +5,3 @@ DefaultTile::DefaultTile(std::shared_ptr<TileDefinition> definition, sf::Vector2
 	health = definition->health;
 	maxHealth = definition->health;
 }
-

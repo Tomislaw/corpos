@@ -3,7 +3,7 @@
 #include "Tile.hpp"
 class EntityList;
 //Struct with all tilemap graphic related studd
-// 
+//
 struct VertexTileMap
 {
 	//Vertex tilemap name
@@ -59,7 +59,7 @@ public:
 	Tile * getBackgroundTile(int x, int y);
 
 	// sets tile or background tile
-	void setTile(TileDefinition * , size_t x, size_t y);
+	void setTile(TileDefinition *, size_t x, size_t y);
 
 	// return tile definition from chosen vertex tile map, nullptr if not found
 	TileDefinition * getTileDefinition(std::string tile, std::string tilesetName);
@@ -75,7 +75,7 @@ public:
 	// return is tile collidable
 	bool isTileBlocking(sf::Vector2i id);
 	// return is chosen tile is same group TODO: return false if one is background tile and other one is not
-	bool isSameTile(int x, int y,Tile * tile);
+	bool isSameTile(int x, int y, Tile * tile);
 	// return is chosen tile is same group TODO: return false if one is background tile and other one is not
 	bool isSameBackgroundTile(int x, int y, Tile * tile);
 	// draw it
@@ -91,12 +91,12 @@ public:
 	// refreash tile at selected pos
 	void refreashTile(int x, int y);
 	// refreash near tiles, used after tile is destroyed
-	void refreashNearTiles(int x,int y);
+	void refreashNearTiles(int x, int y);
 	// get all tiles in line, TODO: finish getTilesFromLine function
 	std::vector<Tile*> getTilesFromLine(sf::Vector2f start, sf::Vector2f end);
 
 	TextElement generateTextElement();
-	// return pointer to function GetTExture. 
+	// return pointer to function GetTExture.
 	std::function<sf::Texture*(std::string)> &getFunctionGetTexture();
 private:
 

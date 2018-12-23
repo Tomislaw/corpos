@@ -3,9 +3,7 @@
 #include "EntityList.hpp"
 #include "game\engine\logic\ai\AiBasic.hpp"
 
-
-
-Character::Character(EntityList * ptr) : Entity("char",sf::Vector2f(50,50))
+Character::Character(EntityList * ptr) : Entity("char", sf::Vector2f(50, 50))
 {
 	this->entlistPtr = ptr;
 	if (ptr != nullptr)
@@ -13,9 +11,8 @@ Character::Character(EntityList * ptr) : Entity("char",sf::Vector2f(50,50))
 
 	this->max_walk_speed = 200;
 
-
 	collision_box.top = -23;//-23
-	collision_box.left =-15;//-15
+	collision_box.left = -15;//-15
 	collision_box.height = 56;
 	collision_box.width = 30;
 
@@ -24,17 +21,13 @@ Character::Character(EntityList * ptr) : Entity("char",sf::Vector2f(50,50))
 
 	rect.setSize(sf::Vector2f(collision_box.width, collision_box.height));
 	rect.setFillColor(sf::Color::Red);
-
-	
 }
 Character::Character(TextElement * data, EntityList * ptr) : Entity(data)
 {
-
 	this->entlistPtr = ptr;
 	if (ptr != nullptr)
 		map = entlistPtr->getTileMapPtr();
 	this->sprite.attachToEntity(this);
-
 }
 Character::~Character()
 {
@@ -48,15 +41,13 @@ void Character::walkLeft()
 
 void Character::walkRight()
 {
-	
 	walk_speed.x = max_walk_speed;
 	//isTurnedLeft = false;
 }
 
 void Character::jump()
 {
-	
-	if (is_standing&&!is_jumping)
+	if (is_standing && !is_jumping)
 	{
 		setPosition(getPosition().x, getPosition().y - 1);
 		velocity.y -= 300;
@@ -74,7 +65,6 @@ void Character::stopAttack()
 	is_attacking = false;
 }
 
-
 void Character::stop()
 {
 	walk_speed.x = 0;
@@ -82,10 +72,9 @@ void Character::stop()
 
 void Character::update(float time)
 {
-
 	if (ai != nullptr)ai->update(time);
 	setAnimation();
-	impulseVelocityX(walk_speed.x,1200,time);
+	impulseVelocityX(walk_speed.x, 1200, time);
 	velocity.y += 1000 * time;
 
 	Entity::update(time);
@@ -99,7 +88,6 @@ void Character::update(float time)
 /*
 void Character::resolveCollision()
 {
-	
 	if (map == nullptr)return;
 	std::cout << position.x + collision_box.left << " " << position.y + collision_box.top + collision_box.height << std::endl;
 
@@ -123,7 +111,6 @@ void Character::resolveCollision()
 	{
 		for (int i = 0; i < ties_sizeX + 1; i++)
 		{
-
 		}
 	}
 
@@ -151,17 +138,12 @@ void Character::resolveCollision()
 	{
 		for (int i = 0; i < ties_sizeX + 1; i++)
 		{
-
 		}
 	}
-
-
-	
 }*/
 
 void Character::resolveCollision()
 {
-
 	if (map == nullptr)return;
 	//std::cout << position.x + collision_box.left << " " << position.y + collision_box.top + collision_box.height << std::endl;
 	// TODO: change corner collision detection to be more clearly -- change with cornerXX objects
@@ -192,20 +174,19 @@ void Character::resolveCollision()
 	if (map->isTileBlocking(t3.x, t3.y))rightBottom = true;
 	if (map->isTileBlocking(t4.x, t4.y))rightTop = true;
 
-	//checking oversized 
+	//checking oversized
 	int ties_sizeX = collision_box.width / 32 + 1;
 	int ties_sizeY = collision_box.height / 32 + 1;
 	if (ties_sizeX > 1)
 	{
-
-		for (int i = 1; i < ties_sizeX;i++)
+		for (int i = 1; i < ties_sizeX; i++)
 		{
 			auto tile = map->getTileId(sf::Vector2f(getPosition().x + collision_box.left
-				+ collision_box.width/ ties_sizeX*i,
+				+ collision_box.width / ties_sizeX * i,
 				getPosition().y + collision_box.top + collision_box.height));
 
 			auto tile2 = map->getTileId(sf::Vector2f(getPosition().x + collision_box.left
-				+ collision_box.width / ties_sizeX*i,
+				+ collision_box.width / ties_sizeX * i,
 				getPosition().y + collision_box.top));
 
 			if (map->isTileBlocking(tile.x, tile.y))bottomCollidePoints += 1;
@@ -214,27 +195,26 @@ void Character::resolveCollision()
 	}
 	if (ties_sizeY > 1)
 	{
-
-		for (int i = 1; i < ties_sizeY;i++)
+		for (int i = 1; i < ties_sizeY; i++)
 		{
-			auto tile = map->getTileId(sf::Vector2f(getPosition().x + collision_box.left, 
-				getPosition().y + collision_box.top + 
-				collision_box.height/ ties_sizeY*i));
+			auto tile = map->getTileId(sf::Vector2f(getPosition().x + collision_box.left,
+				getPosition().y + collision_box.top +
+				collision_box.height / ties_sizeY * i));
 
 			auto tile2 = map->getTileId(sf::Vector2f(getPosition().x + collision_box.left + collision_box.width,
 				getPosition().y + collision_box.top +
-				collision_box.height / ties_sizeY*i));
+				collision_box.height / ties_sizeY * i));
 			if (map->isTileBlocking(tile.x, tile.y))leftCollidePoints += 1;
 			if (map->isTileBlocking(tile2.x, tile2.y))rightCollidePoints += 1;
 		}
 	}
 
 	// bottom collsion
-	if (rightBottom||leftBottom || bottomCollidePoints>0)
+	if (rightBottom || leftBottom || bottomCollidePoints > 0)
 	{
 		bool collideBottom = false;
-		if(rightBottom&&leftBottom || bottomCollidePoints>0)
-		{ 
+		if (rightBottom&&leftBottom || bottomCollidePoints > 0)
+		{
 			collideBottom = true;
 		}
 		else
@@ -244,38 +224,37 @@ void Character::resolveCollision()
 				{
 					collideBottom = true;
 				}
-	
-			if(rightBottom)
+
+			if (rightBottom)
 			{
-				if (-getPosition().x - collision_box.left - collision_box.width + t3.x * 32 + 32 <-getPosition().y - collision_box.top - collision_box.height + t3.y * 32 + 32)
+				if (-getPosition().x - collision_box.left - collision_box.width + t3.x * 32 + 32 < -getPosition().y - collision_box.top - collision_box.height + t3.y * 32 + 32)
 				{
 					collideBottom = true;
 				}
-
 			}
 		}
 
 		if (collideBottom)
 		{
 			this->setPosition(getPosition().x, t1.y * 32 - collision_box.height - collision_box.top);
-			if (velocity.y>0)velocity.y = 0;
+			if (velocity.y > 0)velocity.y = 0;
 			is_jumping = false;
 			is_standing = true;
 		}
 	}
 
 	// top collision
-	if (leftTop || rightTop || topCollidePoints>0)
+	if (leftTop || rightTop || topCollidePoints > 0)
 	{
 		bool collideTop = false;
-		if (leftTop&&rightTop || topCollidePoints>0)
+		if (leftTop&&rightTop || topCollidePoints > 0)
 		{
 			collideTop = true;
 		}
 		else
 		{
 			if (leftTop)
-				
+
 				if (cornerLT.x - t2.x * 32 < -t2.y * 32 + cornerLT.y)
 				{
 					collideTop = true;
@@ -287,28 +266,26 @@ void Character::resolveCollision()
 				{
 					collideTop = true;
 				}
-
 			}
 		}
 
 		if (collideTop)
 		{
 			this->setPosition(getPosition().x, t2.y * 32 - collision_box.top + 32);
-			if (velocity.y<0)velocity.y = 0;
+			if (velocity.y < 0)velocity.y = 0;
 		}
 	}
 
 	// left collision
-	if (leftBottom||leftTop || leftCollidePoints>0)
+	if (leftBottom || leftTop || leftCollidePoints > 0)
 	{
 		bool collideLeft = false;
-		if (leftTop&&leftBottom || leftCollidePoints>0)
+		if (leftTop&&leftBottom || leftCollidePoints > 0)
 		{
 			collideLeft = true;
 		}
 		else
 		{
-			
 			if (leftBottom)
 			{
 				if (getPosition().x + collision_box.left - t1.x * 32 > -getPosition().y - collision_box.top - collision_box.height + t1.y * 32 + 32)
@@ -318,36 +295,32 @@ void Character::resolveCollision()
 			}
 
 			if (leftTop)
-			if (cornerLT.x - t2.x * 32 > -t2.y * 32 + cornerLT.y)
-			{
-				collideLeft = true;
-			}
-
+				if (cornerLT.x - t2.x * 32 > -t2.y * 32 + cornerLT.y)
+				{
+					collideLeft = true;
+				}
 		}
 		if (collideLeft)
 		{
-			this->setPosition(t1.x *32 - collision_box.left + 32, getPosition().y);
+			this->setPosition(t1.x * 32 - collision_box.left + 32, getPosition().y);
 			if (velocity.x < 0)velocity.x = 0;
 		}
 	}
 	//right collision
-	if (rightTop||rightBottom || rightCollidePoints>0)
+	if (rightTop || rightBottom || rightCollidePoints > 0)
 	{
 		bool collideRight = false;
-		if (rightTop&&rightBottom || rightCollidePoints>0)
+		if (rightTop&&rightBottom || rightCollidePoints > 0)
 		{
 			collideRight = true;
 		}
 
-
-
 		if (rightBottom)
 		{
-			if (-getPosition().x - collision_box.left - collision_box.width + t3.x * 32 + 32 >-getPosition().y - collision_box.top - collision_box.height + t3.y * 32 + 32)
+			if (-getPosition().x - collision_box.left - collision_box.width + t3.x * 32 + 32 > -getPosition().y - collision_box.top - collision_box.height + t3.y * 32 + 32)
 			{
 				collideRight = true;
 			}
-
 		}
 
 		if (rightTop)
@@ -356,26 +329,20 @@ void Character::resolveCollision()
 			{
 				collideRight = true;
 			}
-
 		}
 		if (collideRight)
 		{
 			this->setPosition(t3.x * 32 - collision_box.width - collision_box.left, getPosition().y);
-			if (velocity.x>0)velocity.x = 0;
+			if (velocity.x > 0)velocity.x = 0;
 		}
 	}
-
-
-
 }
-
 
 void Character::draw(sf::RenderTarget & target)
 {
 	//rect.setPosition(sf::Vector2f(getPosition().x + collision_box.left, getPosition().y + collision_box.top));
 	//target.draw(rect);
 	sprite.draw(target);
-	
 }
 
 bool Character::intersects(sf::FloatRect & rect)
@@ -405,57 +372,54 @@ void Character::drawDebugData(sf::RenderTarget & window)
 
 void Character::impulseVelocity(sf::Vector2f v, float impulse, float delta)
 {
-	
 	float impulseX = impulse;
-	if (v.x < 0 || v.x ==0 && velocity.x>0) impulseX = -impulse;
+	if (v.x < 0 || v.x == 0 && velocity.x>0) impulseX = -impulse;
 	float impulseY = impulse;
 	if (v.y < 0) impulseY = -impulse;
 
 	float test = velocity.x;
-	if (velocity.x < v.x && v.x>0 || velocity.x > v.x && v.x<0)
+	if (velocity.x < v.x && v.x>0 || velocity.x > v.x && v.x < 0)
 	{
-		if (velocity.x + impulseX*delta > v.x&& v.x>0 || velocity.x + impulseX*delta < v.x&& v.x<0)
+		if (velocity.x + impulseX * delta > v.x&& v.x > 0 || velocity.x + impulseX * delta < v.x&& v.x < 0)
 		{
 			velocity.x = v.x;
 		}
 		else
 		{
-			velocity.x += impulseX*delta;
+			velocity.x += impulseX * delta;
 		}
 	}
-	if (velocity.y < v.y && v.x>0 || velocity.y > v.y && v.y<0)
+	if (velocity.y < v.y && v.x>0 || velocity.y > v.y && v.y < 0)
 	{
-		if (velocity.y + impulseY*delta > v.y&& v.y>0 || velocity.y + impulseY*delta < v.y&& v.y<0)
+		if (velocity.y + impulseY * delta > v.y&& v.y > 0 || velocity.y + impulseY * delta < v.y&& v.y < 0)
 		{
 			velocity.y = v.y;
 		}
 		else
 		{
-			velocity.y += impulseY*delta;
+			velocity.y += impulseY * delta;
 		}
 	}
 	if (v.x == 0)
 	{
-		if (velocity.x + impulseX*delta >= 0 && velocity.x <0 || velocity.x + impulseX*delta <= v.x&& velocity.x > 0|| velocity.x ==0)
+		if (velocity.x + impulseX * delta >= 0 && velocity.x < 0 || velocity.x + impulseX * delta <= v.x&& velocity.x > 0 || velocity.x == 0)
 		{
 			velocity.x = v.x;
 		}
 		else
 		{
-			velocity.x += impulseX*delta;
+			velocity.x += impulseX * delta;
 		}
 	}
-
 }
 
 void Character::impulseVelocityX(float maxSpeed, float impulse, float delta)
 {
-
 	if (maxSpeed < 0 || maxSpeed == 0 && velocity.x>0)
 	{
-		if (velocity.x -impulse*delta > maxSpeed)
+		if (velocity.x - impulse * delta > maxSpeed)
 		{
-			velocity.x -= impulse*delta;
+			velocity.x -= impulse * delta;
 		}
 		else
 		{
@@ -464,9 +428,9 @@ void Character::impulseVelocityX(float maxSpeed, float impulse, float delta)
 	}
 	else
 	{
-		if (velocity.x + impulse*delta < maxSpeed)
+		if (velocity.x + impulse * delta < maxSpeed)
 		{
-			velocity.x += impulse*delta;
+			velocity.x += impulse * delta;
 		}
 		else
 		{
@@ -475,25 +439,21 @@ void Character::impulseVelocityX(float maxSpeed, float impulse, float delta)
 	}
 }
 
-
-
-
 bool Character::setCharacter(TextElement * element)
 {
-
 	if (element == nullptr)return false;
 
 	setDamageable(element);
 
 	//Set speed of character
 	auto variableMaxSpeed = element->getVariableByName("Speed");
-	if(variableMaxSpeed != nullptr)
+	if (variableMaxSpeed != nullptr)
 		this->max_walk_speed = variableMaxSpeed->toInt(0);
 
 	//Set character collision box
 	auto cb = element->getVariableByName("CollisionBox");
-	if(cb != nullptr)
-	{ 
+	if (cb != nullptr)
+	{
 		collision_box.left = cb->toFloat(0);
 		collision_box.top = cb->toFloat(1);
 		collision_box.width = cb->toFloat(2);
@@ -510,8 +470,8 @@ bool Character::setCharacter(TextElement * element)
 	{
 		auto spriteName = sprite->toString(0);
 		auto spriteDefinition = GameAssetsManager::getSprite(spriteName);
-		if(spriteDefinition!= nullptr)
-		this->sprite = GameSprite(*spriteDefinition);
+		if (spriteDefinition != nullptr)
+			this->sprite = GameSprite(*spriteDefinition);
 	}
 
 	navCharData.characterWidth = 1 + collision_box.width / 32;
@@ -536,7 +496,7 @@ void Character::setAnimation()
 	if (velocity.x < 0)isTurnedLeft = true;
 	if (velocity.x > 0)isTurnedLeft = false;
 
-	if (walk_speed.x == 0&& velocity.y==0)
+	if (walk_speed.x == 0 && velocity.y == 0)
 	{
 		if (isTurnedLeft)
 		{
@@ -549,8 +509,8 @@ void Character::setAnimation()
 	}
 	else
 	{
-		if(!is_jumping)
-		{ 
+		if (!is_jumping)
+		{
 			if (isTurnedLeft)
 			{
 				sprite.SetAnimation("walk_left");
@@ -572,12 +532,10 @@ void Character::setAnimation()
 			}
 		}
 	}
-
-
 }
 
 TileMap * Character::getTileMapPtr() {
-	if(entlistPtr == nullptr)
+	if (entlistPtr == nullptr)
 		return nullptr;
 	else return entlistPtr->getTileMapPtr();
 }

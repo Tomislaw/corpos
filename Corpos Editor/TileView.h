@@ -14,8 +14,8 @@ public:
 	void onResize();
 	void setViewSize(float size);
 	void setTileCollidables(bool a, bool b, bool c,
-							bool d,	/*x*/	bool e,
-							bool f, bool g, bool h);
+		bool d,	/*x*/	bool e,
+		bool f, bool g, bool h);
 	sf::View view;
 
 private:

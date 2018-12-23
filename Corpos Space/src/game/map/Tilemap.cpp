@@ -7,7 +7,6 @@ Tilemap::Tilemap()
 	//tileDefinitions.push_back(TileDefinition());
 }
 
-
 Tilemap::~Tilemap()
 {
 }
@@ -32,12 +31,9 @@ bool Tilemap::loadTileset(std::string location)
 		t.setTile(tiles[i],tx);
 		tileDefinitions.push_back(t);
 	}
-	
 
 	return true;
 }*/
-
-
 
 bool Tilemap::loadTileset(std::string location)
 {
@@ -48,24 +44,19 @@ bool Tilemap::loadTileset(std::string location)
 	//load file
 	file.loadFile(location);
 
-
-
-
-
 	//set vtm data
 	auto tileset = file.getFirstElementByName("TILESET");
 	if (tileset == nullptr)
 	{
-		Logger::e("Tileset in " + location +" is not defined, tileset is not loaded");
+		Logger::e("Tileset in " + location + " is not defined, tileset is not loaded");
 		return false;
 	}
-
 
 	std::string texture = "";
 	auto varTexture = tileset->getVariableByName("Texture");
 	if (varTexture != nullptr)
 		texture = varTexture->toString(0);
-	else 
+	else
 	{
 		Logger::e("Texture in " + location + " is not defined, tileset is not loaded");
 		return false;
@@ -78,9 +69,8 @@ bool Tilemap::loadTileset(std::string location)
 	{
 		Logger::e("Tileset in " + location + " have no name!");
 	}
-	
-	tm.textureName = texture;
 
+	tm.textureName = texture;
 
 	if (getTexture == NULL)
 	{
@@ -90,20 +80,15 @@ bool Tilemap::loadTileset(std::string location)
 	tm.texture = getTexture(texture);
 	//tm.texture = World::getTexture(texture);
 
-
-
 	// set tile definitions data
 
 	auto tiles = file.getAllElementsByName("TILE");
-	for (int i = 0; i < tiles.size();i++)
+	for (int i = 0; i < tiles.size(); i++)
 	{
 		TileDefinition t;
 		t.setTile(tiles[i], tm.texture, texture);
 		tm.definitions.push_back(t);
 	}
-
-
-
 
 	//set vertex array
 	sf::VertexArray ar(sf::Quads, 16 * mapSize.x * mapSize.y);
@@ -112,7 +97,6 @@ bool Tilemap::loadTileset(std::string location)
 	for (unsigned int x = 0; x < mapSize.x; ++x)
 		for (unsigned int y = 0; y < mapSize.y; ++y)
 		{
-
 			// get a pointer to the current tile's quad
 			sf::Vertex* tile = &ar[(x + y * mapSize.x) * 16];
 
@@ -137,10 +121,9 @@ bool Tilemap::loadTileset(std::string location)
 
 bool Tilemap::loadMap(TextElement * tm)
 {
-	
 	auto size = tm->getVariableByName("Size");
-	if(size != nullptr)
-	{ 
+	if (size != nullptr)
+	{
 		mapSize.y = size->toInt(1);
 		mapSize.x = size->toInt(0);
 	}
@@ -150,8 +133,6 @@ bool Tilemap::loadMap(TextElement * tm)
 		return false;
 	}
 	Logger::i("Map size: " + std::to_string(this->mapSize.x) + " " + std::to_string(this->mapSize.y));
-
-
 
 	std::string tilesetName = "";
 	auto varTilesets = tm->getVariableByName("Tilesets");
@@ -166,10 +147,8 @@ bool Tilemap::loadMap(TextElement * tm)
 	{
 		for each (std::string var in varTilesets->var)
 		{
-
 		}
 	}*/
-
 
 	auto vertexTileMapPointer = getVertexTileMap(tilesetName);
 	if (vertexTileMapPointer == nullptr)
@@ -177,12 +156,12 @@ bool Tilemap::loadMap(TextElement * tm)
 		Logger::e("Cant find tilemap pointer");
 		return false;
 	}
-	vertexTileMapPointer->vmap.resize((mapSize.x + mapSize.y * mapSize.x)*16);
+	vertexTileMapPointer->vmap.resize((mapSize.x + mapSize.y * mapSize.x) * 16);
 	vertexTileMapPointer->backgroundvmap.resize((mapSize.x + mapSize.y * mapSize.x) * 16);
 	tilemap.clear();
 	bgtilemap.clear();
 
-	for (int y = 0;y < mapSize.y;y++)
+	for (int y = 0; y < mapSize.y; y++)
 	{
 		auto tile = tm->getVariableByName("X" + std::to_string(y));
 		if (tile == nullptr)
@@ -190,11 +169,10 @@ bool Tilemap::loadMap(TextElement * tm)
 			Logger::e("X" + std::to_string(y) + " is missing, map is not created");
 			return false;
 		}
-		for (int x = 0; x < mapSize.x;x++)
+		for (int x = 0; x < mapSize.x; x++)
 		{
-	
 			TileDefinition *b = nullptr;
-			if(tile->toString(x)!="0")b = this->getTileDefinition(tile->var[x], tilesetName);
+			if (tile->toString(x) != "0")b = this->getTileDefinition(tile->var[x], tilesetName);
 
 			//Set tile if not found
 			if (b == nullptr)
@@ -210,7 +188,7 @@ bool Tilemap::loadMap(TextElement * tm)
 				{
 					auto c = this->getTileDefinition(b->backgroundTile, tilesetName);
 					// set tile if noto found background one
-					if (c==nullptr)
+					if (c == nullptr)
 					{
 						this->tilemap.push_back(Tile(b, vtm->getTileAt(x + y * mapSize.x), sf::Vector2f(x * 32 + 16, y * 32 + 16)));
 						this->bgtilemap.push_back(Tile());
@@ -220,8 +198,6 @@ bool Tilemap::loadMap(TextElement * tm)
 						this->tilemap.push_back(Tile(b, vtm->getTileAt(x + y * mapSize.x), sf::Vector2f(x * 32 + 16, y * 32 + 16)));
 						this->bgtilemap.push_back(Tile(c, vtm->getBackgroundTileAt(x + y * mapSize.x), sf::Vector2f(x * 32 + 16, y * 32 + 16)));
 					}
-
-	
 				}
 				else // set tile if it not blocking
 				{
@@ -230,7 +206,6 @@ bool Tilemap::loadMap(TextElement * tm)
 				}
 			}
 		}
-
 	}
 	refreashMap();
 	return false;
@@ -240,15 +215,12 @@ void Tilemap::createMap(unsigned int width, unsigned int height)
 {
 	//loadTileset("bin/graphics/tileset/tileset1.txt");
 
-
 	mapSize.y = height;
 	mapSize.x = width;
 
 	Logger::i("Map size: " + std::to_string(this->mapSize.x) + " " + std::to_string(this->mapSize.y));
 
-
-
-	if(vtm.size() == 0)
+	if (vtm.size() == 0)
 	{
 		Logger::e("Tileset not loaded. Cannot create map.");
 		return;
@@ -268,11 +240,8 @@ void Tilemap::createMap(unsigned int width, unsigned int height)
 	{
 		for (int x = 0; x < mapSize.x; x++)
 		{
-
-
 			this->tilemap.push_back(Tile());
 			this->bgtilemap.push_back(Tile());
-
 		}
 	}
 	refreashMap();
@@ -312,7 +281,6 @@ std::vector<VertexTileMap>& Tilemap::getVertexTileMapVector()
 /*
 bool Tilemap::loadMap(TextElement * tm)
 {
-
 	loadTileset("bin/graphics/tileset/tileset1.txt");
 
 	auto size = tm->getVariableByName("Size");
@@ -321,7 +289,6 @@ bool Tilemap::loadMap(TextElement * tm)
 
 	tilemap = new Tile[mapSize.x*mapSize.y];
 
-	
 	for (int y = 0;y < mapSize.y;y++)
 	{
 		auto tile = tm->getVariableByName("X" + std::toString(y));
@@ -330,7 +297,6 @@ bool Tilemap::loadMap(TextElement * tm)
 			auto b = this->getTileDefinitiom(tile->var[x]);
 			*this->getTile(x,y) = Tile(b, sf::Vector2f(x * 32 + 16, y * 32 +16));
 		}
-		
 	}
 	refreashMap();
 	return false;
@@ -351,13 +317,13 @@ bool Tilemap::loadMap(TextElement * tm)
 Tile * Tilemap::getTile(int x, int y)
 {
 	if (tilemap.size() <= x + y * mapSize.x)return nullptr;
-	if (x<0 || y<0 || x >= mapSize.x || y >= mapSize.y)return nullptr;
+	if (x < 0 || y < 0 || x >= mapSize.x || y >= mapSize.y)return nullptr;
 	return &tilemap.at(x + y * mapSize.x);
 }
 
 Tile * Tilemap::getTile(sf::Vector2i id)
 {
-	return getTile(id.x,id.y);
+	return getTile(id.x, id.y);
 }
 
 Tile * Tilemap::getTile(sf::Vector2f position)
@@ -368,26 +334,22 @@ Tile * Tilemap::getTile(sf::Vector2f position)
 Tile * Tilemap::getBackgroundTile(int x, int y)
 {
 	if (bgtilemap.size() <= x + y * mapSize.x)return nullptr;
-	if (x<0 || y<0 || x >= mapSize.x || y >= mapSize.y)return nullptr;
+	if (x < 0 || y < 0 || x >= mapSize.x || y >= mapSize.y)return nullptr;
 	return &bgtilemap.at(x + y * mapSize.x);
-	
 }
 
 void Tilemap::setTile(TileDefinition * definition, size_t x, size_t y)
 {
-	
-
 	auto bg_tile = this->getBackgroundTile(x, y);
 	auto tile = this->getTile(x, y);
 
 	if (bg_tile == nullptr || tile == nullptr) return;
 	bg_tile->resetVertexPosition();
 	tile->resetVertexPosition();
-	
+
 	//Set tile if not found
 	if (definition == nullptr)
 	{
-
 		*tile = Tile();
 		*bg_tile = Tile();
 		return;
@@ -395,32 +357,27 @@ void Tilemap::setTile(TileDefinition * definition, size_t x, size_t y)
 
 	auto vtm = getVertexTileMapByTextureName(definition->texture_name);
 
-		
-		//set tile if found and blocking
-		if (definition->is_blocking)
+	//set tile if found and blocking
+	if (definition->is_blocking)
+	{
+		auto background = vtm->getTileDefinition(definition->backgroundTile);
+		// set tile if noto found background one
+		if (background == nullptr)
 		{
-			
-			auto background = vtm->getTileDefinition(definition->backgroundTile);
-			// set tile if noto found background one
-			if (background == nullptr)
-			{
-				*tile = Tile(definition, vtm->getTileAt(x + y * mapSize.x), sf::Vector2f(x * 32 + 16, y * 32 + 16));
-				*bg_tile = Tile();
-			}
-			else //set tile normal
-			{
-				*tile = Tile(definition, vtm->getTileAt(x + y * mapSize.x), sf::Vector2f(x * 32 + 16, y * 32 + 16));
-				*bg_tile = Tile(background, vtm->getBackgroundTileAt(x + y * mapSize.x), sf::Vector2f(x * 32 + 16, y * 32 + 16));
-			}
-
-
+			*tile = Tile(definition, vtm->getTileAt(x + y * mapSize.x), sf::Vector2f(x * 32 + 16, y * 32 + 16));
+			*bg_tile = Tile();
 		}
-		else // set tile if it not blocking
+		else //set tile normal
 		{
-			*tile = Tile();
-			*bg_tile = Tile(definition, vtm->getBackgroundTileAt(x + y * mapSize.x), sf::Vector2f(x * 32 + 16, y * 32 + 16));
+			*tile = Tile(definition, vtm->getTileAt(x + y * mapSize.x), sf::Vector2f(x * 32 + 16, y * 32 + 16));
+			*bg_tile = Tile(background, vtm->getBackgroundTileAt(x + y * mapSize.x), sf::Vector2f(x * 32 + 16, y * 32 + 16));
 		}
-
+	}
+	else // set tile if it not blocking
+	{
+		*tile = Tile();
+		*bg_tile = Tile(definition, vtm->getBackgroundTileAt(x + y * mapSize.x), sf::Vector2f(x * 32 + 16, y * 32 + 16));
+	}
 }
 
 TileDefinition * Tilemap::getTileDefinition(std::string tileName, std::string tilesetName)
@@ -431,7 +388,7 @@ TileDefinition * Tilemap::getTileDefinition(std::string tileName, std::string ti
 		if (vtm.at(x).name == tilesetName) vtmPointer = &vtm.at(x);
 		break;
 	}
-	if (vtmPointer == nullptr) 
+	if (vtmPointer == nullptr)
 	{
 		Logger::e("Critical error! Can't find tile definition. - " + tilesetName);
 		return nullptr;
@@ -441,7 +398,7 @@ TileDefinition * Tilemap::getTileDefinition(std::string tileName, std::string ti
 	{
 		if (vtmPointer->definitions.at(x).name == tileName) return &vtmPointer->definitions.at(x);
 	}
-	
+
 	Logger::i("Tile \"" + tileName + "\" not found!");
 
 	return nullptr;
@@ -450,51 +407,50 @@ TileDefinition * Tilemap::getTileDefinition(std::string tileName, std::string ti
 sf::Vector2i Tilemap::getTileId(sf::Vector2f v)
 {
 	int x = v.x / 32;
-	int y =v.y / 32;
-	return sf::Vector2i(x,y);
+	int y = v.y / 32;
+	return sf::Vector2i(x, y);
 }
 
 sf::Vector2i Tilemap::getTileId(float x, float y)
 {
-
-	return getTileId(sf::Vector2f(x,y));
+	return getTileId(sf::Vector2f(x, y));
 }
 
 sf::Vector2f Tilemap::getTilePos(sf::Vector2i TileId)
 {
-	int x = TileId.x * 32-16;
-	int y = TileId.y * 32-16;
-	return sf::Vector2f(x,y);
+	int x = TileId.x * 32 - 16;
+	int y = TileId.y * 32 - 16;
+	return sf::Vector2f(x, y);
 }
 
 sf::Vector2f Tilemap::getMapSize()
 {
-	return sf::Vector2f(mapSize.x*32,mapSize.y*32);
+	return sf::Vector2f(mapSize.x * 32, mapSize.y * 32);
 }
 
 bool Tilemap::isTileBlocking(int x, int y)
 {
-	if (x<0 || y<0 || x>=mapSize.x || y>=mapSize.y)return false;
+	if (x < 0 || y < 0 || x >= mapSize.x || y >= mapSize.y)return false;
 	else return getTile(x, y)->isBlocking();
 }
 
 bool Tilemap::isTileBlocking(sf::Vector2i id)
 {
-	return isTileBlocking(id.x,id.y);
+	return isTileBlocking(id.x, id.y);
 }
 
-bool Tilemap::isSameTile(int x, int y,Tile * tile)
+bool Tilemap::isSameTile(int x, int y, Tile * tile)
 {
-	if (x<0 || y<0 || x >= mapSize.x || y >= mapSize.y)return false;
+	if (x < 0 || y < 0 || x >= mapSize.x || y >= mapSize.y)return false;
 	else
 	{
 		return getTile(x, y)->isSameGroup(*tile) && getTile(x, y)->isBlocking();
-	} 
+	}
 }
 
 bool Tilemap::isSameBackgroundTile(int x, int y, Tile * tile)
 {
-	if (x<0 || y<0 || x >= mapSize.x || y >= mapSize.y)return false;
+	if (x < 0 || y < 0 || x >= mapSize.x || y >= mapSize.y)return false;
 	else return getBackgroundTile(x, y)->isSameGroup(*tile);
 }
 
@@ -505,7 +461,7 @@ void Tilemap::draw(sf::RenderTarget & window)
 		tilemap[i].draw(window);
 	}*/
 
-	for (int i = 0; i < vtm.size();i++)
+	for (int i = 0; i < vtm.size(); i++)
 	{
 		window.draw(vtm.at(i).vmap, vtm.at(i).texture);
 	}
@@ -513,7 +469,7 @@ void Tilemap::draw(sf::RenderTarget & window)
 
 void Tilemap::drawBackground(sf::RenderTarget & window)
 {
-	for (int i = 0; i < vtm.size();i++)
+	for (int i = 0; i < vtm.size(); i++)
 	{
 		window.draw(vtm.at(i).backgroundvmap, vtm.at(i).texture);
 	}
@@ -522,7 +478,7 @@ void Tilemap::drawBackground(sf::RenderTarget & window)
 void Tilemap::drawEditor(sf::RenderTarget & window)
 {
 	sf::RectangleShape rectangle;
-	rectangle.setSize(sf::Vector2f(mapSize.x*32, mapSize.y * 32));
+	rectangle.setSize(sf::Vector2f(mapSize.x * 32, mapSize.y * 32));
 	rectangle.setFillColor(sf::Color::Transparent);
 	rectangle.setOutlineColor(sf::Color::Black);
 	rectangle.setOutlineThickness(2);
@@ -555,9 +511,8 @@ void Tilemap::refreashBackgroundTile(int x, int y)
 void Tilemap::refreashTile(int x, int y)
 {
 	auto tile = this->getTile(x, y);
-	if (tile==nullptr) return;
+	if (tile == nullptr) return;
 
-	
 	tile->setDisplayType(
 		this->isSameTile(x - 1, y - 1, tile), this->isSameTile(x, y - 1, tile), this->isSameTile(x + 1, y - 1, tile),
 		this->isSameTile(x - 1, y, tile), this->isSameTile(x + 1, y, tile),
@@ -566,14 +521,13 @@ void Tilemap::refreashTile(int x, int y)
 
 void Tilemap::refreashNearTiles(int x, int y)
 {
-	/*refreashTile(x-1,y-1)*/;refreashTile(x, y-1);//refreashTile(x+1,y-1);
-	refreashTile(x - 1, y);refreashTile(x, y);refreashTile(x + 1, y);
+	/*refreashTile(x-1,y-1)*/; refreashTile(x, y - 1);//refreashTile(x+1,y-1);
+	refreashTile(x - 1, y); refreashTile(x, y); refreashTile(x + 1, y);
 	/*refreashTile(x - 1, y + 1);*/refreashTile(x, y + 1);//refreashTile(x + 1, y + 1);
 }
 
 std::vector<Tile*> Tilemap::getTilesFromLine(sf::Vector2f start, sf::Vector2f end)
 {
-
 	int tile_size = 32;
 
 	std::vector<sf::Vector2i> tile_ids;
@@ -584,7 +538,7 @@ std::vector<Tile*> Tilemap::getTilesFromLine(sf::Vector2f start, sf::Vector2f en
 	//make sure if we re npt adding additional tiles - -2,0 etc
 	if (end.x < 0) tileStart.x = -1;
 	if (end.y < 0) tileEnd.y = -1;
-	
+
 	//return one tile if started out of map
 	if (tileStart == tileEnd || tileStart.x < 0 || tileStart.y < 0)
 	{
@@ -593,138 +547,125 @@ std::vector<Tile*> Tilemap::getTilesFromLine(sf::Vector2f start, sf::Vector2f en
 		//return tile_ids;
 	}
 
-		// Creating line to get tiles from
-		float divide = end.x - start.x;
-		float a = (end.y - start.y) / divide;
-		float b = end.y - a*end.x;
-		// change to infinity if dividing by zero
-		if (!(divide>0.0000001 || divide<-0.0000001)) { a = INFINITY; }
+	// Creating line to get tiles from
+	float divide = end.x - start.x;
+	float a = (end.y - start.y) / divide;
+	float b = end.y - a * end.x;
+	// change to infinity if dividing by zero
+	if (!(divide > 0.0000001 || divide < -0.0000001)) { a = INFINITY; }
 
-		// start x and y counters
-		int x_count = abs(tileStart.x - tileEnd.x);
-		int y_count = abs(tileStart.y - tileEnd.y);
+	// start x and y counters
+	int x_count = abs(tileStart.x - tileEnd.x);
+	int y_count = abs(tileStart.y - tileEnd.y);
 
+	// set adding or decrementing
+	int operation_x = 1;
+	int operation_y = 1;
 
-		// set adding or decrementing
-		int operation_x = 1;
-		int operation_y = 1;
+	if (start.x > end.x)
+	{
+		operation_x = -1;
+	}
+	if (start.y > end.y)
+	{
+		operation_y = -1;
+	}
 
-		if (start.x > end.x)
+	// ad start tile
+	tile_ids.push_back(tileStart);
+	// check if have to increment y or x more often
+	if (a<1 && a>-1)
+	{
+		int current_x = tileStart.x;
+
+		for (int i = 0; i < x_count; i++)
 		{
-			operation_x = -1;
-		}
-		if (start.y > end.y)
-		{
-			operation_y = -1;
-		}
+			float value_x = current_x * tile_size + operation_x / 10.f + tile_size / 2 * (1 + operation_x);
+			sf::Vector2f function_pos_x = sf::Vector2f(value_x, a*(value_x)+b);
+			sf::Vector2i id_x = getTileId(function_pos_x);
 
-		// ad start tile
-		tile_ids.push_back(tileStart);
-		// check if have to increment y or x more often
-		if (a<1 && a>-1)
+			if (id_x.x != tile_ids.back().x && id_x.y != tile_ids.back().y)
+			{
+				float value_y = tile_ids.back().y * tile_size + tile_size / 2 * (1 + operation_y) + operation_y / 10.f;
+				sf::Vector2f function_pos_y((sf::Vector2f((value_y - b) / a, value_y)));
+				sf::Vector2i id_y(getTileId(function_pos_y));
+
+				if (id_y != tile_ids.back())tile_ids.push_back(id_y);
+				if (id_y.x < 0) break;
+			}
+
+			if (id_x != tile_ids.back())tile_ids.push_back(id_x);
+			if (id_x.x < 0) break;
+			current_x += operation_x;
+		}
+		sf::Vector2i id_last(getTileId(end));
+		if (id_last != tile_ids.back())
+		{
+			if (id_last.x != tile_ids.back().x && id_last.y != tile_ids.back().y)
+			{
+				float value_y = tile_ids.back().y * tile_size + tile_size / 2 * (1 + operation_y) + operation_y / 10.f;
+				sf::Vector2f function_pos_y((sf::Vector2f((value_y - b) / a, value_y)));
+				sf::Vector2i id_y(getTileId(function_pos_y));
+
+				if (id_y != tile_ids.back())tile_ids.push_back(id_y);
+			}
+
+			if (id_last != tile_ids.back())tile_ids.push_back(id_last);
+		}
+	}
+	else
+	{
+		if (a != INFINITY)
 		{
 			int current_x = tileStart.x;
+			int current_y = tileStart.y;
 
-			for (int i = 0; i < x_count; i++)
+			for (int i = 0; i < y_count; i++)
 			{
+				float value_y = tile_ids.back().y * tile_size + tile_size / 2 * (1 + operation_y) + operation_y / 10.f;
 
+				sf::Vector2f function_pos_y((sf::Vector2f((value_y - b) / a, value_y)));
+				sf::Vector2i id_y(getTileId(function_pos_y));
 
-
-				float value_x = current_x * tile_size + operation_x / 10.f + tile_size / 2 * (1 + operation_x);
-				sf::Vector2f function_pos_x = sf::Vector2f(value_x, a*(value_x)+b);
-				sf::Vector2i id_x = getTileId(function_pos_x);
-
-				if (id_x.x != tile_ids.back().x && id_x.y != tile_ids.back().y)
+				if (id_y.x != tile_ids.back().x && id_y.y != tile_ids.back().y)
 				{
-					float value_y = tile_ids.back().y * tile_size + tile_size / 2 * (1 + operation_y) + operation_y / 10.f;
-					sf::Vector2f function_pos_y((sf::Vector2f((value_y - b) / a, value_y)));
-					sf::Vector2i id_y(getTileId(function_pos_y));
+					float value_x = current_x * tile_size + operation_x / 10.f + tile_size / 2 * (1 + operation_x);
+					sf::Vector2f function_pos_x = sf::Vector2f(value_x, a*value_x + b);
+					sf::Vector2i id_x(getTileId(function_pos_x));
+					if (id_x != tile_ids.back())tile_ids.push_back(id_x);
+					if (id_x.x < 0)break;
 
-					if (id_y != tile_ids.back())tile_ids.push_back(id_y);
-					if (id_y.x < 0) break;
+					current_x += operation_x;
 				}
 
-
-				if (id_x != tile_ids.back())tile_ids.push_back(id_x);
-				if (id_x.x < 0) break;
-				current_x += operation_x;
-			}
-			sf::Vector2i id_last(getTileId(end));
-			if (id_last != tile_ids.back())
-			{
-				if (id_last.x != tile_ids.back().x && id_last.y != tile_ids.back().y)
-				{
-					float value_y = tile_ids.back().y * tile_size + tile_size / 2 * (1 + operation_y) + operation_y / 10.f;
-					sf::Vector2f function_pos_y((sf::Vector2f((value_y - b) / a, value_y)));
-					sf::Vector2i id_y(getTileId(function_pos_y));
-
-					if (id_y != tile_ids.back())tile_ids.push_back(id_y);
-
-				}
-
-				if (id_last != tile_ids.back())tile_ids.push_back(id_last);
+				if (id_y != tile_ids.back())tile_ids.push_back(id_y);
+				if (id_y.x < 0)break;
+				current_y += operation_y;
 			}
 		}
 		else
 		{
-			if (a != INFINITY)
+			for (int i = 0; i < y_count; i++)
 			{
-				int current_x = tileStart.x;
-				int current_y = tileStart.y;
-
-
-				for (int i = 0; i < y_count; i++)
-				{
-
-					float value_y = tile_ids.back().y * tile_size + tile_size / 2 * (1 + operation_y) + operation_y / 10.f;
-
-					sf::Vector2f function_pos_y((sf::Vector2f((value_y - b) / a, value_y)));
-					sf::Vector2i id_y(getTileId(function_pos_y));
-
-
-					if (id_y.x != tile_ids.back().x && id_y.y != tile_ids.back().y)
-					{
-						float value_x = current_x * tile_size + operation_x / 10.f + tile_size / 2 * (1 + operation_x);
-						sf::Vector2f function_pos_x = sf::Vector2f(value_x, a*value_x + b);
-						sf::Vector2i id_x(getTileId(function_pos_x));
-						if (id_x != tile_ids.back())tile_ids.push_back(id_x);
-						if (id_x.x < 0)break;
-
-						current_x += operation_x;
-
-					}
-
-					if (id_y != tile_ids.back())tile_ids.push_back(id_y);
-					if (id_y.x < 0)break;
-					current_y += operation_y;
-				}
+				sf::Vector2i startvector = getTileId(start + sf::Vector2f(0, (i + 1)*tile_size));
+				tile_ids.push_back(startvector);
+				if (startvector.y < 0) break;
 			}
-			else
-			{
-				for (int i = 0; i < y_count; i++)
-				{
-					sf::Vector2i startvector = getTileId(start + sf::Vector2f(0, (i + 1)*tile_size));
-					tile_ids.push_back(startvector);
-					if (startvector.y < 0) break;
-				}
-			}
-
-
 		}
+	}
 
-		std::vector<Tile*> tiles;
-		for each (sf::Vector2i var in tile_ids)
-		{
-			tiles.push_back(getTile(var));
-		}
-		return tiles;
+	std::vector<Tile*> tiles;
+	for each (sf::Vector2i var in tile_ids)
+	{
+		tiles.push_back(getTile(var));
+	}
+	return tiles;
 }
 
 TextElement Tilemap::generateTextElement()
 {
 	TextElement map;
 	map.name = "TILEMAP";
-
 
 	Variable name;
 	name.name = "Name";
@@ -757,7 +698,7 @@ TextElement Tilemap::generateTextElement()
 		}
 		map.variable.push_back(v);
 	}
-	
+
 	return map;
 }
 
@@ -785,19 +726,19 @@ std::vector<sf::Vertex *> VertexTileMap::getTileAt(int x)
 {
 	std::vector<sf::Vertex *> tile;
 	tile.push_back(&this->vmap[x * 16]);
-	tile.push_back(&this->vmap[x * 16+1]);
-	tile.push_back(&this->vmap[x * 16+2]);
-	tile.push_back(&this->vmap[x * 16+3]);
+	tile.push_back(&this->vmap[x * 16 + 1]);
+	tile.push_back(&this->vmap[x * 16 + 2]);
+	tile.push_back(&this->vmap[x * 16 + 3]);
 
-	tile.push_back(&this->vmap[x * 16+4]);
-	tile.push_back(&this->vmap[x * 16+5]);
-	tile.push_back(&this->vmap[x * 16+6]);
-	tile.push_back(&this->vmap[x * 16+7]);
+	tile.push_back(&this->vmap[x * 16 + 4]);
+	tile.push_back(&this->vmap[x * 16 + 5]);
+	tile.push_back(&this->vmap[x * 16 + 6]);
+	tile.push_back(&this->vmap[x * 16 + 7]);
 
-	tile.push_back(&this->vmap[x * 16+8]);
-	tile.push_back(&this->vmap[x * 16+9]);
-	tile.push_back(&this->vmap[x * 16+10]);
-	tile.push_back(&this->vmap[x * 16+11]);
+	tile.push_back(&this->vmap[x * 16 + 8]);
+	tile.push_back(&this->vmap[x * 16 + 9]);
+	tile.push_back(&this->vmap[x * 16 + 10]);
+	tile.push_back(&this->vmap[x * 16 + 11]);
 
 	tile.push_back(&this->vmap[x * 16 + 12]);
 	tile.push_back(&this->vmap[x * 16 + 13]);

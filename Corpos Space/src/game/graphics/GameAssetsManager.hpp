@@ -1,4 +1,3 @@
-
 #ifndef GAMEASSETSMANAGER_HPP
 #define GAMEASSETSMANAGER_HPP
 
@@ -9,7 +8,6 @@ class GameSprite;
 
 class GameAssetsManager
 {
-
 public:
 	static GameAssetsManager * getInstance();
 	~GameAssetsManager();
@@ -29,7 +27,6 @@ private:
 	std::map<std::string, GameSprite> gameSprites;
 	std::map<std::string, sf::Texture > textures;
 	std::map<std::string, sf::Font> fonts;
-
 };
 
 #endif

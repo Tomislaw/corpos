@@ -12,7 +12,7 @@ class MapForm : public QWidget
 
 public:
 	MapForm(QWidget *parent, std::string mapName);
-	MapForm(QWidget *parent, unsigned int x, unsigned int y , std::string name);
+	MapForm(QWidget *parent, unsigned int x, unsigned int y, std::string name);
 	~MapForm();
 
 	void mouseMoveEvent(QMouseEvent * e) override;

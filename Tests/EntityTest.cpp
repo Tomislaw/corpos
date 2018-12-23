@@ -27,7 +27,7 @@ namespace Tests
 			Entity ent = Entity(nullptr);
 			ent = Entity(&e);
 
-			Assert::AreEqual("test1",ent.getName().c_str());
+			Assert::AreEqual("test1", ent.getName().c_str());
 
 			Assert::AreEqual(20.f, ent.getPosition().x);
 
@@ -79,7 +79,7 @@ namespace Tests
 			e.update(10);
 			e2.update(1);
 
-			Assert::AreEqual(e.getPosition().x, e2.getPosition().x-5);
+			Assert::AreEqual(e.getPosition().x, e2.getPosition().x - 5);
 			Assert::AreEqual(e.getPosition().y, e2.getPosition().y);
 
 			e2.attachToEntity(nullptr);
@@ -89,8 +89,6 @@ namespace Tests
 
 			Assert::AreNotEqual(e.getPosition().x, e2.getPosition().x - 5);
 			Assert::AreNotEqual(e.getPosition().y, e2.getPosition().y);
-	
 		}
-
 	};
 }

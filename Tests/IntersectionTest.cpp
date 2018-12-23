@@ -20,7 +20,7 @@ namespace Tests
 			sf::Rect<float> rect = sf::FloatRect(5, 5, 45, 45);
 
 			bool test = Intersection::LineSegRectIntersectionPoint
-			(sf::Vector2f(20,0), sf::Vector2f(20,50), rect, target);
+			(sf::Vector2f(20, 0), sf::Vector2f(20, 50), rect, target);
 			Assert::IsTrue(test);
 
 			test = Intersection::LineSegRectIntersectionPoint
@@ -42,8 +42,6 @@ namespace Tests
 			test = Intersection::LineSegRectIntersectionPoint
 			(sf::Vector2f(0, 0), sf::Vector2f(0, 50), rect, target);
 			Assert::IsFalse(test);
-
 		}
-
 	};
 }

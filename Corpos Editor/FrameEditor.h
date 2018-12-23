@@ -21,17 +21,17 @@ public:
 	void mouseReleaseEvent(QMouseEvent * e) override;
 	void wheelEvent(QWheelEvent * event) override;
 
-	bool isFrameMoving() {return isMovingFrame;}
+	bool isFrameMoving() { return isMovingFrame; }
 	sf::View view;
 
 	sf::Texture * getTexture() { return texture; };
 
-	public slots:
+public slots:
 	void centerView();
 	void setFrame(sf::IntRect frame);
 	void moveFrame(sf::Vector2f move);
 
-	signals:
+signals:
 	void frameChanged(sf::IntRect);
 private:
 	float size = 1;

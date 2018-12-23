@@ -7,21 +7,16 @@ World::World()
 	//Set getTexture function for world map
 	//tilemap.getFunctionGetTexture() = std::bind(&GameAssetsManager::getTexture, std::placeholders::_1);
 
-
 	auto getTile = [&](int x, int y)
-	{ 
+	{
 		return tilemap2.getTile(x, y);
 	};
-	AStar::PathFind::getTile = std::bind(getTile,std::placeholders::_1, std::placeholders::_2);
+	AStar::PathFind::getTile = std::bind(getTile, std::placeholders::_1, std::placeholders::_2);
 }
-
 
 World::~World()
 {
-
 }
-
-
 
 void World::update(float delta)
 {
@@ -37,14 +32,12 @@ void World::draw(sf::RenderWindow & window)
 	//entitylist.getCurrentCamera().setNormalView(window);
 	//tilemap.drawBackground(window);
 	//tilemap.draw(window);
-	
-	
+
 	tilemap2.drawBackground(window);
-	
+
 	tilemap2.draw(window);
 	entitylist.draw(window);
 }
-
 
 void World::events(sf::Event e)
 {

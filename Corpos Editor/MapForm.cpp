@@ -1,7 +1,7 @@
 #include "MapForm.h"
 #include "game\utility\Logger.hpp"
 #include "CorposEditor.h"
-MapForm::MapForm(QWidget *parent, std::string mapLocation) 
+MapForm::MapForm(QWidget *parent, std::string mapLocation)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
@@ -9,13 +9,11 @@ MapForm::MapForm(QWidget *parent, std::string mapLocation)
 
 	QWidget::setWindowTitle(QString::fromStdString(mapLocation));
 
-	mapView = new MapView(this, QPoint(0,0),QSize(1000,1000));
-
+	mapView = new MapView(this, QPoint(0, 0), QSize(1000, 1000));
 
 	mapView->adjustSize();
 	mapView->loadMap(mapLocation);
 	onResize();
-
 
 	timer.setInterval(50);
 	connect(&timer, SIGNAL(timeout()), this, SLOT(timerUpdate()));
@@ -32,13 +30,10 @@ MapForm::MapForm(QWidget * parent, unsigned int x, unsigned int y, std::string n
 
 	mapView = new MapView(this, QPoint(0, 0), QSize(1000, 1000));
 
-
 	mapView->adjustSize();
-	mapView->createMap(x,y);
+	mapView->createMap(x, y);
 	mapView->setMapName(name);
 	onResize();
-	
-
 
 	timer.setInterval(50);
 	connect(&timer, SIGNAL(timeout()), this, SLOT(timerUpdate()));
@@ -60,16 +55,16 @@ void MapForm::mouseMoveEvent(QMouseEvent * e)
 {
 	if (isRightMouseMoving)
 	{
-	int moveX = (lastMousePos.x - e->x())*viewSize;
-	int moveY = (lastMousePos.y - e->y())*viewSize;
+		int moveX = (lastMousePos.x - e->x())*viewSize;
+		int moveY = (lastMousePos.y - e->y())*viewSize;
 
-	mapView->view.move(sf::Vector2f(moveX, moveY));
-	mapView->setView(mapView->view);
+		mapView->view.move(sf::Vector2f(moveX, moveY));
+		mapView->setView(mapView->view);
 
-	lastMousePos.x = e->x();
-	lastMousePos.y = e->y();
+		lastMousePos.x = e->x();
+		lastMousePos.y = e->y();
 
-	mapView->update();
+		mapView->update();
 	}
 	if (isLeftMouseMoving)
 	{
@@ -86,10 +81,9 @@ void MapForm::mousePressEvent(QMouseEvent * e)
 {
 	if (e->button() == Qt::RightButton)
 	{
-
-	lastMousePos.x = e->x();
-	lastMousePos.y = e->y();
-	isRightMouseMoving = true;
+		lastMousePos.x = e->x();
+		lastMousePos.y = e->y();
+		isRightMouseMoving = true;
 	}
 	if (e->button() == Qt::LeftButton)
 	{
@@ -99,7 +93,7 @@ void MapForm::mousePressEvent(QMouseEvent * e)
 			mapView->startDrawingSelection();
 		}
 		else
-		{ 
+		{
 			isLeftMouseMoving = true;
 			mapView->setTileAtMousePosition(CorposEditor::selectedTileset, CorposEditor::selectedTile);
 		}
@@ -128,9 +122,7 @@ void MapForm::mouseReleaseEvent(QMouseEvent * e)
 
 void MapForm::wheelEvent(QWheelEvent * e)
 {
-
-
-	if(!((viewSize < 0.2 &&  e->angleDelta().y()<0) || (viewSize >= 4)&& e->angleDelta().y()>0))
+	if (!((viewSize < 0.2 &&  e->angleDelta().y() < 0) || (viewSize >= 4) && e->angleDelta().y() > 0))
 		viewSize += e->angleDelta().y() / 1000.f;
 	else return;
 	if (viewSize < 0.2)viewSize = 0.16;
@@ -155,14 +147,9 @@ void MapForm::onResize()
 	mapView->setFixedSize(a);
 	mapView->setSize(sf::Vector2u(a.rwidth(), a.rheight()));
 	mapView->onResize();
-
-
 }
 
 void MapForm::timerUpdate()
 {
-
 	onResize();
-	
-
 }

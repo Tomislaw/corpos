@@ -12,10 +12,10 @@ class GunFire :
 {
 public:
 	//Constructor for gunfire entity, TODO: add null pointer handling
-	GunFire(EntityList* entlist,Bullet bulletType);
+	GunFire(EntityList* entlist, Bullet bulletType);
 	~GunFire();
 
-	//update 
+	//update
 	void update(float delta) override;
 	void startFire();
 	void stopFire();
@@ -49,7 +49,6 @@ private:
 	bool isReload = false;
 
 	void fireBullet(float timeAfterUpdate);
-
 };
 
 #endif

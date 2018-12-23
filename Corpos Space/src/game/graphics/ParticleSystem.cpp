@@ -3,13 +3,11 @@
 
 static float particleSize = 1.5f;
 
-
 ParticleSystem::ParticleSystem(unsigned int count)
 {
-	vertices.resize(count*4);
+	vertices.resize(count * 4);
 	vertices.setPrimitiveType(sf::Quads);
 	particles.resize(count, Particle());
-
 }
 
 void ParticleSystem::update(float elapsed)
@@ -25,10 +23,9 @@ void ParticleSystem::update(float elapsed)
 		{
 			continue;
 		}
-		
+
 		// update the position of the corresponding vertex
 		p.position += p.velocity * elapsed;
-
 
 		if (tileMapPtr != nullptr)
 		{
@@ -44,13 +41,12 @@ void ParticleSystem::update(float elapsed)
 
 				p.velocity.x /= 2;
 				p.velocity.y /= 2;
-
 			}
 			else
 			{
 			}
 		}
-		
+
 		p.velocity.y += 2000 * elapsed;
 
 		vertices[i * 4].position = p.position + sf::Vector2f(-particleSize, -particleSize);
@@ -65,8 +61,6 @@ void ParticleSystem::update(float elapsed)
 		vertices[i * 4 + 2].color.a = static_cast<sf::Uint8>(ratio * 255);
 		vertices[i * 4 + 3].color.a = static_cast<sf::Uint8>(ratio * 255);
 	}
-
-
 }
 
 void ParticleSystem::setTileMapPointer(TileMap * tilemap)
@@ -76,7 +70,6 @@ void ParticleSystem::setTileMapPointer(TileMap * tilemap)
 
 void ParticleSystem::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
-	
 	// apply the transform
 	states.transform *= getTransform();
 
@@ -94,11 +87,10 @@ void ParticleSystem::addParticle(sf::Vector2f position, sf::Vector2f velocity, s
 	p.lifetime = particeLifetime;
 	p.position = position;
 
-
-	vertices[lastVertice*4].position = position + sf::Vector2f(-particleSize,-particleSize);
-	vertices[lastVertice * 4 + 1].position = position + sf::Vector2f(particleSize,-particleSize);
-	vertices[lastVertice * 4+2].position = position + sf::Vector2f(particleSize, particleSize);
-	vertices[lastVertice * 4+3].position = position + sf::Vector2f(-particleSize, particleSize);
+	vertices[lastVertice * 4].position = position + sf::Vector2f(-particleSize, -particleSize);
+	vertices[lastVertice * 4 + 1].position = position + sf::Vector2f(particleSize, -particleSize);
+	vertices[lastVertice * 4 + 2].position = position + sf::Vector2f(particleSize, particleSize);
+	vertices[lastVertice * 4 + 3].position = position + sf::Vector2f(-particleSize, particleSize);
 
 	vertices[lastVertice * 4].color = color;
 	vertices[lastVertice * 4 + 1].color = color;
@@ -107,7 +99,7 @@ void ParticleSystem::addParticle(sf::Vector2f position, sf::Vector2f velocity, s
 
 	particles.at(lastVertice) = p;
 	lastVertice += 1;
-	if (lastVertice >= vertices.getVertexCount()/4) lastVertice = 0;
+	if (lastVertice >= vertices.getVertexCount() / 4) lastVertice = 0;
 }
 
 void ParticleSystem::onTileDestroy(MapTile * tile)
@@ -139,6 +131,5 @@ void ParticleSystem::onTileDestroy(MapTile * tile)
 			p.velocity.y = randy;
 			addParticle(p.position, p.velocity, definition.getRandomColor());
 		}
-	
 	}
 }

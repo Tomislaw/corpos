@@ -9,9 +9,6 @@
 #include <iostream>
 #include <sstream>
 
-
-
-
 class Quadtree
 {
 public:
@@ -22,7 +19,6 @@ public:
 	void AddObject(Entity *object);
 	std::vector<Entity*> GetObjectsAt(sf::Vector2f pos);
 	void Clear();
-
 
 	void draw(sf::RenderTarget &canvas);
 	void subdivide();
@@ -51,4 +47,3 @@ private:
 };
 
 #endif
-

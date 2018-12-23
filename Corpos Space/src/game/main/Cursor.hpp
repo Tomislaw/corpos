@@ -2,7 +2,7 @@
 #define CURSOR_HPP
 #include "game\graphics\GameSprite.hpp"
 
-// Cursor class 
+// Cursor class
 //TODO: make cursor class singleton
 class Cursor
 {

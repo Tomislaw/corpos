@@ -27,6 +27,5 @@ namespace Tests
 			map.loadTileset("bin/graphics/tileset/tileset1.txt");
 			map.loadMap(*tm);
 		}
-
 	};
 }

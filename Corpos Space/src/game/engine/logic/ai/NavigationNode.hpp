@@ -25,7 +25,6 @@ public:
 	// return false if character is to big to move to tile
 	bool canMoveToTile(int x, int y);
 
-
 	float GetCost(NavigationNode &successor);
 	bool IsSameState(NavigationNode &rhs);
 
@@ -34,27 +33,21 @@ public:
 	Tile * GetTile(int x, int y);
 	//void setMap(Vector2i &size, std::vector <Tile> &map) { map_size = &size; tilemap = &map; };
 
-
-
 	void setFunctionGetTile(std::function < Tile*(sf::Vector2i)> get)
 	{
 		getTile = get;
-
 	};
-	void setCharacterData(const NavigationNodeCharacterData * d) {data = d ; };
+	void setCharacterData(const NavigationNodeCharacterData * d) { data = d; };
 
-	enum Type { CENTER_POSITION,FLY, JUMP, WALK,CLIMB,FALL, BEFORE_JUMP,AFTER_JUMP };
+	enum Type { CENTER_POSITION, FLY, JUMP, WALK, CLIMB, FALL, BEFORE_JUMP, AFTER_JUMP };
 	int type = Type::WALK;
 
-	
 private:
 	const NavigationNodeCharacterData * data = nullptr;
 	int jumpDistancePassed = 0;
 	//	Vector2i *map_size;
 	//std::vector <Tile> *tilemap;
 	std::function < Tile*(sf::Vector2i)> getTile;
-
-	
 
 	//bool IsCharacter
 };

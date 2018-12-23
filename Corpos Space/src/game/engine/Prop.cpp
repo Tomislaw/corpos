@@ -12,8 +12,6 @@ Prop::Prop(TextElement * file) : Damageable(file)
 {
 	if (file == nullptr)return;
 
-
-
 	is_collidable = false;
 
 	// Set collidable flag
@@ -21,14 +19,14 @@ Prop::Prop(TextElement * file) : Damageable(file)
 	if (varCollidable != nullptr)
 		is_collidable = varCollidable->toInt(0);
 
-	if(is_collidable)
-	{ 
+	if (is_collidable)
+	{
 		setDamageable(file);
 
 		//Set collision box
 		auto var = file->getVariableByName("CollisionBox");
-		if(var != nullptr)
-		{ 
+		if (var != nullptr)
+		{
 			this->collisionBox.left = var->toFloat(0);
 			this->collisionBox.top = var->toFloat(1);
 			this->collisionBox.width = var->toFloat(2);
@@ -39,8 +37,8 @@ Prop::Prop(TextElement * file) : Damageable(file)
 
 	// Set sprite
 	auto varSprite = file->getVariableByName("Sprite");
-	if(varSprite != nullptr)
-	{ 
+	if (varSprite != nullptr)
+	{
 		std::string spr = varSprite->toString(0);
 		auto x = GameAssetsManager::getSprite(spr);
 		if (x == nullptr)
@@ -53,8 +51,8 @@ Prop::Prop(TextElement * file) : Damageable(file)
 
 	//Set sprite offset
 	auto sproff = file->getVariableByName("Sprite_offest");
-	if(sproff!= nullptr)
-	{ 
+	if (sproff != nullptr)
+	{
 		sf::Vector2f spriteoffset;
 		spriteoffset.x = sproff->toFloat(0);
 		spriteoffset.y = sproff->toFloat(1);
@@ -62,7 +60,6 @@ Prop::Prop(TextElement * file) : Damageable(file)
 	}
 	else sprite.attachToEntity(this);
 }
-
 
 Prop::~Prop()
 {
@@ -93,10 +90,8 @@ bool Prop::bulletCollision(Bullet * bullet)
 		// do line interesct here
 	}
 
-
 	if (intersects)
 	{
-
 		int damage = bullet->getDamage();
 		bullet->decreaseDamage(getHealth());
 		this->damage(damage);
@@ -105,7 +100,7 @@ bool Prop::bulletCollision(Bullet * bullet)
 		{
 			bullet->correctBulletPositionAfterDestroy(collisionBox);
 		}
-		
+
 		return true;
 	}
 	return false;

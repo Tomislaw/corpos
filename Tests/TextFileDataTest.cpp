@@ -43,8 +43,6 @@ namespace Tests
 			auto var = element->getVariableByName("v1");
 			Assert::AreEqual(var->toFloat(0), 0.5f);
 			Assert::AreEqual(var->toInt(1), 5);
-
-
 		}
 
 		TEST_METHOD(findElement)
@@ -64,10 +62,8 @@ namespace Tests
 
 			auto b = file.getFirstElementByName("element2");
 
-			Assert::AreEqual(true, b==nullptr);
-
+			Assert::AreEqual(true, b == nullptr);
 		}
-
 
 		TEST_METHOD(replaceElement)
 		{
@@ -97,10 +93,8 @@ namespace Tests
 
 			auto var = element->getVariableByName("v1");
 
-
 			Assert::AreEqual(var->toFloat(0), 0.5f);
 			Assert::AreEqual(var->toInt(1), 5);
-
 		}
 	};
 }

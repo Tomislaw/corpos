@@ -1,14 +1,13 @@
 #include "MapView.h"
 #include "options.h"
 
-
 MapView::MapView(QWidget * Parent, const QPoint & Position, const QSize & Size) : QSFMLCanvas(Parent, Position, Size)
 {
 	setMinimumSize(800, 800);
 	worldmap.getFunctionGetTexture() = std::bind(&GameDataHolder::getTexture, GameDataHolder::getInstance(), std::placeholders::_1);
 
 	selectRectangle.setPointCount(4);
-	selectRectangle.setOutlineColor(sf::Color(200,0,0,200));
+	selectRectangle.setOutlineColor(sf::Color(200, 0, 0, 200));
 	selectRectangle.setFillColor(sf::Color(100, 0, 0, 100));
 	selectRectangle.setOutlineThickness(2);
 	selectRectangle.setPosition(0, 0);
@@ -17,7 +16,6 @@ MapView::MapView(QWidget * Parent, const QPoint & Position, const QSize & Size) 
 MapView::~MapView()
 {
 }
-
 
 void MapView::OnInit()
 {
@@ -28,8 +26,6 @@ void MapView::OnUpdate()
 {
 	// Clear screen
 	clear(sf::Color(0, 128, 0));
-
-
 
 	// Draw it
 	worldmap.drawBackground(*this);
@@ -66,19 +62,16 @@ void MapView::OnUpdate()
 			pos.y -= 32;
 		}
 
-
 		//set select rectangle
 		selectRectangle.setPoint(0, pos2);
 
 		selectRectangle.setPoint(1, sf::Vector2f(pos.x, selectRectangle.getPoint(0).y));
 		selectRectangle.setPoint(2, pos);
-		selectRectangle.setPoint(3, sf::Vector2f( selectRectangle.getPoint(0).x, pos.y ));
+		selectRectangle.setPoint(3, sf::Vector2f(selectRectangle.getPoint(0).x, pos.y));
 
 		this->draw(selectRectangle);
 	}
-	
 }
-
 
 void MapView::onResize()
 {
@@ -89,11 +82,8 @@ void MapView::onResize()
 	update();
 }
 
-
 void MapView::loadMap(std::string mapLocation)
 {
-
-
 	TextFileData file;
 	file.loadFile(mapLocation);
 	auto tm = file.getFirstElementByName("TILEMAP");
@@ -104,7 +94,7 @@ void MapView::loadMap(std::string mapLocation)
 void MapView::createMap(int x, int y)
 {
 	worldmap.loadTileset(Options::tilesetLocation);
-	worldmap.createMap(x,y);
+	worldmap.createMap(x, y);
 }
 
 void MapView::setMapName(std::string name)
@@ -114,11 +104,10 @@ void MapView::setMapName(std::string name)
 
 void MapView::setTileAtMousePosition(std::string tileset, std::string tile)
 {
-
 	if (tile == "")return;
 
 	TileDefinition* t = nullptr;
-	if (!((tile == "0" || tile == "air") &&tileset == ""))
+	if (!((tile == "0" || tile == "air") && tileset == ""))
 	{
 		t = worldmap.getTileDefinition(tile, tileset);
 	}
@@ -128,9 +117,9 @@ void MapView::setTileAtMousePosition(std::string tileset, std::string tile)
 	auto id = worldmap.getTileId(pos);
 
 	if (id.x < 0 || id.y < 0)return;
-	worldmap.setTile(t,id.x,id.y);
-	worldmap.refreashTile(id.x,id.y);
-	worldmap.refreashNearTiles(id.x,id.y);
+	worldmap.setTile(t, id.x, id.y);
+	worldmap.refreashTile(id.x, id.y);
+	worldmap.refreashNearTiles(id.x, id.y);
 	worldmap.refreashBackgroundTile(id.x, id.y);
 	//worldmap.
 	update();
@@ -143,7 +132,6 @@ void MapView::startDrawingSelection()
 	auto pos = this->mapPixelToCoords(mousepos);
 	auto id = worldmap.getTileId(pos);
 	startingSelectionTile = id;
-
 }
 
 void MapView::createTilesAtSelectedArea(std::string tileset, std::string tile)
@@ -181,16 +169,14 @@ void MapView::createTilesAtSelectedArea(std::string tileset, std::string tile)
 		for (int y = startid.y; y <= endId.y; y++)
 		{
 			if (x < 0 || y < 0)continue;
-			worldmap.setTile(t,x,y);
+			worldmap.setTile(t, x, y);
 			worldmap.refreashTile(x, y);
 			worldmap.refreashBackgroundTile(x, y);
 		}
 	}
 
-
 	//worldmap.
 	update();
-
 }
 
 bool MapView::saveToFile(std::string location)

@@ -4,23 +4,20 @@
 SpriteBrowser::SpriteBrowser(QWidget *parent)
 	: QWidget(parent)
 {
-
 	ui.setupUi(this);
 	loadSprites();
 	view = new SpriteView(ui.widgetSFML, QPoint(), QSize());
-	
+
 	//Timer setup
 	timerInterval = 50;
 	animationTimer.setInterval(timerInterval);
 	connect(&animationTimer, SIGNAL(timeout()), this, SLOT(timerUpdate()));
 	//animationTimer.start();
-	
 }
 
 SpriteBrowser::~SpriteBrowser()
 {
 	//delete view;
-
 }
 
 void SpriteBrowser::loadSprites()
@@ -38,7 +35,7 @@ void SpriteBrowser::loadSprites()
 	}
 	this->ui.listSprites->clear();
 	spritesIdList.clear();
-	for (int i = 0; i < list->size();i++)
+	for (int i = 0; i < list->size(); i++)
 	{
 		this->ui.listSprites->addItem(QString::fromStdString(list->at(i).getName()));
 		spritesIdList.push_back(i);
@@ -49,17 +46,17 @@ void SpriteBrowser::loadSprites()
 
 void SpriteBrowser::spriteSelected(int id)
 {
-	if(sfmlInitialized==false)
-	{ 
-	onResize();
-	sfmlInitialized = true;
+	if (sfmlInitialized == false)
+	{
+		onResize();
+		sfmlInitialized = true;
 	}
 	if (id < 0)return;
 	else
 	{
 		int spriteId = spritesIdList.at(id);
 		this->selectedSprite = GameSprite(GameDataHolder::getInstance()->getSpriteList()->at(spriteId));
-		
+
 		auto anims = &selectedSprite.getAnimationSheet();
 		this->ui.listAnimations->clear();
 		for (size_t i = 0; i < anims->size(); i++)
@@ -87,24 +84,21 @@ void SpriteBrowser::animationSelected(int id)
 	{
 		this->ui.labelAnimationInfo->setText("<<info>>");
 		this->ui.sliderFrame->setRange(0, 0);
-		
 	}
 	else
 	{
-
-
 		auto anims = &selectedSprite.getAnimationSheet();
 		auto a = anims->at(id);
 		this->ui.labelAnimationInfo->setText(QString::fromStdString(a.toString()));
 		selectedSprite.SetAnimation(a.GetName());
 		view->update();
-		this->ui.sliderFrame->setRange(0,a.getFrameCount()-1);
+		this->ui.sliderFrame->setRange(0, a.getFrameCount() - 1);
 	}
 }
 
 void SpriteBrowser::timerUpdate()
 {
-	selectedSprite.update(timerInterval/1000);
+	selectedSprite.update(timerInterval / 1000);
 	if (selectedSprite.getCurrentAnimation() != nullptr)
 	{
 		this->ui.sliderFrame->setSliderPosition(selectedSprite.getCurrentAnimation()->getCurrentFrameId());
@@ -114,17 +108,15 @@ void SpriteBrowser::timerUpdate()
 		this->ui.sliderFrame->setSliderPosition(0);
 	}
 	view->update();
-
 }
 
 void SpriteBrowser::timerStart()
 {
 	if (selectedSprite.getCurrentAnimation() == nullptr)return;;
-	if(selectedSprite.getCurrentAnimation()->is_finished())
+	if (selectedSprite.getCurrentAnimation()->is_finished())
 		selectedSprite.getCurrentAnimation()->reset();
 
 	animationTimer.start();
-
 }
 
 void SpriteBrowser::timerStop()
@@ -136,7 +128,6 @@ void SpriteBrowser::sliderChanged(int i)
 {
 	if (selectedSprite.getCurrentAnimation() != nullptr)
 	{
-		
 		selectedSprite.SetRectangle(selectedSprite.getCurrentAnimation()->getRectangle(i));
 		view->update();
 	}
@@ -145,7 +136,7 @@ void SpriteBrowser::sliderChanged(int i)
 void SpriteBrowser::sizeSliderChanged(int current)
 {
 	float size = (int)current;
-	size = size/50;
+	size = size / 50;
 	view->setViewSize(size);
 	view->update();
 }
@@ -178,7 +169,6 @@ void SpriteBrowser::animationSpeedChanged()
 		this->ui.buttonSetSpeed->setText("x0.5");
 		timerInterval = 25;
 	}
-	
 }
 
 void SpriteBrowser::onResize()
@@ -208,11 +198,11 @@ void SpriteBrowser::filterChanged(QString str)
 	this->ui.listSprites->clear();
 	spritesIdList.clear();
 
-	for (int i = 0; i < list->size();i++)
+	for (int i = 0; i < list->size(); i++)
 	{
 		std::string name = list->at(i).getName();
 		std::transform(name.begin(), name.end(), name.begin(), ::tolower);
-		if (name.find(str.toLower().toStdString())!=-1) {
+		if (name.find(str.toLower().toStdString()) != -1) {
 			this->ui.listSprites->addItem(QString::fromStdString(list->at(i).getName()));
 			spritesIdList.push_back(i);
 		}
@@ -224,5 +214,3 @@ void SpriteBrowser::resizeEvent(QResizeEvent *e)
 	QWidget::resizeEvent(e);
 	onResize();
 }
-
-

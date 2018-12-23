@@ -29,7 +29,6 @@ namespace Tests
 		Tile air2;
 		Tile * getTileFast(sf::Vector2i v)
 		{
-
 			//mimic real get tile function
 			int value = 0;
 			if (v.x < 0 || v.y < 0 || v.x > 9 || v.y > 9)value = 0;
@@ -42,7 +41,6 @@ namespace Tests
 		Tile * getTile(sf::Vector2i v)
 		{
 			Tile air;
-
 
 			TileDefinition d;
 			d.is_blocking = true;
@@ -68,8 +66,6 @@ namespace Tests
 				return &block;
 			else
 				return &air;
-
-			
 		}
 		TEST_METHOD(canWalkToTile)
 		{
@@ -90,7 +86,6 @@ namespace Tests
 			node.x = 1, node.y = 8;
 			Assert::AreEqual(false, node.canWalkToTile(2, 8));
 
-
 			data.characterWidth = 2;
 			node.setCharacterData(&data);
 
@@ -106,7 +101,6 @@ namespace Tests
 			node.x = 6, node.y = 2;
 			Assert::AreEqual(true, node.canWalkToTile(7, 3));
 
-
 			data.characterWidth = 3;
 			node.setCharacterData(&data);
 
@@ -118,9 +112,6 @@ namespace Tests
 			node.x = 2, node.y = 8;
 			Assert::AreEqual(true, node.canWalkToTile(3, 8));
 			WriteLine("test completed positive");
-
-
-
 		}
 		TEST_METHOD(canMoveToTile)
 		{
@@ -129,7 +120,6 @@ namespace Tests
 			NavigationNodeCharacterData data;
 			data.characterWidth = 1;
 			data.characterHeight = 3;
-			
 
 			NavigationNode node;
 			node.setFunctionGetTile(std::bind(&NavigationNodeTest::getTile, this, std::placeholders::_1));
@@ -161,17 +151,13 @@ namespace Tests
 			Assert::AreEqual(true, node.canMoveToTile(2, 8));
 			WriteLine("test3");
 			Assert::AreEqual(true, node.canMoveToTile(7, 3));
-
 		}
-		
-
 
 		TEST_METHOD(canMoveToTile_Speedtestx500)
 		{
 			NavigationNodeCharacterData data;
 			data.characterWidth = 3;
 			data.characterHeight = 3;
-
 
 			NavigationNode node;
 			node.setFunctionGetTile(std::bind(&NavigationNodeTest::getTileFast, this, std::placeholders::_1));
@@ -189,7 +175,6 @@ namespace Tests
 			{
 				Assert::AreEqual(true, node.canMoveToTile(2, 8));
 			}
-			
 		}
 
 		TEST_METHOD(canWalkToTile_Speedtestx500)
@@ -198,7 +183,6 @@ namespace Tests
 			data.characterWidth = 3;
 			data.characterHeight = 3;
 
-
 			NavigationNode node;
 			node.setFunctionGetTile(std::bind(&NavigationNodeTest::getTileFast, this, std::placeholders::_1));
 			node.setCharacterData(&data);
@@ -215,8 +199,6 @@ namespace Tests
 			{
 				Assert::AreEqual(false, node.canWalkToTile(2, 8));
 			}
-
 		}
-
 	};
 }

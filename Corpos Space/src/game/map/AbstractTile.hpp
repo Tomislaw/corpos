@@ -39,15 +39,13 @@ public:
 	std::shared_ptr<TileDefinition> getTileDefinitionPtr() { return definition; };
 	const TileDefinition & getTileDefinition() { return *definition.get(); };
 	std::weak_ptr<TileDefinition> getBackgroundTileDefinition() { return definition->backgroundTileDefinition; }
-		
 
 	sf::Vector2i getId() { return id; };
 	sf::Vector2f getPosition()
 	{
-		return sf::Vector2f(id.x*TILE_SIZE + TILE_SIZE / 2, 
+		return sf::Vector2f(id.x*TILE_SIZE + TILE_SIZE / 2,
 			id.y*TILE_SIZE + TILE_SIZE / 2);
 	}
-
 
 	//For drawing order
 	bool operator < (AbstractTile& right)
@@ -82,11 +80,11 @@ public:
 
 	void destroy() override;
 
-	private:
+private:
 
 	sf::Vector2i id;
 
-		//flags
+	//flags
 	Flags8 alignTiles = 0;
 
 	unsigned int startingPos;
@@ -98,7 +96,6 @@ public:
 	{
 		return (*array)[id + startingPos];
 	}
-
 };
 
 #endif

@@ -10,7 +10,6 @@ class TextContainer
 {
 public:
 
-
 protected:
 	static TextContainer* instance;
 	TextContainer();
@@ -23,7 +22,5 @@ public:
 	sf::Font & getBasicFont();
 private:
 	sf::Font basicFont;
-
 };
 #endif
-

@@ -53,5 +53,3 @@ void QSFMLCanvas::paintEvent(QPaintEvent*)
 }
 void QSFMLCanvas::OnInit() {}
 void QSFMLCanvas::OnUpdate() {}
-
-

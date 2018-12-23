@@ -8,7 +8,6 @@ GameAssetsManager::GameAssetsManager()
 	loadDefaultResources();
 }
 
-
 GameAssetsManager * GameAssetsManager::getInstance()
 {
 	if (instance == 0)
@@ -34,7 +33,6 @@ void GameAssetsManager::loadTextures(std::string location)
 
 	Logger::i("Found " + std::to_string(textures_list.size()) + " textures");
 
-
 	for (int i = 0; i < textures_list.size(); i++)
 	{
 		// Get location of texture
@@ -44,7 +42,6 @@ void GameAssetsManager::loadTextures(std::string location)
 			Logger::e("Texture definition " + std::to_string(i) + " in " + location + " missing path!");
 			continue;
 		}
-
 
 		// get name of texture
 		auto varName = textures_list[i]->getVariableByName("Name");
@@ -66,9 +63,7 @@ void GameAssetsManager::loadTextures(std::string location)
 		getInstance()->textures.insert_or_assign(varName->toString(0), texture);
 	}
 
-
-
-	return ;
+	return;
 }
 
 void GameAssetsManager::loadSprites(std::string location)
@@ -88,7 +83,7 @@ void GameAssetsManager::loadSprites(std::string location)
 			continue;
 		}
 		GameSprite sprite(*t, entities.at(i));
-		getInstance()->gameSprites.insert_or_assign(n,sprite);
+		getInstance()->gameSprites.insert_or_assign(n, sprite);
 	}
 }
 
@@ -96,8 +91,8 @@ sf::Texture * GameAssetsManager::getTexture(std::string texture)
 {
 	std::map<std::string, sf::Texture>::iterator i = getInstance()->textures.find(texture);
 
-	if (i == getInstance()->textures.end()) 
-	{ 
+	if (i == getInstance()->textures.end())
+	{
 		Logger::e("Failed to get texture \"" + texture + "\"");
 		return &getInstance()->textures["default"];
 	}
@@ -118,15 +113,15 @@ GameSprite * GameAssetsManager::getSprite(std::string sprite)
 
 void GameAssetsManager::loadDefaultResources()
 {
-		HRSRC resBlock = FindResource(NULL, MAKEINTRESOURCE(IDB_PNG1), L"PNG");
-		HGLOBAL myGlobal = LoadResource(NULL, resBlock);
-		LPVOID firstByte = LockResource(myGlobal);
-		DWORD resSize = SizeofResource(NULL, resBlock);
-		sf::Texture defaultTexture;
-		defaultTexture.loadFromMemory(firstByte, resSize);
-		textures.insert_or_assign("default", defaultTexture);
+	HRSRC resBlock = FindResource(NULL, MAKEINTRESOURCE(IDB_PNG1), L"PNG");
+	HGLOBAL myGlobal = LoadResource(NULL, resBlock);
+	LPVOID firstByte = LockResource(myGlobal);
+	DWORD resSize = SizeofResource(NULL, resBlock);
+	sf::Texture defaultTexture;
+	defaultTexture.loadFromMemory(firstByte, resSize);
+	textures.insert_or_assign("default", defaultTexture);
 
-		//GameSprite defaultSprite;
-		//defaultSprite.SetTexture(*getTexture("default"));
-		//gameSprites.insert_or_assign("default", defaultSprite);
+	//GameSprite defaultSprite;
+	//defaultSprite.SetTexture(*getTexture("default"));
+	//gameSprites.insert_or_assign("default", defaultSprite);
 }

@@ -1,4 +1,3 @@
-
 #ifndef ENTITY_HPP
 #define ENTITY_HPP
 #include "SFML/Graphics.hpp"
@@ -25,7 +24,6 @@ public:
 	virtual void update(float delta_time);
 	// draw it - this class dont have anything to draw
 	virtual void draw(sf::RenderTarget &window) {};
-
 
 	virtual void drawDebugData(sf::RenderTarget &window);
 	// set position

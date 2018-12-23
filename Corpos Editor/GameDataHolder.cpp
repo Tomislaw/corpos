@@ -1,12 +1,10 @@
 #include "GameDataHolder.h"
 #include "options.h"
 
-GameDataHolder* GameDataHolder::instance= nullptr;
+GameDataHolder* GameDataHolder::instance = nullptr;
 GameDataHolder::GameDataHolder()
 {
 }
-
-
 
 GameDataHolder * GameDataHolder::getInstance()
 {
@@ -27,7 +25,6 @@ GameDataHolder::~GameDataHolder()
 void GameDataHolder::loadTextures()
 {
 	std::string location = Options::textureLocation;
-	
 
 	TextFileData file;
 	file.loadFile(location);
@@ -44,8 +41,6 @@ void GameDataHolder::loadTextures()
 		texture_names.push_back((textures_list[i]->getVariableByName("Name")->var[0]));
 	}
 	textureArraySize = textures_list.size();
-
-
 }
 
 sf::Texture * GameDataHolder::getTexture(std::string texture)
@@ -55,7 +50,7 @@ sf::Texture * GameDataHolder::getTexture(std::string texture)
 		Logger::e("Can't find any texture");
 		return nullptr;
 	}
-	for (int i = 0; i < textureArraySize;i++)
+	for (int i = 0; i < textureArraySize; i++)
 	{
 		if (texture_names[i] == texture)return &this->texture[i];
 	}

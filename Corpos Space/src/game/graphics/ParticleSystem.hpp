@@ -33,7 +33,6 @@ private:
 	sf::VertexArray vertices;
 	size_t lastVertice = 0;
 	float particeLifetime = 5; // in seconds
-	
 };
 
 #endif

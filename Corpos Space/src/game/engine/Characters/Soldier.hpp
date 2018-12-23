@@ -7,7 +7,6 @@
 // Humanoid character type
 // Using weapon and multiple sprite parts
 
-
 class Soldier :
 	public Character
 {
@@ -34,7 +33,6 @@ public:
 protected:
 	//set animation, walking, shooting and other
 	void setAnimation() override;
-
 
 private:
 
@@ -68,4 +66,3 @@ private:
 	sf::Vector2f weaponOffset;
 };
 #endif
-

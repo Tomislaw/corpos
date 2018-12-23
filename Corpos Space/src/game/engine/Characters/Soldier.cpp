@@ -3,17 +3,11 @@
 #include "game\engine\EntityList.hpp"
 #include "game\engine\logic\ai\AiBasic.hpp"
 
-
-
-
-
 //Main constructor TODO: add null pointer handling
 
 Soldier::Soldier(TextElement * data, EntityList * ptr) : Character(data, ptr), test(ptr, Bullet("bullet_blue", 150, sf::Vector2f(), sf::Vector2f(0, 50)))
 {
-
 	ai = std::unique_ptr<AiBasic>(new AiBasic(*this));
-
 }
 
 Soldier::~Soldier()
@@ -36,7 +30,7 @@ bool Soldier::setCharacter(TextElement * element)
 
 		//Set offset of that part
 		auto var1 = element->getVariableByName("HeadPos");
-		if(var1!=nullptr)
+		if (var1 != nullptr)
 			headOffset = sf::Vector2f(var1->toFloat(0), var1->toFloat(1));
 		this->head.attachToEntityOffset(this, headOffset);
 	}
@@ -95,9 +89,8 @@ bool Soldier::setCharacter(TextElement * element)
 	//TODO: make weapon
 	weapontest = GameSprite(*GameAssetsManager::getSprite("testweapon1"));
 	weaponOrigin = weapontest.GetSprite().getOrigin();
-	weaponOffset = sf::Vector2f(1,20);
+	weaponOffset = sf::Vector2f(1, 20);
 	this->weapontest.attachToEntityOffset(this, weaponOffset);
-
 
 	test.attachToEntity(&weapontest);
 	return true;
@@ -126,8 +119,6 @@ void Soldier::update(float timew)
 	head.update(timew);
 	weapontest.update(timew);
 	test.update(timew);
-	
-
 }
 
 void Soldier::aim(sf::Vector2f pos)
@@ -137,7 +128,7 @@ void Soldier::aim(sf::Vector2f pos)
 	float headangle = atan2(head.getPosition().y - pos.y, head.getPosition().x - pos.x) * 180 / 3.14;
 	float armangle = atan2(lhand.getPosition().y - pos.y, lhand.getPosition().x - pos.x) * 180 / 3.14;
 	float weaponangle = atan2(weapontest.getPosition().y - pos.y, weapontest.getPosition().x - pos.x) * 180 / 3.14;
-	if (pos.x> getPosition().x)isTurnedLeft = false;
+	if (pos.x > getPosition().x)isTurnedLeft = false;
 	else isTurnedLeft = true;
 	if (!isTurnedLeft)
 	{
@@ -147,7 +138,7 @@ void Soldier::aim(sf::Vector2f pos)
 
 		if (headangle > 70 && headangle < 250)headangle = 70;
 		if (headangle < 325 && headangle > 90)headangle = 325;
-		if (armangle > 180)armangle -= (360-armangle)*0.6;
+		if (armangle > 180)armangle -= (360 - armangle)*0.6;
 	}
 	else
 	{
@@ -182,7 +173,6 @@ void Soldier::special(unsigned int type)
 
 void Soldier::setAnimation()
 {
-	
 	//Character::setAnimation();
 	if (walk_speed.x == 0 && velocity.y == 0)
 	{
@@ -232,16 +222,16 @@ void Soldier::setAnimation()
 		lhand.GetSprite().setOrigin(lhand.GetSprite().getLocalBounds().width - lhandOrigin.x, lhandOrigin.y);
 		legs.GetSprite().setOrigin(legs.GetSprite().getLocalBounds().width - legsOrigin.x, legsOrigin.y);
 
-		int x = - lhandOffset.x;
-		lhand.setAttachOffset(sf::Vector2f(x,lhandOffset.y));
+		int x = -lhandOffset.x;
+		lhand.setAttachOffset(sf::Vector2f(x, lhandOffset.y));
 
-		x = - torseOffset.x;
+		x = -torseOffset.x;
 		torse.setAttachOffset(sf::Vector2f(x, torseOffset.y));
 
-		x = - headOffset.x;
+		x = -headOffset.x;
 		head.setAttachOffset(sf::Vector2f(x, headOffset.y));
 
-		x = - legsOffset.x;
+		x = -legsOffset.x;
 		legs.setAttachOffset(sf::Vector2f(x, legsOffset.y));
 
 		weapontest.SetAnimation("left");

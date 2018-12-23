@@ -37,11 +37,10 @@ void OptionsForms::browseGameExe()
 	if (GetOpenFileName(&ofn))
 	{
 		ui.gameExeLineText->setText(QString::fromStdWString(filename));
-	
 	}
 	else
 	{
-		// All this stuff below is to tell you exactly how you messed up above. 
+		// All this stuff below is to tell you exactly how you messed up above.
 		// Once you've got that fixed, you can often (not always!) reduce it to a 'user cancelled' assumption.
 		switch (CommDlgExtendedError())
 		{

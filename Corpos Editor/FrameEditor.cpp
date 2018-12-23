@@ -9,8 +9,6 @@
 #include <QDir>
 FrameEditor::FrameEditor(QWidget* Parent, const QPoint& Position, const QSize& Size) : QSFMLCanvas(Parent, Position, Size)
 {
-	
-
 	textureVertex.resize(4);
 	textureVertex.setPrimitiveType(sf::PrimitiveType::Quads);
 	frameVertex.resize(5);
@@ -49,15 +47,11 @@ void FrameEditor::OnUpdate()
 
 	frameVertex.setPrimitiveType(sf::PrimitiveType::Points);
 	draw(frameVertex);
-
 }
-
 
 void FrameEditor::onResize()
 {
-
 	//centerView();
-
 }
 
 void FrameEditor::setViewSize(float size)
@@ -107,7 +101,6 @@ void FrameEditor::setFrame(sf::IntRect frame)
 	lastMoveFrame = sf::Vector2f();
 	update();
 	emit frameChanged(frame);
-
 }
 
 void FrameEditor::moveFrame(sf::Vector2f move)
@@ -119,8 +112,8 @@ void FrameEditor::moveFrame(sf::Vector2f move)
 
 	if (moveX == 0 && moveY == 0)return;
 
-	lastMoveFrame.x-= moveX;
-	lastMoveFrame.y-= moveY;
+	lastMoveFrame.x -= moveX;
+	lastMoveFrame.y -= moveY;
 
 	frame.left += moveX;
 	frame.top += moveY;
@@ -132,7 +125,6 @@ void FrameEditor::moveFrame(sf::Vector2f move)
 
 	update();
 	emit frameChanged(frame);
-
 }
 
 void FrameEditor::centerView()
@@ -141,9 +133,6 @@ void FrameEditor::centerView()
 	this->setView(view);
 	update();
 }
-
-
-
 
 void FrameEditor::mouseMoveEvent(QMouseEvent * e)
 {
@@ -177,7 +166,6 @@ void FrameEditor::mousePressEvent(QMouseEvent * e)
 {
 	if (e->button() == Qt::RightButton)
 	{
-
 		lastRightMousePos.x = e->x();
 		lastRightMousePos.y = e->y();
 		isRightMouseMoving = true;
@@ -186,11 +174,10 @@ void FrameEditor::mousePressEvent(QMouseEvent * e)
 	{
 		isLefttMouseMoving = true;
 		auto pos = this->mapPixelToCoords(sf::Mouse::getPosition(*this));
-		if (! frame.contains(sf::Vector2i(pos.x, pos.y)))return;
+		if (!frame.contains(sf::Vector2i(pos.x, pos.y)))return;
 		lastLeftMousePos.x = e->x();
 		lastLeftMousePos.y = e->y();
 		isMovingFrame = true;
-		
 	}
 	//e->accept();
 }
@@ -213,7 +200,7 @@ void FrameEditor::mouseReleaseEvent(QMouseEvent * e)
 
 void FrameEditor::wheelEvent(QWheelEvent * e)
 {
-	if (!((size < 0.2 &&  e->angleDelta().y()<0) || (size >= 4) && e->angleDelta().y()>0))
+	if (!((size < 0.2 &&  e->angleDelta().y() < 0) || (size >= 4) && e->angleDelta().y() > 0))
 		size += e->angleDelta().y() / 1000.f;
 	else return;
 	if (size < 0.2)size = 0.16;

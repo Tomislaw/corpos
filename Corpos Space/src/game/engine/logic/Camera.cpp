@@ -1,7 +1,5 @@
 #include "Camera.hpp"
 
-
-
 Camera::Camera()
 {
 }
@@ -12,14 +10,12 @@ Camera::Camera(sf::IntRect bounds, Entity * target)
 	this->target = target;
 }
 
-
 Camera::~Camera()
 {
 }
 
 void Camera::setForegroundView(sf::RenderTarget & target)
 {
-
 	camera.setSize(sf::Vector2f(target.getSize()));
 
 	if (this->target == nullptr)
@@ -33,7 +29,6 @@ void Camera::setForegroundView(sf::RenderTarget & target)
 	position.y = (int)this->target->getPosition().y;
 	camera.setCenter(position);
 
-	
 	camera.setCenter(position);
 	target.setView(camera);
 }

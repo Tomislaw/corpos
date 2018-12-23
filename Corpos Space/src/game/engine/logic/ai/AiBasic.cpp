@@ -2,9 +2,6 @@
 #include "game\map\Tilemap.h"
 #include "game\engine\EntityList.hpp"
 
-
-
-
 AiBasic::AiBasic(Character & character) : character(character)
 {
 	entityListPtr = character.getEntityListPtr();
@@ -31,8 +28,6 @@ void AiBasic::update(float delta)
 				node = &path.front();
 			}
 		}
-		
-		
 
 		node->timeSpend -= delta;
 		//clear queue if reaching takes too much time
@@ -60,8 +55,8 @@ void AiBasic::update(float delta)
 			else
 			{
 				float xpos = character.getCenteredPosition().x + character.getVelocity().x * delta * 10;
-				if(xpos < node->coordinates.x * 32)character.walkRight();
-				else if (xpos > node->coordinates.x * 32 +32 )character.walkLeft();
+				if (xpos < node->coordinates.x * 32)character.walkRight();
+				else if (xpos > node->coordinates.x * 32 + 32)character.walkLeft();
 				else if (character.getStandingTileId().x > node->coordinates.x)
 					character.walkLeft();
 				else if (character.getStandingTileId().x < node->coordinates.x)
@@ -71,13 +66,12 @@ void AiBasic::update(float delta)
 		case AStar::Node::FALL:
 		case AStar::Node::AFTER_JUMP:
 
-				if (character.getStandingTileId().x > node->coordinates.x)
-					character.walkLeft();
-				else if (character.getStandingTileId().x < node->coordinates.x)
-					character.walkRight();
+			if (character.getStandingTileId().x > node->coordinates.x)
+				character.walkLeft();
+			else if (character.getStandingTileId().x < node->coordinates.x)
+				character.walkRight();
 
 			break;
-
 
 		case NavNode::JUMP:
 			if (character.isJumping() || character.isStanding())
@@ -91,8 +85,6 @@ void AiBasic::update(float delta)
 				{
 					character.walkRight();
 				}
-
-
 			}
 
 			character.jump();
@@ -102,10 +94,6 @@ void AiBasic::update(float delta)
 			//navigationNodes.p
 			break;
 		}
-		
-
-
-
 	}
 }
 
@@ -115,8 +103,6 @@ AiBasic::~AiBasic()
 
 void AiBasic::drawDebugData(sf::RenderTarget & target)
 {
-
-
 	if (path.empty())return;
 
 	if (isInitialized == false)
@@ -126,8 +112,7 @@ void AiBasic::drawDebugData(sf::RenderTarget & target)
 		isInitialized = true;
 		entityDebugText.setCharacterSize(6);
 	}
-	
-	
+
 	sf::VertexArray line(sf::LinesStrip, 2);
 
 	auto starttile = character.getStandingTileId();
@@ -175,162 +160,143 @@ void AiBasic::drawDebugData(sf::RenderTarget & target)
 		target.draw(entityDebugText);
 
 		line[0].position = line[1].position;
-
 	}
 }
 
 void AiBasic::getPath(sf::Vector2i tile)
 {
-		AStar::Node startNode(character.getStandingTileId());
+	AStar::Node startNode(character.getStandingTileId());
+
+	if (character.getNavigationNodeCharacterData().isFlyingOne)
+	{
+		startNode.type = AStar::Node::FLY;
+	}
+	else
+	{
+		if (!character.isStanding())return;
+
+		startNode.type = AStar::Node::WALK;
+	}
+
+	path = pathfind.findPath(startNode, tile);
+
+	return;
+
+	/*std::vector<sf::Vector2i> path;
+
+	auto tilePtr = character.getTilemapPtr();
+	if (tilePtr == nullptr)return;
+
+	auto getTile = [&](sf::Vector2i id) { return tilePtr->getTile(id); };
+
+	unsigned int SearchCount = 0;
+
+	const unsigned int NumSearches = 1;
+
+	while (SearchCount < NumSearches)
+	{
+		// Create a start state
+		NavigationNode nodeStart;
+		nodeStart.x = character.getStandingTileId().x;
+		nodeStart.y = character.getStandingTileId().y;
+		nodeStart.setCharacterData(&character.getNavigationNodeCharacterData());
+		nodeStart.setFunctionGetTile(std::bind(getTile, std::placeholders::_1));
 
 		if (character.getNavigationNodeCharacterData().isFlyingOne)
 		{
-			startNode.type = AStar::Node::FLY;
+			nodeStart.type = NavigationNode::FLY;
 		}
 		else
 		{
 			if (!character.isStanding())return;
 
-			startNode.type = AStar::Node::WALK;
-
+			nodeStart.type = NavigationNode::WALK;
 		}
 
+		// Define the goal state
+		NavigationNode nodeEnd;
+		nodeEnd.x = tile.x;
+		nodeEnd.y = tile.y;
+		nodeEnd.type = NavigationNode::WALK;
+		nodeEnd.setCharacterData(&character.getNavigationNodeCharacterData());
+		nodeEnd.setFunctionGetTile(std::bind(getTile, std::placeholders::_1));
 
-		path = pathfind.findPath(startNode, tile);
-
-
-		return;
-
-		/*std::vector<sf::Vector2i> path;
-
-
-		auto tilePtr = character.getTilemapPtr();
-		if (tilePtr == nullptr)return;
-
-		auto getTile = [&](sf::Vector2i id) { return tilePtr->getTile(id); };
-
-		unsigned int SearchCount = 0;
-
-		const unsigned int NumSearches = 1;
-
-		while (SearchCount < NumSearches)
+		if (!nodeEnd.canMoveToTile(tile.x, tile.y))
 		{
+			std::cout << "Cant fit here" << std::endl;
+			return;
+		}
 
-			// Create a start state
-			NavigationNode nodeStart;
-			nodeStart.x = character.getStandingTileId().x;
-			nodeStart.y = character.getStandingTileId().y;
-			nodeStart.setCharacterData(&character.getNavigationNodeCharacterData());
-			nodeStart.setFunctionGetTile(std::bind(getTile, std::placeholders::_1));
+		// Set Start and goal states
 
+		astarsearch.SetStartAndGoalStates(nodeStart, nodeEnd);
 
-			if (character.getNavigationNodeCharacterData().isFlyingOne)
+		unsigned int SearchState;
+		unsigned int SearchSteps = 0;
+
+		do
+		{
+			SearchState = astarsearch.SearchStep();
+
+			SearchSteps++;
+		} while (SearchState == AStarSearch<NavigationNode>::SEARCH_STATE_SEARCHING);
+
+		if (SearchState == AStarSearch<NavigationNode>::SEARCH_STATE_SUCCEEDED)
+		{
+			//	cout << "Search found goal state\n";
+
+			NavigationNode *node = astarsearch.GetSolutionStart();
+
+			int steps = 0;
+
+			//	node->PrintNodeInfo();
+			path.push_back(sf::Vector2i(node->x, node->y));
+
+			for (;; )
 			{
-				nodeStart.type = NavigationNode::FLY;
-			}
-			else
-			{
-				if (!character.isStanding())return;
+				node = astarsearch.GetSolutionNext();
 
-				nodeStart.type = NavigationNode::WALK;
+				if (!node)
+				{
+					break;
+				}
 
-			}
-
-			// Define the goal state
-			NavigationNode nodeEnd;
-			nodeEnd.x = tile.x;
-			nodeEnd.y = tile.y;
-			nodeEnd.type = NavigationNode::WALK;
-			nodeEnd.setCharacterData(&character.getNavigationNodeCharacterData());
-			nodeEnd.setFunctionGetTile(std::bind(getTile, std::placeholders::_1));
-
-			if (!nodeEnd.canMoveToTile(tile.x, tile.y))
-			{
-				std::cout << "Cant fit here" << std::endl;
-				return;
-			}
-
-
-			// Set Start and goal states
-
-			astarsearch.SetStartAndGoalStates(nodeStart, nodeEnd);
-
-			unsigned int SearchState;
-			unsigned int SearchSteps = 0;
-
-			do
-			{
-				SearchState = astarsearch.SearchStep();
-
-				SearchSteps++;
-
-
-
-			} while (SearchState == AStarSearch<NavigationNode>::SEARCH_STATE_SEARCHING);
-
-			if (SearchState == AStarSearch<NavigationNode>::SEARCH_STATE_SUCCEEDED)
-			{
-				//	cout << "Search found goal state\n";
-
-				NavigationNode *node = astarsearch.GetSolutionStart();
-
-				int steps = 0;
-
-				//	node->PrintNodeInfo();
 				path.push_back(sf::Vector2i(node->x, node->y));
 
-				for (;; )
+				node->PrintNodeInfo();
+				int t = 0;
+				if (node->type == NavigationNode::WALK || node->type == NavigationNode::FALL || node->type == NavigationNode::BEFORE_JUMP || node->type == NavigationNode::AFTER_JUMP)
 				{
-					node = astarsearch.GetSolutionNext();
+					addNode(sf::Vector2i(node->x, node->y),NavNode::WALK);
+					navigationNodes.back().debugType = node->type;
+				}
+				else if (node->type == NavigationNode::JUMP)
+				{
+					addNode(sf::Vector2i(node->x, node->y), NavNode::JUMP);
+					navigationNodes.back().debugType = node->type;
+				}
 
-					if (!node)
-					{
-						break;
-					}
+					//node->PrintNodeInfo();
+				steps++;
+			};
 
-					path.push_back(sf::Vector2i(node->x, node->y));
+			//cout << "Solution steps " << steps << endl;
 
-					node->PrintNodeInfo();
-					int t = 0;
-					if (node->type == NavigationNode::WALK || node->type == NavigationNode::FALL || node->type == NavigationNode::BEFORE_JUMP || node->type == NavigationNode::AFTER_JUMP)
-					{
-						addNode(sf::Vector2i(node->x, node->y),NavNode::WALK);
-						navigationNodes.back().debugType = node->type;
-					}
-					else if (node->type == NavigationNode::JUMP)
-					{
-						addNode(sf::Vector2i(node->x, node->y), NavNode::JUMP);
-						navigationNodes.back().debugType = node->type;
-					}
-					
-						//node->PrintNodeInfo();
-					steps++;
-
-				};
-
-				//cout << "Solution steps " << steps << endl;
-
-				// Once you're done with the solution you can free the nodes up
-				astarsearch.FreeSolutionNodes();
-
-
-			}
-			else if (SearchState == AStarSearch<NavigationNode>::SEARCH_STATE_FAILED)
-			{
-				//	cout << "Search terminated. Did not find goal state\n";
-
-			}
-
-			// Display the number of loops the search went through
-			//cout << "SearchSteps : " << SearchSteps << "\n";
-
-			SearchCount++;
-
-			astarsearch.EnsureMemoryFreed();
+			// Once you're done with the solution you can free the nodes up
+			astarsearch.FreeSolutionNodes();
+		}
+		else if (SearchState == AStarSearch<NavigationNode>::SEARCH_STATE_FAILED)
+		{
+			//	cout << "Search terminated. Did not find goal state\n";
 		}
 
+		// Display the number of loops the search went through
+		//cout << "SearchSteps : " << SearchSteps << "\n";
 
+		SearchCount++;
 
-		//return path;*/
+		astarsearch.EnsureMemoryFreed();
+	}
 
+	//return path;*/
 }

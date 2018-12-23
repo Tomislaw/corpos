@@ -45,11 +45,11 @@ public:
 		return filter;
 	}
 
-	sf::Vector2f getPreviousPosition() {return previousPosition;}
-	void setPreviousPosition(sf::Vector2f v) {previousPosition = v;}
+	sf::Vector2f getPreviousPosition() { return previousPosition; }
+	void setPreviousPosition(sf::Vector2f v) { previousPosition = v; }
 	float getBulletDefaultSpeed() { return speed; }
 
-	GameSprite getSprite() {return bulletSprite;}
+	GameSprite getSprite() { return bulletSprite; }
 protected:
 	// sprite of bullet
 	GameSprite bulletSprite;
@@ -64,7 +64,7 @@ protected:
 };
 // interface for damagable entities
 // TODO: comment this class
-class Destructable 
+class Destructable
 {
 public:
 	Destructable();
@@ -83,7 +83,6 @@ public:
 	Damageable(TextElement * t);
 	~Damageable();
 
-
 	virtual void damage(int hp);
 	virtual int getHealth();
 	virtual int getMaxHealth();
@@ -91,8 +90,6 @@ public:
 	virtual void setMaxHealth(int health);
 	virtual bool isIndestructable();
 	virtual void setIndestructable(bool is_indestructable);
-
-
 
 	virtual bool bulletCollision(Bullet * bullet) { return false; };
 	////bool checkFilter(int filter)
@@ -105,10 +102,7 @@ protected:
 	int health = 0;
 	int maxHealth = 0;
 
-
 	bool indestructable = false;
 	__int8 damageFilter = -1;
-
-	
 };
 #endif

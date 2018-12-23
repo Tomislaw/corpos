@@ -4,7 +4,6 @@
 #ifndef	MAP_CHUNK_HPP
 #define MAP_CHUNK_HPP
 
-
 class TextureChunk
 {
 public:
@@ -24,7 +23,6 @@ private:
 	std::shared_ptr<sf::VertexArray> foreground;
 	//background
 	std::shared_ptr<sf::VertexArray> background;
-	
 
 	std::string textureName;
 	const sf::Texture* texture;
@@ -38,9 +36,7 @@ private:
 	};
 	std::multiset<std::shared_ptr<AbstractTile >, CustomComparator> tiles;
 	//std::vector<std::shared_ptr<AbstractTile >> tiles;
-
 };
-
 
 class MapChunk
 {

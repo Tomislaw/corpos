@@ -1,10 +1,8 @@
 #include "Game.hpp"
 
-
-
 Game::Game(int argc, char * argv[])
 {
-	sf::Vector2u windowSize(500,500);
+	sf::Vector2u windowSize(500, 500);
 	GameAssetsManager::loadTextures("bin/graphics/textures/texture_definition.txt");
 	GameAssetsManager::loadSprites("bin/graphics/sprite/sprite_definitions.txt");
 	world.loadMap("bin/map/mm.txt");
@@ -12,7 +10,6 @@ Game::Game(int argc, char * argv[])
 	cursor.setCursor();
 	fpsText.setFont(TextContainer::getInstance()->getBasicFont());
 }
-
 
 Game::~Game()
 {
@@ -25,7 +22,6 @@ bool Game::run()
 	sf::RenderWindow w(sf::VideoMode(1000, 1000), "Corpos space");
 	this->window = &w;
 
-
 	long double delta = 0.00;
 	long double frame_time = 0.00;
 
@@ -35,10 +31,8 @@ bool Game::run()
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
 	sf::Time TimePerFrame = sf::seconds(1.f / FPS);
 
-
 	while (w.isOpen())
 	{
-		
 		delta = timeSinceLastUpdate.asSeconds();
 		timeSinceLastUpdate += clock.restart();
 
@@ -46,14 +40,11 @@ bool Game::run()
 		while (window->pollEvent(event))
 		{
 			events(event);
-
 		}
-		
 
 		while (timeSinceLastUpdate > TimePerFrame)
 		{
 			frame_time = delta;
-
 
 			update(delta);
 
@@ -61,14 +52,13 @@ bool Game::run()
 
 			fpscheck.restart();
 
-			if (FpsframeCount <10)
+			if (FpsframeCount < 10)
 			{
 				FpsframeCount += 1;
 				FpsDelta += delta;
 			}
 			else
 			{
-				
 				fpsText.setString(std::to_string((int)(10 / FpsDelta)));
 				FpsframeCount = 0;
 				FpsDelta = 0;
@@ -77,8 +67,6 @@ bool Game::run()
 		}
 
 		fpscheck.restart();
-		
-
 	}
 	Logger::i("Game end ");
 	return 0;
@@ -87,7 +75,6 @@ bool Game::run()
 void Game::update(float delta_time)
 {
 	world.update(delta_time);
-	
 }
 
 void Game::draw()
@@ -98,14 +85,11 @@ void Game::draw()
 	auto view = window->getView();
 	window->setView(window->getDefaultView());
 
-
 	window->setView(view);
 	//
 
-	
 	world.draw(*window);
 	cursor.draw(*window);
-
 
 	//draw hud related items
 	view = window->getView();
@@ -117,14 +101,12 @@ void Game::draw()
 	//
 
 	window->display();
-	
 }
 
 void Game::events(sf::Event event)
 {
 	world.events(event);
 
-		if (event.type == sf::Event::Closed)
-			window->close();
-
+	if (event.type == sf::Event::Closed)
+		window->close();
 }

@@ -14,24 +14,20 @@ For more information visit https://opensource.org/licenses/ISC.
 #include <queue>
 #include "game\engine\Character.hpp"
 
-
 class MapTile;
 
 namespace AStar
 {
-
 	using uint = unsigned int;
 	using HeuristicFunction = std::function<uint(sf::Vector2i, sf::Vector2i)>;
 	using CoordinateList = std::list<sf::Vector2i>;
-	using GetTile = std::function<MapTile*(int x,int y)>;
-	
-
+	using GetTile = std::function<MapTile*(int x, int y)>;
 
 	class Node
 	{
 	public:
 		Node(sf::Vector2i coord_, Node *parent_ = nullptr);
-		Node(int x,int y, Node *parent_ = nullptr);
+		Node(int x, int y, Node *parent_ = nullptr);
 
 		bool isReached(Character & character);
 		bool isSame(Node * node);
@@ -48,8 +44,6 @@ namespace AStar
 
 		// how much time character have left to reach node
 		float timeSpend = 3;
-
-		
 	};
 
 	class NodeCompare_F
@@ -62,7 +56,6 @@ namespace AStar
 		}
 	};
 
-
 	using NodeSet = std::set<Node*>;
 	using NodeDeque = std::deque<Node>;
 	using NodeVector = std::vector<Node*>;
@@ -70,15 +63,12 @@ namespace AStar
 	{
 		//bool detectCollision(sf::Vector2i coordinates_);
 
-
 	public:
 		PathFind();
 		void setHeuristic(HeuristicFunction heuristic_);
 		NodeDeque findPath(Node source_, sf::Vector2i target_);
 		//Check if can still walk this path
 		bool checkPath(NodeDeque & path);
-
-	
 
 		NavigationNodeCharacterData character;
 		static GetTile getTile;

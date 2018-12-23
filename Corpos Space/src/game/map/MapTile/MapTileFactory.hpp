@@ -10,7 +10,7 @@ class MapTileFactory
 public:
 	static MapTile create(std::string & variable, sf::Vector2i & position, std::vector<Tileset> & definitions)
 	{
-		if (variable.size() == 0 || variable == "0" || definitions.size() ==0)
+		if (variable.size() == 0 || variable == "0" || definitions.size() == 0)
 		{
 			return MapTile();
 		}
@@ -59,8 +59,7 @@ private:
 					return;
 				}
 			}
-
-		}		//if using main tileset		
+		}		//if using main tileset
 		else    //{tile_name}
 		{
 			auto def = definitions.front().getTileDefinition(variable);
@@ -74,5 +73,3 @@ private:
 
 	MapTileFactory() {};
 };
-
-

@@ -3,7 +3,6 @@
 #include "src\game\map\AbstractTile.hpp"
 class MapTile
 {
-
 public:
 
 	MapTile() {}
@@ -78,10 +77,9 @@ public:
 
 		for each (auto tile in tiles)
 		{
-			if(destroyOnlyForeground && !tile->isBackground())
+			if (destroyOnlyForeground && !tile->isBackground())
 				tile->destroy();
 		}
-		
 	}
 
 	void clearBackgroundTiles()
@@ -127,7 +125,6 @@ private:
 	static bool shouldConnectToTile(std::shared_ptr<AbstractTile> tile, MapTile * mapTile)
 	{
 		if (mapTile == nullptr || tile == nullptr)return false;
-	
 
 		if (tile->isConnectingToTile(mapTile->getMainTile())) return true;
 
@@ -137,8 +134,6 @@ private:
 		}
 		return false;
 	}
-
 };
-
 
 #endif

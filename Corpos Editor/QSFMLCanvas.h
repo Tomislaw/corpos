@@ -17,7 +17,6 @@ public:
 	virtual void OnInit();
 	virtual void OnUpdate();
 
-	
 private:
 	//QTimer timer;
 	bool initialized;

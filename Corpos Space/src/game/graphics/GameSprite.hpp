@@ -1,5 +1,3 @@
-
-
 #ifndef GAMESPRITE_HPP
 #define GAMESPRITE_HPP
 
@@ -20,7 +18,7 @@ public:
 	~GameSprite();
 
 	// update animations and position
-	virtual void update (float delta_time) override;
+	virtual void update(float delta_time) override;
 	// set position
 	void setPosition(sf::Vector2f pos) override;
 	// set sprite textire
@@ -29,14 +27,14 @@ public:
 	void SetRectangle(sf::IntRect rect);
 	// set sprite - used in constructors
 	void SetSprite(const sf::Texture &set_texture, TextElement *spritetext);
-	// set animation 
+	// set animation
 	bool SetAnimation(unsigned int i);
-	// set animation 
+	// set animation
 	bool SetAnimation(const std::string  &str);
 	// set animation sheet
 	// contains all animations
 	bool SetAnimationSheet(const std::string  &str);
-	// get animation sheet 
+	// get animation sheet
 	// contains all animations
 	std::vector <Animation> & getAnimationSheet();
 	// draw it
@@ -56,7 +54,5 @@ protected:
 	sf::Sprite sprite;
 	std::string texture_name;
 	std::vector <Animation> animation_sheet;
-
-
 };
 #endif

@@ -1,4 +1,3 @@
-
 #ifndef SPRITEVIEW_H
 #define SPRITEVIEW_H
 #include "qsfmlcanvas.h"

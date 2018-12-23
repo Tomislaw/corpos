@@ -1,6 +1,5 @@
 #include "Logger.hpp"
 
-
 Logger::Logger(const Logger &)
 {
 	this->logs = logs;
@@ -15,7 +14,7 @@ Logger & Logger::getInstance()
 
 void Logger::i(std::string info)
 {
-	Logger::getInstance().log(info,0);
+	Logger::getInstance().log(info, 0);
 }
 
 void Logger::d(std::string info)
@@ -28,10 +27,8 @@ void Logger::e(std::string info)
 	Logger::getInstance().log(info, 2);
 }
 
-void Logger::log(std::string info , int type)
+void Logger::log(std::string info, int type)
 {
-
-
 	std::string stime;
 
 	time_t rawtime = time(0);
@@ -54,7 +51,6 @@ void Logger::log(std::string info , int type)
 
 	if (timeinfo.tm_sec > 9)stime += std::to_string(timeinfo.tm_sec);
 	else stime += "0" + std::to_string(timeinfo.tm_sec);
-
 
 	std::string sinfo;
 	if (type == 0)sinfo = "[info] ";

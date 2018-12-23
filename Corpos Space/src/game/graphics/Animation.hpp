@@ -33,11 +33,11 @@ public:
 		return frame.size();
 	}
 	// return current frame id
-	int getCurrentFrameId() {return current_frame;}
+	int getCurrentFrameId() { return current_frame; }
 	// return rectangle of animation
 	sf::IntRect getRectangle(unsigned int id)
 	{
-		if (id < frame.size() && id >=0)return frame.at(id);
+		if (id < frame.size() && id >= 0)return frame.at(id);
 		else return sf::IntRect();
 	}
 private:

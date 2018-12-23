@@ -1,7 +1,7 @@
 #ifndef LOGGER_HPP
 #define LOGGER_HPP
 #include <iostream>
-#include <string>  
+#include <string>
 #include <ctime>
 #include <functional>
 class Logger
@@ -18,10 +18,6 @@ public:
 	static void e(std::string info);
 
 	std::function<void(std::string)> callback;
-
-
-	
-
 };
 
 #endif

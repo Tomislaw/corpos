@@ -35,16 +35,15 @@ private:
 
 	QMdiSubWindow * windowPtr = nullptr;
 
-
 public slots:
-void showOptionsForms();
-void showSpriteBrowserForms();
-void showTilesetEditor();
-void loadMap();
-void saveMap();
-void newMap();
-void loadTileDefinitions(QMdiSubWindow*);
-void tileSelected(QListWidgetItem*);
-void tileFilter(QString);
-void updateMenuView();
+	void showOptionsForms();
+	void showSpriteBrowserForms();
+	void showTilesetEditor();
+	void loadMap();
+	void saveMap();
+	void newMap();
+	void loadTileDefinitions(QMdiSubWindow*);
+	void tileSelected(QListWidgetItem*);
+	void tileFilter(QString);
+	void updateMenuView();
 };

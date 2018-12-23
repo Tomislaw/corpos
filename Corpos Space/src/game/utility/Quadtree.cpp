@@ -1,7 +1,6 @@
 #include "Quadtree.hpp"
 using namespace std;
 
-
 Quadtree::Quadtree()
 {
 	NW = nullptr;
@@ -13,7 +12,6 @@ Quadtree::Quadtree()
 
 Quadtree::Quadtree(sf::Vector2f lefttop, sf::Vector2f size, int level, int maxlevel, int capacity)
 {
-
 	this->lefttop = lefttop;
 	this->size = size;
 	this->level = level;
@@ -51,7 +49,7 @@ Quadtree::Quadtree(sf::Vector2f lefttop, sf::Vector2f size, int level, int maxle
 		}
 		else
 		{
-			color = sf::Color(0, 0, 0, 200/ (-3+level));
+			color = sf::Color(0, 0, 0, 200 / (-3 + level));
 		}
 		shape[0].color = color;
 		shape[1].color = color;
@@ -60,14 +58,11 @@ Quadtree::Quadtree(sf::Vector2f lefttop, sf::Vector2f size, int level, int maxle
 		shape[4].color = color;
 
 		shape[0].position = lefttop;
-		shape[1].position = sf::Vector2f(lefttop.x+size.x, lefttop.y);
+		shape[1].position = sf::Vector2f(lefttop.x + size.x, lefttop.y);
 		shape[2].position = sf::Vector2f(lefttop + size);;
 		shape[3].position = sf::Vector2f(lefttop.x, lefttop.y + size.y);
 		shape[4].position = lefttop;
-
 	}
-
-
 }
 
 void Quadtree::subdivide()
@@ -116,7 +111,7 @@ bool Quadtree::addToChildren(Entity *object)
 		SW->AddObject(object);
 		entityAdded = true;
 	}
-	if(!entityAdded)objects.push_back(object);
+	if (!entityAdded)objects.push_back(object);
 	return entityAdded;
 }
 bool Quadtree::Contains(Entity *object)
@@ -157,7 +152,6 @@ Quadtree::~Quadtree()
 
 void Quadtree::draw(sf::RenderTarget &canvas)
 {
-
 	if (!is_last) {
 		NW->draw(canvas);
 		NE->draw(canvas);
@@ -174,7 +168,6 @@ vector<Entity*> Quadtree::GetObjectsAt(sf::Vector2f pos)
 	}
 	vector<Entity*> returnObjects, childReturnObjects;
 
-
 	if (NE->Contains(pos))
 	{
 		for (size_t i = 0; i < objects.size(); i++)
@@ -184,7 +177,6 @@ vector<Entity*> Quadtree::GetObjectsAt(sf::Vector2f pos)
 		}
 		childReturnObjects = NE->GetObjectsAt(pos);
 		returnObjects.insert(returnObjects.end(), childReturnObjects.begin(), childReturnObjects.end());
-
 	}
 	if (NW->Contains(pos))
 	{

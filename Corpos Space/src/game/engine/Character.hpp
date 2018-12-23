@@ -5,14 +5,11 @@
 #include "game\graphics\GameSprite.hpp"
 #include "Damageable.hpp"
 
-
-
 class TileMap;
 class EntityList;
 class AiBasic;
 //Core class for all characters
 //TODO:comment this class
-
 
 struct NavigationNodeCharacterData
 {
@@ -27,7 +24,7 @@ class Character :
 	public Entity, public Damageable
 {
 public:
-	enum SpecialType{ RELOAD, GRENADE, LONGJUMP };
+	enum SpecialType { RELOAD, GRENADE, LONGJUMP };
 
 	Character(EntityList * entityListPtr);
 	Character(TextElement * data, EntityList * entityListPtr);
@@ -71,10 +68,10 @@ public:
 		return navCharData;
 	}
 
-	bool isStanding() {return is_standing;};
+	bool isStanding() { return is_standing; };
 	bool isJumping() { return is_standing; };
 protected:
-	void impulseVelocity(sf::Vector2f v,float impulse,float delta);
+	void impulseVelocity(sf::Vector2f v, float impulse, float delta);
 	void impulseVelocityX(float maxSpeed, float impulse, float delta);
 	int relationship_group = 0;
 	float max_walk_speed = 50;
@@ -100,9 +97,7 @@ protected:
 private:
 
 	// returns on which tile character is standing
-	
+
 	sf::RectangleShape rect;
-	
 };
 #endif
-

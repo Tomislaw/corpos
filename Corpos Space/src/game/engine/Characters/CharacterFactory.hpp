@@ -10,7 +10,6 @@ namespace CharacterFactory
 	// TODO: add more character types
 
 	std::shared_ptr <Character> create(TextElement * data, EntityList * entityListPtr);
-
 }
 
 #endif

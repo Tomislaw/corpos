@@ -8,7 +8,7 @@
 #include "TileView.h"
 
 #include "FrameEditor.h"
-	
+
 /*!
 	Editor designated to edit files with definition of tileset.
 	Suitable for editing tileset definition, tile definition and apperance of these tiles.
@@ -27,13 +27,12 @@ public:
 	*/
 	TilesetEditor(QWidget *parent = Q_NULLPTR);
 
-	/*! 
+	/*!
 		Main deconstructor.
 	*/
 	~TilesetEditor();
 
-	public slots:
-	
+public slots:
 
 	/*!
 		Popup load file window.
@@ -59,7 +58,7 @@ public:
 		\sa TileView
 	*/
 	void changeTileset();
-	
+
 	/*! Reload texture list in combobox_Texture.*/
 	void reloadData();
 
@@ -82,7 +81,6 @@ public:
 	*/
 	void onSelectedTileFrame(QTreeWidgetItem*, int);
 
-
 	/*!
 		Load data from FrameEditor to this editor.
 		\sa FrameEditor.
@@ -101,7 +99,7 @@ public:
 	void deleteFrame();
 	/*! Duplicate selected frame.*/
 	void duplicateFrame();
-	
+
 	/*! Add frame.*/
 	void addFrame();
 
@@ -140,7 +138,6 @@ private:
 	std::string name;			/*!< Name of the tileset. */
 	std::string texture;		/*!< Name of texture used in tileset. */
 
-
 	std::vector<TileDefinition> tileDefinitions; /*!< List of current tile definitions. */
 
 	int selectdTileId = -1;				/*!< Id of current selected tile definition. */
@@ -150,7 +147,7 @@ private:
 	/*!
 		Enum with all types of frame.
 	*/
-	enum FrameType {error,Left,Right,Top,Bottom,Center,Inner,InnerRightTop,InnerLeftTop, InnerRightBottom, InnerLeftBottom , LeftTop, RightTop, LeftBottom, RightBottom};
+	enum FrameType { error, Left, Right, Top, Bottom, Center, Inner, InnerRightTop, InnerLeftTop, InnerRightBottom, InnerLeftBottom, LeftTop, RightTop, LeftBottom, RightBottom };
 
 	/*!
 		Change string to FrameType enum.

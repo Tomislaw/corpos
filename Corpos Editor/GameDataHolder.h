@@ -1,4 +1,3 @@
-
 #ifndef GAMEDATAHOLDER_H
 #define GAMEDATAHOLDER_H
 

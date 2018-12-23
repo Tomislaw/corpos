@@ -37,8 +37,6 @@ public:
 		}
 		Logger::i("Map size: " + std::to_string(this->tileCount.x) + " " + std::to_string(this->tileCount.y));
 
-
-
 		std::string mainTileset = "";
 		auto varTilesets = tm.getVariableByName("Tilesets");
 		if (varTilesets != nullptr)
@@ -46,7 +44,6 @@ public:
 			mainTileset = varTilesets->toString(0);
 		}
 		else mainTileset = tilesets.at(0).name;
-
 
 		for (int y = 0; y < tileCount.y; y++)
 		{
@@ -66,7 +63,6 @@ public:
 					return false;
 				}
 
-	
 				appendTile(MapTileFactory::create(tile->var.at(x), sf::Vector2i(x, y), tilesets));
 			}
 		}
@@ -124,13 +120,8 @@ public:
 						center->getMainTile()->getId());
 					center->appendTile(copy);
 				}
-
 			}
-
-
 		};
-
-	
 
 		auto left = getTile(x - 1, y);
 		auto right = getTile(x + 1, y);
@@ -141,8 +132,6 @@ public:
 		maybeAppendTile(center, right);
 		maybeAppendTile(center, top);
 		maybeAppendTile(center, bottom);
-
-
 
 		//if (left != nullptr && left->getMainTile() != nullptr)
 		//{
@@ -156,10 +145,8 @@ public:
 		//	}
 		//}
 
-
 		/*if (right != nullptr&& right->getMainTile() != nullptr)
 		{
-
 			bool shouldAddBackground = !center->getMainTile()->isConnectingToTile(right->getMainTile());
 
 			if (shouldAddBackground)
@@ -170,7 +157,6 @@ public:
 				center->appendTile(copy);
 			}
 		}*/
-
 
 		//if (top != nullptr&& top->getMainTile() != nullptr)
 		//{
@@ -183,7 +169,6 @@ public:
 		//		center->appendTile(copy);
 		//	}
 		//}
-
 
 		//if (bottom != nullptr && bottom->getMainTile() != nullptr)
 		//{
@@ -214,7 +199,6 @@ public:
 		{
 			for (int y = 0; y < tileCount.y; y++)
 			{
-
 				if (getTile(x, y)->getMainTile() == nullptr)continue;
 
 				auto mapTilePos = getTile(x, y)->getMainTile()->getPosition();
@@ -253,7 +237,6 @@ public:
 				getTile(x - 1, y), getTile(x + 1, y),
 				getTile(x - 1, y + 1), getTile(x, y + 1), getTile(x + 1, y + 1));
 		}
-
 	}
 	// refreash near tiles, used after tile is destroyed
 	void refreashNearTiles(int x, int y)
@@ -272,7 +255,6 @@ public:
 			{
 				chunks[i].drawForeground(window);
 			}
-
 		}
 	}
 
@@ -310,12 +292,12 @@ public:
 
 	void destroyTile(int x, int y)
 	{
-		auto tile = getTile(x,y);
+		auto tile = getTile(x, y);
 		if (tile == nullptr) return;
 
 		tile->onMainTileDestroy();
-	
-		refreashTile(x,y);
+
+		refreashTile(x, y);
 		refreashNearTiles(x, y);
 	}
 
@@ -341,14 +323,13 @@ public:
 		// Creating line to get tiles from
 		float divide = end.x - start.x;
 		float a = (end.y - start.y) / divide;
-		float b = end.y - a*end.x;
+		float b = end.y - a * end.x;
 		// change to infinity if dividing by zero
-		if (!(divide>0.0000001 || divide<-0.0000001)) { a = INFINITY; }
+		if (!(divide > 0.0000001 || divide < -0.0000001)) { a = INFINITY; }
 
 		// start x and y counters
 		int x_count = abs(tileStart.x - tileEnd.x);
 		int y_count = abs(tileStart.y - tileEnd.y);
-
 
 		// set adding or decrementing
 		int operation_x = 1;
@@ -372,7 +353,6 @@ public:
 
 			for (int i = 0; i < x_count; i++)
 			{
-
 				float value_x = current_x * TILE_SIZE + operation_x / 10.f + TILE_SIZE / 2 * (1 + operation_x);
 				sf::Vector2f function_pos_x = sf::Vector2f(value_x, a*(value_x)+b);
 				sf::Vector2i id_x = getTileId(function_pos_x);
@@ -386,7 +366,6 @@ public:
 					if (id_y != tile_ids.back())tile_ids.push_back(id_y);
 					if (id_y.x < 0) break;
 				}
-
 
 				if (id_x != tile_ids.back())tile_ids.push_back(id_x);
 				if (id_x.x < 0) break;
@@ -402,7 +381,6 @@ public:
 					sf::Vector2i id_y(getTileId(function_pos_y));
 
 					if (id_y != tile_ids.back())tile_ids.push_back(id_y);
-
 				}
 
 				if (id_last != tile_ids.back())tile_ids.push_back(id_last);
@@ -415,15 +393,12 @@ public:
 				int current_x = tileStart.x;
 				int current_y = tileStart.y;
 
-
 				for (int i = 0; i < y_count; i++)
 				{
-
 					float value_y = tile_ids.back().y * TILE_SIZE + TILE_SIZE / 2 * (1 + operation_y) + operation_y / 10.f;
 
 					sf::Vector2f function_pos_y((sf::Vector2f((value_y - b) / a, value_y)));
 					sf::Vector2i id_y(getTileId(function_pos_y));
-
 
 					if (id_y.x != tile_ids.back().x && id_y.y != tile_ids.back().y)
 					{
@@ -434,7 +409,6 @@ public:
 						if (id_x.x < 0)break;
 
 						current_x += operation_x;
-
 					}
 
 					if (id_y != tile_ids.back())tile_ids.push_back(id_y);
@@ -451,14 +425,12 @@ public:
 					if (startvector.y < 0) break;
 				}
 			}
-
-
 		}
 
 		std::vector<MapTile*> tiles;
 		for each (sf::Vector2i var in tile_ids)
 		{
-			tiles.push_back(getTile(var.x,var.y));
+			tiles.push_back(getTile(var.x, var.y));
 		}
 		return tiles;
 	}
@@ -494,7 +466,6 @@ public:
 	sf::Vector2i getTileCount() { return tileCount; }
 	sf::Vector2f getMapSize() { return sf::Vector2f(tileCount.x *TILE_SIZE, tileCount.y * TILE_SIZE); }
 
-
 private:
 	void appendTile(MapTile tile)
 	{
@@ -507,7 +478,6 @@ private:
 	sf::Vector2i tileCount;
 
 	std::vector<Tileset> tilesets;
-
 };
 
 #endif

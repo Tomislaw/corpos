@@ -24,13 +24,10 @@ void NewMapForms::validate(QString v)
 
 void NewMapForms::createMap()
 {
-
-	if (callback!= nullptr)
+	if (callback != nullptr)
 	{
-
 		callback->createMap(ui.spinBoxWidth->value(), ui.spinBoxHeight->value(),
-							ui.lineEditMapName->text().toStdString());;
+			ui.lineEditMapName->text().toStdString());;
 		this->setVisible(false);
 	}
-	
 }

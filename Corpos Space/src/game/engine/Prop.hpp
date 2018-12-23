@@ -1,4 +1,3 @@
-
 #ifndef PROP_HPP
 #define PROP_HPP
 #include "game\graphics\GameSprite.hpp"
@@ -31,7 +30,6 @@ protected:
 
 	//drawable part
 	GameSprite sprite;
-
 };
 
 #endif;

@@ -7,7 +7,6 @@
 #include <iterator>
 namespace String
 {
-
 	template<typename Out>
 	void split(const std::string &s, char delim, Out result);
 

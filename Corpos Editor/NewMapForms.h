@@ -13,7 +13,6 @@ public:
 	NewMapForms(CorposEditor * callback);
 	~NewMapForms();
 
-
 public slots:
 	void createMap();
 	void validate(QString);

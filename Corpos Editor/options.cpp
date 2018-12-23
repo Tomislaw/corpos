@@ -37,17 +37,15 @@ void Options::loadIniFile()
 void Options::saveIniFile()
 {
 	std::ofstream ini;
-	ini.open(editorExeLocation+"corposeditor.ini");
+	ini.open(editorExeLocation + "corposeditor.ini");
 	if (ini.good())
 	{
-		
 		ini << "EXE_DIR=" + Options::gameExeLocation << std::endl;
 		Logger::i("Ini file saved");
 		ini.flush();
 		ini.close();
 	}
 	else Logger::e("Can't save ini file. Propably \"corposeditor.ini\" don't exist.");
-	
 }
 
 void Options::reloadOptions()

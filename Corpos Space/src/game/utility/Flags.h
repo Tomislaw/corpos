@@ -15,7 +15,7 @@ public:
 		flags |= (1 << id);
 	}
 
-	void setBit(unsigned int id,bool byte)
+	void setBit(unsigned int id, bool byte)
 	{
 		if (byte) setBit(id);
 		else unsetBit(id);
@@ -29,7 +29,7 @@ public:
 
 	bool getBit(unsigned int id)
 	{
-		return this->flags & (1<<id);
+		return this->flags & (1 << id);
 	}
 
 	template <typename T>
@@ -62,9 +62,7 @@ public:
 	}
 private:
 	T flags;
-
 };
-
 
 typedef Flags<uint8_t>  Flags8;
 typedef Flags<uint16_t> Flags16;

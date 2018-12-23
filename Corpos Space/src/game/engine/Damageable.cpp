@@ -8,10 +8,8 @@ Damageable::Damageable()
 
 Damageable::Damageable(TextElement * t)
 {
-	
 	this->setDamageable(t);
 }
-
 
 Damageable::~Damageable()
 {
@@ -24,12 +22,11 @@ void Damageable::setDamageable(TextElement * t)
 		return;
 	}
 
-
 	//collidable
 	bool isCollidable = false;
 
 	auto variableIsCollidable = t->getVariableByName("Collidable");
-	if(variableIsCollidable!= nullptr) 
+	if (variableIsCollidable != nullptr)
 		isCollidable = variableIsCollidable->toInt(0);
 
 	if (!isCollidable)
@@ -42,7 +39,7 @@ void Damageable::setDamageable(TextElement * t)
 
 	auto variableHealth = t->getVariableByName("Health");
 	if (variableHealth != nullptr)
-	{ 
+	{
 		this->health = variableHealth->toInt(0);
 		this->maxHealth = this->health;
 	}
@@ -50,7 +47,6 @@ void Damageable::setDamageable(TextElement * t)
 	{
 		this->health = -1;
 		this->maxHealth = -1;
-
 	}
 
 	//DamageFilter
@@ -62,16 +58,13 @@ void Damageable::setDamageable(TextElement * t)
 	else
 	{
 		this->damageFilter = -1;
-
 	}
-
 
 	//flags
 	if (maxHealth < 0) this->indestructable = true;
 	else this->indestructable = false;
 	if (maxHealth >= 0 && health <= 0)destroy();
 	else destroyed = false;
-
 }
 
 void Damageable::damage(int hp)
@@ -111,9 +104,6 @@ void Damageable::setIndestructable(bool is_indestructable)
 	indestructable = is_indestructable;
 }
 
-
-
-
 Bullet::Bullet()
 {
 }
@@ -127,10 +117,8 @@ Bullet::Bullet(Bullet & bullet, sf::Vector2f position, sf::Vector2f velocity) : 
 	speed = sqrtf(velocity.x * velocity.x + velocity.y * velocity.y);
 }
 
-Bullet::Bullet(std::string bulletSpriteName, int damage, sf::Vector2f position, sf::Vector2f velocity) : Entity("bullet",position, velocity)
+Bullet::Bullet(std::string bulletSpriteName, int damage, sf::Vector2f position, sf::Vector2f velocity) : Entity("bullet", position, velocity)
 {
-
-
 	bulletSprite = GameSprite(*GameAssetsManager::getSprite(bulletSpriteName));
 	this->damage = damage;
 	bulletSprite.attachToEntity(this);
@@ -142,7 +130,6 @@ void Bullet::draw(sf::RenderTarget & window)
 	if (destroyed)return;
 	bulletSprite.draw(window);
 	drawDebugData(window);
-
 }
 
 void Bullet::update(float time)
@@ -165,7 +152,6 @@ void Bullet::update(float time)
 	}
 }
 
-
 bool Bullet::isDestroyed()
 {
 	return destroyed;
@@ -185,7 +171,6 @@ void Bullet::destroy()
 
 void Bullet::correctBulletPositionAfterDestroy(sf::FloatRect collisionBox)
 {
-
 	sf::Vector2f pos;
 	pos.x = getPosition().x / 2 + getPreviousPosition().x / 2;
 	pos.y = getPosition().y / 2 + getPreviousPosition().y / 2;

@@ -26,14 +26,12 @@ public:
 		//load file
 		file.loadFile(location);
 
-
 		auto tileset = file.getFirstElementByName("TILESET");
 		if (tileset == nullptr)
 		{
 			Logger::e("Tileset in " + location + " is not defined, tileset is not loaded");
 			return false;
 		}
-
 
 		auto varName = tileset->getVariableByName("Name");
 		if (varName != nullptr)
@@ -53,7 +51,6 @@ public:
 		}
 
 		sf::Texture * texture = GameAssetsManager::getTexture(textureName);
-
 
 		// set tile definitions data
 

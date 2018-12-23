@@ -112,7 +112,6 @@ void AbstractTile::updateTextureCoords(bool LT, bool T, bool RT,
 	}
 	Logger::e("Invalid vertex count in tile.");
 	throw std::runtime_error("Invalid vertex count in tile");
-
 }
 
 void AbstractTile::updatePositionCoords(sf::Vector2i id)
@@ -181,7 +180,6 @@ bool AbstractTile::isShowTilesBehind()
 	return !alignTiles.allFlagsSet(); // || definition.isShowTilesBehind;
 }
 
-
 bool AbstractTile::isConnectingToTile(std::shared_ptr<AbstractTile> tile)
 {
 	if (tile == nullptr)return false;
@@ -212,7 +210,6 @@ bool AbstractTile::isConnectingToTile(AbstractTile & tile)
 	}
 	else return tileDefinition->connectGroup == this->definition->connectGroup || isLowerInHierarchy;
 }
-
 
 void AbstractTile::destroy() {
 	Destructable::destroy();

@@ -27,7 +27,6 @@ void TextureChunk::unload()
 	{
 		tile->unload();
 	}
-
 }
 
 void TextureChunk::drawForeground(sf::RenderTarget & target)
@@ -45,9 +44,6 @@ void TextureChunk::appendTile(std::shared_ptr<AbstractTile> tile)
 	tiles.insert(tile);
 }
 
-
-
-
 void MapChunk::appendTile(std::shared_ptr<AbstractTile> tile)
 {
 	if (tile == nullptr)return;
@@ -59,7 +55,7 @@ void MapChunk::appendTile(std::shared_ptr<AbstractTile> tile)
 	}
 
 	textureChunks.push_back(TextureChunk(tile->getTileDefinition().texture,
-	tile->getTileDefinition().texture_name));
+		tile->getTileDefinition().texture_name));
 	textureChunks.back().appendTile(tile);
 }
 

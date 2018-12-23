@@ -27,7 +27,7 @@ private:
 	unsigned int FPS = 30;
 	// pointer to window frame
 	sf::RenderWindow *window;
-	
+
 	//cursor
 	Cursor cursor;
 	// tilemap and entity list
@@ -45,4 +45,3 @@ private:
 };
 
 #endif
-

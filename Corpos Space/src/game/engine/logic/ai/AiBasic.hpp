@@ -5,8 +5,6 @@
 #include <queue>
 #include "game\utility\Pathfind.hpp"
 
-
-
 struct NavNode
 {
 	sf::Vector2i tilePosition;
@@ -22,10 +20,8 @@ struct NavNode
 		}
 		else return charTilePos == tilePosition;
 	}
-	enum Type {LADDER, WALK, JUMP };
+	enum Type { LADDER, WALK, JUMP };
 };
-
-
 
 class AiBasic
 {
@@ -42,8 +38,7 @@ public:
 
 	virtual void drawDebugData(sf::RenderTarget &target);
 
-	enum Behavior { IDLE, ALERTED,ENGAGE,SUSPICIOUS,PANIC };
-
+	enum Behavior { IDLE, ALERTED, ENGAGE, SUSPICIOUS, PANIC };
 
 	void getPath(sf::Vector2i tile);
 
@@ -56,15 +51,9 @@ protected:
 	EntityList * entityListPtr = nullptr;
 	TileMap * tilemapPtr = nullptr;
 
-
-
-
-
 	int behavior = 0;
 	bool isInitialized = false;
 	sf::Text entityDebugText;
-
-
 };
 
 #endif;

@@ -7,7 +7,6 @@
 #include <QDir>
 SpriteView::SpriteView(QWidget* Parent, const QPoint& Position, const QSize& Size) : QSFMLCanvas(Parent, Position, Size)
 {
-
 }
 void SpriteView::OnInit()
 {
@@ -19,11 +18,9 @@ void SpriteView::OnUpdate()
 	// Clear screen
 	clear(sf::Color(0, 128, 0));
 
-
-
 	// Draw it
-	if(sprite!= nullptr)
-	draw(sprite->GetSprite());;
+	if (sprite != nullptr)
+		draw(sprite->GetSprite());;
 }
 
 void SpriteView::setSprite(GameSprite & sprite)

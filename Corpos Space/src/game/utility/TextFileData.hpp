@@ -27,7 +27,6 @@ struct Variable
 	std::string toString(unsigned int index);
 };
 
-
 /// <summary>
 /// Contains one region with variables.
 /// </summary>
@@ -45,13 +44,7 @@ public:
 	std::vector<Variable *> getAllVariablesByName(std::string var_name);
 
 private:
-
-
 };
-
-
-
-
 
 /// <summary>
 /// Loading data from file.
@@ -63,8 +56,6 @@ public:
 	TextFileData(std::string fileLocation);
 	TextFileData(std::vector<TextElement> &elements);
 	~TextFileData();
-
-
 
 	//getters
 	std::vector <TextElement*> getAllElementsByName(std::string element_name);

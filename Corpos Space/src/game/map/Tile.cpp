@@ -10,10 +10,9 @@ Tile::Tile()
 	this->singleImage = true;
 }
 
-
 Tile::Tile(TileDefinition * tiledef, std::vector<sf::Vertex*> tile, sf::Vector2f pos)
 {
-	changeTile(tiledef,tile,pos);
+	changeTile(tiledef, tile, pos);
 }
 
 void Tile::changeTile(TileDefinition * tiledef, std::vector<sf::Vertex*> tile, sf::Vector2f pos)
@@ -40,10 +39,9 @@ void Tile::changeTile(TileDefinition * tiledef, std::vector<sf::Vertex*> tile, s
 	this->connectGroup = tiledef->connectGroup;
 	this->health = tiledef->health;
 	setPosition(pos);
-
 }
 bool Tile::isSameGroup(Tile & tile)
-{	
+{
 	if (tile.definition == nullptr || this->definition == nullptr)return false;
 
 	if (tile.definition->connectGroup == "-1")
@@ -77,13 +75,11 @@ sf::Color Tile::getRandomParticleColor()
 }
 sf::FloatRect Tile::getCollisionBox()
 {
-
-	return sf::FloatRect(getPosition() - sf::Vector2f(16,16), sf::Vector2f(32, 32));
+	return sf::FloatRect(getPosition() - sf::Vector2f(16, 16), sf::Vector2f(32, 32));
 }
 void Tile::setDisplayType(bool LT, bool T, bool TR, bool L, bool R, bool LB, bool B, bool RB)
 {
-
-	if (definition == nullptr )
+	if (definition == nullptr)
 	{
 		resetVertexPosition();
 		return;
@@ -120,9 +116,7 @@ void Tile::setDisplayType(bool LT, bool T, bool TR, bool L, bool R, bool LB, boo
 	tile[13]->texCoords = sf::Vector2f(r.left + r.width, r.top);
 	tile[14]->texCoords = sf::Vector2f(r.left + r.width, r.top + r.height);
 	tile[15]->texCoords = sf::Vector2f(r.left, r.top + r.height);
-
 }
-
 
 void Tile::setPosition(sf::Vector2f pos)
 {
@@ -136,7 +130,7 @@ void Tile::setPosition(sf::Vector2f pos)
 
 	if (singleImage)
 	{
-		tile[0]->position = sf::Vector2f(pos.x + tileRect.left , pos.y + tileRect.top);
+		tile[0]->position = sf::Vector2f(pos.x + tileRect.left, pos.y + tileRect.top);
 		tile[1]->position = sf::Vector2f(pos.x + tileRect.left + tileRect.width, pos.y + tileRect.top);
 		tile[2]->position = sf::Vector2f(pos.x + tileRect.left + tileRect.width, pos.y + tileRect.top + tileRect.height);
 		tile[3]->position = sf::Vector2f(pos.x + tileRect.left, pos.y + tileRect.top + tileRect.height);
@@ -208,7 +202,6 @@ void Tile::setPosition(sf::Vector2f pos)
 
 void Tile::damage(int health)
 {
-
 	this->health -= health;
 	if (this->health <= 0)
 	{
@@ -225,7 +218,7 @@ void Tile::destroy()
 
 void Tile::resetVertexPosition()
 {
-	if (tile.size()!= 16)return;
+	if (tile.size() != 16)return;
 	tile[0]->position = sf::Vector2f(0, 0);
 	tile[1]->position = sf::Vector2f(0, 0);
 	tile[2]->position = sf::Vector2f(0, 0);
@@ -257,12 +250,8 @@ Tile::Tile()
 	tilevertex = sf::VertexArray(sf::Quads, 4);
 }
 
-
-
-
 Tile::Tile(TileDefinition * tiledef,sf::Vector2f pos)
 {
-
 	if (tiledef == nullptr)
 	{
 		this->name = "0";
@@ -286,7 +275,6 @@ Tile::Tile(TileDefinition * tiledef,sf::Vector2f pos)
 		tilevertex = sf::VertexArray(sf::Quads, 16);
 	}
 	this->setPosition(pos);
-
 }
 
 Tile::~Tile()
@@ -295,7 +283,6 @@ Tile::~Tile()
 
 void Tile::draw(sf::RenderTarget & window)
 {
-	
 	if (definition == nullptr)return;
 	if (definition->texture == nullptr)return;
 	window.draw(tilevertex, definition->texture);
@@ -355,7 +342,6 @@ void Tile::setPosition(sf::Vector2f pos)
 
 void Tile::setDisplayType(bool LT, bool T, bool TR, bool L, bool R, bool LB, bool B, bool RB)
 {
-
 	if (singleImage)return;
 	if (definition == nullptr)return;
 
@@ -376,16 +362,11 @@ void Tile::setDisplayType(bool LT, bool T, bool TR, bool L, bool R, bool LB, boo
 	tilevertex[9].texCoords = sf::Vector2f(r.left + r.width, r.top);
 	tilevertex[10].texCoords = sf::Vector2f(r.left + r.width, r.top + r.height);
 	tilevertex[11].texCoords = sf::Vector2f(r.left, r.top + r.height);
-	
+
 	r = definition->getRBRect(R, RB, B);
 	tilevertex[12].texCoords = sf::Vector2f(r.left, r.top);
 	tilevertex[13].texCoords = sf::Vector2f(r.left + r.width, r.top);
 	tilevertex[14].texCoords = sf::Vector2f(r.left + r.width, r.top + r.height);
 	tilevertex[15].texCoords = sf::Vector2f(r.left, r.top + r.height);
-
-
 }
 */
-
-
-

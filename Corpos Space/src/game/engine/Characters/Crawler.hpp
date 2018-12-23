@@ -7,7 +7,6 @@ class Crawler :
 {
 public:
 
-
 	Crawler(TextElement * data, EntityList * ptr);;
 	~Crawler();
 
@@ -30,8 +29,5 @@ protected:
 	float jumpSpeed = 0;
 	float walkSpeed = 0;
 private:
-
-
 };
 #endif
-

@@ -6,7 +6,6 @@ Player::Player()
 {
 }
 
-
 Player::~Player()
 {
 }
@@ -16,7 +15,6 @@ void Player::events(sf::Event & e)
 	if (player == nullptr)return;
 	switch (e.type)
 	{
-
 	case sf::Event::KeyPressed:
 		if (e.key.code == sf::Keyboard::A)
 		{
@@ -41,33 +39,33 @@ void Player::events(sf::Event & e)
 		}
 		break;
 
-		case sf::Event::KeyReleased:
-			if (e.key.code == sf::Keyboard::A)
-			{
-				walkingLeft = false;
-				if(walkingRight)player->walkRight();
-				else player->stop();
-			}
-			if (e.key.code == sf::Keyboard::D)
-			{
-				walkingRight = false;
-				if (walkingLeft)player->walkLeft();
-				else player->stop();
-			}
+	case sf::Event::KeyReleased:
+		if (e.key.code == sf::Keyboard::A)
+		{
+			walkingLeft = false;
+			if (walkingRight)player->walkRight();
+			else player->stop();
+		}
+		if (e.key.code == sf::Keyboard::D)
+		{
+			walkingRight = false;
+			if (walkingLeft)player->walkLeft();
+			else player->stop();
+		}
 		break;
 
-		case sf::Event::MouseButtonPressed:
-			if (e.key.code == sf::Mouse::Left)
-			{
-				player->startAttack();
-			}
-			break;
-		case sf::Event::MouseButtonReleased:
-			if (e.key.code == sf::Mouse::Left)
-			{
-				player->stopAttack();
-			}
-			break;
+	case sf::Event::MouseButtonPressed:
+		if (e.key.code == sf::Mouse::Left)
+		{
+			player->startAttack();
+		}
+		break;
+	case sf::Event::MouseButtonReleased:
+		if (e.key.code == sf::Mouse::Left)
+		{
+			player->stopAttack();
+		}
+		break;
 
 		// we don't process other types of events
 	default:

@@ -6,12 +6,11 @@ using namespace std::placeholders;
 using namespace AStar;
 GetTile AStar::PathFind::getTile = nullptr;;
 
-
 Node::Node(sf::Vector2i coordinates_, Node *parent_)
 {
 	parent = parent_;
 	coordinates = coordinates_;
-	G = H = F= 0;
+	G = H = F = 0;
 	type = jumpDistancePassed = 0;
 }
 
@@ -23,8 +22,6 @@ AStar::Node::Node(int x, int y, Node * parent_)
 	type = jumpDistancePassed = 0;
 }
 
-
-
 uint AStar::Node::getScore()
 {
 	return G + H;
@@ -32,7 +29,7 @@ uint AStar::Node::getScore()
 
 bool Node::isSame(Node * node)
 {
-	return (node->coordinates==coordinates&&node->type==type);
+	return (node->coordinates == coordinates && node->type == type);
 }
 
 uint AStar::Node::getCost(Node * node)
@@ -47,7 +44,6 @@ bool AStar::Node::isReached(Character & character)
 	return charTilePos == coordinates;
 }
 
-
 PathFind::PathFind()
 {
 	setHeuristic(&Heuristic::octagonal);
@@ -55,16 +51,12 @@ PathFind::PathFind()
 	character.characterHeight = 2;
 	character.characterWidth = 2;
 	character.characterJumpHeight = 1;
-
 }
-
-
 
 void PathFind::setHeuristic(HeuristicFunction heuristic_)
 {
 	heuristic = std::bind(heuristic_, _1, _2);
 }
-
 
 NodeDeque PathFind::findPath(Node source_, sf::Vector2i target_)
 {
@@ -75,26 +67,20 @@ NodeDeque PathFind::findPath(Node source_, sf::Vector2i target_)
 
 	bool pathFound = false;
 
-	while (!OpenSet.empty()) 
+	while (!OpenSet.empty())
 	{
-
-
 		current = OpenSet.front();
 
-
 		//if its goal
-		if (current->coordinates == target_) 
+		if (current->coordinates == target_)
 		{
 			pathFound = true;
 			break;
 		}
 
-
 		ClosedSet.push_back(current);
 		pop_heap(OpenSet.begin(), OpenSet.end(), NodeCompare_F());
 		OpenSet.pop_back();
-
-
 
 		auto succesors = getSuccesors(current);
 		for each (auto newNode in succesors)
@@ -107,18 +93,16 @@ NodeDeque PathFind::findPath(Node source_, sf::Vector2i target_)
 				successor = findNodeOnList(ClosedSet, newNode);
 				if (successor != nullptr)
 				{
-					if (totalCost< successor->G)
+					if (totalCost < successor->G)
 					{
 						OpenSet.push_back(successor);
 						push_heap(OpenSet.begin(), OpenSet.end(), NodeCompare_F());
 
 						ClosedSet.erase(std::find(ClosedSet.begin(), ClosedSet.end(), successor));
 					}
-
 				}
 				else
-				{ 
-
+				{
 					successor = new Node(newNode);
 					successor->G = totalCost;
 					successor->H = heuristic(successor->coordinates, target_);
@@ -133,7 +117,6 @@ NodeDeque PathFind::findPath(Node source_, sf::Vector2i target_)
 				successor->G = totalCost;
 			}
 		}
-
 	}
 
 	//get current path
@@ -152,19 +135,16 @@ NodeDeque PathFind::findPath(Node source_, sf::Vector2i target_)
 				}
 				else current = node;
 			}
-
-
 		}
 	}
 
-	while (current != nullptr) 
+	while (current != nullptr)
 	{
 		path.push_front(Node(*current));
 		path.front().parent == nullptr;
 		current = current->parent;
 	}
 	releaseNodes();
-
 
 	return path;
 }
@@ -173,28 +153,27 @@ bool AStar::PathFind::checkPath(NodeDeque & path)
 {
 	for (int i = 0; i < path.size() - 1; i++)
 	{
-
-			bool founddNode = false;
-			auto nodes = getSuccesors(&path[i]);
-			for each (auto node in nodes)
+		bool founddNode = false;
+		auto nodes = getSuccesors(&path[i]);
+		for each (auto node in nodes)
+		{
+			if (path[i + 1].isSame(&node))
 			{
-				if (path[i + 1].isSame(&node))
-				{
-					founddNode = true;
-					break;
-				}
+				founddNode = true;
+				break;
 			}
-			if (founddNode)continue;
-			else return false;
 		}
+		if (founddNode)continue;
+		else return false;
+	}
 	return true;
 }
 
 Node* PathFind::findNodeOnList(NodeSet& nodes_, sf::Vector2i coordinates_)
 {
-	for each (auto node in nodes_) 
+	for each (auto node in nodes_)
 	{
-		if (node->coordinates == coordinates_) 
+		if (node->coordinates == coordinates_)
 		{
 			return node;
 		}
@@ -204,9 +183,9 @@ Node* PathFind::findNodeOnList(NodeSet& nodes_, sf::Vector2i coordinates_)
 
 Node* PathFind::findNodeOnList(NodeVector& nodes_, Node & pathnode)
 {
-	for each (auto node in nodes_) 
+	for each (auto node in nodes_)
 	{
-		if (node->isSame(&pathnode)) 
+		if (node->isSame(&pathnode))
 		{
 			return node;
 		}
@@ -230,18 +209,15 @@ void PathFind::releaseNodes(NodeSet& nodes_)
 
 void AStar::PathFind::releaseNodes(NodeVector & nodes_)
 {
-
-
 	for (auto it = nodes_.begin(); it != nodes_.end();) {
 		delete *it;
 		it = nodes_.erase(it);
 	}
 }
 
-bool PathFind::canWalkToTile(Node * node,int x, int y)
+bool PathFind::canWalkToTile(Node * node, int x, int y)
 {
 	int characterWidth = character.characterWidth;
-
 
 	if (characterWidth <= 1)
 	{
@@ -263,7 +239,6 @@ bool PathFind::canWalkToTile(Node * node,int x, int y)
 				else if (tile->isBlocking())return true;
 			}
 			return false;
-
 		}
 		else // for 2,4,6,...,2n width characters
 		{
@@ -275,14 +250,12 @@ bool PathFind::canWalkToTile(Node * node,int x, int y)
 				int start = x;
 				if (dir == 1)start = node->coordinates.x;
 
-
 				for (int i = start - sideSize; i < start + sideSize; i++)
 				{
 					MapTile * tile = getTile(i, y + 1);
 					if (tile != nullptr)
 						if (tile->isBlocking())return true;
 				}
-
 			}
 			else
 			{
@@ -296,10 +269,7 @@ bool PathFind::canWalkToTile(Node * node,int x, int y)
 			}
 			return false;
 		}
-
-
 	}
-
 }
 
 bool AStar::PathFind::canStandOnTile(int x, int y)
@@ -324,18 +294,11 @@ bool AStar::PathFind::canStandOnTile(int x, int y)
 			else if (tile->isBlocking())return true;
 		}
 		return false;
-
-		}
-		
+	}
 }
-
-
-
-
 
 bool PathFind::canMoveToTile(Node * node, int x, int y)
 {
-
 	int characterWidth = character.characterWidth;
 	int characterHeight = character.characterHeight;
 
@@ -377,14 +340,12 @@ bool PathFind::canMoveToTile(Node * node, int x, int y)
 			MapTile * tile = getTile(i, j);
 			if (tile != nullptr)
 			{
-
 				if (tile->isBlocking())return false;
 			}
 			else return false;
 		}
 	}
 	return true;
-
 }
 
 std::vector<Node> AStar::PathFind::getSuccesors(Node * node)
@@ -404,7 +365,6 @@ std::vector<Node> AStar::PathFind::getGroundSuccesors(Node * node)
 
 	Node Succesor(-1, -1);
 
-
 	if (node->parent)
 	{
 		if (node->parent->type != Node::CENTER_POSITION)
@@ -415,10 +375,9 @@ std::vector<Node> AStar::PathFind::getGroundSuccesors(Node * node)
 	}
 	else
 	{
-		if (!canWalkToTile(node,x, y))
+		if (!canWalkToTile(node, x, y))
 		{
 			node->type = Node::CENTER_POSITION;
-			
 
 			//LEFT
 			if (canMoveToTile(node, x - 1, y) && canWalkToTile(node, x - 1, y))
@@ -431,19 +390,16 @@ std::vector<Node> AStar::PathFind::getGroundSuccesors(Node * node)
 
 			if (canMoveToTile(node, x + 1, y) && canWalkToTile(node, x + 1, y))
 			{
-				Succesor = Node(x + 1, y,node);
+				Succesor = Node(x + 1, y, node);
 				Succesor.type = Node::WALK;
 				astarsearch.push_back(Succesor);
 			}
-			if(astarsearch.size()!=0)
-			return astarsearch;
-		}		
+			if (astarsearch.size() != 0)
+				return astarsearch;
+		}
 		node->type = Node::WALK;
 	}
 
-
-
-	
 	// Normal walking
 	if (node->type == Node::WALK)
 	{
@@ -473,7 +429,6 @@ std::vector<Node> AStar::PathFind::getGroundSuccesors(Node * node)
 					}
 				}
 			}
-
 		}
 		//RIGHT
 		if (!((parent_x == x + 1) && (parent_y == y)))
@@ -500,9 +455,7 @@ std::vector<Node> AStar::PathFind::getGroundSuccesors(Node * node)
 						Succesor.jumpDistancePassed = 0;
 						astarsearch.push_back(Succesor);
 					}
-
 				}
-
 			}
 
 			// RIGHT BOTTOM
@@ -550,7 +503,6 @@ std::vector<Node> AStar::PathFind::getGroundSuccesors(Node * node)
 				Succesor.type = Node::JUMP;
 				Succesor.jumpDistancePassed = 1;
 				astarsearch.push_back(Succesor);
-
 			}
 		}
 
@@ -593,7 +545,6 @@ std::vector<Node> AStar::PathFind::getGroundSuccesors(Node * node)
 				Succesor.type = Node::JUMP;
 				Succesor.jumpDistancePassed = 1;
 				astarsearch.push_back(Succesor);
-
 			}
 		}
 
@@ -634,7 +585,7 @@ std::vector<Node> AStar::PathFind::getGroundSuccesors(Node * node)
 			{
 				if (canMoveToTile(node, x, y - 1))
 				{
-					Succesor = Node(x, y - 1,node);
+					Succesor = Node(x, y - 1, node);
 
 					Succesor.type = Node::AFTER_JUMP;
 					Succesor.jumpDistancePassed = node->jumpDistancePassed + 1;
@@ -709,7 +660,7 @@ std::vector<Node> AStar::PathFind::getGroundSuccesors(Node * node)
 			{
 				if (canMoveToTile(node, x - 1, y + 1))
 				{
-					Succesor = Node( x - 1, y + 1, node);
+					Succesor = Node(x - 1, y + 1, node);
 					Succesor.jumpDistancePassed = node->jumpDistancePassed + 1;
 					if (canWalkToTile(node, x - 1, y + 1))
 						Succesor.type = Node::WALK;
@@ -742,7 +693,6 @@ std::vector<Node> AStar::PathFind::getGroundSuccesors(Node * node)
 					}
 					astarsearch.push_back(Succesor);
 				}
-
 			}
 			//RIGHT
 			if (!((parent_x == x + 1) && (parent_y == y)))
@@ -823,7 +773,6 @@ std::vector<Node> AStar::PathFind::getGroundSuccesors(Node * node)
 			}
 		}
 	}
-
 
 	return astarsearch;
 }

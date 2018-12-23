@@ -16,6 +16,4 @@ struct Options
 	static void reloadOptions();
 };
 
-
-
 #endif

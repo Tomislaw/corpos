@@ -5,7 +5,7 @@ class Camera :
 	public Entity
 {
 public:
-	
+
 	Camera();
 	Camera(sf::IntRect bounds, Entity * target);
 	~Camera();

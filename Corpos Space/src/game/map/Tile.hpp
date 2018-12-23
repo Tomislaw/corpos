@@ -11,8 +11,8 @@ struct Particle;
 
 class Tile : public Entity
 {
-	public:
-		//creates air tile
+public:
+	//creates air tile
 	Tile();
 	Tile(TileDefinition * tiledef, std::vector<sf::Vertex*> tile, sf::Vector2f pos);
 	//~Tile();
@@ -50,20 +50,20 @@ class Tile : public Entity
 	void resetVertexPosition();
 
 	int getHealth() { return health; }
-	int getMaxHealth() {return maxHealth ; }
+	int getMaxHealth() { return maxHealth; }
 
 	TileDefinition * getTileDefinition() {
 		return definition
 			;
 	}
-	private:
+private:
 
 	// pointer to tile definition
 	TileDefinition * definition;
 
 	//vector of pointers to vertex
 	std::vector<sf::Vertex*> tile;
-	
+
 	//used in creating drawable vertex
 	sf::IntRect tileRect;
 
@@ -75,10 +75,7 @@ class Tile : public Entity
 	bool is_destroyed = false;
 	//used in merging tiles together
 	std::string connectGroup = "";
-
 };
-
-
 
 //tile class 17.11.2017
 /*
@@ -105,8 +102,6 @@ private:
 	int display_type = 0;
 	bool is_blocking = false;
 	bool singleImage = false;
-
 };//*/
 
 #endif
-

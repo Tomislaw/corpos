@@ -148,10 +148,7 @@ void TileDefinition::setTile(TextElement * t, const sf::Texture * texture, std::
 			auto r = v[i]->toInt();
 			this->IRB.push_back(sf::IntRect(r.at(0), r.at(1), r.at(2), r.at(3)));
 		}
-
-
 	}
-
 
 	auto v = t->getAllVariablesByName("inner");
 	for (int i = 0; i < v.size(); i++)
@@ -160,7 +157,7 @@ void TileDefinition::setTile(TextElement * t, const sf::Texture * texture, std::
 		this->inner.push_back(sf::IntRect(r.at(0), r.at(1), r.at(2), r.at(3)));
 	}
 
-	if (texture != nullptr && C.size()>0)
+	if (texture != nullptr && C.size() > 0)
 	{
 		sf::IntRect ct;
 
@@ -193,7 +190,6 @@ void TileDefinition::setTile(TextElement * t, const sf::Texture * texture, std::
 	{
 		destroyParticleColors.push_back(sf::Color(255, 255, 255, 255));
 	}
-
 }
 
 sf::IntRect TileDefinition::getLTRect(bool L, bool LT, bool T)
@@ -316,7 +312,6 @@ sf::IntRect TileDefinition::getLBRect(bool B, bool LB, bool L)
 	{
 		int rand = std::rand() % this->C.size();
 		return this->C.at(rand);
-
 	}
 	return sf::IntRect();
 }
@@ -334,10 +329,8 @@ const sf::Color & TileDefinition::getRandomColor()
 	return this->destroyParticleColors.at(rand);
 }
 
-
 std::string TileDefinition::toString()
 {
-
 	std::string data;
 	data += "name:" + this->name;
 	data += "\ntexture name:" + this->texture_name;
@@ -381,7 +374,6 @@ TextElement TileDefinition::generateTextElement()
 	connectGroup.var.push_back(this->connectGroup);
 	element.variable.push_back(connectGroup);
 
-
 	auto addRectangleData = [](TextElement & element, sf::IntRect rect, std::string name)->void
 	{
 		Variable rectvar;
@@ -407,7 +399,6 @@ TextElement TileDefinition::generateTextElement()
 	for each (auto rect in ILB)addRectangleData(element, rect, "ILB");
 	for each (auto rect in inner)addRectangleData(element, rect, "inner");
 	for each (auto rect in C)addRectangleData(element, rect, "C");
-
 
 	return element;
 }

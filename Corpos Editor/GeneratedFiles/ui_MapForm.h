@@ -22,38 +22,36 @@ QT_BEGIN_NAMESPACE
 class Ui_MapForm
 {
 public:
-    QVBoxLayout *verticalLayout;
-    QWidget *centralWidget;
+	QVBoxLayout *verticalLayout;
+	QWidget *centralWidget;
 
-    void setupUi(QWidget *MapForm)
-    {
-        if (MapForm->objectName().isEmpty())
-            MapForm->setObjectName(QStringLiteral("MapForm"));
-        MapForm->resize(400, 300);
-        verticalLayout = new QVBoxLayout(MapForm);
-        verticalLayout->setSpacing(6);
-        verticalLayout->setContentsMargins(11, 11, 11, 11);
-        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
-        centralWidget = new QWidget(MapForm);
-        centralWidget->setObjectName(QStringLiteral("centralWidget"));
+	void setupUi(QWidget *MapForm)
+	{
+		if (MapForm->objectName().isEmpty())
+			MapForm->setObjectName(QStringLiteral("MapForm"));
+		MapForm->resize(400, 300);
+		verticalLayout = new QVBoxLayout(MapForm);
+		verticalLayout->setSpacing(6);
+		verticalLayout->setContentsMargins(11, 11, 11, 11);
+		verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+		centralWidget = new QWidget(MapForm);
+		centralWidget->setObjectName(QStringLiteral("centralWidget"));
 
-        verticalLayout->addWidget(centralWidget);
+		verticalLayout->addWidget(centralWidget);
 
+		retranslateUi(MapForm);
 
-        retranslateUi(MapForm);
+		QMetaObject::connectSlotsByName(MapForm);
+	} // setupUi
 
-        QMetaObject::connectSlotsByName(MapForm);
-    } // setupUi
-
-    void retranslateUi(QWidget *MapForm)
-    {
-        MapForm->setWindowTitle(QApplication::translate("MapForm", "MapForm", Q_NULLPTR));
-    } // retranslateUi
-
+	void retranslateUi(QWidget *MapForm)
+	{
+		MapForm->setWindowTitle(QApplication::translate("MapForm", "MapForm", Q_NULLPTR));
+	} // retranslateUi
 };
 
 namespace Ui {
-    class MapForm: public Ui_MapForm {};
+	class MapForm : public Ui_MapForm {};
 } // namespace Ui
 
 QT_END_NAMESPACE

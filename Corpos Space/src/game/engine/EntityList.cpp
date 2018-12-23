@@ -8,7 +8,6 @@ EntityList::EntityList()
 {
 }
 
-
 EntityList::~EntityList()
 {
 }
@@ -35,16 +34,12 @@ void EntityList::loadMap(TextFileData & file)
 		addCharacter(p);
 	}
 
-
 	setPlayerEntity("@player");
-
-
 }
 
 void EntityList::addCharacter(std::shared_ptr<Character> & ent)
 {
 	characters.push_back(ent);
-
 }
 
 void EntityList::addProp(std::shared_ptr<Prop>& ent)
@@ -62,7 +57,6 @@ Entity * EntityList::findEntity(std::string name)
 	std::vector<std::shared_ptr <Character>>::iterator it = characters.begin();
 	while (it != characters.end())
 	{
-
 		if (it->get()->getName() == name)return it->get();
 		++it;
 	}
@@ -71,7 +65,6 @@ Entity * EntityList::findEntity(std::string name)
 	std::vector<std::shared_ptr <Prop>>::iterator it2 = props.begin();
 	while (it2 != props.end())
 	{
-
 		if (it2->get()->getName() == name)return it2->get();
 		++it2;
 	}
@@ -84,22 +77,18 @@ std::vector<Entity*> EntityList::findEntities(std::string name)
 	std::vector<std::shared_ptr <Character>>::iterator it = characters.begin();
 	while (it != characters.end())
 	{
-
-		if(it->get()->getName() == name) ents.push_back(it->get());
+		if (it->get()->getName() == name) ents.push_back(it->get());
 		++it;
 	}
 
 	std::vector<std::shared_ptr <Prop>>::iterator it2 = props.begin();
 	while (it2 != props.end())
 	{
-
 		if (it2->get()->getName() == name) ents.push_back(it2->get());
 		++it2;
 	}
 	return ents;
 }
-
-
 
 void EntityList::events(sf::Event & e)
 {
@@ -118,20 +107,17 @@ void EntityList::events(sf::Event & e)
 			{
 				std::cout << var->getName() << " " << var->getPosition().x << " " << var->getPosition().y << std::endl;
 			}
-			
+
 			auto tile = tileMapPtr->getTileId(cursorPos.x, cursorPos.y);
 			std::cout << "Going to: " << tile.x << " " << tile.y << std::endl;
 			player.getCharacter()->getAiController()->getPath(tile);
 
 			return;
-			
-			
-			
 		}
-	break;
+		break;
 	case sf::Event::Resized:
 		//camera.
-	break;
+		break;
 	}
 }
 
@@ -147,7 +133,6 @@ void EntityList::update(float time)
 		{
 			++it3;
 		}
-
 	}
 
 	player.update(time);
@@ -155,7 +140,6 @@ void EntityList::update(float time)
 	std::vector<std::shared_ptr <Character>>::iterator it = characters.begin();
 	while (it != characters.end())
 	{
-
 		it->get()->update(time);
 		if (it->get()->isDestroyed())it = characters.erase(it);
 		else
@@ -168,7 +152,7 @@ void EntityList::update(float time)
 	while (it2 != props.end())
 	{
 		it2->get()->update(time);
-		if(it2->get()->isDestroyed())it2 = props.erase(it2);
+		if (it2->get()->isDestroyed())it2 = props.erase(it2);
 		else
 		{
 			tree.AddObject(it2->get());
@@ -181,25 +165,21 @@ void EntityList::update(float time)
 
 void EntityList::draw(sf::RenderWindow & window)
 {
-	
 	std::vector<std::shared_ptr <Character>>::iterator it = characters.begin();
 	while (it != characters.end())
 	{
-
 		it->get()->draw(window);
 		++it;
 	}
 	std::vector<std::shared_ptr <Prop>>::iterator it2 = props.begin();
 	while (it2 != props.end())
 	{
-
 		it2->get()->draw(window);
 		++it2;
 	}
 	std::vector<std::shared_ptr <Bullet>>::iterator it3 = bullets.begin();
 	while (it3 != bullets.end())
 	{
-
 		it3->get()->draw(window);
 		++it3;
 	}
@@ -211,7 +191,6 @@ void EntityList::draw(sf::RenderWindow & window)
 
 bool EntityList::checkBulletCollision(Bullet * bullet)
 {
-
 	if (bullet->isDestroyed() || bullet->isDuringDestroying())return false;
 	if (tileMapPtr == nullptr)
 	{
@@ -266,7 +245,6 @@ bool EntityList::checkBulletCollision(Bullet * bullet)
 					sf::Vector2i tilePos = tileMapPtr->getTileId(tile->getPosition());
 					tileMapPtr->destroyTile(tilePos.x, tilePos.y);
 					particleSystem.onTileDestroy(tileMapPtr->getTile(tilePos.x, tilePos.y));
-
 				}
 				if (bullet->isDestroyed() || bullet->isDuringDestroying())
 				{
@@ -278,7 +256,6 @@ bool EntityList::checkBulletCollision(Bullet * bullet)
 			}
 			return collided;
 		}
-
 	}
 
 	return false;
@@ -294,7 +271,6 @@ void EntityList::setPlayerEntity(std::string name)
 	std::vector<std::shared_ptr <Character>>::iterator it = characters.begin();
 	while (it != characters.end())
 	{
-
 		if (it->get()->getName() == name)
 		{
 			player.setCharacter(it->get());

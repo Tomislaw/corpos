@@ -55,7 +55,6 @@ template <class T> class AStarState;
 // The AStar search class. UserState is the users state space type
 template <class UserState> class AStarSearch
 {
-
 public: // data
 
 	enum
@@ -67,7 +66,6 @@ public: // data
 		SEARCH_STATE_OUT_OF_MEMORY,
 		SEARCH_STATE_INVALID
 	};
-
 
 	// A node represents a possible state in the search
 	// The user provided state type is included inside this type
@@ -97,7 +95,6 @@ public:
 		UserState m_UserState;
 	};
 
-
 	// For sorting the heap the STL needs compare function that lets us compare
 	// the f value of two nodes
 
@@ -111,9 +108,7 @@ public:
 		}
 	};
 
-
 public: // methods
-
 
 		// constructor just initialises private data
 	AStarSearch() :
@@ -174,7 +169,7 @@ public: // methods
 		m_Steps = 0;
 	}
 
-	// Advances search one step 
+	// Advances search one step
 	unsigned int SearchStep()
 	{
 		// Firstly break if the user has not initialised the search
@@ -189,7 +184,7 @@ public: // methods
 			return m_State;
 		}
 
-		// Failure is defined as emptying the open list as there is nothing left to 
+		// Failure is defined as emptying the open list as there is nothing left to
 		// search...
 		// New: Allow user abort
 		if (m_OpenList.empty() || m_CancelRequest)
@@ -202,7 +197,7 @@ public: // methods
 		// Incremement step count
 		m_Steps++;
 
-		// Pop the best node (the one with the lowest f) 
+		// Pop the best node (the one with the lowest f)
 		Node *n = m_OpenList.front(); // get pointer to the node
 		pop_heap(m_OpenList.begin(), m_OpenList.end(), HeapCompare_f());
 		m_OpenList.pop_back();
@@ -210,8 +205,8 @@ public: // methods
 		// Check for the goal, once we pop that we're done
 		if (n->m_UserState.IsGoal(m_Goal->m_UserState))
 		{
-			// The user is going to use the Goal Node he passed in 
-			// so copy the parent pointer of n 
+			// The user is going to use the Goal Node he passed in
+			// so copy the parent pointer of n
 			m_Goal->parent = n->parent;
 			m_Goal->g = n->g;
 
@@ -231,9 +226,7 @@ public: // methods
 
 					nodeChild = nodeParent;
 					nodeParent = nodeParent->parent;
-
 				} while (nodeChild != m_Start); // Start is always the first node by definition
-
 			}
 
 			// delete nodes that aren't needed for the solution
@@ -245,7 +238,6 @@ public: // methods
 		}
 		else // not goal
 		{
-
 			// We now need to generate the successors of this node
 			// The user helps us to do this, and we keep the new nodes in
 			// m_Successors ...
@@ -258,10 +250,9 @@ public: // methods
 
 			if (!ret)
 			{
-
 				typename vector< Node * >::iterator successor;
 
-				// free the nodes that may previously have been added 
+				// free the nodes that may previously have been added
 				for (successor = m_Successors.begin(); successor != m_Successors.end(); successor++)
 				{
 					FreeNode((*successor));
@@ -279,7 +270,6 @@ public: // methods
 			// Now handle each successor to the current node ...
 			for (typename vector< Node * >::iterator successor = m_Successors.begin(); successor != m_Successors.end(); successor++)
 			{
-
 				// 	The g value for this successor ...
 				float newg = n->g + n->m_UserState.GetCost((*successor)->m_UserState);
 
@@ -301,7 +291,6 @@ public: // methods
 
 				if (openlist_result != m_OpenList.end())
 				{
-
 					// we found this state on open
 
 					if ((*openlist_result)->g <= newg)
@@ -325,7 +314,6 @@ public: // methods
 
 				if (closedlist_result != m_ClosedList.end())
 				{
-
 					// we found this state on closed
 
 					if ((*closedlist_result)->g <= newg)
@@ -358,22 +346,19 @@ public: // methods
 					// who noticed that this code path was incorrect
 					// Here we have found a new state which is already CLOSED
 					// anus
-
 				}
 
 				// Update old version of this node
 				if (openlist_result != m_OpenList.end())
 				{
-
 					FreeNode((*openlist_result));
 					m_OpenList.erase(openlist_result);
 
-					// re-make the heap 
+					// re-make the heap
 					// make_heap rather than sort_heap is an essential bug fix
 					// thanks to Mike Ryynanen for pointing this out and then explaining
 					// it in detail. sort_heap called on an invalid heap does not work
 					make_heap(m_OpenList.begin(), m_OpenList.end(), HeapCompare_f());
-
 				}
 
 				// heap now unsorted
@@ -381,17 +366,14 @@ public: // methods
 
 				// sort back element into heap
 				push_heap(m_OpenList.begin(), m_OpenList.end(), HeapCompare_f());
-
 			}
 
 			// push n onto Closed, as we have expanded it now
 
 			m_ClosedList.push_back(n);
-
 		} // end else (not goal so expand)
 
-		return m_State; // Succeeded bool is false at this point. 
-
+		return m_State; // Succeeded bool is false at this point.
 	}
 
 	// User calls this to add a successor to a list of successors
@@ -428,11 +410,9 @@ public: // methods
 				FreeNode(del);
 
 				del = NULL;
-
 			} while (n != m_Goal);
 
 			FreeNode(n); // Delete the goal
-
 		}
 		else
 		{
@@ -441,7 +421,6 @@ public: // methods
 			FreeNode(m_Start);
 			FreeNode(m_Goal);
 		}
-
 	}
 
 	// Functions for traversing the solution
@@ -467,7 +446,6 @@ public: // methods
 		{
 			if (m_CurrentSolutionNode->child)
 			{
-
 				Node *child = m_CurrentSolutionNode->child;
 
 				m_CurrentSolutionNode = m_CurrentSolutionNode->child;
@@ -500,7 +478,6 @@ public: // methods
 		{
 			if (m_CurrentSolutionNode->parent)
 			{
-
 				Node *parent = m_CurrentSolutionNode->parent;
 
 				m_CurrentSolutionNode = m_CurrentSolutionNode->parent;
@@ -617,14 +594,12 @@ public: // methods
 
 	void EnsureMemoryFreed()
 	{
-
-
 	}
 
 private: // methods
 
 		 // This is called when a search fails or is cancelled to free all used
-		 // memory 
+		 // memory
 	void FreeAllNodes()
 	{
 		// iterate open list and delete all nodes
@@ -656,9 +631,8 @@ private: // methods
 		FreeNode(m_Goal);
 	}
 
-
 	// This call is made by the search class when the search ends. A lot of nodes may be
-	// created that are still present when the search ends. They will be deleted by this 
+	// created that are still present when the search ends. They will be deleted by this
 	// routine once the search ends
 	void FreeUnusedNodes()
 	{
@@ -692,18 +666,15 @@ private: // methods
 			{
 				FreeNode(n);
 				n = NULL;
-
 			}
 		}
 
 		m_ClosedList.clear();
-
 	}
 
 	// Node memory management
 	Node *AllocateNode()
 	{
-
 #if !USE_FSA_MEMORY
 		Node *p = new Node;
 		return p;
@@ -712,12 +683,10 @@ private: // methods
 
 	void FreeNode(Node *node)
 	{
-
 		m_AllocateNodeCount--;
 
 #if !USE_FSA_MEMORY
 		delete node;
-
 
 #endif
 	}
@@ -746,8 +715,6 @@ private: // data
 
 	Node *m_CurrentSolutionNode;
 
-
-
 	//Debug : need to keep these two iterators around
 	// for the user Dbg functions
 	typename vector< Node * >::iterator iterDbgOpen;
@@ -757,7 +724,6 @@ private: // data
 	int m_AllocateNodeCount;
 
 	bool m_CancelRequest;
-
 };
 
 template <class T> class AStarState

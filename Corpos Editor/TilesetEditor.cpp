@@ -5,17 +5,15 @@ TilesetEditor::TilesetEditor(QWidget *parent)
 {
 	ui.setupUi(this);
 
-	tileView = new TileView(ui.frameTileView,QPoint(),QSize(200,200));
+	tileView = new TileView(ui.frameTileView, QPoint(), QSize(200, 200));
 	tileView->setViewSize(0.37);
-	tileView->view.setCenter(sf::Vector2f(34,34));
-
+	tileView->view.setCenter(sf::Vector2f(34, 34));
 
 	frameEdit = new FrameEditor(nullptr, QPoint(), QSize(1000, 1000));
 	ui.verticalLayout_TextureView->addWidget(frameEdit);
 	frameEdit->setViewSize(0.32);
 	reloadData();
 	setMouseTracking(frameEdit);
-
 
 	QObject::connect(frameEdit, &FrameEditor::frameChanged,
 		this, &TilesetEditor::setFrameData);
@@ -28,7 +26,6 @@ TilesetEditor::~TilesetEditor()
 
 void TilesetEditor::onSelectedTileDefinition(QTreeWidgetItem * item, int)
 {
-	
 	//clear treewidget with frames
 	if (!item)
 	{
@@ -62,7 +59,7 @@ void TilesetEditor::onSelectedTileDefinition(QTreeWidgetItem * item, int)
 		{
 			int index = ui.comboBox_tileType->findData("background", Qt::DisplayRole);
 			ui.comboBox_tileType->setCurrentIndex(index);
-		}	
+		}
 		ui.checkBox_singleImage->setChecked(tiledefinition.singleImage);
 		ui.lineEdit_tileName->setText(QString::fromStdString(tiledefinition.name));
 		ui.spinBox_tileRectX->setValue(tiledefinition.tileRect.left);
@@ -71,13 +68,11 @@ void TilesetEditor::onSelectedTileDefinition(QTreeWidgetItem * item, int)
 		ui.spinBox_TilerectH->setValue(tiledefinition.tileRect.height);
 	}
 
-
 	ui.treeWidget_tilesGrid->clear();
 
 	//left
 	for each (auto var in tiledefinition.L)
 	{
-
 		auto widget = new QTreeWidgetItem(ui.treeWidget_tilesGrid);
 		widget->setText(0, "left");
 		std::string pos = std::to_string(var.left) + "," + std::to_string(var.top);
@@ -90,7 +85,6 @@ void TilesetEditor::onSelectedTileDefinition(QTreeWidgetItem * item, int)
 	//top
 	for each (auto var in tiledefinition.T)
 	{
-
 		auto widget = new QTreeWidgetItem(ui.treeWidget_tilesGrid);
 		widget->setText(0, "top");
 		std::string pos = std::to_string(var.left) + "," + std::to_string(var.top);
@@ -103,7 +97,6 @@ void TilesetEditor::onSelectedTileDefinition(QTreeWidgetItem * item, int)
 	//right
 	for each (auto var in tiledefinition.R)
 	{
-
 		auto widget = new QTreeWidgetItem(ui.treeWidget_tilesGrid);
 		widget->setText(0, "right");
 		std::string pos = std::to_string(var.left) + "," + std::to_string(var.top);
@@ -116,7 +109,6 @@ void TilesetEditor::onSelectedTileDefinition(QTreeWidgetItem * item, int)
 	//bottom
 	for each (auto var in tiledefinition.B)
 	{
-
 		auto widget = new QTreeWidgetItem(ui.treeWidget_tilesGrid);
 		widget->setText(0, "bottom");
 		std::string pos = std::to_string(var.left) + "," + std::to_string(var.top);
@@ -129,7 +121,6 @@ void TilesetEditor::onSelectedTileDefinition(QTreeWidgetItem * item, int)
 	//inner
 	for each (auto var in tiledefinition.inner)
 	{
-
 		auto widget = new QTreeWidgetItem(ui.treeWidget_tilesGrid);
 		widget->setText(0, "inner");
 		std::string pos = std::to_string(var.left) + "," + std::to_string(var.top);
@@ -142,7 +133,6 @@ void TilesetEditor::onSelectedTileDefinition(QTreeWidgetItem * item, int)
 	//left-top
 	for each (auto var in tiledefinition.LT)
 	{
-
 		auto widget = new QTreeWidgetItem(ui.treeWidget_tilesGrid);
 		widget->setText(0, "top-left");
 		std::string pos = std::to_string(var.left) + "," + std::to_string(var.top);
@@ -155,7 +145,6 @@ void TilesetEditor::onSelectedTileDefinition(QTreeWidgetItem * item, int)
 	//left - bottom
 	for each (auto var in tiledefinition.LB)
 	{
-
 		auto widget = new QTreeWidgetItem(ui.treeWidget_tilesGrid);
 		widget->setText(0, "bottom-left");
 		std::string pos = std::to_string(var.left) + "," + std::to_string(var.top);
@@ -168,7 +157,6 @@ void TilesetEditor::onSelectedTileDefinition(QTreeWidgetItem * item, int)
 	//right-top
 	for each (auto var in tiledefinition.RT)
 	{
-
 		auto widget = new QTreeWidgetItem(ui.treeWidget_tilesGrid);
 		widget->setText(0, "top-right");
 		std::string pos = std::to_string(var.left) + "," + std::to_string(var.top);
@@ -181,7 +169,6 @@ void TilesetEditor::onSelectedTileDefinition(QTreeWidgetItem * item, int)
 	//right-bottom
 	for each (auto var in tiledefinition.RB)
 	{
-
 		auto widget = new QTreeWidgetItem(ui.treeWidget_tilesGrid);
 		widget->setText(0, "bottom-right");
 		std::string pos = std::to_string(var.left) + "," + std::to_string(var.top);
@@ -194,7 +181,6 @@ void TilesetEditor::onSelectedTileDefinition(QTreeWidgetItem * item, int)
 	//
 	for each (auto var in tiledefinition.ILT)
 	{
-
 		auto widget = new QTreeWidgetItem(ui.treeWidget_tilesGrid);
 		widget->setText(0, "inner-top-left");
 		std::string pos = std::to_string(var.left) + "," + std::to_string(var.top);
@@ -206,7 +192,6 @@ void TilesetEditor::onSelectedTileDefinition(QTreeWidgetItem * item, int)
 	}
 	for each (auto var in tiledefinition.ILB)
 	{
-
 		auto widget = new QTreeWidgetItem(ui.treeWidget_tilesGrid);
 		widget->setText(0, "inner-bottom-left");
 		std::string pos = std::to_string(var.left) + "," + std::to_string(var.top);
@@ -219,7 +204,6 @@ void TilesetEditor::onSelectedTileDefinition(QTreeWidgetItem * item, int)
 	//
 	for each (auto var in tiledefinition.IRT)
 	{
-
 		auto widget = new QTreeWidgetItem(ui.treeWidget_tilesGrid);
 		widget->setText(0, "inner-top-right");
 		std::string pos = std::to_string(var.left) + "," + std::to_string(var.top);
@@ -231,7 +215,6 @@ void TilesetEditor::onSelectedTileDefinition(QTreeWidgetItem * item, int)
 	}
 	for each (auto var in tiledefinition.IRB)
 	{
-
 		auto widget = new QTreeWidgetItem(ui.treeWidget_tilesGrid);
 		widget->setText(0, "inner-bottom-right");
 		std::string pos = std::to_string(var.left) + "," + std::to_string(var.top);
@@ -243,7 +226,6 @@ void TilesetEditor::onSelectedTileDefinition(QTreeWidgetItem * item, int)
 	}
 	for each (auto var in tiledefinition.C)
 	{
-
 		auto widget = new QTreeWidgetItem(ui.treeWidget_tilesGrid);
 		widget->setText(0, "center");
 		std::string pos = std::to_string(var.left) + "," + std::to_string(var.top);
@@ -253,26 +235,23 @@ void TilesetEditor::onSelectedTileDefinition(QTreeWidgetItem * item, int)
 
 		ui.treeWidget_tilesGrid->addTopLevelItem(widget);
 	}
-
 }
 
 void TilesetEditor::updateTileView()
 {
 	bool a, b, c,
-		 d,/**/e,
-		 f, g, h;
+		d,/**/e,
+		f, g, h;
 	a = ui.checkBox_LeftTop->isChecked();		b = ui.checkBox_Top->isChecked();		c = ui.checkBox_RightTop->isChecked();
 	d = ui.checkBox_Left->isChecked();			/* center of tile*/				    	e = ui.checkBox_Right->isChecked();
 	f = ui.checkBox_LeftBottom->isChecked();	g = ui.checkBox_Bottom->isChecked();	h = ui.checkBox_RightBottom->isChecked();
 
 	tileView->setTileCollidables(a, b, c, d, e, f, g, h);
 	tileView->setViewSize(0.34);
-
 }
 
 void TilesetEditor::changeTileset()
 {
-	
 	changeTilesetData(ui.lineEdit_tilesetName->text().toStdString(), ui.lineEdit_Texture->text().toStdString(), "");
 }
 
@@ -307,7 +286,6 @@ void TilesetEditor::reloadTileDefinitions()
 
 	selectdTileId = -1;
 	ui.treeWidget_tilesGrid->clear();
-
 }
 
 void TilesetEditor::selectedTexture(QString text)
@@ -323,7 +301,7 @@ void TilesetEditor::onSelectedTileFrame(QTreeWidgetItem * item, int)
 		return;
 	}
 	auto tileDefinition = &tileDefinitions[selectdTileId];
-	
+
 	auto type = item->text(0).toStdString();
 	selectetRectangleType = getFrameType(type);
 
@@ -333,7 +311,7 @@ void TilesetEditor::onSelectedTileFrame(QTreeWidgetItem * item, int)
 	auto pos = item->text(1).toStdString();
 	auto size = item->text(2).toStdString();
 	int l, t, w, h = 0;
-	int center =  pos.find_first_of(',');
+	int center = pos.find_first_of(',');
 
 	auto strL = pos.substr(0, center + 1);
 	l = std::atoi(strL.c_str());
@@ -348,7 +326,6 @@ void TilesetEditor::onSelectedTileFrame(QTreeWidgetItem * item, int)
 
 	selectedRectangle = sf::IntRect(l, t, w, h);
 	frameEdit->setFrame(selectedRectangle);
-
 }
 
 void TilesetEditor::setFrameData(sf::IntRect rect)
@@ -383,9 +360,8 @@ void TilesetEditor::editFrame()
 	int w = ui.spinBox_sizeX->value();
 	int h = ui.spinBox_sizeY->value();
 
-	
 	//replace element
-	if(type == selectetRectangleType)replaceFrameInTile(tileDefinitions[selectdTileId],selectedRectangle,sf::IntRect(x, y, w, h), type);
+	if (type == selectetRectangleType)replaceFrameInTile(tileDefinitions[selectdTileId], selectedRectangle, sf::IntRect(x, y, w, h), type);
 	else
 	{
 		deleteFrameFromTile(tileDefinitions[selectdTileId], selectedRectangle, selectetRectangleType);
@@ -396,9 +372,6 @@ void TilesetEditor::editFrame()
 
 	//reload tileFrames;
 	onSelectedTileDefinition(ui.treeWidget_Tiles->currentItem(), 0);
-	
-	
-	
 }
 
 void TilesetEditor::deleteFrame()
@@ -452,10 +425,10 @@ void TilesetEditor::editTile()
 
 	TileDefinition & tile = tileDefinitions[selectdTileId];
 
-	tile.name				= ui.lineEdit_tileName->text().toStdString();
-	tile.backgroundTile		= ui.lineEdit_background->text().toStdString();
-	tile.connectGroup		=	ui.lineEdit_connectGroup->text().toStdString();
-	tile.health				= ui.spinBox_health->value();
+	tile.name = ui.lineEdit_tileName->text().toStdString();
+	tile.backgroundTile = ui.lineEdit_background->text().toStdString();
+	tile.connectGroup = ui.lineEdit_connectGroup->text().toStdString();
+	tile.health = ui.spinBox_health->value();
 
 	if (ui.comboBox_tileType->currentText() == "background")
 		tile.is_blocking = false;
@@ -463,13 +436,12 @@ void TilesetEditor::editTile()
 
 	tile.singleImage = ui.checkBox_singleImage->isChecked();
 
-	tile.tileRect.left		= ui.spinBox_tileRectX->value();
-	tile.tileRect.top		= ui.spinBox_TilerectY->value();
-	tile.tileRect.width		= ui.spinBox_TilerectW->value();
-	tile.tileRect.height	= ui.spinBox_TilerectH->value();
+	tile.tileRect.left = ui.spinBox_tileRectX->value();
+	tile.tileRect.top = ui.spinBox_TilerectY->value();
+	tile.tileRect.width = ui.spinBox_TilerectW->value();
+	tile.tileRect.height = ui.spinBox_TilerectH->value();
 
 	reloadTileDefinitions();
-	
 }
 
 void TilesetEditor::deleteTile()
@@ -557,13 +529,11 @@ void TilesetEditor::saveTileset()
 		std::string str(ws.begin(), ws.end());
 		saveToFile(str);
 
-
-		
 		//this->ui.mdiArea->addSubWindow(new MapForm(this, str));
 	}
 	else
 	{
-		// All this stuff below is to tell you exactly how you messed up above. 
+		// All this stuff below is to tell you exactly how you messed up above.
 		// Once you've got that fixed, you can often (not always!) reduce it to a 'user cancelled' assumption.
 		switch (CommDlgExtendedError())
 		{
@@ -587,28 +557,25 @@ void TilesetEditor::saveTileset()
 	}
 }
 
-
-
-
 void TilesetEditor::changeTilesetData(std::string name, std::string texture, std::string size)
 {
 	this->name = name;
 	this->texture = texture;
 
-	ui.label_Name->setText( QString::fromStdString(name));
+	ui.label_Name->setText(QString::fromStdString(name));
 	ui.label_Texture->setText(QString::fromStdString(texture));
 
 	int index = ui.comboBox_Texture->findData(QString::fromStdString(texture), Qt::DisplayRole);
 	ui.comboBox_Texture->setCurrentIndex(index);
 
 	auto tex = GameDataHolder::getInstance()->getTexture(texture);
-	for(int i = 0 ; i < tileDefinitions.size();i++)
+	for (int i = 0; i < tileDefinitions.size(); i++)
 	{
 		auto var = &tileDefinitions[i];
 		var->texture_name = texture;
 		var->texture = tex;
 	}
-	
+
 	if (!tex)
 	{
 		auto info = "Texture with name " + texture + "not found";
@@ -622,11 +589,9 @@ void TilesetEditor::changeTilesetData(std::string name, std::string texture, std
 		if (size == "")
 		{
 			ui.label_Texturesize->setText(QString::number(tex->getSize().x) + "," + QString::number(tex->getSize().y));
-			
 		}
 		frameEdit->setTexture(texture);
 	}
-
 }
 
 void TilesetEditor::addTile(TextElement * e)
@@ -634,8 +599,6 @@ void TilesetEditor::addTile(TextElement * e)
 	auto td = TileDefinition();
 	td.setTile(e, nullptr, texture);
 	tileDefinitions.push_back(td);
-
-
 
 	auto widget = new QTreeWidgetItem(ui.treeWidget_Tiles);
 	widget->setText(0, QString::fromStdString(td.name));
@@ -669,7 +632,7 @@ void TilesetEditor::saveToFile(std::string file)
 	tilesetSize.name = "Texture_size";
 
 	sf::Rect<unsigned> texture_size;
-	if (frameEdit->getTexture())texture_size = sf::Rect<unsigned>(sf::Vector2u(),frameEdit->getTexture()->getSize());
+	if (frameEdit->getTexture())texture_size = sf::Rect<unsigned>(sf::Vector2u(), frameEdit->getTexture()->getSize());
 	tilesetSize.var.push_back(std::to_string(texture_size.left));
 	tilesetSize.var.push_back(std::to_string(texture_size.top));
 	tilesetSize.var.push_back(std::to_string(texture_size.width));
@@ -686,7 +649,7 @@ void TilesetEditor::saveToFile(std::string file)
 	fileData.setElements(elements);
 	bool saved = fileData.saveToFile(file);
 
-	if(!saved)
+	if (!saved)
 		QMessageBox::information(
 			this,
 			tr("Error"),
@@ -716,16 +679,16 @@ int TilesetEditor::getFrameType(std::string type)
 
 void TilesetEditor::deleteFrameFromTile(TileDefinition & tile, sf::IntRect rect, int type)
 {
-	auto deleteFrame = [](std::vector<sf::IntRect>&vec,sf::IntRect rect)->bool 
+	auto deleteFrame = [](std::vector<sf::IntRect>&vec, sf::IntRect rect)->bool
 	{ 	for (int i = 0; i < vec.size(); i++)
+	{
+		if (vec[i] == rect)
 		{
-			if (vec[i] == rect)
-			{
-				vec.erase(vec.begin() + i);
-				return true;
-			}
+			vec.erase(vec.begin() + i);
+			return true;
 		}
-		return false;
+	}
+	return false;
 	};
 
 	switch (type)
@@ -832,7 +795,7 @@ void TilesetEditor::addFrameToTile(TileDefinition & tile, sf::IntRect rect, int 
 void TilesetEditor::replaceFrameInTile(TileDefinition & tile, sf::IntRect previous, sf::IntRect next, int type)
 {
 	auto editFrame = [](std::vector<sf::IntRect>&vec, sf::IntRect rect, sf::IntRect rect2)->bool
-	{ 	
+	{
 		for (int i = 0; i < vec.size(); i++)
 		{
 			if (vec[i] == rect)
@@ -847,7 +810,7 @@ void TilesetEditor::replaceFrameInTile(TileDefinition & tile, sf::IntRect previo
 	switch (type)
 	{
 	case Left:
-		editFrame(tile.L, previous,next);
+		editFrame(tile.L, previous, next);
 		break;
 	case Right:
 		editFrame(tile.R, previous, next);
@@ -919,7 +882,7 @@ void TilesetEditor::loadTileset()
 		{
 			TextFileData file;
 			bool loaded = file.loadFile(str);
-			
+
 			if (!loaded)
 			{
 				Logger::e("Can't open file " + str);
@@ -940,13 +903,13 @@ void TilesetEditor::loadTileset()
 				}
 
 				auto t = tilesetData->getVariableByName("Texture");
-				if (t) 
+				if (t)
 				{
 					texture = t->toString(0);
 					ui.lineEdit_Texture->setText(t->toString(0).c_str());
 				}
 
-				changeTilesetData(name, texture,"");
+				changeTilesetData(name, texture, "");
 			}
 
 			auto definitions = file.getAllElementsByName("TILE");
@@ -955,15 +918,13 @@ void TilesetEditor::loadTileset()
 			tileDefinitions.clear();
 			for each (auto tile in definitions)
 			{
-
 				addTile(tile);
-
 			}
 		}
 	}
 	else
 	{
-		// All this stuff below is to tell you exactly how you messed up above. 
+		// All this stuff below is to tell you exactly how you messed up above.
 		// Once you've got that fixed, you can often (not always!) reduce it to a 'user cancelled' assumption.
 		switch (CommDlgExtendedError())
 		{
@@ -985,5 +946,4 @@ void TilesetEditor::loadTileset()
 		default: std::cout << "You cancelled.\n";
 		}
 	}
-	
 }

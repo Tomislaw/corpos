@@ -8,7 +8,7 @@
 #include "game\graphics\ParticleSystem.hpp"
 #include "game\engine\logic\Camera.hpp"
 #include "game\utility\Quadtree.hpp"
-//class Tilemap; 
+//class Tilemap;
 class TileMap;
 class EntityList
 {
@@ -30,7 +30,6 @@ public:
 	Entity* findEntity(std::string name);
 	// find entites by name, TODO: change pointer to reference
 	std::vector<Entity*> findEntities(std::string name);
-
 
 	// keyboard-mouse events
 	void events(sf::Event & e);
@@ -54,10 +53,9 @@ public:
 	//Tilemap * getTilemapPtr() { return tilemapPtr; }
 	TileMap * getTileMapPtr() { return tileMapPtr; }
 	//objects
-	
+
 private:
 	Quadtree tree;
-
 
 	std::vector<std::shared_ptr <Character>> characters;
 	std::vector<std::shared_ptr <Prop>> props;

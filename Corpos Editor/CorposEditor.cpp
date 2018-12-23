@@ -12,7 +12,7 @@ CorposEditor::CorposEditor(QWidget *parent)
 	ui.setupUi(this);
 
 	Logger::getInstance().callback = std::bind(&CorposEditor::writeConsole, this, std::placeholders::_1);
-	
+
 	std::string loc = QCoreApplication::applicationFilePath().toStdString();
 	// parse exe location
 	auto a = loc.find_last_of("\\");
@@ -23,8 +23,7 @@ CorposEditor::CorposEditor(QWidget *parent)
 	loc.erase(a, loc.size() - a);
 	Options::editorExeLocation = loc + "/";
 	//
-	if(a==0)Logger::e("Error in parsing editor executable location");
-
+	if (a == 0)Logger::e("Error in parsing editor executable location");
 
 	// load other parts
 	Options::loadIniFile();
@@ -43,13 +42,13 @@ CorposEditor::CorposEditor(QWidget *parent)
 void CorposEditor::showOptionsForms()
 {
 	if (optionsForm != nullptr)
-	optionsForm->show();
+		optionsForm->show();
 }
 
 CorposEditor::~CorposEditor()
 {
 	if (optionsForm != nullptr)
-	optionsForm->close();
+		optionsForm->close();
 	delete optionsForm;
 
 	//if (spriteForm != nullptr)
@@ -65,12 +64,11 @@ CorposEditor::~CorposEditor()
 void CorposEditor::createMap(int sizex, int sizey, std::string name)
 {
 	this->ui.mdiArea->addSubWindow(new MapForm(this, sizex, sizey, name))->showFullScreen();
-
 }
 
 void CorposEditor::writeConsole(std::string info)
 {
-	this->ui.consoleText->setText(QString::fromStdString(info)+ui.consoleText->toPlainText());
+	this->ui.consoleText->setText(QString::fromStdString(info) + ui.consoleText->toPlainText());
 }
 
 void CorposEditor::showSpriteBrowserForms()
@@ -111,7 +109,7 @@ void CorposEditor::loadMap()
 	}
 	else
 	{
-		// All this stuff below is to tell you exactly how you messed up above. 
+		// All this stuff below is to tell you exactly how you messed up above.
 		// Once you've got that fixed, you can often (not always!) reduce it to a 'user cancelled' assumption.
 		switch (CommDlgExtendedError())
 		{
@@ -133,12 +131,10 @@ void CorposEditor::loadMap()
 		default: std::cout << "You cancelled.\n";
 		}
 	}
-
 }
 
 void CorposEditor::saveMap()
 {
-
 	WCHAR filename[MAX_PATH];
 
 	OPENFILENAME ofn;
@@ -174,13 +170,12 @@ void CorposEditor::saveMap()
 				this,
 				tr("Error"),
 				tr("Unable to save file."));
-
 		}
 		//this->ui.mdiArea->addSubWindow(new MapForm(this, str));
 	}
 	else
 	{
-		// All this stuff below is to tell you exactly how you messed up above. 
+		// All this stuff below is to tell you exactly how you messed up above.
 		// Once you've got that fixed, you can often (not always!) reduce it to a 'user cancelled' assumption.
 		switch (CommDlgExtendedError())
 		{
@@ -206,9 +201,7 @@ void CorposEditor::saveMap()
 
 void CorposEditor::newMap()
 {
-
 	newMapforms->show();
-
 }
 
 void CorposEditor::loadTileDefinitions(QMdiSubWindow * window)
@@ -217,17 +210,15 @@ void CorposEditor::loadTileDefinitions(QMdiSubWindow * window)
 	windowPtr = window;
 	if (window == nullptr)return;
 
-
 	auto win = dynamic_cast<MapForm*>(window->widget());
 	if (win != nullptr)
 	{
 		ui.actionSave->setEnabled(true);
 		ui.tileListWidget->clear();
-	
-		auto vtm = win->getVertexTileMap();
-		
-		auto addTile = [](VertexTileMap * m, TileDefinition * d, QListWidget * list) {
 
+		auto vtm = win->getVertexTileMap();
+
+		auto addTile = [](VertexTileMap * m, TileDefinition * d, QListWidget * list) {
 			//Create main widget
 			QWidget *tileWidget = new QWidget;
 
@@ -246,7 +237,7 @@ void CorposEditor::loadTileDefinitions(QMdiSubWindow * window)
 				if (d->is_blocking == true)labelType->setText("tile");
 				else labelType->setText("background");
 			}
-			else 
+			else
 			{
 				labelName->setText("air");
 				labelType->setText("background");
@@ -260,7 +251,6 @@ void CorposEditor::loadTileDefinitions(QMdiSubWindow * window)
 				labelTileset->setText(QString::fromStdString(m->name));
 			}
 			else labelTileset->setText("");
-
 
 			//set layout
 			QHBoxLayout *layout = new QHBoxLayout;
@@ -278,37 +268,28 @@ void CorposEditor::loadTileDefinitions(QMdiSubWindow * window)
 			list->setItemWidget(item, tileWidget);
 		};
 
-
 		addTile(nullptr, nullptr, ui.tileListWidget);
-		for(size_t i = 0; i <  vtm.size(); i++)
+		for (size_t i = 0; i < vtm.size(); i++)
 		{
 			auto m = &vtm.at(i);
-			
 
-			for(size_t j = 0; j <  m->definitions.size();j++)
+			for (size_t j = 0; j < m->definitions.size(); j++)
 			{
 				auto d = &m->definitions[j];
 				addTile(m, d, ui.tileListWidget);
-
 			}
-
 		}
-		
+
 		Logger::e(std::to_string(window->size().height()));
 	}
 	else
 	{
 		ui.tileListWidget->clear();
 	}
-
-	
 }
-
-
 
 void CorposEditor::tileSelected(QListWidgetItem *item)
 {
-	
 	if (item == nullptr)
 	{
 		selectedTile = "";
@@ -327,15 +308,12 @@ void CorposEditor::tileSelected(QListWidgetItem *item)
 			{
 				if (w->accessibleName().contains("name"))
 				{
-					
 					name = w->text().toStdString();
-					
 				}
 				if (w->accessibleName().contains("tileset"))
 				{
 					tileset = w->text().toStdString();
 				}
-
 			}
 		}
 
@@ -350,13 +328,12 @@ void CorposEditor::tileSelected(QListWidgetItem *item)
 			selectedTile = name;
 			selectedTileset = tileset;
 		}
-
 	}
 }
 
 void CorposEditor::tileFilter(QString str)
 {
-	for(int i = 0; i < ui.tileListWidget->count(); i++)
+	for (int i = 0; i < ui.tileListWidget->count(); i++)
 	{
 		QListWidgetItem* item = ui.tileListWidget->item(i);
 		auto widget = ui.tileListWidget->itemWidget(item);
@@ -367,16 +344,13 @@ void CorposEditor::tileFilter(QString str)
 			{
 				if (w->accessibleName().contains("name"))
 				{
-					
 					auto name = w->text().toLower();
 					item->setHidden(!name.contains(str.toLower()));
 					break;
 				}
-
 			}
 		}
 	}
-	
 }
 
 void CorposEditor::updateMenuView()
@@ -385,4 +359,3 @@ void CorposEditor::updateMenuView()
 	ui.actionTile_browser->setChecked(ui.tileDock->isVisible());
 	ui.actionEntity_list->setChecked(ui.entityDock->isVisible());
 }
-

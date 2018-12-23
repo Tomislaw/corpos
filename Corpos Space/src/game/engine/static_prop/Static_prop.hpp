@@ -9,10 +9,6 @@ class Static_prop //:
 public:
 	Static_prop();
 	~Static_prop();
-
-
-
 };
 
 #endif
-

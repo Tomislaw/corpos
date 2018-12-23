@@ -1,8 +1,6 @@
 #include "GunFire.hpp"
 #include "game\engine\EntityList.hpp"
 
-
-
 GunFire::GunFire(EntityList * entlist, Bullet bulletType)
 {
 	name = "gunfire";
@@ -12,7 +10,7 @@ GunFire::GunFire(EntityList * entlist, Bullet bulletType)
 	muzzle = bulletType.getSprite();
 	muzzle.attachToEntity(nullptr);
 	muzzle.SetAnimation("muzzle");
-	
+
 	auto animation = muzzle.getCurrentAnimation();
 	if (animation != nullptr)animation->finish();
 }
@@ -25,14 +23,13 @@ void GunFire::update(float delta)
 {
 	Entity::update(delta);
 	muzzle.update(delta);
-	
+
 	if (entityListPtr == nullptr)
 		return;
 
 	//if not reloading
 	if (!isReload)
 	{
-
 		//decrease time to spawn next bullet
 		//if time is passed, spawn new bullet
 
@@ -46,9 +43,7 @@ void GunFire::update(float delta)
 			return;
 		}
 
-	
-
-		if(timeToNextBullet > 0)return;
+		if (timeToNextBullet > 0)return;
 
 		if (-timeToNextBullet > 1 / frequency)
 		{
@@ -65,7 +60,6 @@ void GunFire::update(float delta)
 			fireBullet(-timeToNextBullet);
 			timeToNextBullet += 1 / frequency;
 		}
-
 	}//if reloading
 	else
 	{
@@ -78,8 +72,6 @@ void GunFire::update(float delta)
 			timeToNextBullet = 0;
 		}
 	}
-
-
 }
 
 void GunFire::startFire()
@@ -114,7 +106,6 @@ void GunFire::setBulletDefinition(Bullet & bullet) { bulletType = Bullet(bullet)
 
 void GunFire::aim(sf::Vector2f aimPos)
 {
-
 	radians = atan2(getPosition().y - aimPos.y, getPosition().x - aimPos.x) + 3.14; //rotated by 180 angle
 }
 
@@ -128,7 +119,6 @@ void GunFire::draw(sf::RenderTarget & window)
 		muzzle.setPosition(muzzlePos);
 		muzzle.draw(window);
 	}
-		
 }
 
 void GunFire::drawDebugData(sf::RenderTarget & window)
@@ -147,20 +137,16 @@ void GunFire::fireBullet(float timeAfterUpdate)
 
 	if (entityListPtr == nullptr)return;
 
-
 	float distance = barrelLenght + bulletType.getBulletDefaultSpeed()*timeAfterUpdate;
-
 
 	sf::Vector2f startpos;
 	startpos.x = getPosition().x + distance * cos(radians);
 	startpos.y = getPosition().y + distance * sin(radians);
 
-
-	muzzle.GetSprite().setRotation(radians*180/3.14);
+	muzzle.GetSprite().setRotation(radians * 180 / 3.14);
 
 	auto anim = muzzle.getCurrentAnimation();
 	if (anim != nullptr)anim->reset();
-
 
 	sf::Vector2f velocity;
 	velocity.x = bulletType.getBulletDefaultSpeed() * cos(radians);

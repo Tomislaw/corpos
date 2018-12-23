@@ -22,5 +22,4 @@ std::shared_ptr<Character> CharacterFactory::create(TextElement * data, EntityLi
 		}
 	}
 	else return nullptr;
-
 }
