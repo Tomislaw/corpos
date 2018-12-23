@@ -321,7 +321,6 @@ public:
 
 	std::vector<MapTile*> getTilesFromLine(sf::Vector2f start, sf::Vector2f end)
 	{
-
 		std::vector<sf::Vector2i> tile_ids;
 
 		auto tileStart = this->getTileId(start);

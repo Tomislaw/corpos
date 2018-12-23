@@ -1,6 +1,6 @@
 #ifndef	GUNFIRE_HPP
 #define GUNFIRE_HPP
-#include "D:\Microsoft Visual Studio\Projects\Corpos Space\Corpos Space\src\game\engine\Entity.hpp"
+#include "game\engine\Entity.hpp"
 #include "game\engine\Damageable.hpp"
 
 class EntityList;

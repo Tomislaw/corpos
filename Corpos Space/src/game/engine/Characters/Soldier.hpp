@@ -1,6 +1,6 @@
 #ifndef SOLDIER_HPP
 #define SOLDIER_HPP
-#include "D:\Microsoft Visual Studio\Projects\Corpos Space\Corpos Space\src\game\engine\Character.hpp"
+#include "game/engine/Character.hpp"
 
 #include "game\engine\logic\GunFire.hpp"
 // Soldier character type

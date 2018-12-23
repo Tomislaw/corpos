@@ -19,7 +19,7 @@ Camera::~Camera()
 
 void Camera::setForegroundView(sf::RenderTarget & target)
 {
-	
+
 	camera.setSize(sf::Vector2f(target.getSize()));
 
 	if (this->target == nullptr)
@@ -29,8 +29,8 @@ void Camera::setForegroundView(sf::RenderTarget & target)
 	}
 
 	sf::Vector2f position;
-	position.x = (int)this->target->getPosition().x;;
-	position.y = (int)this->target->getPosition().y;;
+	position.x = (int)this->target->getPosition().x;
+	position.y = (int)this->target->getPosition().y;
 	camera.setCenter(position);
 
 	

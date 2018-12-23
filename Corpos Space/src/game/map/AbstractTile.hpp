@@ -3,6 +3,8 @@
 #include "TileDefinition.hpp"
 #include "game\utility\Flags.h"
 #include "game\graphics\Particle.hpp"
+#include "game\engine\Damageable.hpp"
+
 #ifndef	ABSTRACT_TILE_HPP
 #define ABSTRACT_TILE_HPP
 
@@ -10,7 +12,7 @@
 
 struct TileDefinition;
 
-class AbstractTile : public Destructable
+class AbstractTile : public Destructable, public Collideable
 {
 public:
 

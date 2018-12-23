@@ -137,6 +137,19 @@ void EntityList::events(sf::Event & e)
 
 void EntityList::update(float time)
 {
+	std::vector<std::shared_ptr <Bullet>>::iterator it3 = bullets.begin();
+	while (it3 != bullets.end())
+	{
+		it3->get()->update(time);
+		checkBulletCollision(it3->get());
+		if (it3->get()->isDestroyed())it3 = bullets.erase(it3);
+		else
+		{
+			++it3;
+		}
+
+	}
+
 	player.update(time);
 	tree.Clear();
 	std::vector<std::shared_ptr <Character>>::iterator it = characters.begin();
@@ -162,18 +175,7 @@ void EntityList::update(float time)
 			++it2;
 		}
 	}
-	std::vector<std::shared_ptr <Bullet>>::iterator it3 = bullets.begin();
-	while (it3 != bullets.end())
-	{
-		it3->get()->update(time);
-		checkBulletCollision(it3->get());
-		if (it3->get()->isDestroyed())it3 = bullets.erase(it3);
-		else
-		{
-			++it3;
-		}
-		
-	}
+
 	particleSystem.update(time);
 }
 
@@ -230,6 +232,8 @@ bool EntityList::checkBulletCollision(Bullet * bullet)
 
 		auto tilesInLine = this->tileMapPtr->getTilesFromLine(bullet->getPreviousPosition(), bullet->getPosition());
 
+		bool collided = false;
+
 		for each (MapTile* mapTile in tilesInLine)
 		{
 			if (mapTile == nullptr)
@@ -240,18 +244,18 @@ bool EntityList::checkBulletCollision(Bullet * bullet)
 
 			if (mapTile->getMainTile() == nullptr)
 			{
-				return false;
+				continue;
 			}
 
 			auto tile = mapTile->getMainTile();
-
-			if (tile->isBlocking())
+			sf::Vector2f collisionPoint = bullet->getPosition();
+			if (tile->collide(bullet->getPreviousPosition(), bullet->getPosition(), collisionPoint))
 			{
 				DefaultTile* defaultTile = dynamic_cast<DefaultTile*>(tile.get());
 				if (defaultTile == nullptr)
 				{
 					bullet->destroy();
-					continue;
+					return true;
 				}
 				int damage = bullet->getDamage();
 				bullet->decreaseDamage(defaultTile->getHealth());
@@ -266,11 +270,13 @@ bool EntityList::checkBulletCollision(Bullet * bullet)
 				}
 				if (bullet->isDestroyed() || bullet->isDuringDestroying())
 				{
-					//bullet->correctBulletPositionAfterDestroy(tile->getCollisionBox());
+					bullet->setPosition(collisionPoint);
+					return false;
 				}
 
-				return true;
+				collided = true;
 			}
+			return collided;
 		}
 
 	}

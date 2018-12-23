@@ -141,6 +141,7 @@ void Bullet::draw(sf::RenderTarget & window)
 {
 	if (destroyed)return;
 	bulletSprite.draw(window);
+	drawDebugData(window);
 
 }
 

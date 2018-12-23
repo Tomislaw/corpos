@@ -61,40 +61,46 @@ template <class Numeric>
 bool LineSegRectIntersectionPoint(sf::Vector2<Numeric> &start, sf::Vector2<Numeric> &end,
 	sf::Rect<Numeric> rect, sf::Vector2<Numeric> &intersect)
 {
-	auto a = sf::Vector2<Numeric>(rect.left, rect.top);
-	auto b = sf::Vector2<Numeric>(rect.left + rect.width, rect.top);
-	auto c = sf::Vector2<Numeric>(rect.left + rect.width, rect.top + rect.height);
-	auto d = sf::Vector2<Numeric>(rect.left, rect.top + rect.height);
+	auto lt = sf::Vector2<Numeric>(rect.left, rect.top);
+	auto rt = sf::Vector2<Numeric>(rect.left + rect.width, rect.top);
+	auto rb = sf::Vector2<Numeric>(rect.left + rect.width, rect.top + rect.height);
+	auto lb = sf::Vector2<Numeric>(rect.left, rect.top + rect.height);
 
-	if (start.y < a.y)
+	if (start.x >= lt.x && start.x <= rt.x && start.y >= lt.y && start.y <= lb.y)
 	{
-		if (isLineSegLineSegIntersect(start, end, a, b))
+		intersect = start;
+		return true;
+	}
+
+	if (start.y < lt.y)
+	{
+		if (isLineSegLineSegIntersect(start, end, lt, rt))
 		{
-			intersect = LineLineIntersectionPoint(start, end, a, b);
+			intersect = LineLineIntersectionPoint(start, end, lt, rt);
 			return true;
 		}
 	}
-	if (start.x > a.x)
+	//if (start.x < lt.x)
 	{
-		if (isLineSegLineSegIntersect(start, end, b, c))
+		if (isLineSegLineSegIntersect(start, end, rt, rb))
 		{
-			intersect = LineLineIntersectionPoint(start, end, b, c);
+			intersect = LineLineIntersectionPoint(start, end, rt, rb);
 			return true;
 		}
 	}
-	if (start.y > a.y)
+	//if (start.y < lt.y)
 	{
-		if (isLineSegLineSegIntersect(start, end, c, d))
+		if (isLineSegLineSegIntersect(start, end, rb, lb))
 		{
-			intersect = LineLineIntersectionPoint(start, end, c, d);
+			intersect = LineLineIntersectionPoint(start, end, rb, lb);
 			return true;
 		}
 	}
-	if (start.x < a.x)
+	if (start.x < lt.x)
 	{
-		if (isLineSegLineSegIntersect(start, end, d, a))
+		if (isLineSegLineSegIntersect(start, end, lb, lt))
 		{
-			intersect = LineLineIntersectionPoint(start, end, d, a);
+			intersect = LineLineIntersectionPoint(start, end, lb, lt);
 			return true;
 		}
 	}

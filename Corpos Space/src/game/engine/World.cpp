@@ -40,9 +40,9 @@ void World::draw(sf::RenderWindow & window)
 	
 	
 	tilemap2.drawBackground(window);
-	entitylist.draw(window);
-	tilemap2.draw(window);
 	
+	tilemap2.draw(window);
+	entitylist.draw(window);
 }
 
 
