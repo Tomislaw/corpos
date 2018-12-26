@@ -182,7 +182,7 @@ bool Tilemap::loadMap(TextElement * tm)
 			}
 			else
 			{
-				auto vtm = getVertexTileMapByTextureName(b->texture_name);
+				auto vtm = getVertexTileMapByTextureName(b->textureName);
 				//set tile if found and blocking
 				if (b->is_blocking)
 				{
@@ -355,7 +355,7 @@ void Tilemap::setTile(TileDefinition * definition, size_t x, size_t y)
 		return;
 	}
 
-	auto vtm = getVertexTileMapByTextureName(definition->texture_name);
+	auto vtm = getVertexTileMapByTextureName(definition->textureName);
 
 	//set tile if found and blocking
 	if (definition->is_blocking)

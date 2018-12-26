@@ -5,9 +5,11 @@
 #include "Characters\CharacterFactory.hpp"
 #include "game\engine\Prop.hpp"
 #include "game\engine\Player.hpp"
+#include "game/engine/Landscape.hpp"
 #include "game\graphics\ParticleSystem.hpp"
 #include "game\engine\logic\Camera.hpp"
 #include "game\utility\Quadtree.hpp"
+
 //class Tilemap;
 class TileMap;
 class EntityList
@@ -24,6 +26,8 @@ public:
 	void addCharacter(std::shared_ptr<Character> & ent);
 	// add prop from smart pointer
 	void addProp(std::shared_ptr<Prop> & ent);
+	// add landscape from smart pointer
+	void addLandscape(std::shared_ptr<Landscape> & ent);
 	// add bullet
 	void addBullet(std::shared_ptr<Bullet>& bullet);
 	// find entity, nullptr if not found
@@ -37,7 +41,8 @@ public:
 	void update(float time);
 	// draw it
 	void draw(sf::RenderWindow& window);
-
+	// draw background elements
+	void drawBackground(sf::RenderWindow& window);
 	// check bullet collision with all props
 	bool checkBulletCollision(Bullet * bullet);
 
@@ -59,6 +64,7 @@ private:
 
 	std::vector<std::shared_ptr <Character>> characters;
 	std::vector<std::shared_ptr <Prop>> props;
+	std::vector<std::shared_ptr <Landscape>> landscapes;
 	std::vector<std::shared_ptr <Bullet>> bullets;
 
 	ParticleSystem particleSystem;

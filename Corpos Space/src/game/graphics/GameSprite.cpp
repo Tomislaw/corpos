@@ -6,60 +6,72 @@ GameSprite::GameSprite()
 GameSprite::GameSprite(sf::Vector2f position, const sf::Texture &set_texture, TextElement *spritetext)
 {
 	setPosition(position);
-	SetSprite(set_texture, spritetext);
+	setSprite(set_texture, spritetext);
 	auto data = spritetext->getVariableByName("Texture");
-	if (data != nullptr)texture_name = data->toString(0);
+	if (data != nullptr)textureName = data->toString(0);
 }
 GameSprite::GameSprite(const sf::Texture &set_texture, TextElement *spritetext)
 {
-	SetSprite(set_texture, spritetext);
+	setSprite(set_texture, spritetext);
 	auto data = spritetext->getVariableByName("Texture");
-	if (data != nullptr)texture_name = data->toString(0);
+	if (data != nullptr)textureName = data->toString(0);
 }
 
 GameSprite::~GameSprite()
 {
 }
 
-void GameSprite::SetTexture(const sf::Texture &set_texture)
+void GameSprite::setTexture(const sf::Texture &set_texture)
 {
 	sprite.setTexture(set_texture);
 }
-void GameSprite::SetRectangle(sf::IntRect rect)
+void GameSprite::setRectangle(sf::IntRect rect)
 {
 	sprite.setTextureRect(rect);
 	setPosition(sf::Vector2f(50, 50));
 }
 
-void GameSprite::SetSprite(const sf::Texture &set_texture, TextElement *spritetext)
+void GameSprite::setSprite(const sf::Texture &set_texture, TextElement *spritetext)
 {
 	// Get name
 	auto varname = spritetext->getVariableByName("Name");
 	if (varname != nullptr) name = varname->toString(0);
 	else Logger::e("Sprite is missing name");
+	
 	sprite.setTexture(set_texture);
 
 	// Get size
 	auto size = spritetext->getVariableByName("Texture_size");
-	if (size != nullptr)
-		SetRectangle(sf::IntRect(size->toInt(0), size->toInt(1), size->toInt(2), size->toInt(3)));
-	else Logger::e("Sprite is missing texture size");
+	auto textureSize = sf::Vector2i();
+	if (size != nullptr) 
+	{
+		setRectangle(sf::IntRect(size->toInt(0), size->toInt(1), size->toInt(2), size->toInt(3)));
+		textureSize.x = size->toInt(2);
+		textureSize.y = size->toInt(3);
+	}
+	else 
+	{ 
+		Logger::i("Sprite \"" + name + "\"is missing texture size, using default");
+		setRectangle(sf::IntRect(0, 0, set_texture.getSize().x, set_texture.getSize().y));
+		textureSize.x = set_texture.getSize().x;
+		textureSize.y = set_texture.getSize().y;
+	}
 
 	// Get is animated
-	is_animated = false;
+	animated = false;
 	auto varIsAnimated = spritetext->getVariableByName("Animated");
-	if (varIsAnimated != nullptr)is_animated = varIsAnimated->toInt(0);
+	if (varIsAnimated != nullptr)animated = varIsAnimated->toInt(0);
 
-	if (is_animated)
+	if (animated)
 	{
 		auto varSheet = spritetext->getVariableByName("Animation");
 		if (varSheet != nullptr)
-			SetAnimationSheet(varSheet->toString(0));
+			setAnimationSheet(varSheet->toString(0));
 		else Logger::e("Sprite is missing animation");
 	}
 
 	auto size2 = spritetext->getVariableByName("Sprite_size");
-	if (size2 != nullptr)sprite.setScale(size2->toFloat(0) / size->toFloat(2), size2->toFloat(1) / size->toFloat(3));
+	if (size2 != nullptr)sprite.setScale(size2->toFloat(0) / textureSize.x, size2->toFloat(1) / textureSize.y);
 	else Logger::e("Sprite is missing size");
 
 	auto size3 = spritetext->getVariableByName("Sprite_center");
@@ -74,40 +86,40 @@ void GameSprite::update(float delta_time)
 
 	sprite.setPosition(getPosition());
 
-	if (is_animated)
+	if (animated)
 	{
-		if (animation_sheet.size() == 0) return;
-		if (!animation_sheet[current_animation].is_finished())sprite.setTextureRect(animation_sheet[current_animation].get_current_rectangle(delta_time));
+		if (animationSheet.size() == 0) return;
+		if (!animationSheet[currentAnimation].is_finished())sprite.setTextureRect(animationSheet[currentAnimation].get_current_rectangle(delta_time));
 	}
 }
 
-bool GameSprite::SetAnimation(unsigned int i)
+bool GameSprite::setAnimation(unsigned int i)
 {
-	if (i >= animation_sheet.size()) current_animation = 0;
-	else current_animation = i;
-	animation_sheet[current_animation].reset();
-	sprite.setTextureRect(animation_sheet[current_animation].get_first_rectangle());
+	if (i >= animationSheet.size()) currentAnimation = 0;
+	else currentAnimation = i;
+	animationSheet[currentAnimation].reset();
+	sprite.setTextureRect(animationSheet[currentAnimation].get_first_rectangle());
 	return true;
 }
-bool GameSprite::SetAnimation(const std::string  &str)
+bool GameSprite::setAnimation(const std::string  &str)
 {
-	for (int i = 0; i < animation_sheet.size(); i++)
+	for (int i = 0; i < animationSheet.size(); i++)
 	{
-		if (str == animation_sheet[i].GetName())
+		if (str == animationSheet[i].GetName())
 		{
-			if (i == current_animation)return true;
-			current_animation = i;
-			animation_sheet[current_animation].reset();
-			sprite.setTextureRect(animation_sheet[current_animation].get_first_rectangle());
+			if (i == currentAnimation)return true;
+			currentAnimation = i;
+			animationSheet[currentAnimation].reset();
+			sprite.setTextureRect(animationSheet[currentAnimation].get_first_rectangle());
 			return true;
 		}
 	}
 	return false;
 }
 
-bool GameSprite::SetAnimationSheet(const std::string  &str)
+bool GameSprite::setAnimationSheet(const std::string  &str)
 {
-	if (animation_sheet.size() != 0) animation_sheet.clear();
+	if (animationSheet.size() != 0) animationSheet.clear();
 	TextFileData file;
 	file.loadFile(str);
 	auto anim = file.getAllElementsByName("ANIMATION");
@@ -115,20 +127,20 @@ bool GameSprite::SetAnimationSheet(const std::string  &str)
 	for (int i = 0; i < anim.size(); i++)
 	{
 		Animation a(anim[i]);
-		animation_sheet.push_back(a);
+		animationSheet.push_back(a);
 	}
 
-	if (animation_sheet.size() == 0)
+	if (animationSheet.size() == 0)
 	{
 		//std::cout << "No animations found in GAME SPRITE named " << name << std::endl;
-		animation_sheet.push_back(Animation(sprite.getTextureRect()));
+		animationSheet.push_back(Animation(sprite.getTextureRect()));
 	}
 	return true;
 }
 
 std::vector<Animation>& GameSprite::getAnimationSheet()
 {
-	return animation_sheet;
+	return animationSheet;
 }
 
 void GameSprite::setPosition(sf::Vector2f pos)
@@ -144,9 +156,9 @@ void GameSprite::draw(sf::RenderTarget &window)
 }
 
 Animation * GameSprite::getCurrentAnimation() {
-	if (animation_sheet.size() > 0)
+	if (animationSheet.size() > 0)
 	{
-		return &animation_sheet.at(current_animation);
+		return &animationSheet.at(currentAnimation);
 	}
 	else return nullptr;
 }

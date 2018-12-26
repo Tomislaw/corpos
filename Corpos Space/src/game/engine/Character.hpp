@@ -63,7 +63,7 @@ public:
 	sf::Vector2i getStandingTileId();
 	sf::Vector2f getCenteredPosition();
 
-	const  NavigationNodeCharacterData & getNavigationNodeCharacterData()
+	const NavigationNodeCharacterData & getNavigationNodeCharacterData()
 	{
 		return navCharData;
 	}

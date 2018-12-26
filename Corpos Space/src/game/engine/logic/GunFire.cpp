@@ -9,7 +9,7 @@ GunFire::GunFire(EntityList * entlist, Bullet bulletType)
 
 	muzzle = bulletType.getSprite();
 	muzzle.attachToEntity(nullptr);
-	muzzle.SetAnimation("muzzle");
+	muzzle.setAnimation("muzzle");
 
 	auto animation = muzzle.getCurrentAnimation();
 	if (animation != nullptr)animation->finish();
@@ -143,7 +143,7 @@ void GunFire::fireBullet(float timeAfterUpdate)
 	startpos.x = getPosition().x + distance * cos(radians);
 	startpos.y = getPosition().y + distance * sin(radians);
 
-	muzzle.GetSprite().setRotation(radians * 180 / 3.14);
+	muzzle.getSprite().setRotation(radians * 180 / 3.14);
 
 	auto anim = muzzle.getCurrentAnimation();
 	if (anim != nullptr)anim->reset();

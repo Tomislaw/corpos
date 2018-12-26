@@ -122,6 +122,6 @@ void GameAssetsManager::loadDefaultResources()
 	textures.insert_or_assign("default", defaultTexture);
 
 	//GameSprite defaultSprite;
-	//defaultSprite.SetTexture(*getTexture("default"));
+	//defaultSprite.setTexture(*getTexture("default"));
 	//gameSprites.insert_or_assign("default", defaultSprite);
 }

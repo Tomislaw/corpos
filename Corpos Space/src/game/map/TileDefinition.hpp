@@ -12,7 +12,7 @@ public:
 	std::string name = "0";
 
 	//TExture name used in creating vertex tile ma[
-	std::string texture_name = "";
+	std::string textureName = "";
 
 	// Health, -1 is indestructabl
 	int health = -1;

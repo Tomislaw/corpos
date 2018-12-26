@@ -14,7 +14,7 @@ Cursor::~Cursor()
 void Cursor::setCursor()
 {
 	cursor = GameSprite(*GameAssetsManager::getSprite("cursor"));
-	cursor.SetAnimation("crosshair");
+	cursor.setAnimation("crosshair");
 }
 
 sf::Vector2f Cursor::getCursorPosition()

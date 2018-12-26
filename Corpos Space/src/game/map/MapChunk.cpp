@@ -55,7 +55,7 @@ void MapChunk::appendTile(std::shared_ptr<AbstractTile> tile)
 	}
 
 	textureChunks.push_back(TextureChunk(tile->getTileDefinition().texture,
-		tile->getTileDefinition().texture_name));
+		tile->getTileDefinition().textureName));
 	textureChunks.back().appendTile(tile);
 }
 

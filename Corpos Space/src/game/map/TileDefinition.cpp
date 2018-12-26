@@ -16,7 +16,7 @@ void TileDefinition::setTile(TextElement * t, const sf::Texture * texture, std::
 		health = varHealth->toFloat(0);
 	else health = 0;
 
-	this->texture_name = textureName;
+	this->textureName = textureName;
 
 	//Set is blocking
 	auto varIsBlocking = t->getVariableByName("Block");
@@ -333,7 +333,7 @@ std::string TileDefinition::toString()
 {
 	std::string data;
 	data += "name:" + this->name;
-	data += "\ntexture name:" + this->texture_name;
+	data += "\ntexture name:" + this->textureName;
 	data += "\nhealth:" + std::to_string(this->health);
 	data += "\nblock:" + std::to_string(this->is_blocking);
 	return data;

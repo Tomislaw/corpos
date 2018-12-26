@@ -34,6 +34,13 @@ void EntityList::loadMap(TextFileData & file)
 		addCharacter(p);
 	}
 
+	auto map_landscapes = file.getAllElementsByName("LANDSCAPE");
+	for (int i = 0; i < map_landscapes.size(); i++)
+	{
+		auto p = std::shared_ptr<Landscape>(new Landscape(map_landscapes.at(i)));
+		addLandscape(p);
+	}
+
 	setPlayerEntity("@player");
 }
 
@@ -46,6 +53,12 @@ void EntityList::addProp(std::shared_ptr<Prop>& ent)
 {
 	props.push_back(ent);
 }
+
+void EntityList::addLandscape(std::shared_ptr<Landscape>& ent)
+{
+	landscapes.push_back(ent);
+}
+
 void EntityList::addBullet(std::shared_ptr<Bullet>& bullet)
 {
 	bullets.push_back(bullet);
@@ -137,7 +150,7 @@ void EntityList::update(float time)
 
 	player.update(time);
 	tree.Clear();
-	std::vector<std::shared_ptr <Character>>::iterator it = characters.begin();
+	auto it = characters.begin();
 	while (it != characters.end())
 	{
 		it->get()->update(time);
@@ -148,7 +161,7 @@ void EntityList::update(float time)
 			++it;
 		}
 	}
-	std::vector<std::shared_ptr <Prop>>::iterator it2 = props.begin();
+	auto it2 = props.begin();
 	while (it2 != props.end())
 	{
 		it2->get()->update(time);
@@ -159,34 +172,61 @@ void EntityList::update(float time)
 			++it2;
 		}
 	}
-
+	auto it4 = landscapes.begin();
+	while (it4 != landscapes.end())
+	{
+		it4->get()->update(time);
+		it4++;
+		/*if (it4->get()->isDestroyed())it4 = landscapes.erase(it2);
+		else
+		{
+			tree.AddObject(it2->get());
+			++it2;
+		}*/
+	}
 	particleSystem.update(time);
 }
 
 void EntityList::draw(sf::RenderWindow & window)
 {
-	std::vector<std::shared_ptr <Character>>::iterator it = characters.begin();
+	auto it = characters.begin();
 	while (it != characters.end())
 	{
 		it->get()->draw(window);
 		++it;
 	}
-	std::vector<std::shared_ptr <Prop>>::iterator it2 = props.begin();
+	auto it2 = props.begin();
 	while (it2 != props.end())
 	{
 		it2->get()->draw(window);
 		++it2;
 	}
-	std::vector<std::shared_ptr <Bullet>>::iterator it3 = bullets.begin();
+	auto it3 = bullets.begin();
 	while (it3 != bullets.end())
 	{
 		it3->get()->draw(window);
 		++it3;
 	}
+	auto it4 = landscapes.begin();
+	while (it4 != landscapes.end())
+	{
+		if (it4->get()->isForeground()) it->get()->draw(window);
+		++it4;
+	}
 	window.draw(particleSystem);
 	tree.draw(window);
 
 	cursorPos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+}
+
+void EntityList::drawBackground(sf::RenderWindow & window)
+{
+	std::vector<std::shared_ptr <Landscape>>::iterator it = landscapes.begin();
+	while (it != landscapes.end())
+	{
+		if(!it->get()->isForeground()) it->get()->draw(window);
+		++it;
+	}
 }
 
 bool EntityList::checkBulletCollision(Bullet * bullet)

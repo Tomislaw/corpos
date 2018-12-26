@@ -500,11 +500,11 @@ void Character::setAnimation()
 	{
 		if (isTurnedLeft)
 		{
-			sprite.SetAnimation("idle_left");
+			sprite.setAnimation("idle_left");
 		}
 		else
 		{
-			sprite.SetAnimation("idle_right");
+			sprite.setAnimation("idle_right");
 		}
 	}
 	else
@@ -513,22 +513,22 @@ void Character::setAnimation()
 		{
 			if (isTurnedLeft)
 			{
-				sprite.SetAnimation("walk_left");
+				sprite.setAnimation("walk_left");
 			}
 			else
 			{
-				sprite.SetAnimation("walk_right");
+				sprite.setAnimation("walk_right");
 			}
 		}
 		else
 		{
 			if (isTurnedLeft)
 			{
-				sprite.SetAnimation("jump_left");
+				sprite.setAnimation("jump_left");
 			}
 			else
 			{
-				sprite.SetAnimation("jump_right");
+				sprite.setAnimation("jump_right");
 			}
 		}
 	}

@@ -138,12 +138,12 @@ void Bullet::update(float time)
 
 	previousPosition = getPosition();
 	Entity::update(time);
-	bulletSprite.GetSprite().setRotation(atan2(velocity.y, velocity.x) * 180 / 3.14159265359);
+	bulletSprite.getSprite().setRotation(atan2(velocity.y, velocity.x) * 180 / 3.14159265359);
 
 	bulletSprite.update(time);
 	if (startDestroyAnimation)
 	{
-		bulletSprite.SetAnimation("destroy");
+		bulletSprite.setAnimation("destroy");
 		startDestroyAnimation = false;
 	}
 	if (duringDestroying)

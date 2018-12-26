@@ -27,14 +27,13 @@ void World::draw(sf::RenderWindow & window)
 {
 	entitylist.getCurrentCamera().setForegroundView(window);
 	//entitylist.getCurrentCamera().setBackgroundView(window);
-	window.draw(background);
 
 	//entitylist.getCurrentCamera().setNormalView(window);
 	//tilemap.drawBackground(window);
 	//tilemap.draw(window);
 
+	entitylist.drawBackground(window);
 	tilemap2.drawBackground(window);
-
 	tilemap2.draw(window);
 	entitylist.draw(window);
 }
@@ -60,6 +59,4 @@ void World::loadMap(std::string map)
 	//load it after tilemap
 	entitylist.loadMap(file);
 
-	auto tex = GameAssetsManager::getTexture("background1");
-	background.setTexture(*tex);
 }

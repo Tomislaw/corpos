@@ -1,14 +1,18 @@
 #include "Game.hpp"
 
 Game::Game(int argc, char * argv[])
+	:menu(*this)
 {
 	sf::Vector2u windowSize(500, 500);
 	GameAssetsManager::loadTextures("bin/graphics/textures/texture_definition.txt");
 	GameAssetsManager::loadSprites("bin/graphics/sprite/sprite_definitions.txt");
-	world.loadMap("bin/map/mm.txt");
+	
 	//world.loadEntitylist("bin/graphics/sprite/sprite_definitions.txt");
 	cursor.setCursor();
+	mainGame.init();
+	menu.init();
 	fpsText.setFont(TextContainer::getInstance()->getBasicFont());
+
 }
 
 Game::~Game()
@@ -74,39 +78,53 @@ bool Game::run()
 
 void Game::update(float delta_time)
 {
-	world.update(delta_time);
+	switch (game_state) {
+	case 0:
+		menu.update(delta_time);
+		break;
+	case 1:
+		mainGame.update(delta_time);
+		break;
+	}
+	
 }
 
 void Game::draw()
 {
 	window->clear(sf::Color::Black);
 
-	//draw background
-	auto view = window->getView();
-	window->setView(window->getDefaultView());
+	switch (game_state) {
+	case 0:
+		menu.draw(*window);
+		break;
+	case 1:
+		mainGame.draw(*window);
+		break;
+	}
 
-	window->setView(view);
-	//
-
-	world.draw(*window);
 	cursor.draw(*window);
-
-	//draw hud related items
-	view = window->getView();
-	window->setView(window->getDefaultView());;
-
+	window->setView(defaultView);
 	window->draw(fpsText);
-
-	window->setView(view);
-	//
-
 	window->display();
 }
 
 void Game::events(sf::Event event)
 {
-	world.events(event);
+	switch (game_state) {
+	case 0:
+		menu.onEvent(event);
+		break;
+	case 1:
+		mainGame.onEvent(event);
+		break;
+	}
 
+	if (event.type == sf::Event::Resized)
+	{
+		// update the view to the new size of the window
+		sf::FloatRect visibleArea(0, 0, event.size.width, event.size.height);
+		defaultView = sf::View(visibleArea);
+	}
 	if (event.type == sf::Event::Closed)
 		window->close();
 }

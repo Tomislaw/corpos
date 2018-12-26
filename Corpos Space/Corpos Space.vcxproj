@@ -160,6 +160,7 @@
     <ClCompile Include="src\game\engine\Damageable.cpp" />
     <ClCompile Include="src\game\engine\Entity.cpp" />
     <ClCompile Include="src\game\engine\EntityList.cpp" />
+    <ClCompile Include="src\game\engine\Landscape.cpp" />
     <ClCompile Include="src\game\engine\logic\ai\AiBasic.cpp" />
     <ClCompile Include="src\game\engine\logic\ai\NavigationNode.cpp" />
     <ClCompile Include="src\game\engine\logic\Camera.cpp" />
@@ -184,6 +185,8 @@
     <ClCompile Include="src\game\map\Tile.cpp" />
     <ClCompile Include="src\game\map\TileDefinition.cpp" />
     <ClCompile Include="src\game\map\Tilemap.cpp" />
+    <ClCompile Include="src\game\menu\Menu.cpp" />
+    <ClCompile Include="src\game\menu\MenuLabel.cpp" />
     <ClCompile Include="src\game\utility\AStarSearch.cpp" />
     <ClCompile Include="src\game\utility\Logger.cpp" />
     <ClCompile Include="src\game\utility\Pathfind.cpp" />
@@ -201,6 +204,7 @@
     <ClInclude Include="src\game\engine\Damageable.hpp" />
     <ClInclude Include="src\game\engine\Entity.hpp" />
     <ClInclude Include="src\game\engine\EntityList.hpp" />
+    <ClInclude Include="src\game\engine\Landscape.hpp" />
     <ClInclude Include="src\game\engine\logic\ai\AiBasic.hpp" />
     <ClInclude Include="src\game\engine\logic\ai\NavigationNode.hpp" />
     <ClInclude Include="src\game\engine\logic\Camera.hpp" />
@@ -210,12 +214,14 @@
     <ClInclude Include="src\game\engine\Prop.hpp" />
     <ClInclude Include="src\game\engine\static_prop\Static_prop.hpp" />
     <ClInclude Include="src\game\engine\World.hpp" />
+    <ClInclude Include="src\game\GameWindow.hpp" />
     <ClInclude Include="src\game\graphics\Animation.hpp" />
     <ClInclude Include="src\game\graphics\GameAssetsManager.hpp" />
     <ClInclude Include="src\game\graphics\GameSprite.hpp" />
     <ClInclude Include="src\game\graphics\Particle.hpp" />
     <ClInclude Include="src\game\graphics\ParticleSystem.hpp" />
     <ClInclude Include="src\game\graphics\TextContainer.hpp" />
+    <ClInclude Include="src\game\MainGame.hpp" />
     <ClInclude Include="src\game\main\Cursor.hpp" />
     <ClInclude Include="src\game\main\Game.hpp" />
     <ClInclude Include="src\game\main\stdafx.h" />
@@ -231,6 +237,10 @@
     <ClInclude Include="src\game\map\TileMap.h" />
     <ClInclude Include="src\game\map\Tilemap.hpp" />
     <ClInclude Include="src\game\map\TileSet.hpp" />
+    <ClInclude Include="src\game\menu\Menu.hpp" />
+    <ClInclude Include="src\game\menu\MenuItem.hpp" />
+    <ClInclude Include="src\game\menu\MenuLabel.hpp" />
+    <ClInclude Include="src\game\menu\MenuList.hpp" />
     <ClInclude Include="src\game\utility\AStarSearch.hpp" />
     <ClInclude Include="src\game\utility\Flags.h" />
     <ClInclude Include="src\game\utility\Intersection.hpp" />

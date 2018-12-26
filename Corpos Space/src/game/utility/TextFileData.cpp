@@ -353,7 +353,7 @@ bool TextFileData::loadFile(std::string file_txt)
 	std::string buffor;
 	while (!file.eof())
 	{
-		std::getline(file, buffor);
+		safeGetline(file, buffor);
 		//	std::cout << sWiersz << std::endl; // Nazwa typu pliku
 
 		if (buffor.find("CORPOSFILE") == std::string::npos) { file.close(); return 0; }
@@ -410,7 +410,7 @@ bool TextFileData::loadTextElement(std::fstream &file)
 		e.name = buffor;
 		while (buffor.find('}') == std::string::npos)
 		{
-			std::getline(file, buffor);
+			safeGetline(file, buffor);
 			if (file.eof())
 			{
 				Logger::e("Missing bracket \"}\"");
@@ -425,7 +425,7 @@ bool TextFileData::loadTextElement(std::fstream &file)
 	{
 		for (int i = 0; i < 1000; i++)
 		{
-			std::getline(file, buffor);
+			safeGetline(file, buffor);
 			if (buffor.find("CORPOSFILE_END") != std::string::npos)
 			{
 				endOfFile = true;

@@ -22,37 +22,37 @@ public:
 	// set position
 	void setPosition(sf::Vector2f pos) override;
 	// set sprite textire
-	void SetTexture(const sf::Texture &set_texture);
+	void setTexture(const sf::Texture &set_texture);
 	// set main rectangle - used in animations
-	void SetRectangle(sf::IntRect rect);
+	void setRectangle(sf::IntRect rect);
 	// set sprite - used in constructors
-	void SetSprite(const sf::Texture &set_texture, TextElement *spritetext);
+	void setSprite(const sf::Texture &set_texture, TextElement *spritetext);
 	// set animation
-	bool SetAnimation(unsigned int i);
+	bool setAnimation(unsigned int i);
 	// set animation
-	bool SetAnimation(const std::string  &str);
+	bool setAnimation(const std::string  &str);
 	// set animation sheet
 	// contains all animations
-	bool SetAnimationSheet(const std::string  &str);
+	bool setAnimationSheet(const std::string  &str);
 	// get animation sheet
 	// contains all animations
 	std::vector <Animation> & getAnimationSheet();
 	// draw it
 	virtual void draw(sf::RenderTarget &window) override;
 	// return sf::sprite
-	sf::Sprite &GetSprite() { return sprite; };
+	sf::Sprite &getSprite() { return sprite; };
 	// return texture name
-	const std::string &getTextureName() { return texture_name; };
+	const std::string &getTextureName() { return textureName; };
 	// return current animation
 	Animation * getCurrentAnimation();;
 
 	virtual bool intersects(sf::FloatRect & rect) override;
 protected:
-	bool is_animated = true;
-	unsigned int current_animation = 0;
+	bool animated = true;
+	unsigned int currentAnimation = 0;
 
 	sf::Sprite sprite;
-	std::string texture_name;
-	std::vector <Animation> animation_sheet;
+	std::string textureName;
+	std::vector <Animation> animationSheet;
 };
 #endif

@@ -64,6 +64,9 @@
     <Filter Include="Header Files\map\MapTile">
       <UniqueIdentifier>{4bfe0656-cba0-42ee-b7f4-cfe8da86bfec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\menu">
+      <UniqueIdentifier>{6629aa07-1950-4900-9c62-8eb02837a2c1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -179,6 +182,15 @@
     </ClCompile>
     <ClCompile Include="src\game\utility\String.cpp">
       <Filter>Source Files\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\engine\Landscape.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\menu\MenuLabel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\menu\Menu.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -322,6 +334,27 @@
     </ClInclude>
     <ClInclude Include="src\game\utility\Flags.h">
       <Filter>Header Files\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\engine\Landscape.hpp">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\menu\Menu.hpp">
+      <Filter>Header Files\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\menu\MenuLabel.hpp">
+      <Filter>Header Files\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\menu\MenuList.hpp">
+      <Filter>Header Files\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\menu\MenuItem.hpp">
+      <Filter>Header Files\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\GameWindow.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\MainGame.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

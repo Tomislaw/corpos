@@ -5,7 +5,8 @@
 #include <memory>
 #include "game\utility\Logger.hpp"
 #include "iostream"
-#include "game\engine\World.hpp"
+#include "game/MainGame.hpp"
+#include "game/menu/Menu.hpp"
 #include "game\main\Cursor.hpp"
 #include "game\graphics\TextContainer.hpp"
 // Main game class, contains main game loop and configuration options
@@ -16,6 +17,11 @@ public:
 	~Game();
 	// start game
 	bool run();
+
+	void showMenu() { game_state = 0; };
+	void showGame() { game_state = 1; };
+	void exit() { window->close() ; };
+
 private:
 	// update all physics and game logic
 	void update(float delta_time);
@@ -28,10 +34,9 @@ private:
 	// pointer to window frame
 	sf::RenderWindow *window;
 
-	//cursor
 	Cursor cursor;
-	// tilemap and entity list
-	World world;;
+	MainGame mainGame;
+	Menu menu;
 
 	//TODO: create menu class
 	// game state for handling menu& game
@@ -39,6 +44,7 @@ private:
 
 	// data for fps drawing and calculating
 
+	sf::View defaultView;
 	sf::Text fpsText;
 	unsigned FpsframeCount = 0;
 	float FpsDelta = 0;

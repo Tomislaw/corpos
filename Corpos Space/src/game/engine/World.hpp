@@ -32,7 +32,6 @@ protected:
 	EntityList entitylist;
 	//Tilemap tilemap;
 	TileMap tilemap2;
-	sf::Sprite background;
 };
 
 #endif

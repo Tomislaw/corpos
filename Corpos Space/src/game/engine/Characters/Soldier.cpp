@@ -81,14 +81,14 @@ bool Soldier::setCharacter(TextElement * element)
 	}
 	else Logger::e("SpriteLHand in " + name + " not found!");
 
-	headOrigin = head.GetSprite().getOrigin();
-	lhandOrigin = lhand.GetSprite().getOrigin();
-	torseOrigin = torse.GetSprite().getOrigin();
-	legsOrigin = legs.GetSprite().getOrigin();
+	headOrigin = head.getSprite().getOrigin();
+	lhandOrigin = lhand.getSprite().getOrigin();
+	torseOrigin = torse.getSprite().getOrigin();
+	legsOrigin = legs.getSprite().getOrigin();
 
 	//TODO: make weapon
 	weapontest = GameSprite(*GameAssetsManager::getSprite("testweapon1"));
-	weaponOrigin = weapontest.GetSprite().getOrigin();
+	weaponOrigin = weapontest.getSprite().getOrigin();
 	weaponOffset = sf::Vector2f(1, 20);
 	this->weapontest.attachToEntityOffset(this, weaponOffset);
 
@@ -146,9 +146,9 @@ void Soldier::aim(sf::Vector2f pos)
 		if (headangle < -70)headangle = -70;
 		if (armangle > 0)armangle *= 1.6;
 	}
-	head.GetSprite().setRotation(headangle);
-	lhand.GetSprite().setRotation(armangle);
-	weapontest.GetSprite().setRotation(weaponangle);
+	head.getSprite().setRotation(headangle);
+	lhand.getSprite().setRotation(armangle);
+	weapontest.getSprite().setRotation(weaponangle);
 }
 
 void Soldier::startAttack()
@@ -178,11 +178,11 @@ void Soldier::setAnimation()
 	{
 		if (isTurnedLeft)
 		{
-			legs.SetAnimation("idle_left");
+			legs.setAnimation("idle_left");
 		}
 		else
 		{
-			legs.SetAnimation("idle_right");
+			legs.setAnimation("idle_right");
 		}
 	}
 	else
@@ -191,36 +191,36 @@ void Soldier::setAnimation()
 		{
 			if (isTurnedLeft)
 			{
-				legs.SetAnimation("walk_left");
+				legs.setAnimation("walk_left");
 			}
 			else
 			{
-				legs.SetAnimation("walk_right");
+				legs.setAnimation("walk_right");
 			}
 		}
 		else
 		{
 			if (isTurnedLeft)
 			{
-				legs.SetAnimation("jump_left");
+				legs.setAnimation("jump_left");
 			}
 			else
 			{
-				legs.SetAnimation("jump_right");
+				legs.setAnimation("jump_right");
 			}
 		}
 	}
 
 	if (isTurnedLeft)
 	{
-		head.SetAnimation("left");
-		torse.SetAnimation("left");
-		lhand.SetAnimation("left");
+		head.setAnimation("left");
+		torse.setAnimation("left");
+		lhand.setAnimation("left");
 
-		head.GetSprite().setOrigin(head.GetSprite().getLocalBounds().width - headOrigin.x, headOrigin.y);
-		torse.GetSprite().setOrigin(torse.GetSprite().getLocalBounds().width - torseOrigin.x, torseOrigin.y);
-		lhand.GetSprite().setOrigin(lhand.GetSprite().getLocalBounds().width - lhandOrigin.x, lhandOrigin.y);
-		legs.GetSprite().setOrigin(legs.GetSprite().getLocalBounds().width - legsOrigin.x, legsOrigin.y);
+		head.getSprite().setOrigin(head.getSprite().getLocalBounds().width - headOrigin.x, headOrigin.y);
+		torse.getSprite().setOrigin(torse.getSprite().getLocalBounds().width - torseOrigin.x, torseOrigin.y);
+		lhand.getSprite().setOrigin(lhand.getSprite().getLocalBounds().width - lhandOrigin.x, lhandOrigin.y);
+		legs.getSprite().setOrigin(legs.getSprite().getLocalBounds().width - legsOrigin.x, legsOrigin.y);
 
 		int x = -lhandOffset.x;
 		lhand.setAttachOffset(sf::Vector2f(x, lhandOffset.y));
@@ -234,28 +234,28 @@ void Soldier::setAnimation()
 		x = -legsOffset.x;
 		legs.setAttachOffset(sf::Vector2f(x, legsOffset.y));
 
-		weapontest.SetAnimation("left");
+		weapontest.setAnimation("left");
 		x = -weaponOffset.x;
 		weapontest.setAttachOffset(sf::Vector2f(x, weaponOffset.y));
-		weapontest.GetSprite().setOrigin(weapontest.GetSprite().getLocalBounds().width - weaponOrigin.x, weaponOrigin.y);
+		weapontest.getSprite().setOrigin(weapontest.getSprite().getLocalBounds().width - weaponOrigin.x, weaponOrigin.y);
 	}
 	else
 	{
 		legs.setAttachOffset(legsOffset);
-		head.SetAnimation("right");
+		head.setAnimation("right");
 		head.setAttachOffset(headOffset);
-		torse.SetAnimation("right");
+		torse.setAnimation("right");
 		torse.setAttachOffset(torseOffset);
-		lhand.SetAnimation("right");
+		lhand.setAnimation("right");
 		lhand.setAttachOffset(lhandOffset);
 
-		head.GetSprite().setOrigin(headOrigin);
-		legs.GetSprite().setOrigin(legsOrigin);
-		lhand.GetSprite().setOrigin(lhandOrigin);
-		torse.GetSprite().setOrigin(torseOrigin);
+		head.getSprite().setOrigin(headOrigin);
+		legs.getSprite().setOrigin(legsOrigin);
+		lhand.getSprite().setOrigin(lhandOrigin);
+		torse.getSprite().setOrigin(torseOrigin);
 
-		weapontest.SetAnimation("right");
+		weapontest.setAnimation("right");
 		weapontest.setAttachOffset(weaponOffset);
-		weapontest.GetSprite().setOrigin(weaponOrigin);
+		weapontest.getSprite().setOrigin(weaponOrigin);
 	}
 }
