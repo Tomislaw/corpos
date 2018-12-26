@@ -1,0 +1,67 @@
+CORPOSFILE
+
+ANIMATION
+{
+Name = "low_right"
+Animation_speed = "0"
+Frame_count = "1"
+Frame_0 = "0,256,256,256"
+isLoop = "0"
+}
+ANIMATION
+{
+Name = "low_left"
+Animation_speed = "0"
+Frame_count = "1"
+Frame_0 = "768,256,256,256"
+isLoop = "0"
+}
+ANIMATION
+{
+Name = "medium_left"
+Animation_speed = "0"
+Frame_count = "1"
+Frame_0 = "768,0,256,256"
+isLoop = "0"
+}
+ANIMATION
+{
+Name = "medium_right"
+Animation_speed = "0"
+Frame_count = "1"
+Frame_0 = "0,0,256,256"
+isLoop = "0"
+}
+ANIMATION
+{
+Name = "high_left"
+Animation_speed = "0"
+Frame_count = "1"
+Frame_0 = "512,0,256,256"
+isLoop = "0"
+}
+ANIMATION
+{
+Name = "high_right"
+Animation_speed = "0"
+Frame_count = "1"
+Frame_0 = "256,0,256,256"
+isLoop = "0"
+}
+ANIMATION
+{
+Name = "end_right"
+Animation_speed = "0"
+Frame_count = "1"
+Frame_0 = "256,256,256,256"
+isLoop = "0"
+}
+ANIMATION
+{
+Name = "end_left"
+Animation_speed = "0"
+Frame_count = "1"
+Frame_0 = "512,256,256,256"
+isLoop = "0"
+}
+CORPOSFILE_END

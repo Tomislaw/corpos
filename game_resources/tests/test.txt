@@ -1,0 +1,6 @@
+CORPOSFILE
+element1
+{
+v1 = "0.5,5"
+}
+CORPOSFILE_END

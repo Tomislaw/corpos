@@ -1,0 +1,15 @@
+CORPOSFILE
+
+ANIMATION
+{
+Name = "idle"
+Animation_speed = "0.5"
+Frame_count = "4"
+Frame_0 = "0,0,16,10"
+Frame_1 = "16,0,16,10"
+Frame_2 = "32,0,16,10"
+Frame_3 = "48,0,16,10"
+isLoop = "1"
+}
+
+CORPOSFILE_END

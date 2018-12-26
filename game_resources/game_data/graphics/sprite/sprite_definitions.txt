@@ -1,0 +1,350 @@
+CORPOSFILE
+
+ENTITY_DEFIINITION
+{
+Name = "cursor"
+Type = "GAME_SPRITE"
+Texture = "cursor"
+Animated = "1"
+Animation = "bin/graphics/sprite/animations/cursor.txt"
+Sprite_size = "50,50"
+Sprite_center = "100,100"
+Texture_size = "0,0,200,200"
+}
+
+ENTITY_DEFIINITION
+{
+Name = "hud_shield"
+Type = "GAME_SPRITE"
+Texture = "hud_shield"
+Animated = "1"
+Animation = "bin/graphics/sprite/animations/hud_shield.txt"
+Sprite_size = "64,64"
+Sprite_center = "128,276"
+Texture_size = "0,0,256,256"
+}
+ENTITY_DEFIINITION
+{
+Name = "hud_options"
+Type = "GAME_SPRITE"
+Texture = "hud"
+Sprite_size = "64,64"
+Sprite_center = "0,0"
+Texture_size = "0,0,256,256"
+}
+ENTITY_DEFIINITION
+{
+Name = "hud_character1"
+Type = "GAME_SPRITE"
+Texture = "hud"
+Animated = "1"
+Animation = "bin/graphics/sprite/animations/hud_character1.txt"
+Sprite_size = "128,128"
+Sprite_center = "0,0"
+Texture_size = "512,0,512,512"
+}
+ENTITY_DEFIINITION
+{
+Name = "hud_character2"
+Type = "GAME_SPRITE"
+Texture = "hud"
+Sprite_size = "32,128"
+Sprite_center = "0,0"
+Texture_size = "256,0,128,512"
+}
+ENTITY_DEFIINITION
+{
+Name = "hud_character3"
+Type = "GAME_SPRITE"
+Texture = "hud"
+Animated = "1"
+Animation = "bin/graphics/sprite/animations/hud_character2.txt"
+Sprite_size = "32,32"
+Sprite_center = "0,0"
+Texture_size = "384,0,128,128"
+}
+ENTITY_DEFIINITION
+{
+Name = "sprite"
+Type = "GAME_SPRITE"
+Texture = "test"
+Animated = "1"
+Animation = "bin/graphics/sprite/animations/animation-test.txt"
+Sprite_size = "64,64"
+Sprite_center = "16,32"
+Texture_size = "0,0,32,32"
+}
+ENTITY_DEFIINITION
+{
+Name = "char"
+Type = "GAME_SPRITE"
+Texture = "character1"
+Animated = "1"
+Animation = "bin/graphics/sprite/animations/character1.txt"
+Sprite_size = "125,125"
+Sprite_center = "35,60"
+Texture_size = "0,0,70,70"
+}
+
+ENTITY_DEFIINITION
+{
+Name = "dev_tile_walk1"
+Type = "GAME_SPRITE"
+Texture = "dev"
+Animated = "1"
+Animation = "bin/graphics/sprite/animations/animation-test.txt"
+Sprite_size = "64,64"
+Sprite_center = "16,16"
+Texture_size = "0,0,32,32"
+}
+
+ENTITY_DEFIINITION
+{
+Name = "dev_tile_walk2"
+Type = "GAME_SPRITE"
+Texture = "dev"
+Animated = "1"
+Animation = "bin/graphics/sprite/animations/animation-test.txt"
+Sprite_size = "64,64"
+Sprite_center = "16,16"
+Texture_size = "32,0,32,32"
+}
+
+ENTITY_DEFIINITION
+{
+Name = "dev_tile_wall1"
+Type = "GAME_SPRITE"
+Texture = "dev"
+Animated = "0"
+Sprite_size = "128,192"
+Sprite_center = "32,80"
+Texture_size = "0,32,64,96"
+}
+
+ENTITY_DEFIINITION
+{
+Name = "pavement1"
+Type = "GAME_SPRITE"
+Texture = "roads"
+Animated = "0"
+Sprite_size = "64,64"
+Sprite_center = "64,64"
+Texture_size = "0,0,128,128"
+}
+
+ENTITY_DEFIINITION
+{
+Name = "pavement2"
+Type = "GAME_SPRITE"
+Texture = "roads"
+Animated = "0"
+Sprite_size = "64,64"
+Sprite_center = "64,64"
+Texture_size = "128,0,128,128"
+}
+ENTITY_DEFIINITION
+{
+Name = "pavement3"
+Type = "GAME_SPRITE"
+Texture = "roads"
+Animated = "0"
+Sprite_size = "64,64"
+Sprite_center = "64,64"
+Texture_size = "256,0,128,128"
+}
+ENTITY_DEFIINITION
+{
+Name = "pavement4"
+Type = "GAME_SPRITE"
+Texture = "roads"
+Animated = "0"
+Sprite_size = "64,64"
+Sprite_center = "64,64"
+Texture_size = "384,0,128,128"
+}
+ENTITY_DEFIINITION
+{
+Name = "road1"
+Type = "GAME_SPRITE"
+Texture = "roads"
+Animated = "0"
+Sprite_size = "64,64"
+Sprite_center = "64,64"
+Texture_size = "512,0,128,128"
+}
+ENTITY_DEFIINITION
+{
+Name = "road2"
+Type = "GAME_SPRITE"
+Texture = "roads"
+Animated = "0"
+Sprite_size = "64,64"
+Sprite_center = "64,64"
+Texture_size = "640,0,128,128"
+}
+ENTITY_DEFIINITION
+{
+Name = "road3"
+Type = "GAME_SPRITE"
+Texture = "roads"
+Animated = "0"
+Sprite_size = "64,64"
+Sprite_center = "64,64"
+Texture_size = "768,0,128,128"
+}
+ENTITY_DEFIINITION
+{
+Name = "road4"
+Type = "GAME_SPRITE"
+Texture = "roads"
+Animated = "0"
+Sprite_size = "64,64"
+Sprite_center = "64,64"
+Texture_size = "896,0,128,128"
+}
+
+ENTITY_DEFIINITION
+{
+Name = "player"
+Type = "GAME_SPRITE"
+Texture = "player"
+Animated = "1"
+Animation = "bin/graphics/sprite/animations/player.txt"
+Sprite_size = "42,64"
+Sprite_center = "16,24"
+Texture_size = "0,0,32,48"
+}
+ENTITY_DEFIINITION
+{
+Name = "grassF"
+Type = "GAME_SPRITE"
+Texture = "grass"
+Animated = "1"
+Animation = "bin/graphics/sprite/animations/grass.txt"
+Sprite_size = "32,20"
+Sprite_center = "16,10"
+Texture_size = "0,0,16,10"
+}
+ENTITY_DEFIINITION
+{
+Name = "bullet_blue"
+Type = "GAME_SPRITE"
+Texture = "bullets"
+Animated = "1"
+Animation = "bin/graphics/sprite/animations/bulletBlue.txt"
+Sprite_size = "32,16"
+Sprite_center = "48,16"
+Texture_size = "0,0,64,32"
+}
+ENTITY_DEFIINITION
+{
+Name = "soldier1head1"
+Type = "GAME_SPRITE"
+Texture = "soldier1"
+Animated = "1"
+Animation = "bin/graphics/sprite/animations/soldier1/head1.txt"
+Sprite_size = "11,12"
+Sprite_center = "7,10"
+Texture_size = "0,0,10,10"
+}
+ENTITY_DEFIINITION
+{
+Name = "soldier1torse1"
+Type = "GAME_SPRITE"
+Texture = "soldier1"
+Animated = "1"
+Animation = "bin/graphics/sprite/animations/soldier1/torse1.txt"
+Sprite_size = "24,24"
+Sprite_center = "10,10"
+Texture_size = "0,0,20,20"
+}
+ENTITY_DEFIINITION
+{
+Name = "soldier1lhand1"
+Type = "GAME_SPRITE"
+Texture = "soldier1"
+Animated = "1"
+Animation = "bin/graphics/sprite/animations/soldier1/lhand1.txt"
+Sprite_size = "12,12"
+Sprite_center = "3,3"
+Texture_size = "0,0,10,10"
+}
+ENTITY_DEFIINITION
+{
+Name = "soldier1legs1"
+Type = "GAME_SPRITE"
+Texture = "soldier1"
+Animated = "1"
+Animation = "bin/graphics/sprite/animations/soldier1/legs1.txt"
+Sprite_size = "24,24"
+Sprite_center = "10,10"
+Texture_size = "0,0,20,20"
+}
+ENTITY_DEFIINITION
+{
+Name = "testweapon1"
+Type = "GAME_SPRITE"
+Texture = "soldier1"
+Animated = "1"
+Animation = "bin/graphics/sprite/animations/soldier1/testweapon1.txt"
+Sprite_size = "40,14"
+Sprite_center = "5,5"
+Texture_size = "0,0,30,10"
+}
+
+ENTITY_DEFIINITION
+{
+Name = "crawler"
+Type = "GAME_SPRITE"
+Texture = "crawler"
+Animated = "1"
+Animation = "bin/graphics/sprite/animations/monster/crawler.txt"
+Sprite_size = "72,48"
+Sprite_center = "18,12"
+Texture_size = "0,0,36,24"
+}
+
+ENTITY_DEFIINITION
+{
+Name = "background1"
+Type = "GAME_SPRITE"
+Texture = "background1"
+Animated = "0"
+Sprite_size = "2048,1024"
+Sprite_center = "0,0"
+}
+
+ENTITY_DEFIINITION
+{
+Name = "foliage1_a"
+Type = "GAME_SPRITE"
+Texture = "foliage1"
+Animated = "0"
+Sprite_size = "160,145"
+Sprite_center = "80,145"
+Texture_size = "0,0,160,145"
+}
+
+ENTITY_DEFIINITION
+{
+Name = "foliage1_b"
+Type = "GAME_SPRITE"
+Texture = "foliage1"
+Animated = "0"
+Sprite_size = "160,80"
+Sprite_center = "80,40"
+Texture_size = "0,182,160,80"
+}
+
+ENTITY_DEFIINITION
+{
+Name = "foliage1_c"
+Type = "GAME_SPRITE"
+Texture = "foliage1"
+Animated = "0"
+Sprite_size = "335,300"
+Sprite_center = "170,150"
+Texture_size = "165,0,335,300"
+}
+
+CORPOSFILE_END

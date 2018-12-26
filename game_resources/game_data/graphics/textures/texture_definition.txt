@@ -1,0 +1,87 @@
+CORPOSFILE
+TEXTURE
+{
+Name = "background1"
+Location = "bin/graphics/textures/background1.png"
+}
+TEXTURE
+{
+Name = "hud_options"
+Location = "bin/graphics/textures/hud/hud.png"
+}
+TEXTURE
+{
+Name = "grass"
+Location = "bin/graphics/textures/grass.png"
+}
+TEXTURE
+{
+Name = "test"
+Location = "bin/graphics/textures/error.png"
+}
+TEXTURE
+{
+Name = "dev"
+Location = "bin/graphics/textures/dev_tiles.png"
+}
+TEXTURE
+{
+Name = "cursor"
+Location = "bin/graphics/textures/hud/cursor.png"
+}
+TEXTURE
+{
+Name = "character1"
+Location = "bin/graphics/textures/character1.png"
+}
+TEXTURE
+{
+Name = "hud_shield"
+Location = "bin/graphics/textures/hud/shield.png"
+}
+TEXTURE
+{
+Name = "roads"
+Location = "bin/graphics/textures/roads.png"
+}
+TEXTURE
+{
+Name = "light1"
+Location = "bin/graphics/textures/light1.png"
+}
+TEXTURE
+{
+Name = "tileset1"
+Location = "bin/graphics/textures/tileset1.png"
+}
+TEXTURE
+{
+Name = "player"
+Location = "bin/graphics/textures/player.png"
+}
+TEXTURE
+{
+Name = "bullets"
+Location = "bin/graphics/textures/bullets.png"
+}
+TEXTURE
+{
+Name = "soldier1"
+Location = "bin/graphics/textures/soldier1.png"
+}
+TEXTURE
+{
+Name = "crawler"
+Location = "bin/graphics/textures/crawler.png"
+}
+TEXTURE
+{
+Name = "foliage1"
+Location = "bin/graphics/textures/foliage1.png"
+}
+TEXTURE
+{
+Name = "mainmenu"
+Location = "bin/graphics/textures/mainmenu.jpg"
+}
+CORPOSFILE_END

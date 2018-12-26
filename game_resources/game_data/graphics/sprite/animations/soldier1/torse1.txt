@@ -1,0 +1,27 @@
+CORPOSFILE
+
+ANIMATION
+{
+Name = "idle"
+Animation_speed = "0"
+Frame_count = "1"
+Frame_0 = "30,0,20,20"
+isLoop = "1"
+}
+ANIMATION
+{
+Name = "right"
+Animation_speed = "0"
+Frame_count = "1"
+Frame_0 = "30,0,20,20"
+isLoop = "1"
+}
+ANIMATION
+{
+Name = "left"
+Animation_speed = "0"
+Frame_count = "1"
+Frame_0 = "50,0,-20,20"
+isLoop = "1"
+}
+CORPOSFILE_END

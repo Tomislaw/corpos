@@ -1,0 +1,13 @@
+CORPOSFILE
+
+ANIMATION
+{
+Name = "Idle"
+Animation_speed = "0.1"
+Frame_count = "2"
+Frame_0 = "0,0,32,32"
+Frame_1 = "32,0,32,32"
+isLoop = "1"
+}
+
+CORPOSFILE_END

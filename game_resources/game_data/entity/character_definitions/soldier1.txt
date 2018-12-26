@@ -1,0 +1,21 @@
+CORPOSFILE
+
+ENTITY_DEFINITION
+{
+Name = "Soldier"
+Type = "CHARACTER"
+CharacterType = "soldier"
+SpriteHead = "soldier1head1"
+SpriteTorse = "soldier1torse1"
+SpriteLHand = "soldier1lhand1"
+SpriteLegs = "soldier1legs1"
+HeadPos = "3,13"
+TorsePos = "0,22"
+LHandPos = "6,16"
+LegsPos = "0,45"
+Health = "100"
+Speed = "200"
+Collidable = "1"
+CollisionBox = "-10,0,20,57"
+}
+CORPOSFILE_END

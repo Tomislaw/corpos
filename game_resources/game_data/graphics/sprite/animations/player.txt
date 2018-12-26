@@ -1,0 +1,77 @@
+CORPOSFILE
+
+ANIMATION
+{
+Name = "idle"
+Animation_speed = "0.2"
+Frame_count = "1"
+Frame_0 = "0,0,32,48"
+isLoop = "1"
+}
+
+ANIMATION
+{
+Name = "walk_right"
+Animation_speed = "0.08"
+Frame_count = "6"
+Frame_0 = "0,0,32,48"
+Frame_1 = "32,0,32,48"
+Frame_2 = "64,0,32,48"
+Frame_3 = "96,0,32,48"
+Frame_4 = "128,0,32,48"
+Frame_5 = "160,0,32,48"
+isLoop = "1"
+}
+
+ANIMATION
+{
+Name = "walk_left"
+Animation_speed = "0.08"
+Frame_count = "6"
+Frame_0 = "0,48,32,48"
+Frame_1 = "32,48,32,48"
+Frame_2 = "64,48,32,48"
+Frame_3 = "96,48,32,48"
+Frame_4 = "128,48,32,48"
+Frame_5 = "160,48,32,48"
+isLoop = "1"
+}
+
+ANIMATION
+{
+Name = "idle_left"
+Animation_speed = "0.2"
+Frame_count = "1"
+Frame_0 = "160,48,32,48"
+isLoop = "1"
+}
+ANIMATION
+{
+Name = "idle_right"
+Animation_speed = "0.2"
+Frame_count = "1"
+Frame_0 = "0,0,32,48"
+isLoop = "1"
+}
+ANIMATION
+{
+Name = "jump_right"
+Animation_speed = "0.08"
+Frame_count = "3"
+Frame_0 = "0,0,32,48"
+Frame_1 = "32,0,32,48"
+Frame_2 = "64,0,32,48"
+isLoop = "0"
+}
+ANIMATION
+{
+Name = "jump_left"
+Animation_speed = "0.08"
+Frame_count = "3"
+Frame_0 = "128,48,32,48"
+Frame_1 = "160,48,32,48"
+Frame_2 = "96,48,32,48"
+isLoop = "0"
+}
+
+CORPOSFILE_END

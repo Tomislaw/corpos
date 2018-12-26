@@ -1,0 +1,39 @@
+CORPOSFILE
+
+ANIMATION
+{
+Name = "idle"
+Animation_speed = "0.1"
+Frame_count = "4"
+Frame_0 = "0,32,64,32"
+Frame_1 = "64,32,64,32"
+Frame_2 = "128,32,64,32"
+Frame_3 = "64,32,64,32"
+isLoop = "1"
+}
+
+ANIMATION
+{
+Name = "destroy"
+Animation_speed = "0.05"
+Frame_count = "5"
+Frame_0 = "0,0,64,32"
+Frame_1 = "64,0,64,32"
+Frame_2 = "128,0,64,32"
+Frame_3 = "196,0,64,32"
+Frame_4 = "128,0,64,32"
+isLoop = "0"
+}
+
+ANIMATION
+{
+Name = "muzzle"
+Animation_speed = "0.05"
+Frame_count = "2"
+Frame_0 = "192,0,64,32"
+Frame_1 = "256,0,64,32"
+isLoop = "0"
+}
+
+
+CORPOSFILE_END

@@ -1,0 +1,170 @@
+CORPOSFILE
+
+ANIMATION
+{
+Name = "walk_leftdown"
+Animation_speed = "0.2"
+Frame_count = "3"
+Frame_0 = "0,0,70,70"
+Frame_1 = "70,0,70,70"
+Frame_2 = "140,0,70,70"
+isLoop = "1"
+}
+
+ANIMATION
+{
+Name = "walk_leftup"
+Animation_speed = "0.2"
+Frame_count = "3"
+Frame_0 = "0,70,70,70"
+Frame_1 = "70,70,70,70"
+Frame_2 = "140,70,70,70"
+isLoop = "1"
+}
+ANIMATION
+{
+Name = "walk_rightdown"
+Animation_speed = "0.2"
+Frame_count = "3"
+Frame_0 = "0,140,70,70"
+Frame_1 = "70,140,70,70"
+Frame_2 = "140,140,70,70"
+isLoop = "1"
+}
+ANIMATION
+{
+Name = "walk_rightup"
+Animation_speed = "0.2"
+Frame_count = "3"
+Frame_0 = "0,210,70,70"
+Frame_1 = "70,210,70,70"
+Frame_2 = "140,210,70,70"
+isLoop = "1"
+}
+
+
+
+
+ANIMATION
+{
+Name = "walk_down"
+Animation_speed = "0.2"
+Frame_count = "3"
+Frame_0 = "210,0,70,70"
+Frame_1 = "280,0,70,70"
+Frame_2 = "350,0,70,70"
+isLoop = "1"
+}
+
+ANIMATION
+{
+Name = "walk_left"
+Animation_speed = "0.2"
+Frame_count = "3"
+Frame_0 = "210,70,70,70"
+Frame_1 = "280,70,70,70"
+Frame_2 = "350,70,70,70"
+isLoop = "1"
+}
+ANIMATION
+{
+Name = "walk_right"
+Animation_speed = "0.2"
+Frame_count = "3"
+Frame_0 = "210,140,70,70"
+Frame_1 = "280,140,70,70"
+Frame_2 = "350,140,70,70"
+isLoop = "1"
+}
+ANIMATION
+{
+Name = "walk_up"
+Animation_speed = "0.2"
+Frame_count = "3"
+Frame_0 = "210,210,70,70"
+Frame_1 = "280,210,70,70"
+Frame_2 = "350,210,70,70"
+isLoop = "1"
+}
+
+
+
+
+
+ANIMATION
+{
+Name = "idle_leftdown"
+Animation_speed = "1"
+Frame_count = "1"
+Frame_0 = "70,0,70,70"
+isLoop = "1"
+}
+
+ANIMATION
+{
+Name = "idle_leftup"
+Animation_speed = "1"
+Frame_count = "1"
+Frame_0 = "70,70,70,70"
+isLoop = "1"
+}
+ANIMATION
+{
+Name = "idle_rightdown"
+Animation_speed = "1"
+Frame_count = "1"
+Frame_0 = "70,140,70,70"
+isLoop = "1"
+}
+ANIMATION
+{
+Name = "idle_rightup"
+Animation_speed = "1"
+Frame_count = "1"
+Frame_0 = "70,210,70,70"
+isLoop = "1"
+}
+
+
+
+
+ANIMATION
+{
+Name = "idle_down"
+Animation_speed = "1"
+Frame_count = "1"
+Frame_0 = "280,0,70,70"
+isLoop = "1"
+}
+
+ANIMATION
+{
+Name = "idle_left"
+Animation_speed = "1"
+Frame_count = "1"
+Frame_0 = "280,70,70,70"
+isLoop = "1"
+}
+ANIMATION
+{
+Name = "idle_right"
+Animation_speed = "1"
+Frame_count = "1"
+Frame_0 = "280,140,70,70"
+isLoop = "1"
+}
+ANIMATION
+{
+Name = "idle_up"
+Animation_speed = "1"
+Frame_count = "1"
+Frame_0 = "280,210,70,70"
+isLoop = "1"
+}
+
+
+
+
+
+
+CORPOSFILE_END

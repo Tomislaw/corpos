@@ -1,0 +1,29 @@
+CORPOSFILE
+
+ANIMATION
+{
+Name = "style1"
+Animation_speed = "0"
+Frame_count = "1"
+Frame_0 = "0,512,512,512"
+isLoop = "0"
+}
+ANIMATION
+{
+Name = "style3"
+Animation_speed = "0"
+Frame_count = "1"
+Frame_0 = "512,0,512,512"
+isLoop = "0"
+}
+ANIMATION
+{
+Name = "style2"
+Animation_speed = "0"
+Frame_count = "1"
+Frame_0 = "512,512,512,512"
+isLoop = "0"
+}
+
+
+CORPOSFILE_END

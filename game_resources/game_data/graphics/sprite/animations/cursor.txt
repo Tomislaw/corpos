@@ -1,0 +1,19 @@
+CORPOSFILE
+
+ANIMATION
+{
+Name = "idle"
+Animation_speed = "0"
+Frame_count = "1"
+Frame_0 = "0,0,200,200"
+isLoop = "0"
+}
+ANIMATION
+{
+Name = "crosshair"
+Animation_speed = "0"
+Frame_count = "1"
+Frame_0 = "200,0,200,200"
+isLoop = "0"
+}
+CORPOSFILE_END
