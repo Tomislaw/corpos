@@ -18,7 +18,7 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -79,6 +79,10 @@
     <ClCompile Include="..\Corpos Space\src\game\map\Tilemap.cpp" />
     <ClCompile Include="..\Corpos Space\src\game\utility\Logger.cpp" />
     <ClCompile Include="..\Corpos Space\src\game\utility\TextFileData.cpp" />
+    <ClCompile Include="..\imgui-sfml\imgui-SFML.cpp" />
+    <ClCompile Include="..\imgui\imgui_demo.cpp" />
+    <ClCompile Include="..\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\imgui\imgui_widgets.cpp" />
     <ClCompile Include="CorposEditor.cpp" />
     <ClCompile Include="FrameEditor.cpp" />
     <ClCompile Include="GameDataHolder.cpp" />

@@ -118,6 +118,18 @@
     <ClCompile Include="..\Corpos Space\src\game\map\TileDefinition.cpp">
       <Filter>_INCLUDECPP</Filter>
     </ClCompile>
+    <ClCompile Include="..\imgui-sfml\imgui-SFML.cpp">
+      <Filter>_INCLUDECPP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\imgui\imgui_demo.cpp">
+      <Filter>_INCLUDECPP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\imgui\imgui_draw.cpp">
+      <Filter>_INCLUDECPP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\imgui\imgui_widgets.cpp">
+      <Filter>_INCLUDECPP</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Resource Files">
