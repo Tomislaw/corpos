@@ -224,7 +224,7 @@ void EntityList::drawBackground(sf::RenderWindow & window)
 	std::vector<std::shared_ptr <Landscape>>::iterator it = landscapes.begin();
 	while (it != landscapes.end())
 	{
-		if(!it->get()->isForeground()) it->get()->draw(window);
+		if (!it->get()->isForeground()) it->get()->draw(window);
 		++it;
 	}
 }

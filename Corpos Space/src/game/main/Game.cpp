@@ -1,18 +1,18 @@
 #include "Game.hpp"
-
+#include <imgui.h>
+#include <imgui-SFML.h>
 Game::Game(int argc, char * argv[])
 	:menu(*this)
 {
 	sf::Vector2u windowSize(500, 500);
 	GameAssetsManager::loadTextures("bin/graphics/textures/texture_definition.txt");
 	GameAssetsManager::loadSprites("bin/graphics/sprite/sprite_definitions.txt");
-	
+
 	//world.loadEntitylist("bin/graphics/sprite/sprite_definitions.txt");
 	cursor.setCursor();
 	mainGame.init();
 	menu.init();
 	fpsText.setFont(TextContainer::getInstance()->getBasicFont());
-
 }
 
 Game::~Game()
@@ -25,6 +25,9 @@ bool Game::run()
 	Logger::i("Game start");
 	sf::RenderWindow w(sf::VideoMode(1000, 1000), "Corpos space");
 	this->window = &w;
+	window->resetGLStates();
+
+	ImGui::SFML::Init(*window);
 
 	long double delta = 0.00;
 	long double frame_time = 0.00;
@@ -43,8 +46,11 @@ bool Game::run()
 		sf::Event event;
 		while (window->pollEvent(event))
 		{
+			ImGui::SFML::ProcessEvent(event);
 			events(event);
 		}
+
+		ImGui::SFML::Update(*window, timeSinceLastUpdate);
 
 		while (timeSinceLastUpdate > TimePerFrame)
 		{
@@ -67,12 +73,13 @@ bool Game::run()
 				FpsframeCount = 0;
 				FpsDelta = 0;
 			}
-			draw();
+			
 		}
-
+		draw();
 		fpscheck.restart();
 	}
 	Logger::i("Game end ");
+	ImGui::SFML::Shutdown();
 	return 0;
 }
 
@@ -86,7 +93,6 @@ void Game::update(float delta_time)
 		mainGame.update(delta_time);
 		break;
 	}
-	
 }
 
 void Game::draw()
@@ -101,10 +107,12 @@ void Game::draw()
 		mainGame.draw(*window);
 		break;
 	}
-
+	
 	cursor.draw(*window);
 	window->setView(defaultView);
 	window->draw(fpsText);
+
+	ImGui::SFML::Render(*window);
 	window->display();
 }
 

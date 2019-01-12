@@ -20,7 +20,7 @@ public:
 
 	void showMenu() { game_state = 0; };
 	void showGame() { game_state = 1; };
-	void exit() { window->close() ; };
+	void exit() { window->close(); };
 
 private:
 	// update all physics and game logic

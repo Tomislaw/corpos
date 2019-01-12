@@ -58,5 +58,4 @@ void World::loadMap(std::string map)
 
 	//load it after tilemap
 	entitylist.loadMap(file);
-
 }

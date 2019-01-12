@@ -10,12 +10,12 @@ void Menu::init() {
 
 	std::shared_ptr <MenuLabel> labelModules = std::make_shared<MenuLabel>();
 	labelModules->getLabel().setString("Modules");
-	labelModules->setOnClikAction([]() {Logger::d("click"); });
+	labelModules->setOnClikAction([this]() {showMainMenu(false); showModules(true); });
 	menuList.addItem(labelModules);
 
 	std::shared_ptr <MenuLabel> labelOptions = std::make_shared<MenuLabel>();
 	labelOptions->getLabel().setString("Options");
-	labelOptions->setOnClikAction([]() {Logger::d("click"); });
+	labelOptions->setOnClikAction([]() { ;});
 	menuList.addItem(labelOptions);
 
 	std::shared_ptr <MenuLabel> labelExit = std::make_shared<MenuLabel>();
