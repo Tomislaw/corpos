@@ -25,12 +25,7 @@ void World::update(float delta)
 
 void World::draw(sf::RenderWindow & window)
 {
-	entitylist.getCurrentCamera().setForegroundView(window);
-	//entitylist.getCurrentCamera().setBackgroundView(window);
-
-	//entitylist.getCurrentCamera().setNormalView(window);
-	//tilemap.drawBackground(window);
-	//tilemap.draw(window);
+	entitylist.getCurrentCamera().setView(window);
 
 	entitylist.drawBackground(window);
 	tilemap2.drawBackground(window);

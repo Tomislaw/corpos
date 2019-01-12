@@ -10,8 +10,7 @@ public:
 	Camera(sf::IntRect bounds, Entity * target);
 	~Camera();
 
-	void setForegroundView(sf::RenderTarget & target);
-	void setBackgroundView(sf::RenderTarget & target);
+	void setView(sf::RenderTarget & target);
 
 private:
 	Entity * target;
