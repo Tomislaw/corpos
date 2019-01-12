@@ -67,6 +67,12 @@
     <Filter Include="Header Files\menu">
       <UniqueIdentifier>{6629aa07-1950-4900-9c62-8eb02837a2c1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\imgui">
+      <UniqueIdentifier>{cecb0a49-db59-4a3c-94ba-fbde3234b06b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\menu">
+      <UniqueIdentifier>{0bdfb3a8-6eff-4e33-9386-eaed26e984c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -186,11 +192,26 @@
     <ClCompile Include="src\game\engine\Landscape.cpp">
       <Filter>Source Files\engine</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\menu\MenuLabel.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\imgui\imgui.cpp">
+      <Filter>Source Files\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\imgui\imgui_demo.cpp">
+      <Filter>Source Files\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\imgui\imgui_draw.cpp">
+      <Filter>Source Files\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\imgui\imgui_widgets.cpp">
+      <Filter>Source Files\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\imgui-sfml\imgui-SFML.cpp">
+      <Filter>Source Files\imgui</Filter>
     </ClCompile>
     <ClCompile Include="src\game\menu\Menu.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\menu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\menu\MenuLabel.cpp">
+      <Filter>Source Files\menu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

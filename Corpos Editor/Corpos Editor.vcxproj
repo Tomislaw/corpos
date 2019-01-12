@@ -136,7 +136,6 @@
     <ClCompile Include="GeneratedFiles\Release\moc_TilesetEditor.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="MapForm.cpp" />
     <ClCompile Include="MapView.cpp" />
     <ClCompile Include="NewMapForms.cpp" />
