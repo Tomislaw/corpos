@@ -74,7 +74,7 @@ void MapForm::mouseMoveEvent(QMouseEvent * e)
 	{
 		mapView->update();
 	}
-	//e->accept();
+	e->setAccepted(false);
 }
 
 void MapForm::mousePressEvent(QMouseEvent * e)
@@ -98,7 +98,7 @@ void MapForm::mousePressEvent(QMouseEvent * e)
 			mapView->setTileAtMousePosition(CorposEditor::selectedTileset, CorposEditor::selectedTile);
 		}
 	}
-	//e->accept();
+	e->setAccepted(false);
 }
 
 void MapForm::mouseReleaseEvent(QMouseEvent * e)
@@ -117,11 +117,12 @@ void MapForm::mouseReleaseEvent(QMouseEvent * e)
 		isLeftShiftMouseMoving = false;
 	}
 	mapView->update();
-	//e->accept();
+	e->setAccepted(false);
 }
 
 void MapForm::wheelEvent(QWheelEvent * e)
 {
+	e->setAccepted(false);
 	if (!((viewSize < 0.2 &&  e->angleDelta().y() < 0) || (viewSize >= 4) && e->angleDelta().y() > 0))
 		viewSize += e->angleDelta().y() / 1000.f;
 	else return;
@@ -129,6 +130,7 @@ void MapForm::wheelEvent(QWheelEvent * e)
 	if ((viewSize >= 4))viewSize = 4;
 	mapView->setViewSize(viewSize);
 	mapView->update();
+
 }
 
 std::vector<VertexTileMap>& MapForm::getVertexTileMap()

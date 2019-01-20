@@ -90,7 +90,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Corpos Space\src;$(SolutionDir)SFML2\include;$(SolutionDir)Corpos Space;D:\Projects\VisualStudioProjects\Corpos Space\imgui-sfml;D:\Projects\VisualStudioProjects\Corpos Space\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Corpos Space\src;$(SolutionDir)SFML2\include;$(SolutionDir)Corpos Space;$(SolutionDir)imgui-sfml;$(SolutionDir)imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

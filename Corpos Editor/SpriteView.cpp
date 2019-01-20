@@ -20,7 +20,7 @@ void SpriteView::OnUpdate()
 
 	// Draw it
 	if (sprite != nullptr)
-		draw(sprite->GetSprite());;
+		draw(sprite->getSprite());;
 }
 
 void SpriteView::setSprite(GameSprite & sprite)

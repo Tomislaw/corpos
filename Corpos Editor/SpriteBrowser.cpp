@@ -90,7 +90,7 @@ void SpriteBrowser::animationSelected(int id)
 		auto anims = &selectedSprite.getAnimationSheet();
 		auto a = anims->at(id);
 		this->ui.labelAnimationInfo->setText(QString::fromStdString(a.toString()));
-		selectedSprite.SetAnimation(a.GetName());
+		selectedSprite.setAnimation(a.GetName());
 		view->update();
 		this->ui.sliderFrame->setRange(0, a.getFrameCount() - 1);
 	}
@@ -128,7 +128,7 @@ void SpriteBrowser::sliderChanged(int i)
 {
 	if (selectedSprite.getCurrentAnimation() != nullptr)
 	{
-		selectedSprite.SetRectangle(selectedSprite.getCurrentAnimation()->getRectangle(i));
+		selectedSprite.setRectangle(selectedSprite.getCurrentAnimation()->getRectangle(i));
 		view->update();
 	}
 }

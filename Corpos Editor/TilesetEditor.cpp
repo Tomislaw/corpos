@@ -572,7 +572,7 @@ void TilesetEditor::changeTilesetData(std::string name, std::string texture, std
 	for (int i = 0; i < tileDefinitions.size(); i++)
 	{
 		auto var = &tileDefinitions[i];
-		var->texture_name = texture;
+		var->textureName = texture;
 		var->texture = tex;
 	}
 

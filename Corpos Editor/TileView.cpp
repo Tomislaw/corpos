@@ -38,7 +38,7 @@ void TileView::OnUpdate()
 void TileView::setTile(TileDefinition * tiledef)
 {
 	if (tiledef == nullptr)return;
-	texture = GameDataHolder::getInstance()->getTexture(tiledef->texture_name);
+	texture = GameDataHolder::getInstance()->getTexture(tiledef->textureName);
 	this->tile.changeTile(tiledef, tilePtr, sf::Vector2f(0, 0));
 	tile.setDisplayType(false, false, false,
 		false, false,
