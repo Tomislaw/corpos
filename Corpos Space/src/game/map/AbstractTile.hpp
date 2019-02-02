@@ -5,10 +5,11 @@
 #include "game\graphics\Particle.hpp"
 #include "game\engine\Damageable.hpp"
 
+#define TILE_SIZE 32.f
+
 #ifndef	ABSTRACT_TILE_HPP
 #define ABSTRACT_TILE_HPP
 
-#define TILE_SIZE 32.f
 
 struct TileDefinition;
 

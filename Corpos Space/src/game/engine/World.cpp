@@ -11,7 +11,7 @@ World::World()
 	{
 		return tilemap2.getTile(x, y);
 	};
-	AStar::PathFind::getTile = std::bind(getTile, std::placeholders::_1, std::placeholders::_2);
+	AStar::PathfindUtils::getTile = std::bind(getTile, std::placeholders::_1, std::placeholders::_2);
 }
 
 World::~World()

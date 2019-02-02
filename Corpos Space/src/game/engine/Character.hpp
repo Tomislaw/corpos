@@ -13,9 +13,9 @@ class AiBasic;
 
 struct NavigationNodeCharacterData
 {
-	unsigned int characterWidth = 1;
-	unsigned int characterHeight = 2;
-	unsigned int characterJumpHeight = 1;
+	unsigned int characterWidth = 2;
+	unsigned int characterHeight = 4;
+	unsigned int characterJumpHeight = 2;
 	bool canUseLadder = true;
 	bool isFlyingOne = false;
 };

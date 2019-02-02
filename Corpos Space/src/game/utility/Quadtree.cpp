@@ -1,5 +1,4 @@
 #include "Quadtree.hpp"
-using namespace std;
 
 Quadtree::Quadtree()
 {
@@ -160,13 +159,13 @@ void Quadtree::draw(sf::RenderTarget &canvas)
 	}
 	canvas.draw(shape);
 }
-vector<Entity*> Quadtree::GetObjectsAt(sf::Vector2f pos)
+std::vector<Entity*> Quadtree::GetObjectsAt(sf::Vector2f pos)
 {
 	if (is_last)
 	{
 		return objects;
 	}
-	vector<Entity*> returnObjects, childReturnObjects;
+	std::vector<Entity*> returnObjects, childReturnObjects;
 
 	if (NE->Contains(pos))
 	{

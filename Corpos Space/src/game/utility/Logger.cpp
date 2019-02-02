@@ -8,6 +8,7 @@ Logger::Logger(const Logger &)
 
 Logger & Logger::getInstance()
 {
+	
 	static Logger instance;
 	return instance;
 }
@@ -19,6 +20,7 @@ void Logger::i(std::string info)
 
 void Logger::d(std::string info)
 {
+	Logger::e(PrettyString(1, 2.0, "fsfes", sf::Vector2f(0,0)).str());
 	Logger::getInstance().log(info, 1);
 }
 

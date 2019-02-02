@@ -46,7 +46,7 @@ void NavigationNode::PrintNodeInfo()
 		str = "ERROR";
 		break;
 	}
-	cout << str + " : " << x << " " << y << "\n";
+	std::cout << str + " : " << x << " " << y << "\n";
 }
 
 // Here's the heuristic function that estimates the distance from a Node
