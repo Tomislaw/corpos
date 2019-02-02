@@ -118,6 +118,7 @@ void MapForm::mouseReleaseEvent(QMouseEvent * e)
 	}
 	mapView->update();
 	e->setAccepted(false);
+
 }
 
 void MapForm::wheelEvent(QWheelEvent * e)

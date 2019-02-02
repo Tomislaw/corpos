@@ -73,6 +73,9 @@
     <Filter Include="Source Files\menu">
       <UniqueIdentifier>{0bdfb3a8-6eff-4e33-9386-eaed26e984c6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\utility\pathfind">
+      <UniqueIdentifier>{e1ab2a66-ae7a-426d-8d2a-67d4632a666a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -213,6 +216,9 @@
     <ClCompile Include="src\game\menu\MenuLabel.cpp">
       <Filter>Source Files\menu</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\utility\Node.cpp">
+      <Filter>Source Files\utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game\main\stdafx.h">
@@ -302,14 +308,8 @@
     <ClInclude Include="src\game\engine\Characters\Crawler.hpp">
       <Filter>Header Files\engine\characters</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\utility\AStarSearch.hpp">
-      <Filter>Header Files\utility</Filter>
-    </ClInclude>
     <ClInclude Include="src\game\engine\logic\ai\NavigationNode.hpp">
       <Filter>Header Files\engine\logic\ai</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\utility\Pathfind.hpp">
-      <Filter>Header Files\utility</Filter>
     </ClInclude>
     <ClInclude Include="src\game\engine\Characters\CharacterFactory.hpp">
       <Filter>Header Files\engine\characters</Filter>
@@ -376,6 +376,15 @@
     </ClInclude>
     <ClInclude Include="src\game\MainGame.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\utility\AStarSearch.hpp">
+      <Filter>Header Files\utility\pathfind</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\utility\Pathfind.hpp">
+      <Filter>Header Files\utility\pathfind</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\utility\Node.hpp">
+      <Filter>Header Files\utility\pathfind</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

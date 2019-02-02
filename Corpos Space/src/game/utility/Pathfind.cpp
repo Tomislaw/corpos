@@ -4,7 +4,7 @@
 
 using namespace std::placeholders;
 using namespace AStar;
-GetTile AStar::PathFind::getTile = nullptr;;
+GetTile AStar::PathFind::getTile = nullptr;
 
 Node::Node(sf::Vector2i coordinates_, Node *parent_)
 {
@@ -307,7 +307,7 @@ bool PathFind::canMoveToTile(Node * node, int x, int y)
 
 	/*
 	* Check if can stand here
-	*     ><[][]][]
+	*     ><x[]][]
 	*     ><><
 	* [][][]   [][]
 	*/

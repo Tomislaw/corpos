@@ -28,7 +28,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -194,6 +194,7 @@
     <ClCompile Include="src\game\menu\MenuLabel.cpp" />
     <ClCompile Include="src\game\utility\AStarSearch.cpp" />
     <ClCompile Include="src\game\utility\Logger.cpp" />
+    <ClCompile Include="src\game\utility\Node.cpp" />
     <ClCompile Include="src\game\utility\Pathfind.cpp" />
     <ClCompile Include="src\game\utility\Quadtree.cpp" />
     <ClCompile Include="src\game\utility\String.cpp" />
@@ -250,6 +251,7 @@
     <ClInclude Include="src\game\utility\Flags.h" />
     <ClInclude Include="src\game\utility\Intersection.hpp" />
     <ClInclude Include="src\game\utility\Logger.hpp" />
+    <ClInclude Include="src\game\utility\Node.hpp" />
     <ClInclude Include="src\game\utility\Pathfind.hpp" />
     <ClInclude Include="src\game\utility\Quadtree.hpp" />
     <ClInclude Include="src\game\utility\String.hpp" />

@@ -5,6 +5,8 @@
 #include <QWidget>
 #include <SFML/Graphics.hpp>
 #include <QTimer>
+#include <QFocusEvent>
+#include "game/utility/Logger.hpp"
 class QSFMLCanvas : public QWidget, public sf::RenderWindow
 {
 	Q_OBJECT
@@ -16,6 +18,11 @@ public:
 	virtual ~QSFMLCanvas();
 	virtual void OnInit();
 	virtual void OnUpdate();
+
+	void leaveEvent(QEvent * event) override {
+		Logger::d("leave");
+		this->focusOutEvent(new QFocusEvent(QEvent::FocusOut, Qt::MouseFocusReason));
+	}
 
 private:
 	//QTimer timer;

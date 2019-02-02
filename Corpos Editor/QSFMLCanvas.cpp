@@ -30,7 +30,8 @@ void QSFMLCanvas::showEvent(QShowEvent*)
 		//XFlush(QX11Info::display());
 #endif
 		// Create the SFML window with the widget handle
-		RenderWindow::create(reinterpret_cast<sf::WindowHandle>(winId()));
+		sf::RenderWindow::create((sf::WindowHandle) winId());
+
 		// Let the derived class do its specific stuff
 		OnInit();
 

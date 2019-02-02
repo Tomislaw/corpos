@@ -22,6 +22,7 @@ public:
 
 	std::vector<VertexTileMap>& getVertexTileMap();
 	bool saveToFile(std::string location);
+
 public slots:
 	void timerUpdate();
 	void onResize();

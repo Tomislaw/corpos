@@ -73,7 +73,6 @@ bool Game::run()
 				FpsframeCount = 0;
 				FpsDelta = 0;
 			}
-			
 		}
 		draw();
 		fpscheck.restart();
@@ -107,7 +106,7 @@ void Game::draw()
 		mainGame.draw(*window);
 		break;
 	}
-	
+
 	cursor.draw(*window);
 	window->setView(defaultView);
 	window->draw(fpsText);
