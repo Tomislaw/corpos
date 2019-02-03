@@ -16,7 +16,7 @@ struct TileDefinition;
 class AbstractTile : public Destructable, public Collideable
 {
 public:
-
+	AbstractTile() {};
 	AbstractTile(std::shared_ptr<TileDefinition> tiledef, sf::Vector2i pos);
 
 	virtual void load(std::shared_ptr<sf::VertexArray> array);

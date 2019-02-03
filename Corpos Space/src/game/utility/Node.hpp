@@ -17,7 +17,7 @@ namespace AStar {
 
 	using GetTile = std::function<MapTile*(int x, int y)>;
 
-	class Node 
+	class Node : public Loggable
 	{
 	public:
 
@@ -40,6 +40,23 @@ namespace AStar {
 		enum Type { CENTER_POSITION, FLY, JUMP, WALK, CLIMB, FALL, BEFORE_JUMP, AFTER_JUMP };
 
 		float timeSpend = 3;
+
+		std::string toString() override {
+			std::string typeStr;
+			switch (type)
+			{
+			case CENTER_POSITION: typeStr = "CENTER_POSITION"; break;
+			case FLY: typeStr = "FLY"; break;
+			case JUMP: typeStr = "JUMP"; break;
+			case FALL: typeStr = "FALL"; break;
+			case WALK: typeStr = "WALK"; break;
+			case CLIMB: typeStr = "CLIMB"; break;
+			case AFTER_JUMP: typeStr = "AFTER_JUMP"; break;
+			default: "UNKNOWN"; break;
+			}
+
+			return  PrettyString(coordinates, typeStr).formatted("Node( coord: {}, type: {} )");
+		}
 	};
 
 	class NodeCompare_F

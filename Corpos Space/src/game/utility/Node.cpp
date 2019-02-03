@@ -19,7 +19,9 @@ Node::Node(sf::Vector2i coordinates_, Node *parent_, int type, int fallDistanceL
 
 AStar::Node::Node(sf::Vector2f pos, Node * parent_)
 {
-	coordinates = sf::Vector2i(pos.x / (TILE_SIZE)*2, pos.y / (TILE_SIZE)*2);
+	int x = pos.x / (TILE_SIZE);
+	int y = pos.y / (TILE_SIZE);
+	coordinates = sf::Vector2i(x*2+1, y * 2 + 1);
 	F = G = H = 0;
 	type = Type::WALK;
 	jumpDistanceLeft = 0;
@@ -98,7 +100,7 @@ std::vector<Node> AStar::GroundWalkingSucessors::getSuccesors(Node * node, Navig
 
 				int type = Node::Type::FALL;
 				if (PathfindUtils::canStandOnTile(newCoord, character)) type = Node::Type::WALK;
-				else if (y == 1) continue;
+				else if (y == -1) continue;
 
 				succesors.push_back(Node(newCoord, node, type));
 			}
@@ -183,9 +185,10 @@ std::vector<Node> AStar::GroundJumpingSucessors::getSuccesors(Node * node, Navig
 
 bool AStar::PathfindUtils::canFitInTile(sf::Vector2i tileId, NavigationNodeCharacterData &character)
 {
+	
 	for (int x = 0; x < character.characterWidth; x++)
 		for (int y = 0; y < character.characterHeight; y++) {
-			int posX = tileId.x + x - character.characterWidth/2 +1;
+			int posX = tileId.x + x - character.characterWidth/2;
 			int posY = tileId.y - y;
 			if (isTileBlocking(sf::Vector2i(posX, posY))) return false;
 		}
@@ -252,11 +255,41 @@ bool AStar::PathfindUtils::canMoveToTileWhileWalking(sf::Vector2i startTileId, s
 
 bool AStar::PathfindUtils::isTileBlocking(sf::Vector2i subTileId)
 {
-	int x = subTileId.x / 2;
-	int y = subTileId.y/2;
+	//if (subTileId.x % 2 == 1 && subTileId.y % 2 == 1) {
+		auto tile = getTile(subTileId.x/2, subTileId.y / 2);
+		if (tile == nullptr || tile->isBlocking()) return true;
+		return false;
+	//}
+	
+	if (subTileId.x % 2 == 0 && subTileId.y % 2 == 1) {
+		auto lTile = getTile((subTileId.x-2) / 2, subTileId.y / 2);
+		if (lTile == nullptr || lTile->isBlocking()) return true;
+		auto rTile = getTile(subTileId.x / 2, subTileId.y / 2);
+		if (rTile == nullptr || rTile->isBlocking()) return true;
+		return false;
+		
+	}
 
-	auto tile = getTile(x, y);
-	if (tile == nullptr || tile->isBlocking()) return true;
+	if (subTileId.y % 2 == 0 && subTileId.x % 2 == 1) {
+		auto tTile = getTile(subTileId.x / 2, (subTileId.y-2) / 2);
+		if (tTile == nullptr || tTile->isBlocking()) return true;
+		auto bTile = getTile(subTileId.x / 2, subTileId.y / 2);
+		if (bTile == nullptr || bTile->isBlocking()) return true;
+		return false;
+	}
+
+	if (subTileId.y % 2 == 0 && subTileId.x % 2 == 0) {
+		auto ltTile = getTile((subTileId.x - 2) / 2, (subTileId.y - 2) / 2);
+		if (ltTile == nullptr || ltTile->isBlocking()) return true;
+		auto lbTile = getTile((subTileId.x - 2) / 2, subTileId.y / 2);
+		if (lbTile == nullptr || lbTile->isBlocking()) return true;
+
+		auto rtTile = getTile(subTileId.x / 2, (subTileId.y-2) / 2);
+		if (rtTile == nullptr || rtTile->isBlocking()) return true;
+		auto rbTile = getTile(subTileId.x / 2, subTileId.y / 2);
+		if (rbTile == nullptr || rbTile->isBlocking()) return true;
+		return false;
+	}
 
 	return false;
 }
