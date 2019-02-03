@@ -103,7 +103,18 @@ AiBasic::~AiBasic()
 
 void AiBasic::drawDebugData(sf::RenderTarget & target)
 {
-	if (path.empty())return;
+	if (path.empty()) {
+		auto a = character.getNavigationNodeCharacterData();
+		auto b = AStar::Node(character.getCenteredPosition());
+		auto c = AStar::GroundWalkingSucessors().getSuccesors(&b,a);
+
+		Logger::d("",c);
+		
+		return;
+	}
+
+
+	auto debugColor = sf::Color::Red;
 
 	if (isInitialized == false)
 	{
@@ -123,7 +134,7 @@ void AiBasic::drawDebugData(sf::RenderTarget & target)
 		auto tile = node.coordinates;
 		line[1].position = sf::Vector2f(tile.x * TILE_SIZE/2 + TILE_SIZE/4, tile.y * TILE_SIZE/2 + TILE_SIZE/4);
 
-		target.draw(line);
+		
 
 		//draw debug text
 		entityDebugText.setPosition(line[1].position);
@@ -131,32 +142,45 @@ void AiBasic::drawDebugData(sf::RenderTarget & target)
 		{
 		case AStar::Node::WALK:
 			entityDebugText.setString("walk");
+			debugColor = sf::Color::White;
 			break;
 		case AStar::Node::JUMP:
 			entityDebugText.setString("jump");
+			debugColor = sf::Color::Blue;
 			break;
 		case AStar::Node::AFTER_JUMP:
 			entityDebugText.setString("after_jump");
+			debugColor = sf::Color::Cyan;
 			break;
 		case  AStar::Node::BEFORE_JUMP:
 			entityDebugText.setString("before_jump");
+			debugColor = sf::Color::Red;
 			break;
 		case  AStar::Node::CENTER_POSITION:
 			entityDebugText.setString("center_position");
+			debugColor = sf::Color::Red;
 			break;
 		case AStar::Node::CLIMB:
 			entityDebugText.setString("climb");
+			debugColor = sf::Color::Green;
 			break;
 		case  AStar::Node::FLY:
 			entityDebugText.setString("fly");
+			debugColor = sf::Color::Yellow;
 			break;
 		case  AStar::Node::FALL:
 			entityDebugText.setString("fall");
+			debugColor = sf::Color::Magenta;
 			break;
 		default:
 			entityDebugText.setString("ERROR");
+			debugColor = sf::Color::Red;
 			break;
 		}
+		line[0].color = debugColor;
+		line[1].color = debugColor;
+		entityDebugText.setColor(debugColor);
+		target.draw(line);
 		target.draw(entityDebugText);
 
 		line[0].position = line[1].position;

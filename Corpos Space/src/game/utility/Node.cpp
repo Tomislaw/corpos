@@ -55,8 +55,12 @@ bool AStar::Node::isReached(Character & character)
 	int verticalBottomRange = 0;
 	int verticalToppRange = 0;
 	switch (type) {
-	JUMP:
 	FALL:
+		horizontalRange = TILE_SIZE;
+		verticalBottomRange = TILE_SIZE * 4;
+		verticalToppRange = TILE_SIZE * 2;
+		break;
+	JUMP:
 	AFTER_JUMP:
 		verticalBottomRange = TILE_SIZE ;
 		verticalToppRange = TILE_SIZE * 1.5;
@@ -84,6 +88,8 @@ std::vector<Node> AStar::GroundWalkingSucessors::getSuccesors(Node * node, Navig
 
 	if (node->type == Node::Type::WALK) {
 		for (int x = -1; x <= 1; x++)
+		{
+			if (x == 0)continue;
 			for (int y = -1; y <= 1; y++) {
 				auto newCoord = sf::Vector2i(x + node->coordinates.x, y + node->coordinates.y);
 
@@ -92,10 +98,11 @@ std::vector<Node> AStar::GroundWalkingSucessors::getSuccesors(Node * node, Navig
 
 				int type = Node::Type::FALL;
 				if (PathfindUtils::canStandOnTile(newCoord, character)) type = Node::Type::WALK;
-				//else if (y == -1)return succesors;
+				else if (y == 1) continue;
 
 				succesors.push_back(Node(newCoord, node, type));
 			}
+		}
 	}
 	else if (node->type == Node::Type::FALL) {
 
@@ -176,11 +183,10 @@ std::vector<Node> AStar::GroundJumpingSucessors::getSuccesors(Node * node, Navig
 
 bool AStar::PathfindUtils::canFitInTile(sf::Vector2i tileId, NavigationNodeCharacterData &character)
 {
-	Logger::d("start");
-	for (int x = 0; x < character.characterWidth/2; x++)
-		for (int y = 0; y < character.characterHeight/2; y++) {
-			int posX = tileId.x/2 + x;
-			int posY = tileId.y/2 - y-2;
+	for (int x = 0; x < character.characterWidth; x++)
+		for (int y = 0; y < character.characterHeight; y++) {
+			int posX = tileId.x + x - character.characterWidth/2 +1;
+			int posY = tileId.y - y;
 			if (isTileBlocking(sf::Vector2i(posX, posY))) return false;
 		}
 	return true;
@@ -247,7 +253,7 @@ bool AStar::PathfindUtils::canMoveToTileWhileWalking(sf::Vector2i startTileId, s
 bool AStar::PathfindUtils::isTileBlocking(sf::Vector2i subTileId)
 {
 	int x = subTileId.x / 2;
-	int y = subTileId.y / 2;
+	int y = subTileId.y/2;
 
 	auto tile = getTile(x, y);
 	if (tile == nullptr || tile->isBlocking()) return true;

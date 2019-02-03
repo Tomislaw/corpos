@@ -17,7 +17,7 @@ namespace AStar {
 
 	using GetTile = std::function<MapTile*(int x, int y)>;
 
-	class Node
+	class Node 
 	{
 	public:
 

@@ -8,25 +8,8 @@ Logger::Logger(const Logger &)
 
 Logger & Logger::getInstance()
 {
-	
 	static Logger instance;
 	return instance;
-}
-
-void Logger::i(std::string info)
-{
-	Logger::getInstance().log(info, 0);
-}
-
-void Logger::d(std::string info)
-{
-	Logger::e(PrettyString(1, 2.0, "fsfes", sf::Vector2f(0,0)).str());
-	Logger::getInstance().log(info, 1);
-}
-
-void Logger::e(std::string info)
-{
-	Logger::getInstance().log(info, 2);
 }
 
 void Logger::log(std::string info, int type)
@@ -55,13 +38,57 @@ void Logger::log(std::string info, int type)
 	else stime += "0" + std::to_string(timeinfo.tm_sec);
 
 	std::string sinfo;
-	if (type == 0)sinfo = "[info] ";
-	if (type == 1)sinfo = "[debug] ";
-	if (type == 2)sinfo = "[error!] ";
+	if (type == LOGLEVEL::DEBUG)sinfo = "[debug] ";
+	if (type == LOGLEVEL::INFO)sinfo = "[info ] ";
+	if (type == LOGLEVEL::WARNING)sinfo = "[warn ] ";
+	if (type == LOGLEVEL::FATAL)sinfo = "[error] ";
 	std::string i = sinfo + stime + " - " + info + "\n";
 
 	std::cout << i;
 	logs += i;
 
 	if (callback != nullptr)callback(i);
+}
+
+std::string PrettyString::str() {
+	std::string returnValue;
+	for each (auto var in values)
+	{
+		returnValue += var.first + " ";
+	}
+	return returnValue;
+}
+
+std::string PrettyString::formatted(std::string message) {
+
+	unsigned int objectCounter = 0;
+	std::string formattedMessage;
+
+	for (int i = 0; i < message.size(); i++) {
+		if (message[i] == '{') {
+
+			if (i + 1 < message.size() && message[i + 1] == '}') {
+				formattedMessage += getValueToInsert(objectCounter);
+				objectCounter++;
+				i++;
+				continue;
+			}
+			if (i + 2 < message.size() && message[i + 2] == '}' &&  isdigit(message[i + 1])) {
+
+				int objectPos = message[i + 1] - '0';
+				formattedMessage += getValueToInsert(objectPos);
+				i += 2;
+				continue;
+			}
+
+		}
+		formattedMessage += message[i];
+	}
+
+	for each (auto var in values)
+	{
+		if (!var.second) formattedMessage += " " + var.first;
+	}
+
+	return formattedMessage;
 }
