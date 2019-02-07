@@ -15,7 +15,7 @@ struct NavigationNodeCharacterData
 {
 	unsigned int characterWidth = 2;
 	unsigned int characterHeight = 4;
-	unsigned int characterJumpHeight = 2;
+	unsigned int characterJumpHeight = 3;
 	bool canUseLadder = true;
 	bool isFlyingOne = false;
 };

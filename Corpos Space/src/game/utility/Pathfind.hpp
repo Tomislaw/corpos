@@ -36,7 +36,7 @@ namespace AStar
 		bool checkPath(NodeDeque & path);
 
 		NavigationNodeCharacterData character;
-		GroundWalkingSucessors succesorsOfNode;
+		GroundJumpingSucessors succesorsOfNode;
 
 
 		void releaseNodes();

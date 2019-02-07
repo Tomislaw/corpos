@@ -21,7 +21,7 @@ AStar::Node::Node(sf::Vector2f pos, Node * parent_)
 {
 	int x = pos.x / (TILE_SIZE);
 	int y = pos.y / (TILE_SIZE);
-	coordinates = sf::Vector2i(x*2+1, y * 2 + 1);
+	coordinates = sf::Vector2i(x * 2 + 1, y * 2 + 1);
 	F = G = H = 0;
 	type = Type::WALK;
 	jumpDistanceLeft = 0;
@@ -45,36 +45,36 @@ unsigned int AStar::Node::getCost(Node * node)
 
 sf::Vector2f AStar::Node::getPosition()
 {
-	return sf::Vector2f(coordinates.x * TILE_SIZE/2, coordinates.y * TILE_SIZE / 2);
+	return sf::Vector2f(coordinates.x * TILE_SIZE / 2, coordinates.y * TILE_SIZE / 2);
 }
 
-bool AStar::Node::isReached(Character & character)
+bool AStar::Node::isReached(Character & character, Node * previousNode)
 {
-	auto charPos =  character.getCenteredPosition();
+	auto charPos = character.getCenteredPosition();
 	auto pos = getPosition();
 
-	int horizontalRange = TILE_SIZE / 2;
-	int verticalBottomRange = 0;
-	int verticalToppRange = 0;
 	switch (type) {
-	FALL:
-		horizontalRange = TILE_SIZE;
-		verticalBottomRange = TILE_SIZE * 4;
-		verticalToppRange = TILE_SIZE * 2;
+	case Type::FALL:
+		return charPos.y >= pos.y;
 		break;
-	JUMP:
-	AFTER_JUMP:
-		verticalBottomRange = TILE_SIZE ;
-		verticalToppRange = TILE_SIZE * 1.5;
+	case Type::JUMP:
+	case Type::AFTER_JUMP:
+		return charPos.y <= pos.y + TILE_SIZE;
 		break;
 	default:
-		verticalBottomRange = TILE_SIZE/2;
-		verticalToppRange = TILE_SIZE;
+		if (previousNode != nullptr) {
+			bool passedHorizontally =((previousNode->coordinates.x > coordinates.x) && (pos.x > charPos.x))
+				|| ((previousNode->coordinates.x < coordinates.x) &&( pos.x < charPos.x));
+			if (!character.isStanding()) return passedHorizontally;
+			
+			bool passedVertically = charPos.y <= pos.y + TILE_SIZE;
+			return passedHorizontally && passedVertically;
+		}
+
 		break;
 	}
-	return (pos.x - horizontalRange < charPos.x && charPos.x < pos.x + horizontalRange)
-		&& (pos.y - verticalBottomRange < charPos.y && charPos.y < pos.y + verticalToppRange);
-
+	return (pos.x - TILE_SIZE < charPos.x && charPos.x < pos.x + TILE_SIZE)
+		&& (pos.y - TILE_SIZE < charPos.y && charPos.y < pos.y + TILE_SIZE);
 }
 
 std::vector<Node> AStar::GroundWalkingSucessors::getSuccesors(Node * node, NavigationNodeCharacterData &character)
@@ -102,12 +102,11 @@ std::vector<Node> AStar::GroundWalkingSucessors::getSuccesors(Node * node, Navig
 				if (PathfindUtils::canStandOnTile(newCoord, character)) type = Node::Type::WALK;
 				else if (y == -1) continue;
 
-				succesors.push_back(Node(newCoord, node, type));
+				succesors.push_back(Node(newCoord, node, type, Node::DEFAULT_FALL_DISTANCE, character.characterJumpHeight));
 			}
 		}
 	}
 	else if (node->type == Node::Type::FALL) {
-
 		if (node->fallDistanceLeft <= 0) {
 			auto newCoord = sf::Vector2i(node->coordinates.x, node->coordinates.y + 1);
 
@@ -116,15 +115,16 @@ std::vector<Node> AStar::GroundWalkingSucessors::getSuccesors(Node * node, Navig
 			int type = Node::Type::FALL;
 			if (PathfindUtils::canStandOnTile(newCoord, character)) type = Node::Type::WALK;
 
-			succesors.push_back(Node(newCoord, node, type, node->fallDistanceLeft--));
-		}else {
+			succesors.push_back(Node(newCoord, node, type, 0, character.characterJumpHeight));
+		}
+		else {
 			for (int x = -1; x <= 1; x++) {
 				auto newCoord = sf::Vector2i(node->coordinates.x + x, node->coordinates.y + 1);
 
 				if (!PathfindUtils::canMoveToTile(node->coordinates, newCoord, character)) continue;
 				int type = Node::Type::FALL;
 				if (PathfindUtils::canStandOnTile(newCoord, character)) type = Node::Type::WALK;
-				succesors.push_back(Node(newCoord, node, type));
+				succesors.push_back(Node(newCoord, node, type, node->fallDistanceLeft - 1, character.characterJumpHeight));
 			}
 		}
 	}
@@ -134,7 +134,7 @@ std::vector<Node> AStar::GroundWalkingSucessors::getSuccesors(Node * node, Navig
 
 std::vector<Node> AStar::GroundJumpingSucessors::getSuccesors(Node * node, NavigationNodeCharacterData &character)
 {
-	auto succesors = GroundWalkingSucessors::getSuccesors(node,character);
+	auto succesors = GroundWalkingSucessors::getSuccesors(node, character);
 	if (node == nullptr)return succesors;
 
 	auto parentCoord = sf::Vector2i(-1, -1);
@@ -150,7 +150,7 @@ std::vector<Node> AStar::GroundJumpingSucessors::getSuccesors(Node * node, Navig
 				auto newCoord = sf::Vector2i(x + node->coordinates.x, y + node->coordinates.y);
 				if (newCoord == parentCoord)continue;
 				if (!PathfindUtils::canMoveToTile(node->coordinates, newCoord, character)) continue;
-				succesors.push_back(Node(newCoord, node, Node::Type::JUMP, node->fallDistanceLeft, 3));
+				succesors.push_back(Node(newCoord, node, Node::Type::JUMP, Node::DEFAULT_FALL_DISTANCE, character.characterJumpHeight - 1));
 			}
 	}
 	else if (node->type == Node::Type::JUMP || node->type == Node::Type::AFTER_JUMP) {
@@ -163,7 +163,7 @@ std::vector<Node> AStar::GroundJumpingSucessors::getSuccesors(Node * node, Navig
 					if (!PathfindUtils::canMoveToTile(node->coordinates, newCoord, character)) continue;
 					int type = Node::Type::FALL;
 					if (PathfindUtils::canStandOnTile(newCoord, character)) type = Node::Type::WALK;
-					succesors.push_back(Node(newCoord, node, type, node->fallDistanceLeft, 3));
+					succesors.push_back(Node(newCoord, node, type, Node::DEFAULT_FALL_DISTANCE, 0));
 				}
 		}
 		else {
@@ -171,7 +171,7 @@ std::vector<Node> AStar::GroundJumpingSucessors::getSuccesors(Node * node, Navig
 				auto newCoord = sf::Vector2i(x + node->coordinates.x, node->coordinates.y - 1);
 				if (!PathfindUtils::canMoveToTile(node->coordinates, newCoord, character)) continue;
 
-				succesors.push_back(Node(newCoord, node, Node::Type::AFTER_JUMP, node->fallDistanceLeft, node->jumpDistanceLeft--));
+				succesors.push_back(Node(newCoord, node, Node::Type::AFTER_JUMP, Node::DEFAULT_FALL_DISTANCE, node->jumpDistanceLeft - 1));
 			}
 		}
 	}
@@ -185,10 +185,9 @@ std::vector<Node> AStar::GroundJumpingSucessors::getSuccesors(Node * node, Navig
 
 bool AStar::PathfindUtils::canFitInTile(sf::Vector2i tileId, NavigationNodeCharacterData &character)
 {
-	
 	for (int x = 0; x < character.characterWidth; x++)
 		for (int y = 0; y < character.characterHeight; y++) {
-			int posX = tileId.x + x - character.characterWidth/2;
+			int posX = tileId.x + x - character.characterWidth / 2;
 			int posY = tileId.y - y;
 			if (isTileBlocking(sf::Vector2i(posX, posY))) return false;
 		}
@@ -211,7 +210,7 @@ bool AStar::PathfindUtils::canStandOnTile(sf::Vector2i tileId, NavigationNodeCha
 {
 	for (int x = 0; x < character.characterWidth; x++) {
 		int posX = tileId.x - character.characterWidth / 2 + x;
-		if (isTileBlocking(sf::Vector2i(posX, tileId.y+1))) return true;
+		if (isTileBlocking(sf::Vector2i(posX, tileId.y + 1))) return true;
 	}
 
 	return false;
@@ -256,22 +255,21 @@ bool AStar::PathfindUtils::canMoveToTileWhileWalking(sf::Vector2i startTileId, s
 bool AStar::PathfindUtils::isTileBlocking(sf::Vector2i subTileId)
 {
 	//if (subTileId.x % 2 == 1 && subTileId.y % 2 == 1) {
-		auto tile = getTile(subTileId.x/2, subTileId.y / 2);
-		if (tile == nullptr || tile->isBlocking()) return true;
-		return false;
+	auto tile = getTile(subTileId.x / 2, subTileId.y / 2);
+	if (tile == nullptr || tile->isBlocking()) return true;
+	return false;
 	//}
-	
+
 	if (subTileId.x % 2 == 0 && subTileId.y % 2 == 1) {
-		auto lTile = getTile((subTileId.x-2) / 2, subTileId.y / 2);
+		auto lTile = getTile((subTileId.x - 2) / 2, subTileId.y / 2);
 		if (lTile == nullptr || lTile->isBlocking()) return true;
 		auto rTile = getTile(subTileId.x / 2, subTileId.y / 2);
 		if (rTile == nullptr || rTile->isBlocking()) return true;
 		return false;
-		
 	}
 
 	if (subTileId.y % 2 == 0 && subTileId.x % 2 == 1) {
-		auto tTile = getTile(subTileId.x / 2, (subTileId.y-2) / 2);
+		auto tTile = getTile(subTileId.x / 2, (subTileId.y - 2) / 2);
 		if (tTile == nullptr || tTile->isBlocking()) return true;
 		auto bTile = getTile(subTileId.x / 2, subTileId.y / 2);
 		if (bTile == nullptr || bTile->isBlocking()) return true;
@@ -284,7 +282,7 @@ bool AStar::PathfindUtils::isTileBlocking(sf::Vector2i subTileId)
 		auto lbTile = getTile((subTileId.x - 2) / 2, subTileId.y / 2);
 		if (lbTile == nullptr || lbTile->isBlocking()) return true;
 
-		auto rtTile = getTile(subTileId.x / 2, (subTileId.y-2) / 2);
+		auto rtTile = getTile(subTileId.x / 2, (subTileId.y - 2) / 2);
 		if (rtTile == nullptr || rtTile->isBlocking()) return true;
 		auto rbTile = getTile(subTileId.x / 2, subTileId.y / 2);
 		if (rbTile == nullptr || rbTile->isBlocking()) return true;

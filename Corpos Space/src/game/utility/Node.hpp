@@ -20,12 +20,14 @@ namespace AStar {
 	class Node : public Loggable
 	{
 	public:
+		const static int DEFAULT_FALL_DISTANCE = 3;
 
-		Node(sf::Vector2i coord_, Node *parent_ = nullptr, int type = 0, int fallDistanceLeft = 3 , int jumpDistanceLeft = 0);
+		Node() {}
+		Node(sf::Vector2i coord_, Node *parent_ = nullptr, int type = 0, int fallDistanceLeft = DEFAULT_FALL_DISTANCE, int jumpDistanceLeft = 0);
 		Node(sf::Vector2f pos_, Node *parent_ = nullptr);
 
 
-		bool isReached(Character & character);
+		bool isReached(Character & character, Node * previousNode = nullptr);
 		bool isSame(Node * node);
 		unsigned int getScore();
 		unsigned int getCost(Node * node);
@@ -81,6 +83,7 @@ namespace AStar {
 
 	class GroundJumpingSucessors : public GroundWalkingSucessors {
 	public:
+		//todo :  remove jumping left and right
 		std::vector<Node> getSuccesors(Node * node, NavigationNodeCharacterData &character);
 	};
 

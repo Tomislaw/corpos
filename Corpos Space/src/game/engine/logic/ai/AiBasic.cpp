@@ -13,83 +13,40 @@ void AiBasic::update(float delta)
 	if (!path.empty())
 	{
 		// delete node if reached
+		AStar::Node node;
+		AStar::Node *previousNode = nullptr;
 
-		auto node = &path.front();
-		if (node->isReached(character))
+		if (path.front().isReached(character, previousNode))
 		{
+			node = path.front();
 			path.pop_front();
-			if (path.empty())
-			{
-				character.stop();
-				return;
-			}
-			else
-			{
-				node = &path.front();
-			}
+			if (path.empty()){ character.stop(); return;}
 		}
 
-		node->timeSpend -= delta;
+		path.front().timeSpend -= delta;
 		//clear queue if reaching takes too much time
-		if (node->timeSpend < 0)
+		if (path.front().timeSpend < 0)
 		{
 			while (!path.empty()) path.pop_front();
 			character.stop();
 			return;
 		}
 
-		int type = node->type;
+		int type = path.front().type;
 
 		switch (type)
 		{
+		case AStar::Node::AFTER_JUMP:
+		case NavNode::JUMP:character.jump();
 		case AStar::Node::WALK:
 		case AStar::Node::BEFORE_JUMP:
 		case AStar::Node::CENTER_POSITION:
-			if (character.isStanding())
-			{
-				if (character.getStandingTileId().x > node->coordinates.x/2)
-					character.walkLeft();
-				else if (character.getStandingTileId().x < node->coordinates.x/2)
-					character.walkRight();
-			}
-			else
-			{
-				float xpos = character.getCenteredPosition().x + character.getVelocity().x * delta * 10;
-				if (xpos < node->coordinates.x/2 * TILE_SIZE)character.walkRight();
-				else if (xpos > node->coordinates.x/2 * TILE_SIZE + TILE_SIZE)character.walkLeft();
-				else if (character.getStandingTileId().x > node->coordinates.x/2)
-					character.walkLeft();
-				else if (character.getStandingTileId().x < node->coordinates.x/2)
-					character.walkRight();
-			}
-			break;
 		case AStar::Node::FALL:
-		case AStar::Node::AFTER_JUMP:
-
-			if (character.getStandingTileId().x > node->coordinates.x/2)
-				character.walkLeft();
-			else if (character.getStandingTileId().x < node->coordinates.x/2)
-				character.walkRight();
-
-			break;
-
-		case NavNode::JUMP:
-			if (character.isJumping() || character.isStanding())
-			{
-				if (character.getStandingTileId().x > node->coordinates.x)
-				{
+				if (character.getCenteredPosition().x > path.front().getPosition().x)
 					character.walkLeft();
-				}
-
-				if (character.getStandingTileId().x < node->coordinates.x)
-				{
+				else
 					character.walkRight();
-				}
-			}
-
-			character.jump();
-			break;
-
+		break;
 		default:
 			//navigationNodes.p
 			break;
@@ -103,15 +60,15 @@ AiBasic::~AiBasic()
 
 void AiBasic::drawDebugData(sf::RenderTarget & target)
 {
-	if (path.empty()) {
-		auto a = character.getNavigationNodeCharacterData();
-		auto b = AStar::Node(character.getCenteredPosition());
-		auto c = AStar::GroundWalkingSucessors().getSuccesors(&b,a);
+	//if (path.empty()) {
+	//	auto a = character.getNavigationNodeCharacterData();
+	//	auto b = AStar::Node(character.getCenteredPosition());
+	//	auto c = AStar::GroundWalkingSucessors().getSuccesors(&b,a);
 
-		Logger::d("",c);
-		
-		return;
-	}
+	//	Logger::d("",c);
+	//	
+	//	return;
+	//}
 
 
 	auto debugColor = sf::Color::Red;
@@ -191,6 +148,7 @@ void AiBasic::getPath(sf::Vector2i tile)
 {
 	if (!character.isStanding())return;
 	AStar::Node startNode(character.getCenteredPosition());
-	
-	path = pathfind.findPath(startNode, tile*2);
+	auto tilePos = tile * 2;
+	tilePos.y += 1;
+	path = pathfind.findPath(startNode, tilePos);
 }
