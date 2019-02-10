@@ -51,6 +51,8 @@ public:
 	virtual bool intersects(sf::FloatRect & rect)override;
 	virtual bool bulletCollision(Bullet * bullet)override;
 
+	virtual int getMaximumMoveSpeed() { return max_walk_speed;  }
+
 	virtual void drawDebugData(sf::RenderTarget & window) override;
 
 	EntityList * getEntityListPtr() {

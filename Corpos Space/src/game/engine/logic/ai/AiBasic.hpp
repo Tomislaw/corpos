@@ -4,24 +4,7 @@
 #include "NavigationNode.hpp"
 #include <queue>
 #include "game\utility\Pathfind.hpp"
-
-struct NavNode
-{
-	sf::Vector2i tilePosition;
-	int type;
-	float timeToSpendOn = 2;
-	int debugType = 0;
-	bool isReached(Character & character)
-	{
-		auto charTilePos = character.getStandingTileId();
-		if (!character.isStanding() && charTilePos.y >= tilePosition.y && type == WALK)
-		{
-			return (charTilePos.y > tilePosition.y);
-		}
-		else return charTilePos == tilePosition;
-	}
-	enum Type { LADDER, WALK, JUMP };
-};
+#include <thread>
 
 class AiBasic
 {
@@ -33,19 +16,22 @@ public:
 
 	virtual void think()
 	{
-		;
+
 	}
 
 	virtual void drawDebugData(sf::RenderTarget &target);
 
 	enum Behavior { IDLE, ALERTED, ENGAGE, SUSPICIOUS, PANIC };
 
+	void moveToTile(sf::Vector2i tile);
+
 	void getPath(sf::Vector2i tile);
 
 protected:
 	//class object used for pathfinding
-	AStar::PathFind pathfind;
+	AStar::PathFind pathfind = AStar::PathFind();
 	AStar::NodeDeque path;
+
 
 	Character & character;
 	EntityList * entityListPtr = nullptr;
@@ -55,5 +41,24 @@ protected:
 	bool isInitialized = false;
 	sf::Text entityDebugText;
 };
+
+class AiAction {
+public:
+	virtual void update(float delta) = 0;
+	virtual void calculate(const Character & character) = 0;
+};
+
+class MoveToTile : AiAction {
+public:
+	void update(float delta) override {
+
+	}
+	void calculate(const Character & character) override {
+		if (false);
+	}
+private:
+	bool isRouteCalculated = false;
+};
+
 
 #endif;

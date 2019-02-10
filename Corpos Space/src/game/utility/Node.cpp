@@ -34,7 +34,10 @@ unsigned int AStar::Node::getScore()
 
 bool Node::isSame(Node * node)
 {
-	return (node->coordinates == coordinates && node->type == type);
+	return (node->coordinates == coordinates
+		&& node->type == type
+		&& node->fallDistanceLeft == fallDistanceLeft
+		&& node->jumpDistanceLeft == jumpDistanceLeft);
 }
 
 unsigned int AStar::Node::getCost(Node * node)
@@ -57,16 +60,18 @@ bool AStar::Node::isReached(Character & character, Node * previousNode)
 	case Type::FALL:
 		return charPos.y >= pos.y;
 		break;
-	case Type::JUMP:
 	case Type::AFTER_JUMP:
+	case Type::JUMP:
 		return charPos.y <= pos.y + TILE_SIZE;
 		break;
+	case Type::WALK:
+		if (!character.isStanding())return false;
 	default:
 		if (previousNode != nullptr) {
-			bool passedHorizontally =((previousNode->coordinates.x > coordinates.x) && (pos.x > charPos.x))
-				|| ((previousNode->coordinates.x < coordinates.x) &&( pos.x < charPos.x));
+			bool passedHorizontally = ((previousNode->coordinates.x > coordinates.x) && (pos.x > charPos.x))
+				|| ((previousNode->coordinates.x < coordinates.x) && (pos.x < charPos.x));
 			if (!character.isStanding()) return passedHorizontally;
-			
+
 			bool passedVertically = charPos.y <= pos.y + TILE_SIZE;
 			return passedHorizontally && passedVertically;
 		}
@@ -113,7 +118,11 @@ std::vector<Node> AStar::GroundWalkingSucessors::getSuccesors(Node * node, Navig
 			if (!PathfindUtils::canMoveToTile(node->coordinates, newCoord, character)) return succesors;
 
 			int type = Node::Type::FALL;
-			if (PathfindUtils::canStandOnTile(newCoord, character)) type = Node::Type::WALK;
+			if (PathfindUtils::canStandOnTile(newCoord, character))
+			{
+				if (PathfindUtils::isCanMissWhileFailing(newCoord, character)) return succesors;
+				type = Node::Type::WALK; 
+			}
 
 			succesors.push_back(Node(newCoord, node, type, 0, character.characterJumpHeight));
 		}
@@ -122,8 +131,13 @@ std::vector<Node> AStar::GroundWalkingSucessors::getSuccesors(Node * node, Navig
 				auto newCoord = sf::Vector2i(node->coordinates.x + x, node->coordinates.y + 1);
 
 				if (!PathfindUtils::canMoveToTile(node->coordinates, newCoord, character)) continue;
+			
 				int type = Node::Type::FALL;
-				if (PathfindUtils::canStandOnTile(newCoord, character)) type = Node::Type::WALK;
+				if (PathfindUtils::canStandOnTile(newCoord, character)) 
+				{ 
+					if (PathfindUtils::isCanMissWhileFailing(newCoord, character)) continue;
+					type = Node::Type::WALK;
+				}
 				succesors.push_back(Node(newCoord, node, type, node->fallDistanceLeft - 1, character.characterJumpHeight));
 			}
 		}
@@ -145,13 +159,15 @@ std::vector<Node> AStar::GroundJumpingSucessors::getSuccesors(Node * node, Navig
 
 	if (node->type == Node::Type::WALK) {
 		for (int x = -1; x <= 1; x++)
-			for (int y = -1; y <= 0; y++) {
-				if (x == 0)continue;
-				auto newCoord = sf::Vector2i(x + node->coordinates.x, y + node->coordinates.y);
-				if (newCoord == parentCoord)continue;
-				if (!PathfindUtils::canMoveToTile(node->coordinates, newCoord, character)) continue;
-				succesors.push_back(Node(newCoord, node, Node::Type::JUMP, Node::DEFAULT_FALL_DISTANCE, character.characterJumpHeight - 1));
-			}
+		{
+			if (x == 0)continue;
+			auto newCoord = sf::Vector2i(x + node->coordinates.x, -1 + node->coordinates.y);
+
+			if (newCoord == parentCoord)continue;
+			if (!PathfindUtils::canMoveToTile(node->coordinates, newCoord, character)) continue;
+
+			succesors.push_back(Node(newCoord, node, Node::Type::JUMP, Node::DEFAULT_FALL_DISTANCE, character.characterJumpHeight - 1));
+		}
 	}
 	else if (node->type == Node::Type::JUMP || node->type == Node::Type::AFTER_JUMP) {
 		if (node->jumpDistanceLeft <= 0) {
@@ -250,6 +266,12 @@ bool AStar::PathfindUtils::canMoveToTileWhileWalking(sf::Vector2i startTileId, s
 {
 	if (!canStandOnTile(startTileId, character) || !canStandOnTile(startTileId, character)) return false;
 	return canMoveToTile(startTileId, endTileId, character);
+}
+
+bool AStar::PathfindUtils::isCanMissWhileFailing(sf::Vector2i tileId, NavigationNodeCharacterData & character)
+{
+		return !(PathfindUtils::canStandOnTile(tileId + sf::Vector2i(-1, 0), character)
+			&& PathfindUtils::canStandOnTile(tileId + sf::Vector2i(1, 0), character));
 }
 
 bool AStar::PathfindUtils::isTileBlocking(sf::Vector2i subTileId)

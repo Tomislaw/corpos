@@ -37,18 +37,29 @@ void AiBasic::update(float delta)
 		switch (type)
 		{
 		case AStar::Node::AFTER_JUMP:
-		case NavNode::JUMP:character.jump();
+		case NavNode::JUMP: 
+			if (character.getCenteredPosition().x > node.getPosition().x) {
+				if(character.getVelocity().x < 0)
+					character.jump();
+			}
+			else {
+				if (character.getVelocity().x > 0)
+					character.jump();
+			}
+			
 		case AStar::Node::WALK:
 		case AStar::Node::BEFORE_JUMP:
 		case AStar::Node::CENTER_POSITION:
 		case AStar::Node::FALL:
+
 				if (character.getCenteredPosition().x > path.front().getPosition().x)
 					character.walkLeft();
 				else
 					character.walkRight();
+
 		break;
 		default:
-			//navigationNodes.p
+		
 			break;
 		}
 	}
@@ -144,11 +155,15 @@ void AiBasic::drawDebugData(sf::RenderTarget & target)
 	}
 }
 
+void AiBasic::moveToTile(sf::Vector2i tile)
+{
+}
+
 void AiBasic::getPath(sf::Vector2i tile)
 {
 	if (!character.isStanding())return;
+
 	AStar::Node startNode(character.getCenteredPosition());
-	auto tilePos = tile * 2;
-	tilePos.y += 1;
+	auto tilePos = tile * 2 + sf::Vector2i(1,1);
 	path = pathfind.findPath(startNode, tilePos);
 }
