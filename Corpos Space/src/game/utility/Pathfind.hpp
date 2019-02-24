@@ -14,6 +14,7 @@ For more information visit https://opensource.org/licenses/ISC.
 #include <queue>
 #include "game\engine\Character.hpp"
 #include "Node.hpp"
+#include <atomic>
 class MapTile;
 
 namespace AStar
@@ -29,7 +30,7 @@ namespace AStar
 	{
 
 	public:
-		PathFind(NavigationNodeCharacterData character = NavigationNodeCharacterData());
+		PathFind(const NavigationNodeCharacterData character = NavigationNodeCharacterData());
 		void setHeuristic(HeuristicFunction heuristic_);
 		NodeDeque findPath(Node source_, sf::Vector2i target_);
 		//Check if can still walk this path
@@ -38,15 +39,15 @@ namespace AStar
 		NavigationNodeCharacterData character;
 		GroundJumpingSucessors succesorsOfNode;
 
-
 		void releaseNodes();
+		void stop() { isStopped = true; };
 	private:
 		HeuristicFunction heuristic;
 		void releaseNodes(NodeSet& nodes_);
 		void releaseNodes(NodeVector& nodes_);
 		Node* findNodeOnList(NodeSet& nodes_, sf::Vector2i coordinates_);
 		Node* findNodeOnList(NodeVector& nodes_, Node & node);
-
+		std::atomic<bool> isStopped = false;
 		NodeVector OpenSet, ClosedSet;
 	};
 

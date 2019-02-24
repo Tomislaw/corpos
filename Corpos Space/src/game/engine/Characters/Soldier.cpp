@@ -8,6 +8,7 @@
 Soldier::Soldier(TextElement * data, EntityList * ptr) : Character(data, ptr), test(ptr, Bullet("bullet_blue", 150, sf::Vector2f(), sf::Vector2f(0, 50)))
 {
 	ai = std::unique_ptr<AiBasic>(new AiBasic(*this));
+	setCharacter(data);
 }
 
 Soldier::~Soldier()
@@ -17,7 +18,6 @@ Soldier::~Soldier()
 bool Soldier::setCharacter(TextElement * element)
 {
 	if (element == nullptr)return false;
-	this->Character::setCharacter(element);
 
 	navCharData.canUseLadder = true;
 
@@ -106,7 +106,7 @@ void Soldier::draw(sf::RenderTarget & window)
 	weapontest.draw(window);
 	//drawDebugData(window);
 	test.draw(window);
-	test.drawDebugData(window);
+	//test.drawDebugData(window);
 	ai->drawDebugData(window);
 }
 

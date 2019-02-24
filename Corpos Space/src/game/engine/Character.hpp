@@ -4,7 +4,7 @@
 #include "Entity.hpp"
 #include "game\graphics\GameSprite.hpp"
 #include "Damageable.hpp"
-
+#include "Prop.hpp"
 class TileMap;
 class EntityList;
 class AiBasic;
@@ -15,13 +15,12 @@ struct NavigationNodeCharacterData
 {
 	unsigned int characterWidth = 2;
 	unsigned int characterHeight = 4;
-	unsigned int characterJumpHeight = 3;
+	unsigned int characterJumpHeight = 4;
 	bool canUseLadder = true;
 	bool isFlyingOne = false;
 };
 
-class Character :
-	public Entity, public Damageable
+class Character : public Prop
 {
 public:
 	enum SpecialType { RELOAD, GRENADE, LONGJUMP };
@@ -45,11 +44,11 @@ public:
 
 	virtual void stop();
 	virtual void update(float time) override;
-	void resolveCollision();
+	virtual void resolveCollision() override;
 	virtual void aim(sf::Vector2f pos) { ; };
 	virtual void draw(sf::RenderTarget &target)override;
 	virtual bool intersects(sf::FloatRect & rect)override;
-	virtual bool bulletCollision(Bullet * bullet)override;
+	//virtual bool bulletCollision(Bullet * bullet)override;
 
 	virtual int getMaximumMoveSpeed() { return max_walk_speed;  }
 
@@ -65,7 +64,7 @@ public:
 	sf::Vector2i getStandingTileId();
 	sf::Vector2f getCenteredPosition();
 
-	const NavigationNodeCharacterData & getNavigationNodeCharacterData()
+	const NavigationNodeCharacterData getNavigationNodeCharacterData()
 	{
 		return navCharData;
 	}
@@ -80,7 +79,6 @@ protected:
 	//bool is_standing = false;
 
 	sf::Vector2f walk_speed;
-	sf::FloatRect collision_box;
 
 	std::unique_ptr<AiBasic> ai;
 

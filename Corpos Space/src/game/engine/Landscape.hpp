@@ -5,6 +5,7 @@
 #include "game\utility\TextFileData.hpp"
 #include "game\utility\Logger.hpp"
 // wrapper for character used for controling it by player
+
 class Landscape : Entity
 {
 public:

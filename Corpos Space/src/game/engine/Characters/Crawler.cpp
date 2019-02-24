@@ -19,7 +19,7 @@ bool Crawler::setCharacter(TextElement * element)
 void Crawler::draw(sf::RenderTarget & window)
 {
 	Character::draw(window);
-	drawDebugData(window);
+	//drawDebugData(window);
 	ai->drawDebugData(window);
 }
 

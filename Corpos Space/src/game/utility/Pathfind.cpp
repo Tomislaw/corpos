@@ -8,7 +8,7 @@ using namespace AStar;
 PathFind::PathFind(NavigationNodeCharacterData character)
 {
 	setHeuristic(&Heuristic::octagonal);
-this->character = character;
+	this->character = character;
 
 }
 
@@ -28,6 +28,10 @@ NodeDeque PathFind::findPath(Node source_, sf::Vector2i target_)
 
 	while (!OpenSet.empty())
 	{
+		if (isStopped) {
+			releaseNodes();
+			return NodeDeque();
+		}
 		current = OpenSet.front();
 
 		//if its goal
@@ -44,6 +48,12 @@ NodeDeque PathFind::findPath(Node source_, sf::Vector2i target_)
 		auto succesors = succesorsOfNode.getSuccesors(current,character);
 		for each (auto newNode in succesors)
 		{
+
+			if (isStopped) {
+				releaseNodes();
+				return NodeDeque();
+			}
+
 			uint totalCost = current->G + current->getCost(&newNode);
 
 			Node *successor = findNodeOnList(OpenSet, newNode);
@@ -131,24 +141,16 @@ bool AStar::PathFind::checkPath(NodeDeque & path)
 Node* PathFind::findNodeOnList(NodeSet& nodes_, sf::Vector2i coordinates_)
 {
 	for each (auto node in nodes_)
-	{
-		if (node->coordinates == coordinates_)
-		{
-			return node;
-		}
-	}
+		if (node->coordinates == coordinates_) return node;
+
 	return nullptr;
 }
 
 Node* PathFind::findNodeOnList(NodeVector& nodes_, Node & pathnode)
 {
 	for each (auto node in nodes_)
-	{
-		if (node->isSame(&pathnode))
-		{
-			return node;
-		}
-	}
+		if (node->isSame(&pathnode)) return node;
+		
 	return nullptr;
 }
 

@@ -15,35 +15,26 @@ std::vector <float> Variable::toFloat()
 	std::vector <float> table;
 	for (int i = 0; i < var.size(); i++)
 	{
-		table.push_back(atoi(var[i].c_str()));
+		table.push_back(atof(var[i].c_str()));
 	}
 	return table;
 }
 
 int Variable::toInt(unsigned int index)
 {
-	if (index < var.size())
-	{
-		return atoi(var[index].c_str());
-	}
+	if (index < var.size())	return atoi(var[index].c_str());
 	return 0;
 }
 
 float Variable::toFloat(unsigned int index)
 {
-	if (index < var.size())
-	{
-		return atof(var[index].c_str());
-	}
+	if (index < var.size())	return atof(var[index].c_str());
 	return 0;
 }
 
 std::string Variable::toString(unsigned int id)
 {
-	if (id < var.size())
-	{
-		return var[id];
-	}
+	if (id < var.size())return var[id];
 	return std::string();
 }
 
@@ -118,7 +109,7 @@ TextElement::~TextElement()
 {
 }
 
-std::string TextElement::display()
+std::string TextElement::toString()
 {
 	std::string displaytext;
 	displaytext += "Name " + name + "\n";
@@ -156,6 +147,37 @@ std::vector<Variable*> TextElement::getAllVariablesByName(std::string var_name)
 
 	return vars;
 }
+
+TextItem & TextElement::operator[](std::string variableName)
+{
+	return variables[variableName];
+}
+
+TextItem & TextElement::getItem(std::string variableName)
+{
+	return variables[variableName];
+}
+
+
+
+TextElement & TextElement::mergeWith(TextElement & element)
+{
+	for each (auto item in element.variables)
+	{
+		this->variables[item.first] = item.second;
+	}
+	return *this;
+}
+
+TextElement operator+(TextElement lhs, const TextElement & rhs)
+{
+	for each (auto item in rhs.variables)
+	{
+		lhs.variables[item.first] = item.second;
+	}
+	return lhs;
+}
+
 
 ////////////////////////////////TEXTFILEDATA
 
@@ -199,13 +221,13 @@ std::vector<TextElement> TextFileData::getAllElements()
 	return element;
 }
 
-std::string TextFileData::display()
+std::string TextFileData::toString()
 {
 	std::string displaytext;
 	displaytext += "File name " + name + "\n";
 	for (int i = 0; i < element.size(); i++)
 	{
-		displaytext += element[i].display();
+		displaytext += element[i].toString();
 	}
 	return displaytext;
 }
@@ -416,7 +438,13 @@ bool TextFileData::loadTextElement(std::fstream &file)
 				Logger::e("Missing bracket \"}\"");
 				return false;
 			}
-			if (buffor.size() > 7)e.variable.push_back(set_variable(buffor));
+			if (buffor.size() > 7)
+			{ 
+				e.variable.push_back(set_variable(buffor));
+				std::string name;
+				auto item = TextItem::fromString(buffor, &name);
+				e[name] = item;
+			}
 		}
 		this->element.push_back(e);
 		return true;
@@ -439,3 +467,126 @@ bool TextFileData::loadTextElement(std::fstream &file)
 }
 
 ;
+
+TextItem TextItem::fromString(std::string variable_line, std::string * varName)
+{
+	char quotationMark = 34;
+	char comma = ',';
+	if (variable_line.size() < 7 || variable_line.find(" = ") == std::string::npos || variable_line.find(quotationMark) == std::string::npos)
+	{
+		TextItem var;
+		Logger::w("Wrong variable -> " + variable_line);
+		return var;
+	}
+	else
+	{
+		TextItem var1;
+		std::string name = variable_line;
+		if (varName != nullptr) varName->assign(name);
+
+		name.erase(variable_line.find(" = "), name.size());
+		std::string variable_all = variable_line;
+		variable_all.erase(0, variable_line.find(" = ") + 4);
+		int variable_count = 1;
+
+		for (int i = 0; i < variable_all.size(); i++)
+		{
+			if (variable_all[i] == ',') variable_count += 1;
+			if (variable_count > 999)
+			{
+				Logger::e("Variable " + name + "have too many args, max is 999");
+				break;
+			}
+		}
+
+		std::string variable_value;
+		char variable_char;
+		for (int i = 0; i < variable_all.size(); i++)
+		{
+			variable_char = variable_all[i];
+			if (variable_char == comma)
+			{
+				var1.addVariable(variable_value);
+				variable_value.clear();
+			}
+			else
+			{
+				if (variable_char == quotationMark)
+				{
+					var1.addVariable(variable_value);
+					return var1;
+				}
+				else
+				{
+					variable_value += variable_char;
+				}
+			}
+		}
+
+		return var1;
+	}
+}
+
+void TextItem::addVariable(std::string variable)
+{
+	variables.push_back(variable);
+}
+
+std::vector<int> TextItem::toInt()
+{
+	std::vector <int> table;
+	for (int i = 0; i < variables.size(); i++)
+	{
+		table.push_back(atoi(variables[i].c_str()));
+	}
+	return table;
+}
+
+std::vector<float> TextItem::toFloat()
+{
+	std::vector <float> table;
+	for (int i = 0; i < variables.size(); i++)
+	{
+		table.push_back(atof(variables[i].c_str()));
+	}
+	return table;
+}
+
+std::vector<double> TextItem::toDouble()
+{
+	std::vector <double> table;
+	for (int i = 0; i < variables.size(); i++)
+	{
+		table.push_back(atof(variables[i].c_str()));
+	}
+	return table;
+}
+
+std::vector<std::string> TextItem::toString()
+{
+	return std::vector<std::string>();
+}
+
+int TextItem::toInt(unsigned int index)
+{
+	if (index < variables.size()) return atoi(variables[index].c_str());
+	return 0;
+}
+
+float TextItem::toFloat(unsigned int index)
+{
+	if (index < variables.size()) return atof(variables[index].c_str());
+	return 0;
+}
+
+double TextItem::toDouble(unsigned int index)
+{
+	if (index < variables.size()) return atof(variables[index].c_str());
+	return 0;
+}
+
+std::string TextItem::toString(unsigned int index)
+{
+	if (index < variables.size()) variables[index];
+	return std::string();
+}

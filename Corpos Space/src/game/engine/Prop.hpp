@@ -4,14 +4,19 @@
 #include "game\utility\TextFileData.hpp"
 #include "game\utility\Logger.hpp"
 #include "game\engine\Damageable.hpp"
-// static entity object
+
+class EntityList;
+class TileMap;
+
 class Prop :
 	public Entity, public Damageable
 {
 public:
 	Prop();
-	Prop(TextElement * file);
+	Prop(TextElement * file, EntityList * entityListPtr);
 	~Prop();
+
+	virtual void setProp(TextElement * file);
 
 	// check collisions with entities TODO: finish resolveCollision function
 	virtual void resolveCollision();
@@ -26,7 +31,11 @@ public:
 	// TODO: make line based collision test
 protected:
 	bool is_collidable = false;
+	bool isTouchingGround = false;;
 	sf::FloatRect collisionBox;
+
+	TileMap * map = nullptr;
+	EntityList * entlistPtr = nullptr;
 
 	//drawable part
 	GameSprite sprite;

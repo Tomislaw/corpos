@@ -18,12 +18,12 @@ void EntityList::loadMap(TextFileData & file)
 	//tree = Quadtree(sf::Vector2f(), tilemapPtr->getMapSize(), 0, 4, 5);
 
 	if (tileMapPtr == nullptr)return;
-	tree = Quadtree(sf::Vector2f(), tileMapPtr->getMapSize(), 0, 4, 5);
+	tree = Quadtree(sf::Vector2f(), tileMapPtr->getMapSize(), 0, 8, 1);
 
 	auto map_props = file.getAllElementsByName("PROP");
 	for (int i = 0; i < map_props.size(); i++)
 	{
-		auto p = std::shared_ptr<Prop>(new  Prop(map_props.at(i)));
+		auto p = std::shared_ptr<Prop>(new  Prop(map_props.at(i),this));
 		addProp(p);
 	}
 
@@ -214,7 +214,7 @@ void EntityList::draw(sf::RenderWindow & window)
 		++it4;
 	}
 	window.draw(particleSystem);
-	tree.draw(window);
+	//tree.draw(window);
 
 	cursorPos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
 }

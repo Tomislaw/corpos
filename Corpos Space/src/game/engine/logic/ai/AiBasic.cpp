@@ -10,87 +10,34 @@ AiBasic::AiBasic(Character & character) : character(character)
 
 void AiBasic::update(float delta)
 {
-	if (!path.empty())
-	{
-		// delete node if reached
-		AStar::Node node;
-		AStar::Node *previousNode = nullptr;
-
-		if (path.front().isReached(character, previousNode))
-		{
-			node = path.front();
-			path.pop_front();
-			if (path.empty()){ character.stop(); return;}
-		}
-
-		path.front().timeSpend -= delta;
-		//clear queue if reaching takes too much time
-		if (path.front().timeSpend < 0)
-		{
-			while (!path.empty()) path.pop_front();
-			character.stop();
-			return;
-		}
-
-		int type = path.front().type;
-
-		switch (type)
-		{
-		case AStar::Node::AFTER_JUMP:
-		case NavNode::JUMP: 
-			if (character.getCenteredPosition().x > node.getPosition().x) {
-				if(character.getVelocity().x < 0)
-					character.jump();
-			}
-			else {
-				if (character.getVelocity().x > 0)
-					character.jump();
-			}
-			
-		case AStar::Node::WALK:
-		case AStar::Node::BEFORE_JUMP:
-		case AStar::Node::CENTER_POSITION:
-		case AStar::Node::FALL:
-
-				if (character.getCenteredPosition().x > path.front().getPosition().x)
-					character.walkLeft();
-				else
-					character.walkRight();
-
-		break;
-		default:
-		
-			break;
-		}
+	if (action != nullptr) { 
+		action->update(delta);
+		if (action->status() != AiAction::NOT_FINISHED) action = nullptr;
 	}
 }
 
 AiBasic::~AiBasic()
 {
+	if (action != nullptr)action->stop();
 }
 
 void AiBasic::drawDebugData(sf::RenderTarget & target)
 {
-	//if (path.empty()) {
-	//	auto a = character.getNavigationNodeCharacterData();
-	//	auto b = AStar::Node(character.getCenteredPosition());
-	//	auto c = AStar::GroundWalkingSucessors().getSuccesors(&b,a);
+	if (action != nullptr)action->drawDebugData(target);
+}
 
-	//	Logger::d("",c);
-	//	
-	//	return;
-	//}
+void MoveToTile::drawDebugData(sf::RenderTarget & target)
+{
+	if (!isRouteCalculated) return;
 
 
 	auto debugColor = sf::Color::Red;
 
-	if (isInitialized == false)
-	{
+	sf::Text entityDebugText;
+
 		entityDebugText.setFont(TextContainer::getInstance()->getBasicFont());
 		entityDebugText.setColor(sf::Color::Red);
-		isInitialized = true;
 		entityDebugText.setCharacterSize(6);
-	}
 
 	sf::VertexArray line(sf::LinesStrip, 2);
 
@@ -162,8 +109,7 @@ void AiBasic::moveToTile(sf::Vector2i tile)
 void AiBasic::getPath(sf::Vector2i tile)
 {
 	if (!character.isStanding())return;
-
-	AStar::Node startNode(character.getCenteredPosition());
-	auto tilePos = tile * 2 + sf::Vector2i(1,1);
-	path = pathfind.findPath(startNode, tilePos);
+	if (action != nullptr)action->stop();
+	action = std::make_shared<MoveToTile>(character, tile);
+	action->start();
 }
