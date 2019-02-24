@@ -1,102 +1,5 @@
 #include "game\utility\TextFileData.hpp"
 
-std::vector <int> Variable::toInt()
-{
-	std::vector <int> table;
-	for (int i = 0; i < var.size(); i++)
-	{
-		table.push_back(atoi(var[i].c_str()));
-	}
-	return table;
-}
-
-std::vector <float> Variable::toFloat()
-{
-	std::vector <float> table;
-	for (int i = 0; i < var.size(); i++)
-	{
-		table.push_back(atof(var[i].c_str()));
-	}
-	return table;
-}
-
-int Variable::toInt(unsigned int index)
-{
-	if (index < var.size())	return atoi(var[index].c_str());
-	return 0;
-}
-
-float Variable::toFloat(unsigned int index)
-{
-	if (index < var.size())	return atof(var[index].c_str());
-	return 0;
-}
-
-std::string Variable::toString(unsigned int id)
-{
-	if (id < var.size())return var[id];
-	return std::string();
-}
-
-Variable set_variable(std::string variable_line)
-{
-	char cudzyslow = 34;
-	char przecinek = ',';
-	if (variable_line.size() < 7 || variable_line.find(" = ") == std::string::npos || variable_line.find(cudzyslow) == std::string::npos)
-	{
-		Variable var;
-		var.name == "ERROR";
-		var.var.push_back("ERROR");
-		Logger::e("Wrong variable -> " + variable_line);
-		return var;
-	}
-	else
-	{
-		Variable var1;
-		std::string name = variable_line;
-		name.erase(variable_line.find(" = "), name.size());
-		var1.name = name;
-		std::string variable_all = variable_line;
-		variable_all.erase(0, variable_line.find(" = ") + 4);
-		int variable_count = 1;
-
-		for (int i = 0; i < variable_all.size(); i++)
-		{
-			if (variable_all[i] == ',') variable_count += 1;
-			if (variable_count > 999)
-			{
-				Logger::e("Variable " + name + "have too many args, max is 999");
-				break;
-			}
-		}
-
-		std::string variable_value;
-		char variable_char;
-		for (int i = 0; i < variable_all.size(); i++)
-		{
-			variable_char = variable_all[i];
-			if (variable_char == przecinek)
-			{
-				var1.var.push_back(variable_value);
-				variable_value.clear();
-			}
-			else
-			{
-				if (variable_char == cudzyslow)
-				{
-					var1.var.push_back(variable_value);
-					return var1;
-				}
-				else
-				{
-					variable_value += variable_char;
-				}
-			}
-		}
-
-		return var1;
-	}
-}
 
 ////////////////////////////////////TEXTELEMENT
 
@@ -113,39 +16,17 @@ std::string TextElement::toString()
 {
 	std::string displaytext;
 	displaytext += "Name " + name + "\n";
-	for (int i = 0; i < variable.size(); i++)
+	/*for (int i = 0; i < variables.size(); i++)
 	{
-		displaytext += variable[i].name + " ";
+		displaytext += variables[i].name + " ";
 		for (int j = 0; j < variable[i].var.size(); j++)
 		{
 			displaytext += variable[i].var[j] + " ";
 		}
 		displaytext += '\n';
-	}
+	}*/
 	displaytext += '\n';
 	return displaytext;
-}
-Variable *TextElement::getVariableByName(std::string var_name)
-{
-	for (int i = 0; i < variable.size(); i++)
-	{
-		if (variable[i].name == var_name) return &variable[i];
-	}
-
-	Logger::d("In " + name + ", variable " + var_name + " not found");
-	return nullptr;
-}
-
-std::vector<Variable*> TextElement::getAllVariablesByName(std::string var_name)
-{
-	std::vector<Variable*> vars;
-	for (int i = 0; i < variable.size(); i++)
-	{
-		if (variable[i].name == var_name) vars.push_back(&variable[i]);
-	}
-	if (vars.size() == 0)Logger::d("In " + name + ", variable " + var_name + " not found");
-
-	return vars;
 }
 
 TextItem & TextElement::operator[](std::string variableName)
@@ -169,11 +50,24 @@ TextElement & TextElement::mergeWith(TextElement & element)
 	return *this;
 }
 
-TextElement operator+(TextElement lhs, const TextElement & rhs)
+TextItem operator+(TextItem & lhs, const TextItem & rhs)
+{
+	for each (auto var in rhs.variables)
+		lhs.addVariable(var);
+	return lhs;
+}
+
+TextItem operator+(TextItem & lhs, const std::string & rhs)
+{
+	lhs.addVariable(rhs);
+	return lhs;
+}
+
+TextElement operator+(TextElement & lhs, const TextElement & rhs)
 {
 	for each (auto item in rhs.variables)
 	{
-		lhs.variables[item.first] = item.second;
+		lhs.variables[item.first] += item.second;
 	}
 	return lhs;
 }
@@ -265,7 +159,7 @@ bool TextFileData::saveToFile(std::string localization)
 		{
 			text_data += element[i].name + "\r\n";
 			text_data += "{\r\n";
-			for (int j = 0; j < element[i].variable.size(); j++)
+			/*for (int j = 0; j < element[i].variable.size(); j++)
 			{
 				text_data += element[i].variable[j].name + " = " + '"';
 				for (int k = 0; k < element[i].variable[j].var.size() - 1; k++)
@@ -276,7 +170,7 @@ bool TextFileData::saveToFile(std::string localization)
 				{
 					text_data += element[i].variable[j].var[element[i].variable[j].var.size() - 1] + '"' + "\n";
 				}
-			}
+			}*/
 			text_data += "}\r\n";
 		}
 		text_data += "CORPOSFILE_END";
@@ -440,10 +334,9 @@ bool TextFileData::loadTextElement(std::fstream &file)
 			}
 			if (buffor.size() > 7)
 			{ 
-				e.variable.push_back(set_variable(buffor));
 				std::string name;
 				auto item = TextItem::fromString(buffor, &name);
-				e[name] = item;
+				e[name] += item;
 			}
 		}
 		this->element.push_back(e);
@@ -482,9 +375,10 @@ TextItem TextItem::fromString(std::string variable_line, std::string * varName)
 	{
 		TextItem var1;
 		std::string name = variable_line;
+		name = name.erase(variable_line.find(" = "), name.size());
+
 		if (varName != nullptr) varName->assign(name);
 
-		name.erase(variable_line.find(" = "), name.size());
 		std::string variable_all = variable_line;
 		variable_all.erase(0, variable_line.find(" = ") + 4);
 		int variable_count = 1;
@@ -567,26 +461,26 @@ std::vector<std::string> TextItem::toString()
 	return std::vector<std::string>();
 }
 
-int TextItem::toInt(unsigned int index)
+int TextItem::toInt(unsigned int index , int default)
 {
 	if (index < variables.size()) return atoi(variables[index].c_str());
-	return 0;
+	return default;
 }
 
-float TextItem::toFloat(unsigned int index)
+float TextItem::toFloat(unsigned int index, float default)
 {
 	if (index < variables.size()) return atof(variables[index].c_str());
-	return 0;
+	return default;
 }
 
-double TextItem::toDouble(unsigned int index)
+double TextItem::toDouble(unsigned int index, double default)
 {
 	if (index < variables.size()) return atof(variables[index].c_str());
-	return 0;
+	return default;
 }
 
-std::string TextItem::toString(unsigned int index)
+std::string TextItem::toString(unsigned int index, std::string default)
 {
-	if (index < variables.size()) variables[index];
-	return std::string();
+	if (index < variables.size()) return variables[index];
+	return default;
 }

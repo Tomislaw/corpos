@@ -36,31 +36,31 @@ void GameAssetsManager::loadTextures(std::string location)
 	for (int i = 0; i < textures_list.size(); i++)
 	{
 		// Get location of texture
-		auto varLocation = textures_list[i]->getVariableByName("Location");
-		if (varLocation == nullptr)
+		auto varLocation = textures_list[i]->getItem("Location");
+		if (varLocation.isEmpty())
 		{
 			Logger::e("Texture definition " + std::to_string(i) + " in " + location + " missing path!");
 			continue;
 		}
 
 		// get name of texture
-		auto varName = textures_list[i]->getVariableByName("Name");
-		if (varName == nullptr)
+		auto varName = textures_list[i]->getItem("Name");
+		if (varName.isEmpty())
 		{
 			Logger::e("Texture definition " + std::to_string(i) + " in " + location + " missing name!");
 			continue;
 		}
 
-		Logger::i("Loading " + varLocation->toString(0));
+		Logger::i("Loading " + varLocation.toString(0));
 		sf::Texture texture;
-		if (!texture.loadFromFile(varLocation->toString(0)))
+		if (!texture.loadFromFile(varLocation.toString(0)))
 		{
-			Logger::e("Failed loading texture  " + varName->toString(0) + " in " + varLocation->toString(0));
+			Logger::e("Failed loading texture  " + varName.toString(0) + " in " + varLocation.toString(0));
 			continue;
 		}
 
 		texture.setSmooth(false);
-		getInstance()->textures.insert_or_assign(varName->toString(0), texture);
+		getInstance()->textures.insert_or_assign(varName.toString(0), texture);
 	}
 
 	return;
@@ -74,8 +74,8 @@ void GameAssetsManager::loadSprites(std::string location)
 	Logger::i("Found " + std::to_string(entities.size()) + " game sprites");
 	for (int i = 0; i < entities.size(); i++)
 	{
-		std::string s = entities.at(i)->getVariableByName("Texture")->var[0];
-		std::string n = entities.at(i)->getVariableByName("Name")->var[0];
+		std::string s = entities.at(i)->getItem("Texture").toString(0);
+		std::string n = entities.at(i)->getItem("Name").toString(0);
 		sf::Texture * t = getTexture(s);
 		if (t == nullptr)
 		{

@@ -6,50 +6,47 @@ void TileDefinition::setTile(TextElement * t, const sf::Texture * texture, std::
 	this->texture = texture;
 
 	// Set name
-	auto varname = t->getVariableByName("Name");
-	if (varname != nullptr)name = varname->toString(0);
+	auto varname = t->getItem("Name");
+	if (!varname.isEmpty())name = varname.toString(0);
 	else Logger::e("Tile is missing name");
 
 	//Set health
-	auto varHealth = t->getVariableByName("Health");
-	if (varHealth != nullptr)
-		health = varHealth->toFloat(0);
-	else health = 0;
+	health = t->getItem("Health").toFloat(0);
 
 	this->textureName = textureName;
 
 	//Set is blocking
-	auto varIsBlocking = t->getVariableByName("Block");
-	if (varIsBlocking != nullptr)
-		this->is_blocking = varIsBlocking->toInt(0);
+	auto varIsBlocking = t->getItem("Block");
+	if (!varIsBlocking.isEmpty())
+		this->is_blocking = varIsBlocking.toInt(0);
 	else this->is_blocking = false;
 
 	//Set is single sprite
-	this->singleImage = true;
-	auto varIsSingleImage = t->getVariableByName("SingleImage");
-	if (varIsSingleImage != nullptr)
-		this->singleImage = varIsSingleImage->toInt(0);
+	auto varIsSingleImage = t->getItem("SingleImage");
+	if (!varIsSingleImage.isEmpty())
+		this->singleImage = varIsSingleImage.toInt(0);
+	else this->singleImage = true;
 
 	//Set background tile
-	auto varBackground = t->getVariableByName("Background");
-	if (varBackground != nullptr)
-		this->backgroundTile = varBackground->toString(0);
+	auto varBackground = t->getItem("Background");
+	if (!varBackground.isEmpty())
+		this->backgroundTile = varBackground.toString(0);
 	else this->backgroundTile = "0";
 
-	auto varConnectGroup = t->getVariableByName("ConnectGroup");
-	if (varConnectGroup != nullptr)
-		connectGroup = varConnectGroup->toString(0);
+	auto varConnectGroup = t->getItem("ConnectGroup");
+	if (!varConnectGroup.isEmpty())
+		connectGroup = varConnectGroup.toString(0);
 	else connectGroup = "-1";
 
-	auto r = t->getVariableByName("TileRect");
+	auto r = t->getItem("TileRect");
 
-	if (r == nullptr)
+	if (r.isEmpty())
 	{
 		this->tileRect = sf::IntRect(-16, -16, 32, 32);
 	}
 	else
 	{
-		auto tileRectInts = r->toInt();
+		auto tileRectInts = r.toInt();
 		if (tileRectInts.size() < 4)
 		{
 			Logger::e("TileRect is invalid");
@@ -59,103 +56,69 @@ void TileDefinition::setTile(TextElement * t, const sf::Texture * texture, std::
 	if (!this->singleImage)
 	{
 		////Top
-		auto v = t->getAllVariablesByName("RT");
+		auto v = t->getItem("RT").toRect<int>();
 		for (int i = 0; i < v.size(); i++)
-		{
-			auto r = v[i]->toInt();
-			this->RT.push_back(sf::IntRect(r.at(0), r.at(1), r.at(2), r.at(3)));
-		}
+			this->RT.push_back(v[i]);
 
-		v = t->getAllVariablesByName("LT");
+		v = t->getItem("LT").toRect<int>();
 		for (int i = 0; i < v.size(); i++)
-		{
-			auto r = v[i]->toInt();
-			this->LT.push_back(sf::IntRect(r.at(0), r.at(1), r.at(2), r.at(3)));
-		}
+			this->LT.push_back(v[i]);
 
-		v = t->getAllVariablesByName("T");
+		v = t->getItem("T").toRect<int>();
 		for (int i = 0; i < v.size(); i++)
-		{
-			auto r = v[i]->toInt();
-			this->T.push_back(sf::IntRect(r.at(0), r.at(1), r.at(2), r.at(3)));
-		}
+			this->T.push_back(v[i]);
 
 		////Center
-		v = t->getAllVariablesByName("L");
+		v = t->getItem("L").toRect<int>();
 		for (int i = 0; i < v.size(); i++)
-		{
-			auto r = v[i]->toInt();
-			this->L.push_back(sf::IntRect(r.at(0), r.at(1), r.at(2), r.at(3)));
-		}
+			this->L.push_back(v[i]);
 
-		v = t->getAllVariablesByName("C");
+		v = t->getItem("C").toRect<int>();
 		for (int i = 0; i < v.size(); i++)
-		{
-			auto r = v[i]->toInt();
-			this->C.push_back(sf::IntRect(r.at(0), r.at(1), r.at(2), r.at(3)));
-		}
-		v = t->getAllVariablesByName("R");
+			this->C.push_back(v[i]);;
+
+		v = t->getItem("R").toRect<int>();
 		for (int i = 0; i < v.size(); i++)
-		{
-			auto r = v[i]->toInt();
-			this->R.push_back(sf::IntRect(r.at(0), r.at(1), r.at(2), r.at(3)));
-		}
+			this->R.push_back(v[i]);
 
 		//Bottom
-		v = t->getAllVariablesByName("LB");
+		v = t->getItem("LB").toRect<int>();
 		for (int i = 0; i < v.size(); i++)
-		{
-			auto r = v[i]->toInt();
-			this->LB.push_back(sf::IntRect(r.at(0), r.at(1), r.at(2), r.at(3)));
-		}
-		v = t->getAllVariablesByName("B");
-		for (int i = 0; i < v.size(); i++)
-		{
-			auto r = v[i]->toInt();
-			this->B.push_back(sf::IntRect(r.at(0), r.at(1), r.at(2), r.at(3)));
-		}
+			this->LB.push_back(v[i]);
 
-		v = t->getAllVariablesByName("RB");
+		v = t->getItem("B").toRect<int>();
 		for (int i = 0; i < v.size(); i++)
-		{
-			auto r = v[i]->toInt();
-			this->RB.push_back(sf::IntRect(r.at(0), r.at(1), r.at(2), r.at(3)));
-		}
+			this->B.push_back(v[i]);
+		
+
+		v = t->getItem("RB").toRect<int>();
+		for (int i = 0; i < v.size(); i++)
+			this->RB.push_back(v[i]);
+		
 
 		// inner
-		v = t->getAllVariablesByName("ILB");
+		v = t->getItem("ILB").toRect<int>();
 		for (int i = 0; i < v.size(); i++)
-		{
-			auto r = v[i]->toInt();
-			this->ILB.push_back(sf::IntRect(r.at(0), r.at(1), r.at(2), r.at(3)));
-		}
-		v = t->getAllVariablesByName("ILT");
-		for (int i = 0; i < v.size(); i++)
-		{
-			auto r = v[i]->toInt();
-			this->ILT.push_back(sf::IntRect(r.at(0), r.at(1), r.at(2), r.at(3)));
-		}
+			this->ILB.push_back(v[i]);
 
-		v = t->getAllVariablesByName("IRT");
+		v = t->getItem("ILT").toRect<int>();
 		for (int i = 0; i < v.size(); i++)
-		{
-			auto r = v[i]->toInt();
-			this->IRT.push_back(sf::IntRect(r.at(0), r.at(1), r.at(2), r.at(3)));
-		}
-		v = t->getAllVariablesByName("IRB");
+			this->ILT.push_back(v[i]);
+
+		v = t->getItem("IRT").toRect<int>();
 		for (int i = 0; i < v.size(); i++)
-		{
-			auto r = v[i]->toInt();
-			this->IRB.push_back(sf::IntRect(r.at(0), r.at(1), r.at(2), r.at(3)));
-		}
+
+			this->IRT.push_back(v[i]);
+		
+		v = t->getItem("IRB").toRect<int>();
+		for (int i = 0; i < v.size(); i++)
+			this->IRB.push_back(v[i]);
+		
 	}
 
-	auto v = t->getAllVariablesByName("inner");
+	auto v = t->getItem("inner").toRect<int>();
 	for (int i = 0; i < v.size(); i++)
-	{
-		auto r = v[i]->toInt();
-		this->inner.push_back(sf::IntRect(r.at(0), r.at(1), r.at(2), r.at(3)));
-	}
+		this->inner.push_back(v[i]);
 
 	if (texture != nullptr && C.size() > 0)
 	{
@@ -344,46 +307,19 @@ TextElement TileDefinition::generateTextElement()
 	TextElement element;
 	element.name = "TILE";
 
-	Variable name;
-	name.name = "Name";
-	name.var.push_back(this->name);
-	element.variable.push_back(name);
+	element["Name"] += TextItem(this->name);
+	element["Health"] += TextItem(this->health);
+	element["Block"] += TextItem(std::to_string(this->is_blocking));
+	element["SingleImage"] += TextItem(std::to_string(this->singleImage));
+	element["Background"] += TextItem(this->backgroundTile);
+	element["ConnectGroup"] += TextItem(this->connectGroup);
 
-	Variable health;
-	health.name = "Health";
-	health.var.push_back(std::to_string(this->health));
-	element.variable.push_back(health);
-
-	Variable block;
-	block.name = "Block";
-	block.var.push_back(std::to_string(this->is_blocking));
-	element.variable.push_back(block);
-
-	Variable single;
-	single.name = "SingleImage";
-	single.var.push_back(std::to_string(this->singleImage));
-	element.variable.push_back(single);
-
-	Variable background;
-	background.name = "Background";
-	background.var.push_back(backgroundTile);
-	element.variable.push_back(background);
-
-	Variable connectGroup;
-	connectGroup.name = "ConnectGroup";
-	connectGroup.var.push_back(this->connectGroup);
-	element.variable.push_back(connectGroup);
 
 	auto addRectangleData = [](TextElement & element, sf::IntRect rect, std::string name)->void
 	{
-		Variable rectvar;
-		rectvar.name = name;
-		rectvar.var.push_back(std::to_string(rect.left));
-		rectvar.var.push_back(std::to_string(rect.top));
-		rectvar.var.push_back(std::to_string(rect.width));
-		rectvar.var.push_back(std::to_string(rect.height));
-		element.variable.push_back(rectvar);
+		element[name] += TextItem(rect);
 	};
+
 	addRectangleData(element, tileRect, "TileRect");
 	for each (auto rect in L)addRectangleData(element, rect, "L");
 	for each (auto rect in R)addRectangleData(element, rect, "R");

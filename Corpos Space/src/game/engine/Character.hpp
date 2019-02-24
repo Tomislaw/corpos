@@ -29,7 +29,6 @@ public:
 	Character(TextElement * data, EntityList * entityListPtr);
 	~Character();
 
-	virtual bool setCharacter(TextElement * element);
 
 	virtual void walkUp();
 	virtual void walkDown();

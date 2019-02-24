@@ -40,23 +40,22 @@ public:
 		if (element == nullptr)return false;
 
 		//Set distance factorr
-		auto variableDistanceFactor = element->getVariableByName("DistanceFactor");
-		if (variableDistanceFactor != nullptr)
-			this->distanceFactor = variableDistanceFactor->toFloat(0);
+		auto variableDistanceFactor = element->getItem("DistanceFactor");
+		if (!variableDistanceFactor.isEmpty())
+			this->distanceFactor = variableDistanceFactor.toFloat(0);
 
 		//Set position
-		auto variablePosition = element->getVariableByName("Position");
-		if (variablePosition != nullptr) {
-			this->position.x = variablePosition->toFloat(0);
-			this->position.y = variablePosition->toFloat(1);
+		auto variablePosition = element->getItem("Position");
+		if (!variablePosition.isEmpty()) {
+			this->position = variablePosition.toVector<float>(0);
 		}
 			
 
 		//Set sprite of character
-		auto sprite = element->getVariableByName("Sprite");
-		if (sprite != nullptr)
+		auto sprite = element->getItem("Sprite");
+		if (!sprite.isEmpty())
 		{
-			auto spriteName = sprite->toString(0);
+			auto spriteName = sprite.toString(0);
 			auto spriteDefinition = GameAssetsManager::getSprite(spriteName);
 			if (spriteDefinition != nullptr)
 				this->sprite = GameSprite(*spriteDefinition);

@@ -12,17 +12,9 @@ Entity::Entity(TextElement * data)
 		return;
 	}
 
-	auto varName = data->getVariableByName("Name");
-	if (varName != nullptr)
-		name = varName->toString(0);
-	else Logger::i("One of entites don't have name.");
-
-	auto pos = data->getVariableByName("Position");
-	if (pos != nullptr)
-	{
-		position.x = pos->toFloat(0);
-		position.y = pos->toFloat(1);
-	}
+	name = data->getItem("Name").toString(0);
+	position = data->getItem("Position").toVector<float>(0);
+	velocity = data->getItem("Velocity").toVector<float>(0);
 }
 
 Entity::Entity(std::string name, sf::Vector2f position)

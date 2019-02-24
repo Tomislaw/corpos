@@ -53,18 +53,18 @@ bool Tilemap::loadTileset(std::string location)
 	}
 
 	std::string texture = "";
-	auto varTexture = tileset->getVariableByName("Texture");
-	if (varTexture != nullptr)
-		texture = varTexture->toString(0);
+	auto varTexture = tileset->getItem("Texture");
+	if (!varTexture.isEmpty())
+		texture = varTexture.toString(0);
 	else
 	{
 		Logger::e("Texture in " + location + " is not defined, tileset is not loaded");
 		return false;
 	}
 
-	auto varName = tileset->getVariableByName("Name");
-	if (varName != nullptr)
-		tm.name = tileset->getVariableByName("Name")->toString(0);
+	auto varName = tileset->getItem("Name");
+	if (!varName.isEmpty())
+		tm.name = tileset->getItem("Name").toString(0);
 	else
 	{
 		Logger::e("Tileset in " + location + " have no name!");
@@ -121,11 +121,11 @@ bool Tilemap::loadTileset(std::string location)
 
 bool Tilemap::loadMap(TextElement * tm)
 {
-	auto size = tm->getVariableByName("Size");
-	if (size != nullptr)
+	auto size = tm->getItem("Size");
+	if (!size.isEmpty())
 	{
-		mapSize.y = size->toInt(1);
-		mapSize.x = size->toInt(0);
+		mapSize.y = size.toInt(1);
+		mapSize.x = size.toInt(0);
 	}
 	else
 	{
@@ -135,10 +135,10 @@ bool Tilemap::loadMap(TextElement * tm)
 	Logger::i("Map size: " + std::to_string(this->mapSize.x) + " " + std::to_string(this->mapSize.y));
 
 	std::string tilesetName = "";
-	auto varTilesets = tm->getVariableByName("Tilesets");
-	if (varTilesets != nullptr)
+	auto varTilesets = tm->getItem("Tilesets");
+	if (!varTilesets.isEmpty())
 	{
-		tilesetName = varTilesets->toString(0);
+		tilesetName = varTilesets.toString(0);
 	}
 	else tilesetName = "tileset1";
 
@@ -163,8 +163,8 @@ bool Tilemap::loadMap(TextElement * tm)
 
 	for (int y = 0; y < mapSize.y; y++)
 	{
-		auto tile = tm->getVariableByName("X" + std::to_string(y));
-		if (tile == nullptr)
+		auto tile = tm->getItem("X" + std::to_string(y));
+		if (!tile.isEmpty())
 		{
 			Logger::e("X" + std::to_string(y) + " is missing, map is not created");
 			return false;
@@ -172,7 +172,7 @@ bool Tilemap::loadMap(TextElement * tm)
 		for (int x = 0; x < mapSize.x; x++)
 		{
 			TileDefinition *b = nullptr;
-			if (tile->toString(x) != "0")b = this->getTileDefinition(tile->var[x], tilesetName);
+			if (tile.toString(x) != "0")b = this->getTileDefinition(tile.toString(x), tilesetName);
 
 			//Set tile if not found
 			if (b == nullptr)
@@ -667,36 +667,26 @@ TextElement Tilemap::generateTextElement()
 	TextElement map;
 	map.name = "TILEMAP";
 
-	Variable name;
-	name.name = "Name";
-	name.var.push_back("name");
-	map.variable.push_back(name);
+	map["Name"] += TextItem("name");
+	map["Size"] += TextItem(mapSize);
+	map["Size"] += TextItem(mapSize);
 
-	Variable size;
-	size.name = "Size";
-	size.var.push_back(std::to_string(mapSize.x));
-	size.var.push_back(std::to_string(mapSize.y));
-	map.variable.push_back(size);
-
-	Variable tiles;
-	tiles.name = "Tilesets";
+	TextItem tiles;
 	for (int i = 0; i < vtm.size(); i++)
-	{
-		tiles.var.push_back(vtm[i].name);
-	}
-	map.variable.push_back(tiles);
+		tiles += vtm[i].name;
+	map["Tilesets"] += tiles;
 
 	for (int i = 0; i < mapSize.y; i++)
 	{
-		Variable v;
-		v.name = "X" + std::to_string(i);
+		TextItem v;
+		auto posName = "X" + std::to_string(i);
 		for (int j = 0; j < mapSize.x; j++)
 		{
 			std::string name = getTile(j, i)->getName();
 			if (name == "0")name = getBackgroundTile(j, i)->getName();
-			v.var.push_back(name);
+			posName += name;
 		}
-		map.variable.push_back(v);
+		map["posName"] += v;
 	}
 
 	return map;

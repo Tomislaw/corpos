@@ -97,7 +97,6 @@ public:
 	//
 	//}
 protected:
-	virtual void setDamageable(TextElement * t);
 
 	int health = 0;
 	int maxHealth = 0;

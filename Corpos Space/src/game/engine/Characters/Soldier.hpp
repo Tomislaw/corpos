@@ -15,8 +15,6 @@ public:
 	Soldier(TextElement * data, EntityList * ptr);;
 	~Soldier();
 
-	// used in constructor, argument is pointer to text element
-	bool setCharacter(TextElement * element)override;
 
 	//draw it
 	void draw(sf::RenderTarget & window) override;

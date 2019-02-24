@@ -11,34 +11,33 @@ Prop::Prop()
 
 Prop::Prop(TextElement * file, EntityList * entityListPtr)  : Damageable(file), Entity(file)
 {
+	if (entityListPtr != nullptr)map = entityListPtr->getTileMapPtr();
+
 	if (file == nullptr)return;
 
 	is_collidable = false;
 
 	// Set collidable flag
-	auto varCollidable = file->getVariableByName("Collidable");
-	if (varCollidable != nullptr)
-		is_collidable = varCollidable->toInt(0);
+	auto varCollidable = file->getItem("Collidable");
+	if (!varCollidable.isEmpty())
+		is_collidable = varCollidable.toInt(0);
 
 	if (is_collidable)
 	{
 		//Set collision box
-		auto var = file->getVariableByName("CollisionBox");
-		if (var != nullptr)
+		auto var = file->getItem("CollisionBox");
+		if (!var.isEmpty())
 		{
-			this->collisionBox.left = var->toFloat(0);
-			this->collisionBox.top = var->toFloat(1);
-			this->collisionBox.width = var->toFloat(2);
-			this->collisionBox.height = var->toFloat(3);
+			this->collisionBox = var.toRect<float>(0);
 		}
 		else Logger::e("Damageable entity " + name + " dont have CollisionBox variable.");
 	}
 
 	// Set sprite
-	auto varSprite = file->getVariableByName("Sprite");
-	if (varSprite != nullptr)
+	auto varSprite = file->getItem("Sprite");
+	if (!varSprite.isEmpty())
 	{
-		std::string spr = varSprite->toString(0);
+		std::string spr = varSprite.toString(0);
 		auto x = GameAssetsManager::getSprite(spr);
 		if (x == nullptr)
 		{
@@ -49,13 +48,10 @@ Prop::Prop(TextElement * file, EntityList * entityListPtr)  : Damageable(file), 
 	}
 
 	//Set sprite offset
-	auto sproff = file->getVariableByName("Sprite_offest");
-	if (sproff != nullptr)
+	auto sproff = file->getItem("Sprite_offest");
+	if (!sproff.isEmpty())
 	{
-		sf::Vector2f spriteoffset;
-		spriteoffset.x = sproff->toFloat(0);
-		spriteoffset.y = sproff->toFloat(1);
-		sprite.attachToEntityOffset(this, spriteoffset);
+		sprite.attachToEntityOffset(this, sproff.toVector<float>(0));
 	}
 	else sprite.attachToEntity(this);
 }

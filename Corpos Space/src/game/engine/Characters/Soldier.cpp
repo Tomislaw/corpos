@@ -5,78 +5,63 @@
 
 //Main constructor TODO: add null pointer handling
 
-Soldier::Soldier(TextElement * data, EntityList * ptr) : Character(data, ptr), test(ptr, Bullet("bullet_blue", 150, sf::Vector2f(), sf::Vector2f(0, 50)))
+Soldier::Soldier(TextElement * element, EntityList * ptr) : Character(element, ptr), test(ptr, Bullet("bullet_blue", 150, sf::Vector2f(), sf::Vector2f(0, 3000)))
 {
 	ai = std::unique_ptr<AiBasic>(new AiBasic(*this));
-	setCharacter(data);
-}
 
-Soldier::~Soldier()
-{
-}
 
-bool Soldier::setCharacter(TextElement * element)
-{
-	if (element == nullptr)return false;
+	if (element == nullptr)return;
 
 	navCharData.canUseLadder = true;
 
 	//Set head part of soldier
-	auto varSpriteHead = element->getVariableByName("SpriteHead");
-	if (varSpriteHead != nullptr)
+	auto varSpriteHead = element->getItem("SpriteHead");
+	if (!varSpriteHead.isEmpty())
 	{
-		std::string sprite1 = varSpriteHead->toString(0);
+		std::string sprite1 = varSpriteHead.toString(0);
 		this->head = GameSprite(*GameAssetsManager::getSprite(sprite1));
 
 		//Set offset of that part
-		auto var1 = element->getVariableByName("HeadPos");
-		if (var1 != nullptr)
-			headOffset = sf::Vector2f(var1->toFloat(0), var1->toFloat(1));
+		headOffset = element->getItem("HeadPos").toVector<float>(0);
 		this->head.attachToEntityOffset(this, headOffset);
 	}
 	else Logger::e("SpriteHead in " + name + " not found!");
 
 	//Set torse part of soldier
-	auto varSpriteTorse = element->getVariableByName("SpriteTorse");
-	if (varSpriteTorse != nullptr)
+	auto varSpriteTorse = element->getItem("SpriteTorse");
+	if (!varSpriteTorse.isEmpty())
 	{
-		std::string sprite2 = varSpriteTorse->toString(0);
+		std::string sprite2 = varSpriteTorse.toString(0);
 		this->torse = GameSprite(*GameAssetsManager::getSprite(sprite2));
 
 		//Set offset of that part
-		auto var2 = element->getVariableByName("TorsePos");
-		if (var2 != nullptr)
-			torseOffset = sf::Vector2f(var2->toFloat(0), var2->toFloat(1));
+		torseOffset = element->getItem("TorsePos").toVector<float>(0);
 		this->torse.attachToEntityOffset(this, torseOffset);
 	}
 	else Logger::e("SpriteTorse in " + name + " not found!");
 
 	//Set legs part of soldier
-	auto varSpriteLegs = element->getVariableByName("SpriteLegs");
-	if (varSpriteTorse != nullptr)
+	auto varSpriteLegs = element->getItem("SpriteLegs");
+	if (!varSpriteTorse.isEmpty())
 	{
-		std::string sprite3 = varSpriteLegs->toString(0);
+		std::string sprite3 = varSpriteLegs.toString(0);
 		this->legs = GameSprite(*GameAssetsManager::getSprite(sprite3));
 
 		//Set offset of that part
-		auto var3 = element->getVariableByName("LegsPos");
-		if (var3 != nullptr)
-			legsOffset = sf::Vector2f(var3->toFloat(0), var3->toFloat(1));
+		legsOffset = element->getItem("LegsPos").toVector<float>(0);
 		this->legs.attachToEntityOffset(this, legsOffset);
 	}
 	else Logger::e("SpriteLegs in " + name + " not found!");
 
 	//Set left hand part of soldier
-	auto varSpriteLHand = element->getVariableByName("SpriteLHand");
-	if (varSpriteTorse != nullptr)
+	auto varSpriteLHand = element->getItem("SpriteLHand");
+	if (!varSpriteTorse.isEmpty())
 	{
-		std::string sprite4 = varSpriteLHand->toString(0);
+		std::string sprite4 = varSpriteLHand.toString(0);
 		this->lhand = GameSprite(*GameAssetsManager::getSprite(sprite4));
 
 		//Set offset of that part
-		auto var4 = element->getVariableByName("LHandPos");
-		if (var4 != nullptr)
-			lhandOffset = sf::Vector2f(var4->toFloat(0), var4->toFloat(1));
+		lhandOffset = element->getItem("LHandPos").toVector<float>(0);
 		this->lhand.attachToEntityOffset(this, lhandOffset);
 	}
 	else Logger::e("SpriteLHand in " + name + " not found!");
@@ -93,8 +78,12 @@ bool Soldier::setCharacter(TextElement * element)
 	this->weapontest.attachToEntityOffset(this, weaponOffset);
 
 	test.attachToEntity(&weapontest);
-	return true;
 }
+
+Soldier::~Soldier()
+{
+}
+
 
 void Soldier::draw(sf::RenderTarget & window)
 {

@@ -24,12 +24,9 @@ public:
 	{
 		map.clear();
 
-		auto size = tm.getVariableByName("Size");
-		if (size != nullptr)
-		{
-			tileCount.y = size->toInt(1);
-			tileCount.x = size->toInt(0);
-		}
+		auto size = tm.getItem("Size");
+		if (!size.isEmpty())
+			tileCount = size.toVector<int>(0);
 		else
 		{
 			Logger::e("Map have no size");
@@ -38,32 +35,32 @@ public:
 		Logger::i("Map size: " + std::to_string(this->tileCount.x) + " " + std::to_string(this->tileCount.y));
 
 		std::string mainTileset = "";
-		auto varTilesets = tm.getVariableByName("Tilesets");
-		if (varTilesets != nullptr)
+		auto varTilesets = tm.getItem("Tilesets");
+		if (!varTilesets.isEmpty())
 		{
-			mainTileset = varTilesets->toString(0);
+			mainTileset = varTilesets.toString(0);
 		}
 		else mainTileset = tilesets.at(0).name;
 
 		for (int y = 0; y < tileCount.y; y++)
 		{
-			auto tile = tm.getVariableByName("X" + std::to_string(y));
-			if (tile == nullptr)
+			auto tile = tm.getItem("X" + std::to_string(y));
+			if (tile.isEmpty())
 			{
 				Logger::e("X" + std::to_string(y) + " is missing, map is not created");
 				return false;
 			}
 			for (int x = 0; x < tileCount.x; x++)
 			{
-				if (tileCount.x < tile->var.size())
+				if (tileCount.x < tile.size())
 				{
 					Logger::e("Not enough tiles in :X" + std::to_string(y)
-						+ " Found:" + std::to_string(tile->var.size())
+						+ " Found:" + std::to_string(tile.size())
 						+ " Required:" + std::to_string(tileCount.x));
 					return false;
 				}
 
-				appendTile(MapTileFactory::create(tile->var.at(x), sf::Vector2i(x, y), tilesets));
+				appendTile(MapTileFactory::create(tile.toString(x), sf::Vector2i(x, y), tilesets));
 			}
 		}
 

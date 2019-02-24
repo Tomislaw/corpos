@@ -22,14 +22,37 @@ Character::Character(EntityList * ptr) : Prop()
 	rect.setSize(sf::Vector2f(collisionBox.width, collisionBox.height));
 	rect.setFillColor(sf::Color::Red);
 }
-Character::Character(TextElement * data, EntityList * ptr) : Prop(data,ptr)
+Character::Character(TextElement * element, EntityList * ptr) : Prop(element,ptr)
 {
 	this->entlistPtr = ptr;
-	if (ptr != nullptr)
-		map = entlistPtr->getTileMapPtr();
+	if (ptr != nullptr) map = entlistPtr->getTileMapPtr();
 	this->sprite.attachToEntity(this);
 
-	setCharacter(data);
+	if (element == nullptr)return;
+
+
+	max_walk_speed = element->getItem("Speed").toInt(0);
+	collisionBox = element->getItem("CollisionBox").toRect<float>(0);
+
+	//Set drawable debugh box
+	rect.setSize(sf::Vector2f(collisionBox.width, collisionBox.height));
+	rect.setFillColor(sf::Color::Red);
+
+	//Set sprite of character
+	auto sprite = element->getItem("Sprite");
+	if (!sprite.isEmpty())
+	{
+		auto spriteName = sprite.toString(0);
+		auto spriteDefinition = GameAssetsManager::getSprite(spriteName);
+		if (spriteDefinition != nullptr)
+			this->sprite = GameSprite(*spriteDefinition);
+	}
+
+	navCharData.characterWidth = 1 + collisionBox.width / (TILE_SIZE / 2);
+	navCharData.characterHeight = 1 + collisionBox.height / (TILE_SIZE / 2);
+	navCharData.characterJumpHeight = 3;
+	navCharData.isFlyingOne = false;
+	navCharData.canUseLadder = false;
 }
 Character::~Character()
 {
@@ -249,46 +272,6 @@ void Character::impulseVelocityX(float maxSpeed, float impulse, float delta)
 	}
 }
 
-bool Character::setCharacter(TextElement * element)
-{
-	if (element == nullptr)return false;
-	//Set speed of character
-	auto variableMaxSpeed = element->getVariableByName("Speed");
-	if (variableMaxSpeed != nullptr)
-		this->max_walk_speed = variableMaxSpeed->toInt(0);
-
-	//Set character collision box
-	auto cb = element->getVariableByName("CollisionBox");
-	if (cb != nullptr)
-	{
-		collisionBox.left = cb->toFloat(0);
-		collisionBox.top = cb->toFloat(1);
-		collisionBox.width = cb->toFloat(2);
-		collisionBox.height = cb->toFloat(3);
-	}
-
-	//Set drawable debugh box
-	rect.setSize(sf::Vector2f(collisionBox.width, collisionBox.height));
-	rect.setFillColor(sf::Color::Red);
-
-	//Set sprite of character
-	auto sprite = element->getVariableByName("Sprite");
-	if (sprite != nullptr)
-	{
-		auto spriteName = sprite->toString(0);
-		auto spriteDefinition = GameAssetsManager::getSprite(spriteName);
-		if (spriteDefinition != nullptr)
-			this->sprite = GameSprite(*spriteDefinition);
-	}
-
-	navCharData.characterWidth = 1 + collisionBox.width / (TILE_SIZE/2);
-	navCharData.characterHeight = 1 + collisionBox.height / (TILE_SIZE / 2);
-	navCharData.characterJumpHeight = 3;
-	navCharData.isFlyingOne = false;
-	navCharData.canUseLadder = false;
-
-	return true;
-}
 
 void Character::walkUp()
 {

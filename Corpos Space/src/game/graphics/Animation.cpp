@@ -55,27 +55,23 @@ bool Animation::SetAnimation(TextElement *spritetext)
 	if (frame.size() != 0)frame.clear();
 
 	// Set animation name
-	auto varName = spritetext->getVariableByName("Name");
-	if (varName != nullptr)
-		name = varName->toString(0);
+	auto varName = spritetext->getItem("Name");
+	if (!varName.isEmpty()) name = varName.toString(0);
 	else
 		Logger::e("Animation is missing name!");
 
-	auto varAnimationSpeed = spritetext->getVariableByName("Animation_speed");
-	if (varAnimationSpeed != nullptr)
-		animation_speed = varAnimationSpeed->toFloat(0);
-	else
-		Logger::e("Animation " + name + " is missing speed!");
+	auto varAnimationSpeed = spritetext->getItem("Animation_speed");
+	if (!varAnimationSpeed.isEmpty())animation_speed = varAnimationSpeed.toFloat(0);
+	else Logger::e("Animation " + name + " is missing speed!");
 
 	int frames = 0;
 	// Get frames count
-	auto varFrames = spritetext->getVariableByName("Frame_count");
-	if (varFrames != nullptr)
-		frames = varFrames->toInt(0);
+	auto varFrames = spritetext->getItem("Frame_count");
+	if (!varFrames.isEmpty()) frames = varFrames.toInt(0);
 
 	//Get is loop
-	auto varIsLoop = spritetext->getVariableByName("isLoop");
-	if (varIsLoop != nullptr) is_loop = varIsLoop->toInt(0);
+	auto varIsLoop = spritetext->getItem("isLoop");
+	if (!varIsLoop.isEmpty()) is_loop = varIsLoop.toInt(0);
 	else is_loop = false;
 
 	if (frames < 0) frames = 0;
@@ -84,12 +80,8 @@ bool Animation::SetAnimation(TextElement *spritetext)
 	{
 		std::string frame_str = "Frame_" + std::to_string(i);
 		// Set frame
-		auto data = spritetext->getVariableByName(frame_str);
-		if (data != nullptr)
-		{
-			sf::IntRect f(data->toInt(0), data->toInt(1), data->toInt(2), data->toInt(3));
-			frame.push_back(f);
-		}
+		auto data = spritetext->getItem(frame_str);
+		if (!data.isEmpty()) frame.push_back(data.toRect<int>(0));
 		else Logger::e("Animation " + name + " is missing frame " + std::to_string(i));
 	}
 	if (animation_speed < 0 || frames == 0)isfinished = 1;

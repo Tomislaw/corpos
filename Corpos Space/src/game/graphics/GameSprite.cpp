@@ -7,14 +7,12 @@ GameSprite::GameSprite(sf::Vector2f position, const sf::Texture &set_texture, Te
 {
 	setPosition(position);
 	setSprite(set_texture, spritetext);
-	auto data = spritetext->getVariableByName("Texture");
-	if (data != nullptr)textureName = data->toString(0);
+	textureName = spritetext->getItem("Texture").toString(0);
 }
 GameSprite::GameSprite(const sf::Texture &set_texture, TextElement *spritetext)
 {
 	setSprite(set_texture, spritetext);
-	auto data = spritetext->getVariableByName("Texture");
-	if (data != nullptr)textureName = data->toString(0);
+	textureName = spritetext->getItem("Texture").toString(0);
 }
 
 GameSprite::~GameSprite()
@@ -34,20 +32,19 @@ void GameSprite::setRectangle(sf::IntRect rect)
 void GameSprite::setSprite(const sf::Texture &set_texture, TextElement *spritetext)
 {
 	// Get name
-	auto varname = spritetext->getVariableByName("Name");
-	if (varname != nullptr) name = varname->toString(0);
+	auto varname = spritetext->getItem("Name");
+	if (!varname.isEmpty()) name = varname.toString(0);
 	else Logger::e("Sprite is missing name");
 	
 	sprite.setTexture(set_texture);
 
 	// Get size
-	auto size = spritetext->getVariableByName("Texture_size");
+	auto size = spritetext->getItem("Texture_size");
 	auto textureSize = sf::Vector2i();
-	if (size != nullptr) 
+	if (!size.isEmpty()) 
 	{
-		setRectangle(sf::IntRect(size->toInt(0), size->toInt(1), size->toInt(2), size->toInt(3)));
-		textureSize.x = size->toInt(2);
-		textureSize.y = size->toInt(3);
+		setRectangle(size.toRect<int>(0));
+		textureSize = size.toVector<int>(1);
 	}
 	else 
 	{ 
@@ -59,23 +56,22 @@ void GameSprite::setSprite(const sf::Texture &set_texture, TextElement *spritete
 
 	// Get is animated
 	animated = false;
-	auto varIsAnimated = spritetext->getVariableByName("Animated");
-	if (varIsAnimated != nullptr)animated = varIsAnimated->toInt(0);
+	animated = spritetext->getItem("Animated").toInt(0);
 
 	if (animated)
 	{
-		auto varSheet = spritetext->getVariableByName("Animation");
-		if (varSheet != nullptr)
-			setAnimationSheet(varSheet->toString(0));
+		auto varSheet = spritetext->getItem("Animation");
+		if (!varSheet.isEmpty())
+			setAnimationSheet(varSheet.toString(0));
 		else Logger::e("Sprite is missing animation");
 	}
 
-	auto size2 = spritetext->getVariableByName("Sprite_size");
-	if (size2 != nullptr)sprite.setScale(size2->toFloat(0) / textureSize.x, size2->toFloat(1) / textureSize.y);
+	auto size2 = spritetext->getItem("Sprite_size");
+	if (!size2.isEmpty())sprite.setScale(size2.toFloat(0) / textureSize.x, size2.toFloat(1) / textureSize.y);
 	else Logger::e("Sprite is missing size");
 
-	auto size3 = spritetext->getVariableByName("Sprite_center");
-	if (size3 != nullptr)sprite.setOrigin(sf::Vector2f(size3->toFloat(0), size3->toFloat(1)));
+	auto size3 = spritetext->getItem("Sprite_center");
+	if (!size3.isEmpty())sprite.setOrigin(sf::Vector2f(size3.toFloat(0), size3.toFloat(1)));
 	else sprite.setOrigin(sf::Vector2f(0, 0));
 	//origin.x
 }

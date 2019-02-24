@@ -33,17 +33,13 @@ public:
 			return false;
 		}
 
-		auto varName = tileset->getVariableByName("Name");
-		if (varName != nullptr)
-			name = tileset->getVariableByName("Name")->toString(0);
-		else
-		{
-			Logger::e("Tileset in " + location + " have no name!");
-		}
+		auto varName = tileset->getItem("Name");
+		if (!varName.isEmpty()) name = varName.toString(0);
+		else Logger::e("Tileset in " + location + " have no name!");
+		
 
-		auto varTexture = tileset->getVariableByName("Texture");
-		if (varTexture != nullptr)
-			textureName = varTexture->toString(0);
+		auto varTexture = tileset->getItem("Texture");
+		if (!varTexture.isEmpty()) textureName = varTexture.toString(0);
 		else
 		{
 			Logger::e("Texture in " + location + " is not defined, tileset is not loaded");
