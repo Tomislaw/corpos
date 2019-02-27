@@ -139,11 +139,11 @@ void EntityList::update(float time)
 	std::vector<std::shared_ptr <Bullet>>::iterator it3 = bullets.begin();
 	while (it3 != bullets.end())
 	{
-		it3->get()->update(time);
 		checkBulletCollision(it3->get());
 		if (it3->get()->isDestroyed())it3 = bullets.erase(it3);
 		else
 		{
+			it3->get()->update(time);
 			++it3;
 		}
 	}
@@ -232,6 +232,7 @@ void EntityList::drawBackground(sf::RenderWindow & window)
 bool EntityList::checkBulletCollision(Bullet * bullet)
 {
 	if (bullet->isDestroyed() || bullet->isDuringDestroying())return false;
+
 	if (tileMapPtr == nullptr)
 	{
 		bullet->kill();
@@ -241,17 +242,14 @@ bool EntityList::checkBulletCollision(Bullet * bullet)
 		auto ents = tree.GetObjectsAt(bullet->getPosition());
 		for each (Entity* ent in ents)
 		{
-			if (bullet->isDestroyed() || bullet->isDuringDestroying())return false;
+			if (bullet->isDestroyed() || bullet->isDuringDestroying()) return false;
 			auto damageable = dynamic_cast<Damageable*>(ent);
 			if (damageable != nullptr)
-			{
 				damageable->bulletCollision(bullet);
-			}
 		}
 
+		
 		auto tilesInLine = this->tileMapPtr->getTilesFromLine(bullet->getPreviousPosition(), bullet->getPosition());
-
-		bool collided = false;
 
 		for each (MapTile* mapTile in tilesInLine)
 		{
@@ -291,10 +289,7 @@ bool EntityList::checkBulletCollision(Bullet * bullet)
 					bullet->setPosition(collisionPoint);
 					return false;
 				}
-
-				collided = true;
 			}
-			return collided;
 		}
 	}
 

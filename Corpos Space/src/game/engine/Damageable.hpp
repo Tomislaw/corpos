@@ -32,17 +32,15 @@ public:
 	void decreaseDamage(int damage)
 	{
 		this->damage -= damage;
-		if (this->damage <= 0)destroy();
+		if (this->damage <= 0) destroy();
 	}
 
-	int getDamage()
-	{
-		return damage;
-	}
-	// return damage filter - not used yet
-	int getFilter()
-	{
-		return filter;
+	int getDamage() { return damage; }
+	int getFilter(){return filter;}
+
+	void setPosition(sf::Vector2f position) override {
+		Entity::setPosition(position);
+		bulletSprite.setPosition(position);
 	}
 
 	sf::Vector2f getPreviousPosition() { return previousPosition; }

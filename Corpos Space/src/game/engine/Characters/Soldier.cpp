@@ -5,7 +5,7 @@
 
 //Main constructor TODO: add null pointer handling
 
-Soldier::Soldier(TextElement * element, EntityList * ptr) : Character(element, ptr), test(ptr, Bullet("bullet_blue", 150, sf::Vector2f(), sf::Vector2f(0, 3000)))
+Soldier::Soldier(TextElement * element, EntityList * ptr) : Character(element, ptr), test(ptr, Bullet("bullet_blue", 50, sf::Vector2f(), sf::Vector2f(0, 3000)))
 {
 	ai = std::unique_ptr<AiBasic>(new AiBasic(*this));
 
@@ -78,6 +78,8 @@ Soldier::Soldier(TextElement * element, EntityList * ptr) : Character(element, p
 	this->weapontest.attachToEntityOffset(this, weaponOffset);
 
 	test.attachToEntity(&weapontest);
+
+	damageFilter = 0;
 }
 
 Soldier::~Soldier()

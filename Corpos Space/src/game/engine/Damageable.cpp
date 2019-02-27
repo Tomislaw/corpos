@@ -115,6 +115,7 @@ void Bullet::update(float time)
 
 	previousPosition = getPosition();
 	Entity::update(time);
+
 	bulletSprite.getSprite().setRotation(atan2(velocity.y, velocity.x) * 180 / 3.14159265359);
 
 	bulletSprite.update(time);
@@ -124,9 +125,7 @@ void Bullet::update(float time)
 		startDestroyAnimation = false;
 	}
 	if (duringDestroying)
-	{
 		if (bulletSprite.getCurrentAnimation()->is_finished())kill();
-	}
 }
 
 bool Bullet::isDestroyed()

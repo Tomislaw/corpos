@@ -137,6 +137,8 @@ void GunFire::fireBullet(float timeAfterUpdate)
 
 	if (entityListPtr == nullptr)return;
 
+	Logger::d("Bullet fire!");
+
 	float distance = barrelLenght + bulletType.getBulletDefaultSpeed()*timeAfterUpdate;
 
 	sf::Vector2f startpos;

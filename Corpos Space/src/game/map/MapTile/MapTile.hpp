@@ -1,13 +1,14 @@
 #ifndef	MAPTILE_HPP
 #define MAPTILE_HPP
 #include "src\game\map\AbstractTile.hpp"
-class MapTile
+class MapTile : public Loggable
 {
 public:
 
 	MapTile() {}
 
 	MapTile(std::shared_ptr<AbstractTile> tile) { mainTile = tile; }
+
 
 	void appendTile(std::shared_ptr<AbstractTile> tile)
 	{
@@ -91,7 +92,7 @@ public:
 		tiles.clear();
 	}
 
-	std::string toString()
+	std::string toString() override
 	{
 		std::string str = "mainTile: ";
 		if (mainTile == nullptr) str += "nullptr \n";

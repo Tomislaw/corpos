@@ -100,7 +100,7 @@ private:
 	template<typename T, typename... ArgTypes>
 	void parse(T t, ArgTypes... args) {
 
-		if (Loggable * loggable = dynamic_cast<T *>(&t))
+		if (Loggable * loggable = dynamic_cast<T&>(&t))
 		{
 			add(loggable->toString());
 			parse(args...);
@@ -109,6 +109,15 @@ private:
 
 		std::any object = t;
 		std::string value = "("; value += object.type().name(); value += "#)";
+		add(value);
+		parse(args...);
+	}
+
+	template<typename T, typename... ArgTypes>
+	void parse(T* t, ArgTypes... args) {
+	
+		std::string name = typeid(T).name();
+		std::string value = "("; value += name; value += "-ptr#" + std::to_string((int)t);
 		add(value);
 		parse(args...);
 	}

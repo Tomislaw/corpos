@@ -423,7 +423,7 @@ public:
 				}
 			}
 		}
-
+	
 		std::vector<MapTile*> tiles;
 		for each (sf::Vector2i var in tile_ids)
 		{

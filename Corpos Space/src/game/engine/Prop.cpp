@@ -274,6 +274,8 @@ void Prop::update(float time)
 bool Prop::bulletCollision(Bullet * bullet) {
 	if (bullet == nullptr) return false;
 
+	if(bullet->getFilter() == this->damageFilter) return false;
+
 	auto bulletOldPos = bullet->getPreviousPosition() - getPosition();
 	auto bulletNewPos = bullet->getPosition() - getPosition();
 	sf::Vector2f intersectPos;
@@ -281,7 +283,7 @@ bool Prop::bulletCollision(Bullet * bullet) {
 	if (isHit) {
 		auto bulletDamage = bullet->getDamage();
 		bullet->decreaseDamage(getHealth());
-		if (bullet->isDuringDestroying())bullet->setPosition(intersectPos);
+		if (bullet->isDuringDestroying() || bullet->isDuringDestroying()) bullet->setPosition(intersectPos + getPosition());
 		damage(bulletDamage);
 	}
 	return isHit;
