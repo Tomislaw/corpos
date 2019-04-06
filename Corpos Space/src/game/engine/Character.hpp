@@ -58,7 +58,7 @@ public:
 	}
 	TileMap * getTileMapPtr();
 
-	AiBasic * getAiController() { return ai.get(); };
+	std::shared_ptr<AiBasic> & getAiController() { return ai; };
 
 	sf::Vector2i getStandingTileId();
 	sf::Vector2f getCenteredPosition();
@@ -79,7 +79,7 @@ protected:
 
 	sf::Vector2f walk_speed;
 
-	std::unique_ptr<AiBasic> ai;
+	std::shared_ptr<AiBasic> ai;
 
 	TileMap * map = nullptr;
 	EntityList * entlistPtr = nullptr;

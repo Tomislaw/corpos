@@ -6,7 +6,7 @@ void Crawler::draw(sf::RenderTarget & window)
 {
 	Character::draw(window);
 	//drawDebugData(window);
-	ai->drawDebugData(window);
+	//ai->drawDebugData(window);
 }
 
 void Crawler::update(float timew)

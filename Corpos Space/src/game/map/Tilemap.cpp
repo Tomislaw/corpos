@@ -164,7 +164,7 @@ bool Tilemap::loadMap(TextElement * tm)
 	for (int y = 0; y < mapSize.y; y++)
 	{
 		auto tile = tm->getItem("X" + std::to_string(y));
-		if (!tile.isEmpty())
+		if (tile.isEmpty())
 		{
 			Logger::e("X" + std::to_string(y) + " is missing, map is not created");
 			return false;

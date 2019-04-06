@@ -7,6 +7,7 @@ class EntityList;
 
 //Logic type entity used for spawning bullets
 //TODO: implementation in weapon class and soldier class
+
 class GunFire :
 	public Entity
 {
@@ -33,11 +34,11 @@ protected:
 	EntityList* entityListPtr;
 	float frequency = 5;
 
-	unsigned int magAmmo = 30;
-	unsigned int maxMagAmmo = 30;
+	unsigned int magAmmo = 999;
+	unsigned int maxMagAmmo = 999;
 
-	unsigned int ammo = 90;
-	unsigned int maxAmmo = 90;
+	unsigned int ammo = 999;
+	unsigned int maxAmmo = 999;
 
 	float reloadTime = 2;
 

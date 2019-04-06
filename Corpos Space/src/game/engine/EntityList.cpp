@@ -40,13 +40,16 @@ void EntityList::loadMap(TextFileData & file)
 		auto p = std::shared_ptr<Landscape>(new Landscape(map_landscapes.at(i)));
 		addLandscape(p);
 	}
-
 	setPlayerEntity("@player");
+	
 }
 
 void EntityList::addCharacter(std::shared_ptr<Character> & ent)
 {
 	characters.push_back(ent);
+	if (ent->getName() != "@player") {
+		ent->getAiController() = std::make_shared<TestAi>(*ent.get(), characters.at(0).get());
+	}
 }
 
 void EntityList::addProp(std::shared_ptr<Prop>& ent)

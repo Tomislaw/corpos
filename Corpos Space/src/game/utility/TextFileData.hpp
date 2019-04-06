@@ -57,6 +57,10 @@ public:
 	friend TextItem operator+(TextItem & lhs, const std::string& rhs);
 	friend TextItem& operator+=(TextItem & lhs, const TextItem& rhs) {return lhs+rhs;}
 
+	std::string name;
+	std::string element;
+	std::string file;
+
 private:
 	std::vector <std::string> variables;
 };
@@ -71,6 +75,7 @@ public:
 	~TextElement();
 
 	std::string name;
+	std::string file;
 	std::string toString() override;
 
 	TextItem& operator[](std::string variableName);
@@ -225,8 +230,8 @@ inline sf::Rect<T> TextItem::toRect(unsigned int index, sf::Rect<T> default)
 {
 	if (variables.size() < index + 4)
 	{
-		Logger::w("Item '{}' in element '{}' in file '{}' dont have enought variables to convert to Vector.",
-			"", "", "");
+		Logger::w("Item '{}' in element '{}' in file '{}' dont have enought variables to convert to Rectangle.",
+			name,element, file);
 		return default;
 	}
 
@@ -235,7 +240,7 @@ inline sf::Rect<T> TextItem::toRect(unsigned int index, sf::Rect<T> default)
 	else
 	{
 		Logger::e("Item '{}' in element '{}' in file '{}' can not be converted to Rectangle. Class '{}' is not supported.",
-			"", "", "", typeid(T).name());
+			name, element, file, typeid(T).name());
 		throw std::exception("Runtime exception, incorrect class type.");
 	}
 };
@@ -245,16 +250,16 @@ inline sf::Vector2<T> TextItem::toVector(unsigned int index, sf::Vector2<T> defa
 {
 	if (variables.size() < index + 2)
 	{
-		Logger::w("Item '{}' in element '{}' in file '{}' dont have enought variables to convert to Vector.", "", "", "");
+		Logger::w("Item '{}' in element '{}' in file '{}' dont have enought variables to convert to Vector.", 
+			name, element, file);
 		return default;
 	}
 	if (std::is_integral<T>::value) return sf::Vector2<T>(toInt(index * 2), toInt(index * 2 + 1));
 	else if (std::is_floating_point<T>::value) return sf::Vector2<T>(toFloat(index * 2), toFloat(index * 2 + 1));
-
 	else
 	{
 		Logger::e("Item '{}' in element '{}' in file '{}' can not be converted to Rectangle. Class '{}' is not supported.",
-			"", "", "", typeid(T).name());
+			name, element, file, typeid(T).name());
 		throw std::exception("Runtime exception, incorrect class type.");
 	}
 };

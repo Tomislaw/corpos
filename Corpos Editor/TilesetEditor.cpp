@@ -618,26 +618,17 @@ void TilesetEditor::saveToFile(std::string file)
 	TextElement tileset;
 	tileset.name = "TILESET";
 
-	Variable tilesetName;
-	tilesetName.name = "Name";
-	tilesetName.var.push_back(name);
-	tileset.variable.push_back(tilesetName);
-
-	Variable tilesetTexture;
-	tilesetTexture.name = "Texture";
-	tilesetTexture.var.push_back(texture);
-	tileset.variable.push_back(tilesetTexture);
-
-	Variable tilesetSize;
-	tilesetSize.name = "Texture_size";
+	tileset["Name"] += name;
+	tileset["Texture"] += texture;
+	auto varSize = tileset["Texture_size"];
 
 	sf::Rect<unsigned> texture_size;
 	if (frameEdit->getTexture())texture_size = sf::Rect<unsigned>(sf::Vector2u(), frameEdit->getTexture()->getSize());
-	tilesetSize.var.push_back(std::to_string(texture_size.left));
-	tilesetSize.var.push_back(std::to_string(texture_size.top));
-	tilesetSize.var.push_back(std::to_string(texture_size.width));
-	tilesetSize.var.push_back(std::to_string(texture_size.height));
-	tileset.variable.push_back(tilesetSize);
+	varSize += std::to_string(texture_size.left);
+	varSize += (std::to_string(texture_size.top));
+	varSize += (std::to_string(texture_size.width));
+	varSize += (std::to_string(texture_size.height));
+
 
 	std::vector<TextElement> elements;
 	elements.push_back(tileset);
@@ -646,6 +637,7 @@ void TilesetEditor::saveToFile(std::string file)
 	{
 		elements.push_back(tile.generateTextElement());
 	}
+
 	fileData.setElements(elements);
 	bool saved = fileData.saveToFile(file);
 
@@ -895,18 +887,18 @@ void TilesetEditor::loadTileset()
 			}
 			else
 			{
-				auto n = tilesetData->getVariableByName("Name");
-				if (n)
+				auto n = tilesetData->getItem("Name");
+				if (!n.isEmpty())
 				{
-					name = n->toString(0);
-					ui.lineEdit_tilesetName->setText(n->toString(0).c_str());
+					name = n.toString(0);
+					ui.lineEdit_tilesetName->setText(n.toString(0).c_str());
 				}
 
-				auto t = tilesetData->getVariableByName("Texture");
-				if (t)
+				auto t = tilesetData->getItem("Texture");
+				if (!t.isEmpty())
 				{
-					texture = t->toString(0);
-					ui.lineEdit_Texture->setText(t->toString(0).c_str());
+					texture = t.toString(0);
+					ui.lineEdit_Texture->setText(t.toString(0).c_str());
 				}
 
 				changeTilesetData(name, texture, "");

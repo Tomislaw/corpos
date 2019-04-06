@@ -234,7 +234,7 @@ bool AStar::PathfindUtils::canStandOnTile(sf::Vector2i tileId, NavigationNodeCha
 
 bool AStar::PathfindUtils::canMoveToTile(sf::Vector2i startTileId, sf::Vector2i endTileId, NavigationNodeCharacterData &character)
 {
-	return canFitInTile(startTileId, character) && canFitInTile(endTileId, character);
+	return  canFitInTile(endTileId, character);
 
 	/*int lowerX = startTileId.x;
 	if (endTileId.x < startTileId.x)lowerX = endTileId.x;

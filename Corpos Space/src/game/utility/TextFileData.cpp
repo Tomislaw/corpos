@@ -324,6 +324,7 @@ bool TextFileData::loadTextElement(std::fstream &file)
 		buffor.erase(remove(buffor.begin(), buffor.end(), '\r'), buffor.end());
 		TextElement e;
 		e.name = buffor;
+		e.file = this->name;
 		while (buffor.find('}') == std::string::npos)
 		{
 			safeGetline(file, buffor);
@@ -336,6 +337,9 @@ bool TextFileData::loadTextElement(std::fstream &file)
 			{ 
 				std::string name;
 				auto item = TextItem::fromString(buffor, &name);
+				item.name = name;
+				item.file = this->name;
+				item.element = e.name;
 				e[name] += item;
 			}
 		}
@@ -363,6 +367,7 @@ bool TextFileData::loadTextElement(std::fstream &file)
 
 TextItem TextItem::fromString(std::string variable_line, std::string * varName)
 {
+	
 	char quotationMark = 34;
 	char comma = ',';
 	if (variable_line.size() < 7 || variable_line.find(" = ") == std::string::npos || variable_line.find(quotationMark) == std::string::npos)
@@ -374,6 +379,7 @@ TextItem TextItem::fromString(std::string variable_line, std::string * varName)
 	else
 	{
 		TextItem var1;
+
 		std::string name = variable_line;
 		name = name.erase(variable_line.find(" = "), name.size());
 
@@ -416,7 +422,6 @@ TextItem TextItem::fromString(std::string variable_line, std::string * varName)
 				}
 			}
 		}
-
 		return var1;
 	}
 }

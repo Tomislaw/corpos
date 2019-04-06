@@ -20,7 +20,6 @@ public:
 	virtual void OnUpdate();
 
 	void leaveEvent(QEvent * event) override {
-		Logger::d("leave");
 		this->focusOutEvent(new QFocusEvent(QEvent::FocusOut, Qt::MouseFocusReason));
 	}
 

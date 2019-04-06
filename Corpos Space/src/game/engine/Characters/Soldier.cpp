@@ -5,9 +5,9 @@
 
 //Main constructor TODO: add null pointer handling
 
-Soldier::Soldier(TextElement * element, EntityList * ptr) : Character(element, ptr), test(ptr, Bullet("bullet_blue", 50, sf::Vector2f(), sf::Vector2f(0, 3000)))
+Soldier::Soldier(TextElement * element, EntityList * ptr) : Character(element, ptr), test(ptr, Bullet("bullet_blue", 50, sf::Vector2f(), sf::Vector2f(0, 1000)))
 {
-	ai = std::unique_ptr<AiBasic>(new AiBasic(*this));
+	ai = std::shared_ptr<AiBasic>(new AiBasic(*this));
 
 
 	if (element == nullptr)return;
@@ -98,7 +98,7 @@ void Soldier::draw(sf::RenderTarget & window)
 	//drawDebugData(window);
 	test.draw(window);
 	//test.drawDebugData(window);
-	ai->drawDebugData(window);
+	//ai->drawDebugData(window);
 }
 
 void Soldier::update(float timew)

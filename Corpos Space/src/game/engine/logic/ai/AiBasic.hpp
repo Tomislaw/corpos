@@ -9,40 +9,6 @@
 #include <chrono>
 #include <mutex>
 
-class AiAction;
-class MoveToTile;
-
-class AiBasic
-{
-public:
-	AiBasic(Character & character);
-
-	virtual void update(float delta);
-	~AiBasic();
-
-
-	virtual void drawDebugData(sf::RenderTarget &target);
-
-	enum Behavior { IDLE, ALERTED, ENGAGE, SUSPICIOUS, PANIC };
-
-	void moveToTile(sf::Vector2i tile);
-
-	void getPath(sf::Vector2i tile);
-
-protected:
-	std::shared_ptr<AiAction> action = nullptr;
-
-	Character & character;
-	EntityList * entityListPtr = nullptr;
-	TileMap * tilemapPtr = nullptr;
-
-	int behavior = 0;
-	bool isInitialized = false;
-	sf::Text entityDebugText;
-};
-
-
-
 class AiAction {
 public:
 	enum ActionResult {
@@ -135,7 +101,7 @@ public:
 				break;
 			}
 		}
-		else if(result == NOT_FINISHED){
+		else if (result == NOT_FINISHED) {
 			result = SUCCEED;
 			stop();
 		}
@@ -144,9 +110,9 @@ public:
 	void stop() override {
 
 		pathfind.stop();
-		if(findPathThread.joinable()) findPathThread.join();
+		if (findPathThread.joinable()) findPathThread.join();
 
-		if(result == NOT_FINISHED) 
+		if (result == NOT_FINISHED)
 			result = FAILED;
 	}
 
@@ -159,5 +125,71 @@ private:
 
 	sf::Vector2i targetTile;
 };
+
+class AiBasic
+{
+public:
+	AiBasic(Character & character);
+
+	virtual void update(float delta);
+	~AiBasic();
+
+
+	virtual void drawDebugData(sf::RenderTarget &target);
+
+	enum Behavior { IDLE, ALERTED, ENGAGE, SUSPICIOUS, PANIC };
+
+	void moveToTile(sf::Vector2i tile);
+
+	void getPath(sf::Vector2i tile);
+
+protected:
+	std::shared_ptr<AiAction> action = nullptr;
+
+	Character & character;
+	EntityList * entityListPtr = nullptr;
+	TileMap * tilemapPtr = nullptr;
+
+	int behavior = 0;
+	bool isInitialized = false;
+	sf::Text entityDebugText;
+};
+
+class TestAi: public AiBasic {
+public:
+
+	TestAi(Character & character, Entity * target) : AiBasic(character)
+	{
+		this->target = target;
+	}
+
+	virtual void update(float delta)  override
+	{
+		timeToSearchAgain -= delta;
+		if (timeToSearchAgain < 0) {
+			timeToSearchAgain = 0.5 + (rand() % 100) * 0.008;;
+
+			if (Character* d = dynamic_cast<Character*>(target)) 
+			{
+			auto distance = character.getPosition().x - d->getPosition().x;
+			auto distanceY = abs(character.getPosition().y - d->getPosition().y);
+
+			if (distance < 60 && distance > 0 && distanceY < 10) {
+				character.walkLeft();
+			}
+			else if (distance > -60 && distance < 0 && distanceY < 10) {
+				character.walkRight();
+			}else if (!(distance > 700 || distance < -700))
+				getPath(d->getStandingTileId());
+			}
+		}
+		AiBasic::update(delta);
+	}
+
+private:
+	Entity * target;
+	float timeToSearchAgain = 1;
+};
+
 
 #endif
