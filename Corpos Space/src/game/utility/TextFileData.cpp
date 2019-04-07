@@ -1,11 +1,18 @@
 #include "game\utility\TextFileData.hpp"
 
-
+class TextElement;
+class TextFileData;
+class TextItem;
 ////////////////////////////////////TEXTELEMENT
 
 TextElement::TextElement()
 {
 	name == "Empty element";
+}
+
+TextElement::TextElement(std::string name)
+{
+	this->name = name;
 }
 
 TextElement::~TextElement()
@@ -14,29 +21,33 @@ TextElement::~TextElement()
 
 std::string TextElement::toString()
 {
-	std::string displaytext;
-	displaytext += "Name " + name + "\n";
-	/*for (int i = 0; i < variables.size(); i++)
-	{
-		displaytext += variables[i].name + " ";
-		for (int j = 0; j < variable[i].var.size(); j++)
-		{
-			displaytext += variable[i].var[j] + " ";
+	auto displaytext = "Name " + name + "\n{";
+
+	for (auto item = variables.begin(); item != variables.end(); ++item) {
+		displaytext += item->first + " = \"";
+		for (int i = 0; i < item->second.size(); i++) {
+			if (i != item->second.size() - 1)
+				displaytext += item->second.toString(i) + "\"\n";
+			else 
+				displaytext += item->second.toString(i) + ",";
 		}
-		displaytext += '\n';
-	}*/
-	displaytext += '\n';
+	}	
+
+	displaytext += '}\n';
 	return displaytext;
 }
 
 TextItem & TextElement::operator[](std::string variableName)
 {
-	return variables[variableName];
+	return get(variableName);
 }
 
-TextItem & TextElement::getItem(std::string variableName)
+TextItem & TextElement::get(std::string variableName)
 {
-	return variables[variableName];
+	TextItem & item = variables[variableName];
+	item.parent = this;
+	item.name = variableName;
+	return item;
 }
 
 
@@ -75,11 +86,13 @@ TextElement operator+(TextElement & lhs, const TextElement & rhs)
 
 ////////////////////////////////TEXTFILEDATA
 
-TextFileData::TextFileData()
+
+TextFileData::TextFileData(std::string fileLocation) : filePath(fileLocation)
 {
+	loadFile(fileLocation);
 }
 
-TextFileData::TextFileData(std::vector<TextElement> &elements)
+TextFileData::TextFileData(std::vector<TextElement> &elements) : filePath()
 {
 	setElements(elements);
 }
@@ -88,41 +101,76 @@ TextFileData::~TextFileData()
 {
 }
 
+TextElement & TextFileData::operator[](std::string variableName)
+{
+	return getFirst(variableName);
+}
+
+TextElement & TextFileData::getFirst(std::string variableName)
+{
+	std::list<TextElement>::iterator it;
+	for (it = element.begin(); it != element.end(); ++it) 
+		if (it->name == variableName) return *it;
+
+	element.push_back(TextElement(variableName));
+	element.back().parent = this;
+	return element.back();
+}
+
+std::vector<TextElement*> TextFileData::get(std::string variableName)
+{
+	std::vector <TextElement*> allElements;
+	std::list<TextElement>::iterator it;
+	for (it = element.begin(); it != element.end(); ++it)
+		if (it->name == variableName) allElements.push_back(&*it);
+
+	return allElements;
+}
+
+
 //getters
 
 std::vector<TextElement*> TextFileData::getAllElementsByName(std::string element_name)
 {
 	std::vector <TextElement*> all_elements;
-	for (int i = 0; i < element.size(); i++)
-	{
-		if (element[i].name == element_name) all_elements.push_back(&element[i]);
-	}
+	std::list<TextElement>::iterator it;
+	for (it = element.begin(); it != element.end(); ++it)
+		if (it->name == element_name)
+		{
+			TextElement & element = *it;
+			all_elements.push_back(&element);
+		}
 	return all_elements;
 }
 
 TextElement * TextFileData::getFirstElementByName(std::string element_name)
 {
-	for (int i = 0; i < element.size(); i++)
-	{
-		if (element[i].name == element_name) return &element[i];
-	}
+	std::list<TextElement>::iterator it;
+	for (it = element.begin(); it != element.end(); ++it)
+		if (it->name == element_name)
+		{
+			TextElement & element = *it;
+			return &element;
+		}
 
 	return nullptr;
 }
 
 std::vector<TextElement> TextFileData::getAllElements()
 {
-	return element;
+	std::vector <TextElement> all_elements;
+	for (auto it = element.begin(); it != element.end(); ++it)
+		 all_elements.push_back(*it);
+
+	return all_elements;
 }
 
 std::string TextFileData::toString()
 {
 	std::string displaytext;
-	displaytext += "File name " + name + "\n";
-	for (int i = 0; i < element.size(); i++)
-	{
-		displaytext += element[i].toString();
-	}
+	displaytext += "File name " + filePath + "\n";
+	for (auto it = element.begin(); it != element.end(); ++it)
+		displaytext += it->toString();
 	return displaytext;
 }
 
@@ -130,20 +178,11 @@ std::string TextFileData::toString()
 
 void TextFileData::setElements(std::vector<TextElement> set)
 {
-	element = set;
+	element.clear();
+	for each (auto var in set)
+		element.push_back(var);
 }
 
-void TextFileData::replaceElement(TextElement replace, std::string id)
-{
-	for (int i = 0; i < element.size(); i++)
-	{
-		if (element[i].name == id)
-		{
-			element[i] = replace;
-			break;
-		}
-	}
-}
 
 // load & save
 
@@ -155,24 +194,10 @@ bool TextFileData::saveToFile(std::string localization)
 		std::string text_data;
 
 		text_data += "CORPOSFILE\r\n";
-		for (int i = 0; i < element.size(); i++)
-		{
-			text_data += element[i].name + "\r\n";
-			text_data += "{\r\n";
-			/*for (int j = 0; j < element[i].variable.size(); j++)
-			{
-				text_data += element[i].variable[j].name + " = " + '"';
-				for (int k = 0; k < element[i].variable[j].var.size() - 1; k++)
-				{
-					text_data += element[i].variable[j].var[k] + ',';
-				}
-				if (element[i].variable[j].var.size() > 0)
-				{
-					text_data += element[i].variable[j].var[element[i].variable[j].var.size() - 1] + '"' + "\n";
-				}
-			}*/
-			text_data += "}\r\n";
-		}
+
+		for (auto it = element.begin(); it != element.end(); ++it)
+			text_data += it->toString();
+
 		text_data += "CORPOSFILE_END";
 
 		file << text_data;
@@ -186,67 +211,6 @@ bool TextFileData::saveToFile(std::string localization)
 		return false;
 	}
 }
-
-/*bool TextFileData::loadFile(std::string file_txt)
-{
-	//std::string file_txt = getExeLocation();
-	//if (location.size() == 0)return false;
-	//if (location[0] != '/')file_txt.push_back('/');
-	//file_txt += location;
-
-	std::fstream plik;
-	plik.open(file_txt);
-	if (!plik.good())
-	{
-		Logger::e("Can't open file " + file_txt);
-		return false; //Nie uda³o siê otworzyæ pliku
-	}
-
-	std::string sWiersz;
-	while (!plik.eof())
-	{
-		std::getline(plik, sWiersz);
-		//	std::cout << sWiersz << std::endl; // Nazwa typu pliku
-
-		if (sWiersz.find("CORPOSFILE") == std::string::npos) { plik.close(); return 0; }
-		name = file_txt;
-
-		bool startNextTextElement = true;
-
-		while (sWiersz != "CORPOSFILE_END")
-		{
-			/////////Wczytywanie danych do struktury
-
-			if(startNextTextElement==true)
-			{
-				std::getline(plik, sWiersz,'{');
-				if (sWiersz.size() == 0)
-				{
-					if (sWiersz.find("CORPOSFILE_END") != std::string::npos){ plik.close(); return 0; }
-				}
-			}
-			if (sWiersz == "CORPOSFILE_END")return 1;
-			if (sWiersz.size() > 1)
-			{
-				TextElement txtelement;
-				txtelement.name = sWiersz;
-				//	std::cout << sWiersz << std::endl;
-				std::getline(plik, sWiersz);
-				if (sWiersz != "{") return 0;
-				for (int i = 0; i < 2000; i++)
-				{
-					std::getline(plik, sWiersz);
-					if (sWiersz == "}") break;
-					if (sWiersz == "{") return 0;
-					txtelement.variable.push_back(set_variable(sWiersz));
-				}
-				element.push_back(txtelement);
-			}
-		}
-	}
-	plik.close();
-	return true;
-}*/
 
 bool TextFileData::loadFile(std::string file_txt)
 {
@@ -263,21 +227,18 @@ bool TextFileData::loadFile(std::string file_txt)
 	if (!file.good())
 	{
 		Logger::e("Can't open file " + file_txt);
-		return false; //Nie uda³o siê otworzyæ pliku
+		return false; 
 	}
 
 	std::string buffor;
 	while (!file.eof())
 	{
 		safeGetline(file, buffor);
-		//	std::cout << sWiersz << std::endl; // Nazwa typu pliku
 
 		if (buffor.find("CORPOSFILE") == std::string::npos) { file.close(); return 0; }
-		name = file_txt;
 
 		while (!endOfFile)
 		{
-			/////////Wczytywanie danych do struktury
 
 			if (loadTextElement(file) == false)
 			{
@@ -322,9 +283,7 @@ bool TextFileData::loadTextElement(std::fstream &file)
 	{
 		buffor.erase(remove(buffor.begin(), buffor.end(), '\n'), buffor.end());
 		buffor.erase(remove(buffor.begin(), buffor.end(), '\r'), buffor.end());
-		TextElement e;
-		e.name = buffor;
-		e.file = this->name;
+		TextElement textElement = buffor;
 		while (buffor.find('}') == std::string::npos)
 		{
 			safeGetline(file, buffor);
@@ -336,14 +295,11 @@ bool TextFileData::loadTextElement(std::fstream &file)
 			if (buffor.size() > 7)
 			{ 
 				std::string name;
-				auto item = TextItem::fromString(buffor, &name);
-				item.name = name;
-				item.file = this->name;
-				item.element = e.name;
-				e[name] += item;
+				textElement[name] += TextItem::fromString(buffor, &name);
 			}
 		}
-		this->element.push_back(e);
+		element.push_back(textElement);
+		element.back().parent = this;
 		return true;
 	}
 	else

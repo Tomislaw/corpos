@@ -20,12 +20,10 @@ public:
 
 	bool loadFromFile(std::string location)
 	{
-		TextFileData file;
+		
 
 		Logger::i("Loading tileset definition in \"" + location + "\"");
-		//load file
-		file.loadFile(location);
-
+		TextFileData file = location;
 		auto tileset = file.getFirstElementByName("TILESET");
 		if (tileset == nullptr)
 		{
@@ -33,12 +31,12 @@ public:
 			return false;
 		}
 
-		auto varName = tileset->getItem("Name");
+		auto varName = tileset->get("Name");
 		if (!varName.isEmpty()) name = varName.toString(0);
 		else Logger::e("Tileset in " + location + " have no name!");
 		
 
-		auto varTexture = tileset->getItem("Texture");
+		auto varTexture = tileset->get("Texture");
 		if (!varTexture.isEmpty()) textureName = varTexture.toString(0);
 		else
 		{

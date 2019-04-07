@@ -79,6 +79,12 @@
     <Filter Include="Source Files\utility\pathfind">
       <UniqueIdentifier>{9dea834d-400f-4b1e-b422-63cbdbb52ac4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\utility\filemanager">
+      <UniqueIdentifier>{3ad981af-5e72-4246-9bf6-5ba2801df425}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\utility\filemanager">
+      <UniqueIdentifier>{bec8679e-47d8-435a-be77-8302bb72af0c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -388,6 +394,15 @@
     </ClInclude>
     <ClInclude Include="src\game\engine\Character.hpp">
       <Filter>Header Files\engine\Static_prop</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\utility\filemanager\Element.h">
+      <Filter>Header Files\utility\filemanager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\utility\filemanager\File.h">
+      <Filter>Header Files\utility\filemanager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\utility\filemanager\Item.h">
+      <Filter>Header Files\utility\filemanager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

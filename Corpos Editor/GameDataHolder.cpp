@@ -24,21 +24,19 @@ GameDataHolder::~GameDataHolder()
 
 void GameDataHolder::loadTextures()
 {
-	std::string location = Options::textureLocation;
 
-	TextFileData file;
-	file.loadFile(location);
-	auto textures_list = file.getAllElementsByName("TEXTURE");
+	TextFileData file = Options::textureLocation;
 
-	Logger::i("Found " + std::to_string(textures_list.size()) + " textures");
+	auto textures_list = file.get("TEXTURE");
+
+	Logger::i("Found {} textures", textures_list.size());
 
 	texture = new sf::Texture[textures_list.size()];
 	for (int i = 0; i < textures_list.size(); i++)
 	{
-		//Logger::i("Loading " + textures_list[i]->getVariableByName("Location")->var[0]);
-		texture[i].loadFromFile(textures_list[i]->getItem("Location").toString(0));
+		texture[i].loadFromFile(textures_list[i]->get("Location").toString(0));
 		texture[i].setSmooth(0);
-		texture_names.push_back((textures_list[i]->getItem("Name").toString(0)));
+		texture_names.push_back((textures_list[i]->get("Name").toString(0)));
 	}
 	textureArraySize = textures_list.size();
 }
@@ -77,8 +75,8 @@ void GameDataHolder::loadSprites()
 	Logger::i("Found " + std::to_string(entities.size()) + " game sprites");
 	for (int i = 0; i < entities.size(); i++)
 	{
-		std::string s = entities.at(i)->getItem("Texture").toString(0);
-		std::string n = entities.at(i)->getItem("Name").toString(0);
+		std::string s = entities.at(i)->get("Texture").toString(0);
+		std::string n = entities.at(i)->get("Name").toString(0);
 		sf::Texture * t = getTexture(s);
 		if (t == nullptr)
 		{

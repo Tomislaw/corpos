@@ -12,9 +12,9 @@ Entity::Entity(TextElement * data)
 		return;
 	}
 
-	name = data->getItem("Name").toString(0);
-	position = data->getItem("Position").toVector<float>(0);
-	velocity = data->getItem("Velocity").toVector<float>(0);
+	name = data->get("Name").toString(0);
+	position = data->get("Position").toVector<float>(0);
+	velocity = data->get("Velocity").toVector<float>(0);
 }
 
 Entity::Entity(std::string name, sf::Vector2f position)

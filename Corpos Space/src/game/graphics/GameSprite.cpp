@@ -1,4 +1,6 @@
 #include "GameSprite.hpp"
+#include <filesystem>
+namespace fs = std::filesystem;
 
 GameSprite::GameSprite()
 {
@@ -7,12 +9,12 @@ GameSprite::GameSprite(sf::Vector2f position, const sf::Texture &set_texture, Te
 {
 	setPosition(position);
 	setSprite(set_texture, spritetext);
-	textureName = spritetext->getItem("Texture").toString(0);
+	textureName = spritetext->get("Texture").toString(0);
 }
 GameSprite::GameSprite(const sf::Texture &set_texture, TextElement *spritetext)
 {
 	setSprite(set_texture, spritetext);
-	textureName = spritetext->getItem("Texture").toString(0);
+	textureName = spritetext->get("Texture").toString(0);
 }
 
 GameSprite::~GameSprite()
@@ -32,14 +34,14 @@ void GameSprite::setRectangle(sf::IntRect rect)
 void GameSprite::setSprite(const sf::Texture &set_texture, TextElement *spritetext)
 {
 	// Get name
-	auto varname = spritetext->getItem("Name");
+	auto varname = spritetext->get("Name");
 	if (!varname.isEmpty()) name = varname.toString(0);
 	else Logger::e("Sprite is missing name");
 	
 	sprite.setTexture(set_texture);
 
 	// Get size
-	auto size = spritetext->getItem("Texture_size");
+	auto size = spritetext->get("Texture_size");
 	auto textureSize = sf::Vector2i();
 	if (!size.isEmpty()) 
 	{
@@ -56,21 +58,24 @@ void GameSprite::setSprite(const sf::Texture &set_texture, TextElement *spritete
 
 	// Get is animated
 	animated = false;
-	animated = spritetext->getItem("Animated").toInt(0);
+	animated = spritetext->get("Animated").toInt(0);
 
 	if (animated)
 	{
-		auto varSheet = spritetext->getItem("Animation");
-		if (!varSheet.isEmpty())
-			setAnimationSheet(varSheet.toString(0));
+		auto varSheet = spritetext->get("Animation");
+		if (!varSheet.isEmpty()) 
+		{
+			auto animationPath = fs::path(spritetext->parent->filePath).parent_path().string() + "/" + varSheet.toString(0);
+			setAnimationSheet(animationPath);
+		}
 		else Logger::e("Sprite is missing animation");
 	}
 
-	auto size2 = spritetext->getItem("Sprite_size");
+	auto size2 = spritetext->get("Sprite_size");
 	if (!size2.isEmpty())sprite.setScale(size2.toFloat(0) / textureSize.x, size2.toFloat(1) / textureSize.y);
 	else Logger::e("Sprite is missing size");
 
-	auto size3 = spritetext->getItem("Sprite_center");
+	auto size3 = spritetext->get("Sprite_center");
 	if (!size3.isEmpty())sprite.setOrigin(sf::Vector2f(size3.toFloat(0), size3.toFloat(1)));
 	else sprite.setOrigin(sf::Vector2f(0, 0));
 	//origin.x
@@ -116,8 +121,7 @@ bool GameSprite::setAnimation(const std::string  &str)
 bool GameSprite::setAnimationSheet(const std::string  &str)
 {
 	if (animationSheet.size() != 0) animationSheet.clear();
-	TextFileData file;
-	file.loadFile(str);
+	TextFileData file = str;;
 	auto anim = file.getAllElementsByName("ANIMATION");
 
 	for (int i = 0; i < anim.size(); i++)

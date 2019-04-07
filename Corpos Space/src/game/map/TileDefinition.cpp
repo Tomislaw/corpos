@@ -6,39 +6,39 @@ void TileDefinition::setTile(TextElement * t, const sf::Texture * texture, std::
 	this->texture = texture;
 
 	// Set name
-	auto varname = t->getItem("Name");
+	auto varname = t->get("Name");
 	if (!varname.isEmpty())name = varname.toString(0);
 	else Logger::e("Tile is missing name");
 
 	//Set health
-	health = t->getItem("Health").toFloat(0);
+	health = t->get("Health").toFloat(0);
 
 	this->textureName = textureName;
 
 	//Set is blocking
-	auto varIsBlocking = t->getItem("Block");
+	auto varIsBlocking = t->get("Block");
 	if (!varIsBlocking.isEmpty())
 		this->is_blocking = varIsBlocking.toInt(0);
 	else this->is_blocking = false;
 
 	//Set is single sprite
-	auto varIsSingleImage = t->getItem("SingleImage");
+	auto varIsSingleImage = t->get("SingleImage");
 	if (!varIsSingleImage.isEmpty())
 		this->singleImage = varIsSingleImage.toInt(0);
 	else this->singleImage = true;
 
 	//Set background tile
-	auto varBackground = t->getItem("Background");
+	auto varBackground = t->get("Background");
 	if (!varBackground.isEmpty())
 		this->backgroundTile = varBackground.toString(0);
 	else this->backgroundTile = "0";
 
-	auto varConnectGroup = t->getItem("ConnectGroup");
+	auto varConnectGroup = t->get("ConnectGroup");
 	if (!varConnectGroup.isEmpty())
 		connectGroup = varConnectGroup.toString(0);
 	else connectGroup = "-1";
 
-	auto r = t->getItem("TileRect");
+	auto r = t->get("TileRect");
 
 	if (r.isEmpty())
 	{
@@ -56,67 +56,67 @@ void TileDefinition::setTile(TextElement * t, const sf::Texture * texture, std::
 	if (!this->singleImage)
 	{
 		////Top
-		auto v = t->getItem("RT").toRect<int>();
+		auto v = t->get("RT").toRect<int>();
 		for (int i = 0; i < v.size(); i++)
 			this->RT.push_back(v[i]);
 
-		v = t->getItem("LT").toRect<int>();
+		v = t->get("LT").toRect<int>();
 		for (int i = 0; i < v.size(); i++)
 			this->LT.push_back(v[i]);
 
-		v = t->getItem("T").toRect<int>();
+		v = t->get("T").toRect<int>();
 		for (int i = 0; i < v.size(); i++)
 			this->T.push_back(v[i]);
 
 		////Center
-		v = t->getItem("L").toRect<int>();
+		v = t->get("L").toRect<int>();
 		for (int i = 0; i < v.size(); i++)
 			this->L.push_back(v[i]);
 
-		v = t->getItem("C").toRect<int>();
+		v = t->get("C").toRect<int>();
 		for (int i = 0; i < v.size(); i++)
 			this->C.push_back(v[i]);;
 
-		v = t->getItem("R").toRect<int>();
+		v = t->get("R").toRect<int>();
 		for (int i = 0; i < v.size(); i++)
 			this->R.push_back(v[i]);
 
 		//Bottom
-		v = t->getItem("LB").toRect<int>();
+		v = t->get("LB").toRect<int>();
 		for (int i = 0; i < v.size(); i++)
 			this->LB.push_back(v[i]);
 
-		v = t->getItem("B").toRect<int>();
+		v = t->get("B").toRect<int>();
 		for (int i = 0; i < v.size(); i++)
 			this->B.push_back(v[i]);
 		
 
-		v = t->getItem("RB").toRect<int>();
+		v = t->get("RB").toRect<int>();
 		for (int i = 0; i < v.size(); i++)
 			this->RB.push_back(v[i]);
 		
 
 		// inner
-		v = t->getItem("ILB").toRect<int>();
+		v = t->get("ILB").toRect<int>();
 		for (int i = 0; i < v.size(); i++)
 			this->ILB.push_back(v[i]);
 
-		v = t->getItem("ILT").toRect<int>();
+		v = t->get("ILT").toRect<int>();
 		for (int i = 0; i < v.size(); i++)
 			this->ILT.push_back(v[i]);
 
-		v = t->getItem("IRT").toRect<int>();
+		v = t->get("IRT").toRect<int>();
 		for (int i = 0; i < v.size(); i++)
 
 			this->IRT.push_back(v[i]);
 		
-		v = t->getItem("IRB").toRect<int>();
+		v = t->get("IRB").toRect<int>();
 		for (int i = 0; i < v.size(); i++)
 			this->IRB.push_back(v[i]);
 		
 	}
 
-	auto v = t->getItem("inner").toRect<int>();
+	auto v = t->get("inner").toRect<int>();
 	for (int i = 0; i < v.size(); i++)
 		this->inner.push_back(v[i]);
 

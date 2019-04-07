@@ -55,22 +55,22 @@ bool Animation::SetAnimation(TextElement *spritetext)
 	if (frame.size() != 0)frame.clear();
 
 	// Set animation name
-	auto varName = spritetext->getItem("Name");
+	auto varName = spritetext->get("Name");
 	if (!varName.isEmpty()) name = varName.toString(0);
 	else
 		Logger::e("Animation is missing name!");
 
-	auto varAnimationSpeed = spritetext->getItem("Animation_speed");
+	auto varAnimationSpeed = spritetext->get("Animation_speed");
 	if (!varAnimationSpeed.isEmpty())animation_speed = varAnimationSpeed.toFloat(0);
 	else Logger::e("Animation " + name + " is missing speed!");
 
 	int frames = 0;
 	// Get frames count
-	auto varFrames = spritetext->getItem("Frame_count");
+	auto varFrames = spritetext->get("Frame_count");
 	if (!varFrames.isEmpty()) frames = varFrames.toInt(0);
 
 	//Get is loop
-	auto varIsLoop = spritetext->getItem("isLoop");
+	auto varIsLoop = spritetext->get("isLoop");
 	if (!varIsLoop.isEmpty()) is_loop = varIsLoop.toInt(0);
 	else is_loop = false;
 
@@ -80,7 +80,7 @@ bool Animation::SetAnimation(TextElement *spritetext)
 	{
 		std::string frame_str = "Frame_" + std::to_string(i);
 		// Set frame
-		auto data = spritetext->getItem(frame_str);
+		auto data = spritetext->get(frame_str);
 		if (!data.isEmpty()) frame.push_back(data.toRect<int>(0));
 		else Logger::e("Animation " + name + " is missing frame " + std::to_string(i));
 	}

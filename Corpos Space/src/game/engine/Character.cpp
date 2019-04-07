@@ -31,15 +31,15 @@ Character::Character(TextElement * element, EntityList * ptr) : Prop(element,ptr
 	if (element == nullptr)return;
 
 
-	max_walk_speed = element->getItem("Speed").toInt(0);
-	collisionBox = element->getItem("CollisionBox").toRect<float>(0);
+	max_walk_speed = element->get("Speed").toInt(0);
+	collisionBox = element->get("CollisionBox").toRect<float>(0);
 
 	//Set drawable debugh box
 	rect.setSize(sf::Vector2f(collisionBox.width, collisionBox.height));
 	rect.setFillColor(sf::Color::Red);
 
 	//Set sprite of character
-	auto sprite = element->getItem("Sprite");
+	auto sprite = element->get("Sprite");
 	if (!sprite.isEmpty())
 	{
 		auto spriteName = sprite.toString(0);

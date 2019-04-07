@@ -15,7 +15,7 @@ Damageable::Damageable(TextElement * t)
 
 	//collidable
 	bool isCollidable = false;
-	isCollidable = t->getItem("Collidable").toInt(0, 0);
+	isCollidable = t->get("Collidable").toInt(0, 0);
 
 	if (!isCollidable)
 	{
@@ -25,11 +25,11 @@ Damageable::Damageable(TextElement * t)
 	}
 	else
 	{
-		this->health = t->getItem("Health").toInt(0, -1);
+		this->health = t->get("Health").toInt(0, -1);
 		this->maxHealth = this->health;
 	}
 
-	this->damageFilter = t->getItem("DamageFilter").toInt(0, -1);
+	this->damageFilter = t->get("DamageFilter").toInt(0, -1);
 
 	//flags
 	if (maxHealth < 0) this->indestructable = true;

@@ -40,19 +40,19 @@ public:
 		if (element == nullptr)return false;
 
 		//Set distance factorr
-		auto variableDistanceFactor = element->getItem("DistanceFactor");
+		auto variableDistanceFactor = element->get("DistanceFactor");
 		if (!variableDistanceFactor.isEmpty())
 			this->distanceFactor = variableDistanceFactor.toFloat(0);
 
 		//Set position
-		auto variablePosition = element->getItem("Position");
+		auto variablePosition = element->get("Position");
 		if (!variablePosition.isEmpty()) {
 			this->position = variablePosition.toVector<float>(0);
 		}
 			
 
 		//Set sprite of character
-		auto sprite = element->getItem("Sprite");
+		auto sprite = element->get("Sprite");
 		if (!sprite.isEmpty())
 		{
 			auto spriteName = sprite.toString(0);

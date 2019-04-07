@@ -887,14 +887,14 @@ void TilesetEditor::loadTileset()
 			}
 			else
 			{
-				auto n = tilesetData->getItem("Name");
+				auto n = tilesetData->get("Name");
 				if (!n.isEmpty())
 				{
 					name = n.toString(0);
 					ui.lineEdit_tilesetName->setText(n.toString(0).c_str());
 				}
 
-				auto t = tilesetData->getItem("Texture");
+				auto t = tilesetData->get("Texture");
 				if (!t.isEmpty())
 				{
 					texture = t.toString(0);

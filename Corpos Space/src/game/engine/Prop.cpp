@@ -18,14 +18,14 @@ Prop::Prop(TextElement * file, EntityList * entityListPtr)  : Damageable(file), 
 	is_collidable = false;
 
 	// Set collidable flag
-	auto varCollidable = file->getItem("Collidable");
+	auto varCollidable = file->get("Collidable");
 	if (!varCollidable.isEmpty())
 		is_collidable = varCollidable.toInt(0);
 
 	if (is_collidable)
 	{
 		//Set collision box
-		auto var = file->getItem("CollisionBox");
+		auto var = file->get("CollisionBox");
 		if (!var.isEmpty())
 		{
 			this->collisionBox = var.toRect<float>(0);
@@ -34,7 +34,7 @@ Prop::Prop(TextElement * file, EntityList * entityListPtr)  : Damageable(file), 
 	}
 
 	// Set sprite
-	auto varSprite = file->getItem("Sprite");
+	auto varSprite = file->get("Sprite");
 	if (!varSprite.isEmpty())
 	{
 		std::string spr = varSprite.toString(0);
@@ -48,7 +48,7 @@ Prop::Prop(TextElement * file, EntityList * entityListPtr)  : Damageable(file), 
 	}
 
 	//Set sprite offset
-	auto sproff = file->getItem("Sprite_offest");
+	auto sproff = file->get("Sprite_offest");
 	if (!sproff.isEmpty())
 	{
 		sprite.attachToEntityOffset(this, sproff.toVector<float>(0));

@@ -24,7 +24,7 @@ public:
 	{
 		map.clear();
 
-		auto size = tm.getItem("Size");
+		auto size = tm.get("Size");
 		if (!size.isEmpty())
 			tileCount = size.toVector<int>(0);
 		else
@@ -35,7 +35,7 @@ public:
 		Logger::i("Map size: " + std::to_string(this->tileCount.x) + " " + std::to_string(this->tileCount.y));
 
 		std::string mainTileset = "";
-		auto varTilesets = tm.getItem("Tilesets");
+		auto varTilesets = tm.get("Tilesets");
 		if (!varTilesets.isEmpty())
 		{
 			mainTileset = varTilesets.toString(0);
@@ -44,7 +44,7 @@ public:
 
 		for (int y = 0; y < tileCount.y; y++)
 		{
-			auto tile = tm.getItem("X" + std::to_string(y));
+			auto tile = tm.get("X" + std::to_string(y));
 			if (tile.isEmpty())
 			{
 				Logger::e("X" + std::to_string(y) + " is missing, map is not created");

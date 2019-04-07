@@ -250,6 +250,9 @@
     <ClInclude Include="src\game\menu\MenuLabel.hpp" />
     <ClInclude Include="src\game\menu\MenuList.hpp" />
     <ClInclude Include="src\game\utility\AStarSearch.hpp" />
+    <ClInclude Include="src\game\utility\filemanager\Element.h" />
+    <ClInclude Include="src\game\utility\filemanager\File.h" />
+    <ClInclude Include="src\game\utility\filemanager\Item.h" />
     <ClInclude Include="src\game\utility\Flags.h" />
     <ClInclude Include="src\game\utility\Intersection.hpp" />
     <ClInclude Include="src\game\utility\Logger.hpp" />

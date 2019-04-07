@@ -40,8 +40,7 @@ void World::events(sf::Event e)
 
 void World::loadMap(std::string map)
 {
-	TextFileData file;
-	file.loadFile(map);
+	TextFileData file = map;
 	auto tm = file.getFirstElementByName("TILEMAP");
 
 	//its important to load tilemap first

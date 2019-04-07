@@ -15,53 +15,53 @@ Soldier::Soldier(TextElement * element, EntityList * ptr) : Character(element, p
 	navCharData.canUseLadder = true;
 
 	//Set head part of soldier
-	auto varSpriteHead = element->getItem("SpriteHead");
+	auto varSpriteHead = element->get("SpriteHead");
 	if (!varSpriteHead.isEmpty())
 	{
 		std::string sprite1 = varSpriteHead.toString(0);
 		this->head = GameSprite(*GameAssetsManager::getSprite(sprite1));
 
 		//Set offset of that part
-		headOffset = element->getItem("HeadPos").toVector<float>(0);
+		headOffset = element->get("HeadPos").toVector<float>(0);
 		this->head.attachToEntityOffset(this, headOffset);
 	}
 	else Logger::e("SpriteHead in " + name + " not found!");
 
 	//Set torse part of soldier
-	auto varSpriteTorse = element->getItem("SpriteTorse");
+	auto varSpriteTorse = element->get("SpriteTorse");
 	if (!varSpriteTorse.isEmpty())
 	{
 		std::string sprite2 = varSpriteTorse.toString(0);
 		this->torse = GameSprite(*GameAssetsManager::getSprite(sprite2));
 
 		//Set offset of that part
-		torseOffset = element->getItem("TorsePos").toVector<float>(0);
+		torseOffset = element->get("TorsePos").toVector<float>(0);
 		this->torse.attachToEntityOffset(this, torseOffset);
 	}
 	else Logger::e("SpriteTorse in " + name + " not found!");
 
 	//Set legs part of soldier
-	auto varSpriteLegs = element->getItem("SpriteLegs");
+	auto varSpriteLegs = element->get("SpriteLegs");
 	if (!varSpriteTorse.isEmpty())
 	{
 		std::string sprite3 = varSpriteLegs.toString(0);
 		this->legs = GameSprite(*GameAssetsManager::getSprite(sprite3));
 
 		//Set offset of that part
-		legsOffset = element->getItem("LegsPos").toVector<float>(0);
+		legsOffset = element->get("LegsPos").toVector<float>(0);
 		this->legs.attachToEntityOffset(this, legsOffset);
 	}
 	else Logger::e("SpriteLegs in " + name + " not found!");
 
 	//Set left hand part of soldier
-	auto varSpriteLHand = element->getItem("SpriteLHand");
+	auto varSpriteLHand = element->get("SpriteLHand");
 	if (!varSpriteTorse.isEmpty())
 	{
 		std::string sprite4 = varSpriteLHand.toString(0);
 		this->lhand = GameSprite(*GameAssetsManager::getSprite(sprite4));
 
 		//Set offset of that part
-		lhandOffset = element->getItem("LHandPos").toVector<float>(0);
+		lhandOffset = element->get("LHandPos").toVector<float>(0);
 		this->lhand.attachToEntityOffset(this, lhandOffset);
 	}
 	else Logger::e("SpriteLHand in " + name + " not found!");

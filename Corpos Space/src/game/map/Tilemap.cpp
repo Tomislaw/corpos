@@ -38,11 +38,11 @@ bool Tilemap::loadTileset(std::string location)
 bool Tilemap::loadTileset(std::string location)
 {
 	VertexTileMap tm;
-	TextFileData file;
+	
 
 	Logger::i("Loading tileset definition in \"" + location + "\"");
 	//load file
-	file.loadFile(location);
+	TextFileData file = location;
 
 	//set vtm data
 	auto tileset = file.getFirstElementByName("TILESET");
@@ -53,7 +53,7 @@ bool Tilemap::loadTileset(std::string location)
 	}
 
 	std::string texture = "";
-	auto varTexture = tileset->getItem("Texture");
+	auto varTexture = tileset->get("Texture");
 	if (!varTexture.isEmpty())
 		texture = varTexture.toString(0);
 	else
@@ -62,9 +62,9 @@ bool Tilemap::loadTileset(std::string location)
 		return false;
 	}
 
-	auto varName = tileset->getItem("Name");
+	auto varName = tileset->get("Name");
 	if (!varName.isEmpty())
-		tm.name = tileset->getItem("Name").toString(0);
+		tm.name = tileset->get("Name").toString(0);
 	else
 	{
 		Logger::e("Tileset in " + location + " have no name!");
@@ -121,7 +121,7 @@ bool Tilemap::loadTileset(std::string location)
 
 bool Tilemap::loadMap(TextElement * tm)
 {
-	auto size = tm->getItem("Size");
+	auto size = tm->get("Size");
 	if (!size.isEmpty())
 	{
 		mapSize.y = size.toInt(1);
@@ -135,7 +135,7 @@ bool Tilemap::loadMap(TextElement * tm)
 	Logger::i("Map size: " + std::to_string(this->mapSize.x) + " " + std::to_string(this->mapSize.y));
 
 	std::string tilesetName = "";
-	auto varTilesets = tm->getItem("Tilesets");
+	auto varTilesets = tm->get("Tilesets");
 	if (!varTilesets.isEmpty())
 	{
 		tilesetName = varTilesets.toString(0);
@@ -163,7 +163,7 @@ bool Tilemap::loadMap(TextElement * tm)
 
 	for (int y = 0; y < mapSize.y; y++)
 	{
-		auto tile = tm->getItem("X" + std::to_string(y));
+		auto tile = tm->get("X" + std::to_string(y));
 		if (tile.isEmpty())
 		{
 			Logger::e("X" + std::to_string(y) + " is missing, map is not created");

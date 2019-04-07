@@ -1,6 +1,9 @@
 #include "GameAssetsManager.hpp"
 #include "GAMESPRITE.hpp"
 
+#include <filesystem>
+namespace fs = std::filesystem;
+
 GameAssetsManager* GameAssetsManager::instance = nullptr;
 
 GameAssetsManager::GameAssetsManager()
@@ -26,8 +29,7 @@ void GameAssetsManager::loadTextures(std::string location)
 {
 	Logger::i("Loading texture definitions in " + location);
 
-	TextFileData file;
-	file.loadFile(location);
+	TextFileData file = location;
 
 	auto textures_list = file.getAllElementsByName("TEXTURE");
 
@@ -36,7 +38,7 @@ void GameAssetsManager::loadTextures(std::string location)
 	for (int i = 0; i < textures_list.size(); i++)
 	{
 		// Get location of texture
-		auto varLocation = textures_list[i]->getItem("Location");
+		auto varLocation = textures_list[i]->get("Location");
 		if (varLocation.isEmpty())
 		{
 			Logger::e("Texture definition " + std::to_string(i) + " in " + location + " missing path!");
@@ -44,16 +46,18 @@ void GameAssetsManager::loadTextures(std::string location)
 		}
 
 		// get name of texture
-		auto varName = textures_list[i]->getItem("Name");
+		auto varName = textures_list[i]->get("Name");
 		if (varName.isEmpty())
 		{
 			Logger::e("Texture definition " + std::to_string(i) + " in " + location + " missing name!");
 			continue;
 		}
 
-		Logger::i("Loading " + varLocation.toString(0));
+
+		auto textureLocation = fs::path(file.filePath).parent_path().string() + "/" + varLocation.toString(0);
+		Logger::i("Loading ", textureLocation);
 		sf::Texture texture;
-		if (!texture.loadFromFile(varLocation.toString(0)))
+		if (!texture.loadFromFile(textureLocation))
 		{
 			Logger::e("Failed loading texture  " + varName.toString(0) + " in " + varLocation.toString(0));
 			continue;
@@ -68,14 +72,13 @@ void GameAssetsManager::loadTextures(std::string location)
 
 void GameAssetsManager::loadSprites(std::string location)
 {
-	TextFileData file; //Loading sprites
-	file.loadFile(location);
+	TextFileData file = location; //Loading sprites
 	auto entities = file.getAllElementsByName("ENTITY_DEFIINITION");
 	Logger::i("Found " + std::to_string(entities.size()) + " game sprites");
 	for (int i = 0; i < entities.size(); i++)
 	{
-		std::string s = entities.at(i)->getItem("Texture").toString(0);
-		std::string n = entities.at(i)->getItem("Name").toString(0);
+		std::string s = entities.at(i)->get("Texture").toString(0);
+		std::string n = entities.at(i)->get("Name").toString(0);
 		sf::Texture * t = getTexture(s);
 		if (t == nullptr)
 		{
