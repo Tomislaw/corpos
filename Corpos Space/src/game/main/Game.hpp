@@ -22,6 +22,9 @@ public:
 	void showGame() { game_state = 1; };
 	void exit() { window->close(); };
 
+	MainGame mainGame;
+	Menu menu;
+
 private:
 	// update all physics and game logic
 	void update(float delta_time);
@@ -35,8 +38,6 @@ private:
 	sf::RenderWindow *window;
 
 	Cursor cursor;
-	MainGame mainGame;
-	Menu menu;
 
 	//TODO: create menu class
 	// game state for handling menu& game

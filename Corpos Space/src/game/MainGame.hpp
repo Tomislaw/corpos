@@ -20,8 +20,9 @@ public:
 		world.events(event);
 	};
 
-	void init() {
-		world.loadMap("bin/map/mm.txt");
+
+	void init(std::string map) {
+		world.loadMap(map);
 	}
 
 private :

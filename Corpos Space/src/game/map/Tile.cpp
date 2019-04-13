@@ -55,8 +55,8 @@ Particle Tile::getRandomParticle()
 	Particle p;
 	p.lifetime = 3;
 
-	int randx = getPosition().x - 16 + std::rand() % 32;
-	int randy = getPosition().y - 16 + std::rand() % 32;
+	int randx = position.x - 16 + std::rand() % 32;
+	int randy = position.y - 16 + std::rand() % 32;
 
 	p.position.x = randx;
 	p.position.y = randy;
@@ -75,7 +75,7 @@ sf::Color Tile::getRandomParticleColor()
 }
 sf::FloatRect Tile::getCollisionBox()
 {
-	return sf::FloatRect(getPosition() - sf::Vector2f(16, 16), sf::Vector2f(32, 32));
+	return sf::FloatRect(position - sf::Vector2f(16, 16), sf::Vector2f(32, 32));
 }
 void Tile::setDisplayType(bool LT, bool T, bool TR, bool L, bool R, bool LB, bool B, bool RB)
 {
@@ -120,7 +120,7 @@ void Tile::setDisplayType(bool LT, bool T, bool TR, bool L, bool R, bool LB, boo
 
 void Tile::setPosition(sf::Vector2f pos)
 {
-	Entity::setPosition(pos);
+	position = pos;
 	if (tile.size() < 16)
 	{
 		//Logger::e("Size of tile vector is to small. Current is " + std::to_string(tile.size()));

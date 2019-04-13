@@ -10,7 +10,6 @@ Game::Game(int argc, char * argv[])
 
 	//world.loadEntitylist("bin/graphics/sprite/sprite_definitions.txt");
 	cursor.setCursor();
-	mainGame.init();
 	menu.init();
 	fpsText.setFont(TextContainer::getInstance()->getBasicFont());
 }
