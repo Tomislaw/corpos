@@ -23,7 +23,7 @@ void EntityList::loadMap(TextFileData & file)
 	auto map_props = file.getAllElementsByName("PROP");
 	for (int i = 0; i < map_props.size(); i++)
 	{
-		auto p = std::shared_ptr<Prop>(new  Prop(map_props.at(i),this));
+		auto p = std::shared_ptr<Prop>(new  Prop(map_props.at(i), this));
 		addProp(p);
 	}
 
@@ -41,11 +41,11 @@ void EntityList::loadMap(TextFileData & file)
 		addLandscape(p);
 	}
 	setPlayerEntity("@player");
-	
 }
 
 void EntityList::addCharacter(std::shared_ptr<Character> & ent)
 {
+	entities.push_back(ent);
 	characters.push_back(ent);
 	if (ent->getName() != "@player") {
 		ent->getAiController() = std::make_shared<TestAi>(*ent.get(), characters.at(0).get());
@@ -54,11 +54,13 @@ void EntityList::addCharacter(std::shared_ptr<Character> & ent)
 
 void EntityList::addProp(std::shared_ptr<Prop>& ent)
 {
+	entities.push_back(ent);
 	props.push_back(ent);
 }
 
 void EntityList::addLandscape(std::shared_ptr<Landscape>& ent)
 {
+	entities.push_back(ent);
 	landscapes.push_back(ent);
 }
 
@@ -67,42 +69,19 @@ void EntityList::addBullet(std::shared_ptr<Bullet>& bullet)
 	bullets.push_back(bullet);
 }
 
-Entity * EntityList::findEntity(std::string name)
+std::shared_ptr<Entity> EntityList::findEntity(std::string name)
 {
-	//character search
-	std::vector<std::shared_ptr <Character>>::iterator it = characters.begin();
-	while (it != characters.end())
-	{
-		if (it->get()->getName() == name)return it->get();
-		++it;
-	}
-
-	//prop search
-	std::vector<std::shared_ptr <Prop>>::iterator it2 = props.begin();
-	while (it2 != props.end())
-	{
-		if (it2->get()->getName() == name)return it2->get();
-		++it2;
-	}
-	return nullptr;
+	std::vector<std::shared_ptr <Entity>> ents;
+	for (auto entity : entities)
+		if (entity->getName() == name) ents.push_back(entity);
+	return std::shared_ptr <Entity>();
 }
 
-std::vector<Entity*> EntityList::findEntities(std::string name)
+std::vector<std::shared_ptr<Entity>> EntityList::findEntities(std::string name)
 {
-	std::vector<Entity*> ents;
-	std::vector<std::shared_ptr <Character>>::iterator it = characters.begin();
-	while (it != characters.end())
-	{
-		if (it->get()->getName() == name) ents.push_back(it->get());
-		++it;
-	}
-
-	std::vector<std::shared_ptr <Prop>>::iterator it2 = props.begin();
-	while (it2 != props.end())
-	{
-		if (it2->get()->getName() == name) ents.push_back(it2->get());
-		++it2;
-	}
+	std::vector<std::shared_ptr <Entity>> ents;
+	for (auto entity : entities) 
+		if (entity->getName() == name) ents.push_back(entity);
 	return ents;
 }
 
@@ -139,47 +118,53 @@ void EntityList::events(sf::Event & e)
 
 void EntityList::update(float time)
 {
-	std::vector<std::shared_ptr <Bullet>>::iterator it3 = bullets.begin();
-	while (it3 != bullets.end())
+	auto bullet = bullets.begin();
+
+
+	while (bullet != bullets.end())
 	{
-		checkBulletCollision(it3->get());
-		if (it3->get()->isDestroyed())it3 = bullets.erase(it3);
+		bullet->get()->update(time);
+		checkBulletCollision(bullet->get());
+		if (bullet->get()->isDestroyed())
+			bullet = bullets.erase(bullet);
 		else
-		{
-			it3->get()->update(time);
-			++it3;
-		}
+			++bullet;
 	}
 
 	player.update(time);
 	tree.Clear();
-	auto it = characters.begin();
-	while (it != characters.end())
+	auto character = characters.begin();
+	while (character != characters.end())
 	{
-		it->get()->update(time);
-		if (it->get()->isDestroyed())it = characters.erase(it);
+		resolveActions(character->get()->actions());
+		character->get()->update(time);
+		if (character->get()->isDestroyed())
+			character = characters.erase(character);
 		else
 		{
-			tree.AddObject(it->get());
-			++it;
+			tree.AddObject(character->get());
+			++character;
 		}
 	}
-	auto it2 = props.begin();
-	while (it2 != props.end())
+	auto prop = props.begin();
+	while (prop != props.end())
 	{
-		it2->get()->update(time);
-		if (it2->get()->isDestroyed())it2 = props.erase(it2);
+		resolveActions(prop->get()->actions());
+		prop->get()->update(time);
+		if (prop->get()->isDestroyed())
+			prop = props.erase(prop);
 		else
 		{
-			tree.AddObject(it2->get());
-			++it2;
+			tree.AddObject(prop->get());
+			++prop;
 		}
 	}
-	auto it4 = landscapes.begin();
-	while (it4 != landscapes.end())
+	auto landscape = landscapes.begin();
+	while (landscape != landscapes.end())
 	{
-		it4->get()->update(time);
-		it4++;
+		resolveActions(landscape->get()->actions());
+		landscape->get()->update(time);
+		landscape++;
 		/*if (it4->get()->isDestroyed())it4 = landscapes.erase(it2);
 		else
 		{
@@ -251,7 +236,6 @@ bool EntityList::checkBulletCollision(Bullet * bullet)
 				damageable->bulletCollision(bullet);
 		}
 
-		
 		auto tilesInLine = this->tileMapPtr->getTilesFromLine(bullet->getPreviousPosition(), bullet->getPosition());
 
 		for each (MapTile* mapTile in tilesInLine)
@@ -334,4 +318,11 @@ void EntityList::setTileMapPtr(TileMap * ptr)
 {
 	tileMapPtr = ptr;
 	particleSystem.setTileMapPointer(ptr);
+}
+
+void EntityList::resolveActions(ActionManager manager)
+{
+	for (auto &action : manager.outputs.pendingActions) 
+		for (auto entity : findEntities(action.targetName))
+			entity->actions().inputs.invokeInput(action);
 }

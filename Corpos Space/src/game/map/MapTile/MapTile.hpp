@@ -9,7 +9,6 @@ public:
 
 	MapTile(std::shared_ptr<AbstractTile> tile) { mainTile = tile; }
 
-
 	void appendTile(std::shared_ptr<AbstractTile> tile)
 	{
 		if (tile == nullptr)return;

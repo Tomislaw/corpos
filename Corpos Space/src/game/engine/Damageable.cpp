@@ -43,7 +43,6 @@ Damageable::~Damageable()
 {
 }
 
-
 void Damageable::damage(int hp)
 {
 	if (indestructable)return;

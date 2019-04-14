@@ -38,7 +38,6 @@ bool Tilemap::loadTileset(std::string location)
 bool Tilemap::loadTileset(std::string location)
 {
 	VertexTileMap tm;
-	
 
 	Logger::i("Loading tileset definition in \"" + location + "\"");
 	//load file

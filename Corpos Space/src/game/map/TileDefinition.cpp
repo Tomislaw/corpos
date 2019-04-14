@@ -89,12 +89,10 @@ void TileDefinition::setTile(TextElement * t, const sf::Texture * texture, std::
 		v = t->get("B").toRect<int>();
 		for (int i = 0; i < v.size(); i++)
 			this->B.push_back(v[i]);
-		
 
 		v = t->get("RB").toRect<int>();
 		for (int i = 0; i < v.size(); i++)
 			this->RB.push_back(v[i]);
-		
 
 		// inner
 		v = t->get("ILB").toRect<int>();
@@ -109,11 +107,10 @@ void TileDefinition::setTile(TextElement * t, const sf::Texture * texture, std::
 		for (int i = 0; i < v.size(); i++)
 
 			this->IRT.push_back(v[i]);
-		
+
 		v = t->get("IRB").toRect<int>();
 		for (int i = 0; i < v.size(); i++)
 			this->IRB.push_back(v[i]);
-		
 	}
 
 	auto v = t->get("inner").toRect<int>();
@@ -313,7 +310,6 @@ TextElement TileDefinition::generateTextElement()
 	element["SingleImage"] += TextItem(std::to_string(this->singleImage));
 	element["Background"] += TextItem(this->backgroundTile);
 	element["ConnectGroup"] += TextItem(this->connectGroup);
-
 
 	auto addRectangleData = [](TextElement & element, sf::IntRect rect, std::string name)->void
 	{

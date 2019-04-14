@@ -6,14 +6,14 @@
 #include "game\utility\Logger.hpp"
 // wrapper for character used for controling it by player
 
-class Landscape : Entity
+class Landscape : public Entity
 {
 public:
 	Landscape();
 	Landscape(TextElement * element);
 	~Landscape();
 
-	bool isForeground() 
+	bool isForeground()
 	{
 		return mIsForeground;
 	}
@@ -30,7 +30,7 @@ public:
 		sprite.draw(window);
 	};
 
-	void update(float delta) override 
+	void update(float delta) override
 	{
 		sprite.update(delta);
 	}
@@ -49,7 +49,6 @@ public:
 		if (!variablePosition.isEmpty()) {
 			this->position = variablePosition.toVector<float>(0);
 		}
-			
 
 		//Set sprite of character
 		auto sprite = element->get("Sprite");

@@ -37,19 +37,19 @@ void GameSprite::setSprite(const sf::Texture &set_texture, TextElement *spritete
 	auto varname = spritetext->get("Name");
 	if (!varname.isEmpty()) name = varname.toString(0);
 	else Logger::e("Sprite is missing name");
-	
+
 	sprite.setTexture(set_texture);
 
 	// Get size
 	auto size = spritetext->get("Texture_size");
 	auto textureSize = sf::Vector2i();
-	if (!size.isEmpty()) 
+	if (!size.isEmpty())
 	{
 		setRectangle(size.toRect<int>(0));
 		textureSize = size.toVector<int>(1);
 	}
-	else 
-	{ 
+	else
+	{
 		Logger::i("Sprite \"" + name + "\"is missing texture size, using default");
 		setRectangle(sf::IntRect(0, 0, set_texture.getSize().x, set_texture.getSize().y));
 		textureSize.x = set_texture.getSize().x;
@@ -63,7 +63,7 @@ void GameSprite::setSprite(const sf::Texture &set_texture, TextElement *spritete
 	if (animated)
 	{
 		auto varSheet = spritetext->get("Animation");
-		if (!varSheet.isEmpty()) 
+		if (!varSheet.isEmpty())
 		{
 			auto animationPath = fs::path(spritetext->parent->filePath).parent_path().string() + "/" + varSheet.toString(0);
 			setAnimationSheet(animationPath);

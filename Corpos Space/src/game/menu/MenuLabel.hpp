@@ -4,7 +4,7 @@
 #include "game\graphics\GameSprite.hpp"
 #include "MenuItem.hpp"
 
-class MenuLabel : 
+class MenuLabel :
 	public MenuItem
 {
 public:

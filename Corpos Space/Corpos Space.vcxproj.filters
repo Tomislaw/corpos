@@ -228,6 +228,12 @@
     <ClCompile Include="src\game\utility\Pathfind.cpp">
       <Filter>Source Files\utility\pathfind</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\engine\logic\Logic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\engine\logic\Action.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game\main\stdafx.h">
@@ -403,6 +409,12 @@
     </ClInclude>
     <ClInclude Include="src\game\utility\filemanager\Item.h">
       <Filter>Header Files\utility\filemanager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\engine\logic\Action.h">
+      <Filter>Header Files\engine\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\engine\logic\Logic.h">
+      <Filter>Header Files\engine\logic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -28,10 +28,10 @@ std::string TextElement::toString()
 		for (int i = 0; i < item->second.size(); i++) {
 			if (i != item->second.size() - 1)
 				displaytext += item->second.toString(i) + "\"\n";
-			else 
+			else
 				displaytext += item->second.toString(i) + ",";
 		}
-	}	
+	}
 
 	displaytext += '}\n';
 	return displaytext;
@@ -49,8 +49,6 @@ TextItem & TextElement::get(std::string variableName)
 	item.name = variableName;
 	return item;
 }
-
-
 
 TextElement & TextElement::mergeWith(TextElement & element)
 {
@@ -83,9 +81,7 @@ TextElement operator+(TextElement & lhs, const TextElement & rhs)
 	return lhs;
 }
 
-
 ////////////////////////////////TEXTFILEDATA
-
 
 TextFileData::TextFileData(std::string fileLocation) : filePath(fileLocation)
 {
@@ -109,7 +105,7 @@ TextElement & TextFileData::operator[](std::string variableName)
 TextElement & TextFileData::getFirst(std::string variableName)
 {
 	std::list<TextElement>::iterator it;
-	for (it = element.begin(); it != element.end(); ++it) 
+	for (it = element.begin(); it != element.end(); ++it)
 		if (it->name == variableName) return *it;
 
 	element.push_back(TextElement(variableName));
@@ -126,7 +122,6 @@ std::vector<TextElement*> TextFileData::get(std::string variableName)
 
 	return allElements;
 }
-
 
 //getters
 
@@ -160,7 +155,7 @@ std::vector<TextElement> TextFileData::getAllElements()
 {
 	std::vector <TextElement> all_elements;
 	for (auto it = element.begin(); it != element.end(); ++it)
-		 all_elements.push_back(*it);
+		all_elements.push_back(*it);
 
 	return all_elements;
 }
@@ -182,7 +177,6 @@ void TextFileData::setElements(std::vector<TextElement> set)
 	for each (auto var in set)
 		element.push_back(var);
 }
-
 
 // load & save
 
@@ -227,7 +221,7 @@ bool TextFileData::loadFile(std::string file_txt)
 	if (!file.good())
 	{
 		Logger::e("Can't open file " + file_txt);
-		return false; 
+		return false;
 	}
 
 	std::string buffor;
@@ -239,7 +233,6 @@ bool TextFileData::loadFile(std::string file_txt)
 
 		while (!endOfFile)
 		{
-
 			if (loadTextElement(file) == false)
 			{
 				Logger::e("File \"" + file_txt + "\" not loaded!");
@@ -293,7 +286,7 @@ bool TextFileData::loadTextElement(std::fstream &file)
 				return false;
 			}
 			if (buffor.size() > 7)
-			{ 
+			{
 				std::string name;
 				textElement[name] += TextItem::fromString(buffor, &name);
 			}
@@ -323,7 +316,6 @@ bool TextFileData::loadTextElement(std::fstream &file)
 
 TextItem TextItem::fromString(std::string variable_line, std::string * varName)
 {
-	
 	char quotationMark = 34;
 	char comma = ',';
 	if (variable_line.size() < 7 || variable_line.find(" = ") == std::string::npos || variable_line.find(quotationMark) == std::string::npos)
@@ -422,7 +414,7 @@ std::vector<std::string> TextItem::toString()
 	return std::vector<std::string>();
 }
 
-int TextItem::toInt(unsigned int index , int default)
+int TextItem::toInt(unsigned int index, int default)
 {
 	if (index < variables.size()) return atoi(variables[index].c_str());
 	return default;

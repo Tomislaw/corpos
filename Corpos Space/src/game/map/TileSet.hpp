@@ -20,8 +20,6 @@ public:
 
 	bool loadFromFile(std::string location)
 	{
-		
-
 		Logger::i("Loading tileset definition in \"" + location + "\"");
 		TextFileData file = location;
 		auto tileset = file.getFirstElementByName("TILESET");
@@ -34,7 +32,6 @@ public:
 		auto varName = tileset->get("Name");
 		if (!varName.isEmpty()) name = varName.toString(0);
 		else Logger::e("Tileset in " + location + " have no name!");
-		
 
 		auto varTexture = tileset->get("Texture");
 		if (!varTexture.isEmpty()) textureName = varTexture.toString(0);

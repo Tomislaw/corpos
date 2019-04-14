@@ -30,6 +30,9 @@ public:
 	virtual bool intersects(sf::FloatRect & rect)override;
 	// TODO: make line based collision test
 protected:
+
+	virtual void initializeActionManager() override;
+
 	bool is_collidable = false;
 	bool isTouchingGround = false;;
 	sf::FloatRect collisionBox;

@@ -1,7 +1,6 @@
 #include "Crawler.hpp"
 #include "game\engine\logic\ai\AiBasic.hpp"
 
-
 void Crawler::draw(sf::RenderTarget & window)
 {
 	Character::draw(window);

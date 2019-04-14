@@ -60,13 +60,11 @@ std::string PrettyString::str() {
 }
 
 std::string PrettyString::formatted(std::string message) {
-
 	unsigned int objectCounter = 0;
 	std::string formattedMessage;
 
 	for (int i = 0; i < message.size(); i++) {
 		if (message[i] == '{') {
-
 			if (i + 1 < message.size() && message[i + 1] == '}') {
 				formattedMessage += getValueToInsert(objectCounter);
 				objectCounter++;
@@ -74,13 +72,11 @@ std::string PrettyString::formatted(std::string message) {
 				continue;
 			}
 			if (i + 2 < message.size() && message[i + 2] == '}' &&  isdigit(message[i + 1])) {
-
 				int objectPos = message[i + 1] - '0';
 				formattedMessage += getValueToInsert(objectPos);
 				i += 2;
 				continue;
 			}
-
 		}
 		formattedMessage += message[i];
 	}

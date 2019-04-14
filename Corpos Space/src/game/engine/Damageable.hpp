@@ -36,7 +36,7 @@ public:
 	}
 
 	int getDamage() { return damage; }
-	int getFilter(){return filter;}
+	int getFilter() { return filter; }
 
 	void setPosition(sf::Vector2f position) override {
 		Entity::setPosition(position);

@@ -6,7 +6,7 @@ class MenuList : public MenuItem
 {
 public:
 	MenuList() {};
-	
+
 	void draw(sf::RenderWindow & target) override {
 		for each (auto item in list)
 		{
@@ -61,7 +61,6 @@ protected:
 
 		height = previousPosition.y;
 	}
-
 
 private:
 	std::vector<std::shared_ptr <MenuItem>> list;

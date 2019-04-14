@@ -6,11 +6,10 @@
 class MainGame : public GameWindow
 {
 public:
-	MainGame() { 
-		
+	MainGame() {
 	};
 
-	void draw(sf::RenderWindow & target) override{
+	void draw(sf::RenderWindow & target) override {
 		world.draw(target);
 	}
 	void update(float deltaTime) override {
@@ -20,12 +19,11 @@ public:
 		world.events(event);
 	};
 
-
 	void init(std::string map) {
 		world.loadMap(map);
 	}
 
-private :
+private:
 
 	World world;;
 };

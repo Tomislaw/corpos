@@ -23,9 +23,9 @@ protected:
 
 	enum LOGLEVEL
 	{
-		DEBUG, 
+		DEBUG,
 		INFO,
-		WARNING, 
+		WARNING,
 		FATAL
 	};
 
@@ -80,7 +80,6 @@ public:
 
 	std::string formatted(std::string message);
 
-
 private:
 	std::vector<std::pair<std::string, bool>> values;
 
@@ -92,14 +91,13 @@ private:
 	}
 
 	void add(std::string str) {
-		values.push_back(std::pair<std::string, bool>(str,false));
+		values.push_back(std::pair<std::string, bool>(str, false));
 	}
 
 	template< typename... ArgTypes> void parse(ArgTypes... args) {}
 
 	template<typename T, typename... ArgTypes>
 	void parse(T t, ArgTypes... args) {
-
 		if (Loggable * loggable = dynamic_cast<T&>(&t))
 		{
 			add(loggable->toString());
@@ -115,7 +113,6 @@ private:
 
 	template<typename T, typename... ArgTypes>
 	void parse(T* t, ArgTypes... args) {
-	
 		std::string name = typeid(T).name();
 		std::string value = "("; value += name; value += "-ptr#" + std::to_string((int)t);
 		add(value);
@@ -129,7 +126,6 @@ private:
 
 	template<typename T, typename... ArgTypes>
 	void parse(std::vector<T> vector, ArgTypes... args) {
-
 		std::string value = "{";
 		for (int i = 0; i < vector.size(); i++) {
 			value += PrettyString(vector.at(i)).str();
@@ -141,24 +137,21 @@ private:
 		parse(args...);
 	}
 
-
-
-	template<typename... ArgTypes> void parse(int integer, ArgTypes... args) { add(std::to_string(integer)); parse(args...);}
-	template<typename... ArgTypes> void parse(unsigned int number, ArgTypes... args) { add(std::to_string(number)); parse(args...);}
-	template<typename... ArgTypes> void parse(long int number, ArgTypes... args) { add(std::to_string(number)); parse(args...);}
+	template<typename... ArgTypes> void parse(int integer, ArgTypes... args) { add(std::to_string(integer)); parse(args...); }
+	template<typename... ArgTypes> void parse(unsigned int number, ArgTypes... args) { add(std::to_string(number)); parse(args...); }
+	template<typename... ArgTypes> void parse(long int number, ArgTypes... args) { add(std::to_string(number)); parse(args...); }
 	template<typename... ArgTypes> void parse(unsigned long int number, ArgTypes... args) { add(std::to_string(number)); parse(args...) }
-	template<typename... ArgTypes> void parse(long long int number, ArgTypes... args) { add(std::to_string(number)); parse(args...);}
-	template<typename... ArgTypes> void parse(unsigned long long int number, ArgTypes... args) { add(std::to_string(number)); parse(args...);}
+	template<typename... ArgTypes> void parse(long long int number, ArgTypes... args) { add(std::to_string(number)); parse(args...); }
+	template<typename... ArgTypes> void parse(unsigned long long int number, ArgTypes... args) { add(std::to_string(number)); parse(args...); }
 	template<typename... ArgTypes> void parse(float number, ArgTypes... args) { add(std::to_string(number));  parse(args...); }
-	template<typename... ArgTypes> void parse(double number, ArgTypes... args) { add(std::to_string(number)); parse(args...);}
-	template<typename... ArgTypes> void parse(long double number, ArgTypes... args) { add(value += std::to_string(number)); parse(args...);}
+	template<typename... ArgTypes> void parse(double number, ArgTypes... args) { add(std::to_string(number)); parse(args...); }
+	template<typename... ArgTypes> void parse(long double number, ArgTypes... args) { add(value += std::to_string(number)); parse(args...); }
 
-	template<typename... ArgTypes> void parse(std::string str, ArgTypes... args) { add(str); parse(args...);}
-	template<typename... ArgTypes> void parse(char *character, ArgTypes... args) { add(""+character); parse(args...); }
-	template<typename... ArgTypes> void parse(const char *character, ArgTypes... args) { add(std::string(character)); parse(args...);}
-	template<typename... ArgTypes> void parse(char character, ArgTypes... args) { add(""+character); parse(args...);}
-	template<typename... ArgTypes> void parse(bool is, ArgTypes... args) { if (is) add("true"); else add("false"); parse(args...);}
-
+	template<typename... ArgTypes> void parse(std::string str, ArgTypes... args) { add(str); parse(args...); }
+	template<typename... ArgTypes> void parse(char *character, ArgTypes... args) { add("" + character); parse(args...); }
+	template<typename... ArgTypes> void parse(const char *character, ArgTypes... args) { add(std::string(character)); parse(args...); }
+	template<typename... ArgTypes> void parse(char character, ArgTypes... args) { add("" + character); parse(args...); }
+	template<typename... ArgTypes> void parse(bool is, ArgTypes... args) { if (is) add("true"); else add("false"); parse(args...); }
 
 	template<> void parse() {}
 };

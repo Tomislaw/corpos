@@ -2,10 +2,12 @@
 
 Entity::Entity()
 {
+	initializeActionManager();
 }
 
 Entity::Entity(TextElement * data)
 {
+	initializeActionManager();
 	if (data == nullptr)
 	{
 		Logger::e("Can't create enitity. Nullpointer received.");
@@ -17,14 +19,16 @@ Entity::Entity(TextElement * data)
 	velocity = data->get("Velocity").toVector<float>(0);
 }
 
-Entity::Entity(std::string name, sf::Vector2f position)
+Entity::Entity(std::string name, sf::Vector2f position) : Entity()
 {
+	initializeActionManager();
 	this->name = name;
 	this->position = position;
 }
 
-Entity::Entity(std::string name, sf::Vector2f position, sf::Vector2f velocity)
+Entity::Entity(std::string name, sf::Vector2f position, sf::Vector2f velocity) : Entity()
 {
+	initializeActionManager();
 	this->name = name;
 	this->position = position;
 	this->velocity = velocity;
@@ -122,4 +126,26 @@ bool Entity::isAttached()
 bool Entity::intersects(sf::FloatRect &rect)
 {
 	return rect.contains(getPosition());
+}
+
+void Entity::initializeActionManager()
+{
+	actions().inputs.addInput("setPosition", [&](Action action) {
+		TextItem item = action.parameters;
+		setPosition(item.toVector<float>(0));
+	});
+
+	actions().inputs.addInput("setVelocity", [&](Action action) {
+		TextItem item = action.parameters;
+		setVelocity(item.toVector<float>(0));
+	});
+
+	actions().inputs.addInput("attach", [&](Action action) {
+		attachToEntity(action.invoker.get());
+	});
+
+	actions().inputs.addInput("attachToEntityOffset", [&](Action action) {
+		TextItem item = action.parameters;
+		attachToEntityOffset(action.invoker.get(), item.toVector<float>(0));
+	});
 }

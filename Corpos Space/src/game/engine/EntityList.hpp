@@ -9,7 +9,7 @@
 #include "game\graphics\ParticleSystem.hpp"
 #include "game\engine\logic\Camera.hpp"
 #include "game\utility\Quadtree.hpp"
-
+#include "game/engine/logic/Logic.h"
 //class Tilemap;
 class TileMap;
 class EntityList
@@ -31,9 +31,9 @@ public:
 	// add bullet
 	void addBullet(std::shared_ptr<Bullet>& bullet);
 	// find entity, nullptr if not found
-	Entity* findEntity(std::string name);
+	std::shared_ptr<Entity> findEntity(std::string name);
 	// find entites by name, TODO: change pointer to reference
-	std::vector<Entity*> findEntities(std::string name);
+	std::vector<std::shared_ptr<Entity>> findEntities(std::string name);
 
 	// keyboard-mouse events
 	void events(sf::Event & e);
@@ -62,6 +62,7 @@ public:
 private:
 	Quadtree tree;
 
+	std::vector<std::shared_ptr <Entity >> entities;
 	std::vector<std::shared_ptr <Character>> characters;
 	std::vector<std::shared_ptr <Prop>> props;
 	std::vector<std::shared_ptr <Landscape>> landscapes;
@@ -75,6 +76,8 @@ private:
 	//Tilemap * tilemapPtr = nullptr;
 	TileMap * tileMapPtr = nullptr;
 	sf::Vector2f cursorPos;
+
+	void resolveActions(ActionManager manager);
 };
 
 #endif

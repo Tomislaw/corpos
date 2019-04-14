@@ -10,7 +10,7 @@ AiBasic::AiBasic(Character & character) : character(character)
 
 void AiBasic::update(float delta)
 {
-	if (action != nullptr) { 
+	if (action != nullptr) {
 		action->update(delta);
 		if (action->status() != AiAction::NOT_FINISHED) action = nullptr;
 	}
@@ -30,26 +30,23 @@ void MoveToTile::drawDebugData(sf::RenderTarget & target)
 {
 	if (!isRouteCalculated) return;
 
-
 	auto debugColor = sf::Color::Red;
 
 	sf::Text entityDebugText;
 
-		entityDebugText.setFont(TextContainer::getInstance()->getBasicFont());
-		entityDebugText.setColor(sf::Color::Red);
-		entityDebugText.setCharacterSize(6);
+	entityDebugText.setFont(TextContainer::getInstance()->getBasicFont());
+	entityDebugText.setColor(sf::Color::Red);
+	entityDebugText.setCharacterSize(6);
 
 	sf::VertexArray line(sf::LinesStrip, 2);
 
-	auto starttile = character.getStandingTileId()*2;
-	line[0].position = sf::Vector2f(starttile.x * TILE_SIZE/2, starttile.y * TILE_SIZE/2);
+	auto starttile = character.getStandingTileId() * 2;
+	line[0].position = sf::Vector2f(starttile.x * TILE_SIZE / 2, starttile.y * TILE_SIZE / 2);
 
 	for each (auto node in path)
 	{
 		auto tile = node.coordinates;
-		line[1].position = sf::Vector2f(tile.x * TILE_SIZE/2, tile.y * TILE_SIZE/2);
-
-		
+		line[1].position = sf::Vector2f(tile.x * TILE_SIZE / 2, tile.y * TILE_SIZE / 2);
 
 		//draw debug text
 		entityDebugText.setPosition(line[1].position);

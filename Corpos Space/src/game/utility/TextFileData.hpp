@@ -19,17 +19,17 @@ public:
 	TextElement * parent;
 
 	TextItem() {};
-	TextItem(std::vector<std::string> items) : variables(items){};
+	TextItem(std::vector<std::string> items) : variables(items) {};
 	TextItem(std::string item) { addVariable(item); };
 	TextItem(int item) { addVariable(std::to_string(item)); };
 	TextItem(double item) { addVariable(std::to_string(item)); };
 	template<typename T>
 	TextItem(sf::Vector2<T> item) { addVariable(std::to_string(item.x)); addVariable(std::to_string(item.y)); };
 	template<typename T>
-	TextItem(sf::Rect<T> item) 
+	TextItem(sf::Rect<T> item)
 	{
-		addVariable(std::to_string(item.left)); 
-		addVariable(std::to_string(item.top)); 
+		addVariable(std::to_string(item.left));
+		addVariable(std::to_string(item.top));
 		addVariable(std::to_string(item.width));
 		addVariable(std::to_string(item.height));
 	};
@@ -48,7 +48,7 @@ public:
 	template<typename T> std::vector <sf::Rect<T>> toRect();
 	template<typename T> std::vector <sf::Vector2<T>> toVector();
 	//Return variable changed to int, if not found return 0.
-	int toInt(unsigned int index, int default = 0 );
+	int toInt(unsigned int index, int default = 0);
 	//Return variable changed to float, if not found return 0.
 	float toFloat(unsigned int index, float default = 0);
 	double toDouble(unsigned int index, double default = 0);
@@ -130,7 +130,6 @@ public:
 	//[[deprecated]]
 	void setElements(std::vector < TextElement > set);
 
-
 	static std::istream& safeGetline(std::istream& is, std::string& t)
 	{
 		t.clear();
@@ -183,20 +182,21 @@ inline std::vector<sf::Rect<T>> TextItem::toRect()
 	if (variables.size() < 4)
 	{
 		if (parent != nullptr && parent->parent != nullptr)
-		Logger::w("Item '{}' in element '{}' in file '{}' dont have enought variables to convert to Rectangle.", 
-			name, parent->name, parent->parent->filePath);
+			Logger::w("Item '{}' in element '{}' in file '{}' dont have enought variables to convert to Rectangle.",
+				name, parent->name, parent->parent->filePath);
 		return std::vector<sf::Rect<T>>();
-	}else if (!std::is_integral<T>::value && !std::is_floating_point<T>::value && !std::is_same<T,std::string>::value)
+	}
+	else if (!std::is_integral<T>::value && !std::is_floating_point<T>::value && !std::is_same<T, std::string>::value)
 	{
 		std::any any = T();
 		if (parent != nullptr && parent->parent != nullptr)
-		Logger::w("Item '{}' in element '{}' in file '{}' can not be converted to Rectangle. Class '{}' is not supported.",
-			name, parent->name, parent->parent->filePath, typeid(T).name());
+			Logger::w("Item '{}' in element '{}' in file '{}' can not be converted to Rectangle. Class '{}' is not supported.",
+				name, parent->name, parent->parent->filePath, typeid(T).name());
 		return std::vector<sf::Rect<T>>();
 	}
 
 	auto returnValue = std::vector<sf::Rect<T>>();
-	for (int i = 0; i < variables.size() / 4; i++) 
+	for (int i = 0; i < variables.size() / 4; i++)
 	{
 		returnValue.push_back(toRect<T>(i));
 	}
@@ -208,17 +208,17 @@ inline std::vector<sf::Vector2<T>> TextItem::toVector()
 {
 	if (variables.size() < 2)
 	{
-		if(parent!= nullptr && parent->parent!= nullptr)
-		Logger::w("Item '{}' in element '{}' in file '{}' dont have enought variables to convert to Vector.",
-			name, parent->name, parent->parent->filePath);
+		if (parent != nullptr && parent->parent != nullptr)
+			Logger::w("Item '{}' in element '{}' in file '{}' dont have enought variables to convert to Vector.",
+				name, parent->name, parent->parent->filePath);
 		return std::vector<sf::Vector2<T>>();
 	}
 	else if (!std::is_integral(T) && !std::is_floating_point(t) && !std::is_same(T, std::string))
 	{
 		std::any any = T();
 		if (parent != nullptr && parent->parent != nullptr)
-		Logger::w("Item '{}' in element '{}' in file '{}' can not be converted to Vector. Class '{}' is not supported.",
-			name, parent->name, parent->parent->filePath, typeid(T).name());
+			Logger::w("Item '{}' in element '{}' in file '{}' can not be converted to Vector. Class '{}' is not supported.",
+				name, parent->name, parent->parent->filePath, typeid(T).name());
 		return std::vector<sf::Vector2<T>>();
 	}
 
@@ -248,18 +248,18 @@ inline sf::Rect<T> TextItem::toRect(unsigned int index, sf::Rect<T> default)
 	if (variables.size() < index + 4)
 	{
 		if (parent != nullptr && parent->parent != nullptr)
-		Logger::w("Item '{}' in element '{}' in file '{}' dont have enought variables to convert to Rectangle.",
-			name, parent->name, parent->parent->filePath);
+			Logger::w("Item '{}' in element '{}' in file '{}' dont have enought variables to convert to Rectangle.",
+				name, parent->name, parent->parent->filePath);
 		return default;
 	}
 
-	if (std::is_integral<T>::value) return sf::Rect<T>(toInt(index * 4), toInt(index * 4+1), toInt(index * 4+2), toInt(index * 4+3));
+	if (std::is_integral<T>::value) return sf::Rect<T>(toInt(index * 4), toInt(index * 4 + 1), toInt(index * 4 + 2), toInt(index * 4 + 3));
 	else if (std::is_floating_point<T>::value)	return sf::Rect<T>(toFloat(index * 4), toFloat(index * 4 + 1), toFloat(index * 4 + 2), toFloat(index * 4 + 3));
 	else
 	{
 		if (parent != nullptr && parent->parent != nullptr)
-		Logger::e("Item '{}' in element '{}' in file '{}' can not be converted to Rectangle. Class '{}' is not supported.",
-			name, parent->name, parent->parent->filePath, typeid(T).name());
+			Logger::e("Item '{}' in element '{}' in file '{}' can not be converted to Rectangle. Class '{}' is not supported.",
+				name, parent->name, parent->parent->filePath, typeid(T).name());
 		throw std::exception("Runtime exception, incorrect class type.");
 	}
 };
@@ -270,8 +270,8 @@ inline sf::Vector2<T> TextItem::toVector(unsigned int index, sf::Vector2<T> defa
 	if (variables.size() < index + 2)
 	{
 		if (parent != nullptr && parent->parent != nullptr)
-		Logger::w("Item '{}' in element '{}' in file '{}' dont have enought variables to convert to Vector.", 
-			name, parent->name, parent->parent->filePath);
+			Logger::w("Item '{}' in element '{}' in file '{}' dont have enought variables to convert to Vector.",
+				name, parent->name, parent->parent->filePath);
 		return default;
 	}
 	if (std::is_integral<T>::value) return sf::Vector2<T>(toInt(index * 2), toInt(index * 2 + 1));
@@ -279,11 +279,10 @@ inline sf::Vector2<T> TextItem::toVector(unsigned int index, sf::Vector2<T> defa
 	else
 	{
 		if (parent != nullptr && parent->parent != nullptr)
-		Logger::e("Item '{}' in element '{}' in file '{}' can not be converted to Vector. Class '{}' is not supported.",
-			name, parent->name, parent->parent->filePath, typeid(T).name());
+			Logger::e("Item '{}' in element '{}' in file '{}' can not be converted to Vector. Class '{}' is not supported.",
+				name, parent->name, parent->parent->filePath, typeid(T).name());
 		throw std::exception("Runtime exception, incorrect class type.");
 	}
 };
-
 
 #endif

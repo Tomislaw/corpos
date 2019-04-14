@@ -53,7 +53,6 @@ void GameAssetsManager::loadTextures(std::string location)
 			continue;
 		}
 
-
 		auto textureLocation = fs::path(file.filePath).parent_path().string() + "/" + varLocation.toString(0);
 		Logger::i("Loading ", textureLocation);
 		sf::Texture texture;

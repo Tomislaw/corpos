@@ -22,14 +22,13 @@ Character::Character(EntityList * ptr) : Prop()
 	rect.setSize(sf::Vector2f(collisionBox.width, collisionBox.height));
 	rect.setFillColor(sf::Color::Red);
 }
-Character::Character(TextElement * element, EntityList * ptr) : Prop(element,ptr)
+Character::Character(TextElement * element, EntityList * ptr) : Prop(element, ptr)
 {
 	this->entlistPtr = ptr;
 	if (ptr != nullptr) map = entlistPtr->getTileMapPtr();
 	this->sprite.attachToEntity(this);
 
 	if (element == nullptr)return;
-
 
 	max_walk_speed = element->get("Speed").toInt(0);
 	collisionBox = element->get("CollisionBox").toRect<float>(0);
@@ -170,9 +169,9 @@ void Character::resolveCollision()
 void Character::resolveCollision()
 {
 	Prop::resolveCollision();
-	if(isTouchingGround){
-			is_jumping = false;
-			is_standing = true;
+	if (isTouchingGround) {
+		is_jumping = false;
+		is_standing = true;
 	}
 }
 
@@ -271,7 +270,6 @@ void Character::impulseVelocityX(float maxSpeed, float impulse, float delta)
 		}
 	}
 }
-
 
 void Character::walkUp()
 {

@@ -24,7 +24,6 @@ GameDataHolder::~GameDataHolder()
 
 void GameDataHolder::loadTextures()
 {
-
 	TextFileData file = Options::textureLocation;
 
 	auto textures_list = file.get("TEXTURE");

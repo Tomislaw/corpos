@@ -8,9 +8,8 @@
 #include <filesystem>
 class Game;
 
-class ModuleChooser 
+class ModuleChooser
 {
-
 public:
 
 	void findModulesInPath(std::string path) {
@@ -18,13 +17,11 @@ public:
 		for (auto &f : std::filesystem::directory_iterator(path)) {
 			modules.push_back(f.path().string());
 		}
-	} 
+	}
 
 	std::string path = "";
 	std::vector<std::string> modules;
-
 };
-
 
 class Menu : public GameWindow
 {
@@ -47,7 +44,6 @@ public:
 	void onEvent(sf::Event & event) override {
 		if (isShowingMainMenu)
 			menuList.onEvent(event);
-		
 	};
 
 	void init();

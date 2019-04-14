@@ -14,7 +14,6 @@
 class MapTile;
 
 namespace AStar {
-
 	using GetTile = std::function<MapTile*(int x, int y)>;
 
 	class Node : public Loggable
@@ -27,7 +26,7 @@ namespace AStar {
 		Node(sf::Vector2f pos_, Node *parent_ = nullptr);
 
 		bool isReached(Character & character, Node * previousNode = nullptr);
-		
+
 		bool isSame(Node * node);
 		unsigned int getScore();
 		unsigned int getCost(Node * node);
@@ -95,8 +94,8 @@ namespace AStar {
 		static bool canMoveToTile(sf::Vector2i startTileId, sf::Vector2i endTileId, NavigationNodeCharacterData &character);
 		static bool canMoveToTileWhileWalking(sf::Vector2i startTileId, sf::Vector2i endTileId, NavigationNodeCharacterData &character);
 		static bool  isCanMissWhileFailing(sf::Vector2i tileId, NavigationNodeCharacterData &character);
-	
-	private: 
+
+	private:
 		static bool isTileBlocking(sf::Vector2i subTileId);
 	};
 }

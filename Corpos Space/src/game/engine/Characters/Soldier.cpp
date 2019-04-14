@@ -9,7 +9,6 @@ Soldier::Soldier(TextElement * element, EntityList * ptr) : Character(element, p
 {
 	ai = std::shared_ptr<AiBasic>(new AiBasic(*this));
 
-
 	if (element == nullptr)return;
 
 	navCharData.canUseLadder = true;
@@ -85,7 +84,6 @@ Soldier::Soldier(TextElement * element, EntityList * ptr) : Character(element, p
 Soldier::~Soldier()
 {
 }
-
 
 void Soldier::draw(sf::RenderTarget & window)
 {

@@ -108,7 +108,6 @@ public:
 	}
 
 	void stop() override {
-
 		pathfind.stop();
 		if (findPathThread.joinable()) findPathThread.join();
 
@@ -134,7 +133,6 @@ public:
 	virtual void update(float delta);
 	~AiBasic();
 
-
 	virtual void drawDebugData(sf::RenderTarget &target);
 
 	enum Behavior { IDLE, ALERTED, ENGAGE, SUSPICIOUS, PANIC };
@@ -155,7 +153,7 @@ protected:
 	sf::Text entityDebugText;
 };
 
-class TestAi: public AiBasic {
+class TestAi : public AiBasic {
 public:
 
 	TestAi(Character & character, Entity * target) : AiBasic(character)
@@ -169,18 +167,19 @@ public:
 		if (timeToSearchAgain < 0) {
 			timeToSearchAgain = 0.5 + (rand() % 100) * 0.008;;
 
-			if (Character* d = dynamic_cast<Character*>(target)) 
+			if (Character* d = dynamic_cast<Character*>(target))
 			{
-			auto distance = character.getPosition().x - d->getPosition().x;
-			auto distanceY = abs(character.getPosition().y - d->getPosition().y);
+				auto distance = character.getPosition().x - d->getPosition().x;
+				auto distanceY = abs(character.getPosition().y - d->getPosition().y);
 
-			if (distance < 60 && distance > 0 && distanceY < 10) {
-				character.walkLeft();
-			}
-			else if (distance > -60 && distance < 0 && distanceY < 10) {
-				character.walkRight();
-			}else if (!(distance > 700 || distance < -700))
-				getPath(d->getStandingTileId());
+				if (distance < 60 && distance > 0 && distanceY < 10) {
+					character.walkLeft();
+				}
+				else if (distance > -60 && distance < 0 && distanceY < 10) {
+					character.walkRight();
+				}
+				else if (!(distance > 700 || distance < -700))
+					getPath(d->getStandingTileId());
 			}
 		}
 		AiBasic::update(delta);
@@ -190,6 +189,5 @@ private:
 	Entity * target;
 	float timeToSearchAgain = 1;
 };
-
 
 #endif

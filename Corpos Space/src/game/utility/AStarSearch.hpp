@@ -35,7 +35,6 @@ Use at your own risk!
 #include <vector>
 #include <cfloat>
 
-
 // fast fixed size memory allocator, used for fast node memory management
 //#include "fsa.h"
 

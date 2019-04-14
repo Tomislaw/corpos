@@ -28,7 +28,6 @@ namespace AStar
 	using NodeVector = std::vector<Node*>;
 	class PathFind
 	{
-
 	public:
 		PathFind(const NavigationNodeCharacterData character = NavigationNodeCharacterData());
 		void setHeuristic(HeuristicFunction heuristic_);

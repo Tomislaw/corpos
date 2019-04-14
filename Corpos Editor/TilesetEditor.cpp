@@ -629,7 +629,6 @@ void TilesetEditor::saveToFile(std::string file)
 	varSize += (std::to_string(texture_size.width));
 	varSize += (std::to_string(texture_size.height));
 
-
 	std::vector<TextElement> elements;
 	elements.push_back(tileset);
 

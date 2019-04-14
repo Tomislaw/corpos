@@ -9,7 +9,6 @@ PathFind::PathFind(NavigationNodeCharacterData character)
 {
 	setHeuristic(&Heuristic::octagonal);
 	this->character = character;
-
 }
 
 void PathFind::setHeuristic(HeuristicFunction heuristic_)
@@ -45,10 +44,9 @@ NodeDeque PathFind::findPath(Node source_, sf::Vector2i target_)
 		pop_heap(OpenSet.begin(), OpenSet.end(), NodeCompare_F());
 		OpenSet.pop_back();
 
-		auto succesors = succesorsOfNode.getSuccesors(current,character);
+		auto succesors = succesorsOfNode.getSuccesors(current, character);
 		for each (auto newNode in succesors)
 		{
-
 			if (isStopped) {
 				releaseNodes();
 				return NodeDeque();
@@ -150,7 +148,7 @@ Node* PathFind::findNodeOnList(NodeVector& nodes_, Node & pathnode)
 {
 	for each (auto node in nodes_)
 		if (node->isSame(&pathnode)) return node;
-		
+
 	return nullptr;
 }
 

@@ -6,6 +6,7 @@
 #include "game\utility\TextFileData.hpp"
 #include "game\graphics\TextContainer.hpp"
 #include "game\graphics\GameAssetsManager.hpp"
+#include "game/engine/logic/Action.h"
 // Entity - main base class
 /*
 */
@@ -20,6 +21,8 @@ public:
 	~Entity();
 
 	std::string getName();
+
+	ActionManager & actions() { return actionManager; }
 
 	// update position and velocity
 	virtual void update(float delta_time);
@@ -52,16 +55,17 @@ public:
 
 protected:
 
+	virtual void initializeActionManager();
+
 	std::string name;
 	sf::Vector2f position;
 	sf::Vector2f velocity;
-
 	std::string debugString;
 
 private:
 	sf::Vector2f attachOffset;
 	Entity * parent = nullptr;
-
+	ActionManager actionManager;
 	bool isInitialized = false;
 	sf::Text entityDebugText;
 };

@@ -10,7 +10,6 @@ void Menu::init() {
 		GameAssetsManager::loadSprites("bin/graphics/sprite/sprite_definitions.txt");
 		game.mainGame.init("bin/map/mm.txt");
 		game.showGame();
-
 	});
 	menuList.addItem(labelStart);
 
@@ -21,7 +20,7 @@ void Menu::init() {
 
 	std::shared_ptr <MenuLabel> labelOptions = std::make_shared<MenuLabel>();
 	labelOptions->getLabel().setString("Options");
-	labelOptions->setOnClikAction([]() { ;});
+	labelOptions->setOnClikAction([]() {; });
 	menuList.addItem(labelOptions);
 
 	std::shared_ptr <MenuLabel> labelExit = std::make_shared<MenuLabel>();
@@ -37,7 +36,6 @@ void Menu::init() {
 }
 
 void Menu::drawModules(sf::RenderWindow & target) {
-
 	ImGui::Begin("Modules", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar);
 
 	auto windowSize = target.getSize();
@@ -49,7 +47,6 @@ void Menu::drawModules(sf::RenderWindow & target) {
 	ImGui::Text("Modules");
 
 	static int listbox_item_current = 0;
-
 
 	ImGui::ListBox("Choose module to play", &listbox_item_current,
 		[](void* vec, int idx, const char** out_text) {
@@ -64,7 +61,6 @@ void Menu::drawModules(sf::RenderWindow & target) {
 		GameAssetsManager::loadSprites(moduleLocation + "/graphics/sprite/sprite_definitions.txt");
 		game.mainGame.init(moduleLocation + "/map/mm.txt");
 		game.showGame();
-
 	}
 	ImGui::SetCursorPos(size - sf::Vector2u(95, 55));
 	if (ImGui::Button("Back", sf::Vector2i(80, 40))) {

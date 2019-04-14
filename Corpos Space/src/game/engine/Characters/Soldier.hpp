@@ -15,7 +15,6 @@ public:
 	Soldier(TextElement * data, EntityList * ptr);;
 	~Soldier();
 
-
 	//draw it
 	void draw(sf::RenderTarget & window) override;
 	// update position, velocity and others

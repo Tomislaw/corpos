@@ -118,7 +118,6 @@ void MapForm::mouseReleaseEvent(QMouseEvent * e)
 	}
 	mapView->update();
 	e->setAccepted(false);
-
 }
 
 void MapForm::wheelEvent(QWheelEvent * e)
@@ -131,7 +130,6 @@ void MapForm::wheelEvent(QWheelEvent * e)
 	if ((viewSize >= 4))viewSize = 4;
 	mapView->setViewSize(viewSize);
 	mapView->update();
-
 }
 
 std::vector<VertexTileMap>& MapForm::getVertexTileMap()
