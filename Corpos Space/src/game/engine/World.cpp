@@ -12,6 +12,12 @@ World::World()
 		return tilemap2.getTile(x, y);
 	};
 	AStar::PathfindUtils::getTile = std::bind(getTile, std::placeholders::_1, std::placeholders::_2);
+
+	entitylist.actions().inputs.addInput("reloadMap", [&](Action action) {
+		shouldReload = false;
+		//reloadMap();
+		shouldReload = true;
+	});
 }
 
 World::~World()
@@ -20,7 +26,11 @@ World::~World()
 
 void World::update(float delta)
 {
-	entitylist.update(delta);
+	if (shouldReload) {
+		reloadMap();
+		shouldReload = false;
+	}
+	else entitylist.update(delta);
 }
 
 void World::draw(sf::RenderWindow & window)
@@ -40,16 +50,17 @@ void World::events(sf::Event e)
 
 void World::loadMap(std::string map)
 {
-	TextFileData file = map;
-	auto tm = file.getFirstElementByName("TILEMAP");
+	mapFile.loadFile(map);
+	reloadMap();
+}
 
-	//its important to load tilemap first
-	//tilemap.loadTileset("bin/graphics/tileset/tileset1.txt");
-	//tilemap.loadMap(tm);
+void World::reloadMap()
+{
+	auto tm = mapFile.getFirstElementByName("TILEMAP");
 
 	tilemap2.loadTileset("bin/graphics/tileset/tileset1.txt");
 	tilemap2.loadMap(*tm);
 
 	//load it after tilemap
-	entitylist.loadMap(file);
+	entitylist.loadMap(mapFile);
 }

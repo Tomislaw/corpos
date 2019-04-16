@@ -411,7 +411,7 @@ std::vector<double> TextItem::toDouble()
 
 std::vector<std::string> TextItem::toString()
 {
-	return std::vector<std::string>();
+	return variables;
 }
 
 int TextItem::toInt(unsigned int index, int default)

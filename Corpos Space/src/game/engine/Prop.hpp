@@ -27,6 +27,11 @@ public:
 	// check if bullet is in prop
 	virtual bool bulletCollision(Bullet * bullet);
 
+	virtual void destroy() override {
+		Damageable::destroy();
+		actions().outputs.invokeOutput("onDestroy");
+	}
+
 	virtual bool intersects(sf::FloatRect & rect)override;
 	// TODO: make line based collision test
 protected:

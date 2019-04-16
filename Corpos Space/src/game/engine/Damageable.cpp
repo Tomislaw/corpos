@@ -45,9 +45,9 @@ Damageable::~Damageable()
 
 void Damageable::damage(int hp)
 {
-	if (indestructable)return;
+	if (indestructable) return;
 	health -= hp;
-	if (health < 0)destroy();
+	if (health < 0) destroy();
 }
 
 int Damageable::getHealth()
@@ -105,7 +105,7 @@ void Bullet::draw(sf::RenderTarget & window)
 {
 	if (destroyed)return;
 	bulletSprite.draw(window);
-	drawDebugData(window);
+	//drawDebugData(window);
 }
 
 void Bullet::update(float time)

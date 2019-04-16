@@ -12,6 +12,10 @@ Game::Game(int argc, char * argv[])
 	cursor.setCursor();
 	menu.init();
 	fpsText.setFont(TextContainer::getInstance()->getBasicFont());
+
+	mainGame.world.entitylist.actions().inputs.addInput("mainMenu", [&](Action action) {
+		game_state = 0;
+	});
 }
 
 Game::~Game()

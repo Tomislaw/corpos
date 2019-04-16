@@ -7,7 +7,6 @@ Entity::Entity()
 
 Entity::Entity(TextElement * data)
 {
-	initializeActionManager();
 	if (data == nullptr)
 	{
 		Logger::e("Can't create enitity. Nullpointer received.");
@@ -17,6 +16,8 @@ Entity::Entity(TextElement * data)
 	name = data->get("Name").toString(0);
 	position = data->get("Position").toVector<float>(0);
 	velocity = data->get("Velocity").toVector<float>(0);
+	actionManager = data->get("Actions");
+	initializeActionManager();
 }
 
 Entity::Entity(std::string name, sf::Vector2f position) : Entity()

@@ -14,6 +14,12 @@ EntityList::~EntityList()
 
 void EntityList::loadMap(TextFileData & file)
 {
+	props.clear();
+	characters.clear();
+	landscapes.clear();
+	bullets.clear();
+	entities.clear();
+
 	//if (tilemapPtr == nullptr)return;
 	//tree = Quadtree(sf::Vector2f(), tilemapPtr->getMapSize(), 0, 4, 5);
 
@@ -136,8 +142,12 @@ void EntityList::update(float time)
 	auto character = characters.begin();
 	while (character != characters.end())
 	{
-		resolveActions(character->get()->actions());
 		character->get()->update(time);
+		if (character->get()->getPosition().y > tileMapPtr->getMapSize().y)
+			character->get()->destroy();
+
+		resolveActions(character->get()->actions());
+
 		if (character->get()->isDestroyed())
 			character = characters.erase(character);
 		else
@@ -322,7 +332,12 @@ void EntityList::setTileMapPtr(TileMap * ptr)
 
 void EntityList::resolveActions(ActionManager manager)
 {
-	for (auto &action : manager.outputs.pendingActions) 
-		for (auto entity : findEntities(action.targetName))
-			entity->actions().inputs.invokeInput(action);
+	for (auto &action : manager.outputs.pendingActions) {
+
+		if (action.targetName == "@world")
+			actionManager.inputs.invokeInput(action);
+		else
+			for (auto entity : findEntities(action.targetName))
+				entity->actions().inputs.invokeInput(action);
+	}
 }

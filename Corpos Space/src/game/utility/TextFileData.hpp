@@ -103,8 +103,9 @@ class TextFileData
 {
 public:
 
-	const std::string filePath;
+	std::string filePath;
 
+	TextFileData() {};
 	TextFileData(std::string fileLocation);
 	TextFileData(std::vector<TextElement> &elements);
 	~TextFileData();

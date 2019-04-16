@@ -23,9 +23,11 @@ public:
 		world.loadMap(map);
 	}
 
+	World world;
+
 private:
 
-	World world;;
+	
 };
 
 #endif

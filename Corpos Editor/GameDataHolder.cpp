@@ -33,7 +33,7 @@ void GameDataHolder::loadTextures()
 	texture = new sf::Texture[textures_list.size()];
 	for (int i = 0; i < textures_list.size(); i++)
 	{
-		texture[i].loadFromFile(textures_list[i]->get("Location").toString(0));
+		texture[i].loadFromFile("bin/textures" + textures_list[i]->get("Location").toString(0));
 		texture[i].setSmooth(0);
 		texture_names.push_back((textures_list[i]->get("Name").toString(0)));
 	}

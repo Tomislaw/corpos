@@ -59,7 +59,11 @@ public:
 	TileMap * getTileMapPtr() { return tileMapPtr; }
 	//objects
 
+	ActionManager & actions() { return actionManager; }
+
 private:
+	ActionManager actionManager;
+
 	Quadtree tree;
 
 	std::vector<std::shared_ptr <Entity >> entities;

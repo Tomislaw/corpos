@@ -36,6 +36,8 @@ public:
 			menuList.draw(target);
 		if (isShowingModules)
 			drawModules(target);
+		if (isShowingOptions)
+			drawOptions(target);
 	}
 
 	void update(float deltaTime) override {
@@ -56,9 +58,12 @@ public:
 	{
 		isShowingModules = isShowing;
 	}
-
+	void showOptionss(bool isShowing)
+	{
+		isShowingOptions = isShowing;
+	}
 	void drawModules(sf::RenderWindow & target);
-
+	void drawOptions(sf::RenderWindow & target);
 private:
 
 	Game & game;
@@ -69,6 +74,7 @@ private:
 
 	bool isShowingMainMenu = true;
 	bool isShowingModules = false;
+	bool isShowingOptions = false;
 };
 
 #endif

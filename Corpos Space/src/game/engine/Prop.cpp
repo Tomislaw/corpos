@@ -54,6 +54,8 @@ Prop::Prop(TextElement * file, EntityList * entityListPtr) : Damageable(file), E
 		sprite.attachToEntityOffset(this, sproff.toVector<float>(0));
 	}
 	else sprite.attachToEntity(this);
+
+	initializeActionManager();
 }
 
 Prop::~Prop()
@@ -322,7 +324,6 @@ bool Prop::intersects(sf::FloatRect & rect)
 
 void Prop::initializeActionManager()
 {
-	Entity::initializeActionManager();
 	actions().inputs.addInput("destroy", [&](Action action) {
 		destroy();
 	});

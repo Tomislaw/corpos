@@ -54,9 +54,9 @@ private:
 };
 
 class ActionManager {
-	ActionManager() {};
-	ActionManager(TextItem item);
 public:
+	ActionManager() = default;
+	ActionManager(TextItem & item);
 	InputManager inputs;
 	OutputManager outputs;
 };

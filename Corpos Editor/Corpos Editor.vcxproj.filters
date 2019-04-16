@@ -136,6 +136,9 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Corpos Space\src\game\engine\logic\Action.cpp">
+      <Filter>_INCLUDECPP</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Resource Files">

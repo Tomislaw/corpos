@@ -15,6 +15,11 @@
 class World
 {
 public:
+
+	EntityList entitylist;
+	//Tilemap tilemap;
+	TileMap tilemap2;
+
 	World();
 	~World();
 
@@ -27,11 +32,12 @@ public:
 	void events(sf::Event e);
 	// load map
 	void loadMap(std::string map);
+	void reloadMap();
+
 
 protected:
-	EntityList entitylist;
-	//Tilemap tilemap;
-	TileMap tilemap2;
+	TextFileData mapFile;
+	bool shouldReload = false;
 };
 
 #endif

@@ -72,6 +72,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Corpos Space\src\game\engine\Entity.cpp" />
+    <ClCompile Include="..\Corpos Space\src\game\engine\logic\Action.cpp" />
     <ClCompile Include="..\Corpos Space\src\game\graphics\Animation.cpp" />
     <ClCompile Include="..\Corpos Space\src\game\graphics\GameSprite.cpp" />
     <ClCompile Include="..\Corpos Space\src\game\graphics\TextContainer.cpp" />
