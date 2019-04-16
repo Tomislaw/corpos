@@ -24,20 +24,7 @@ GameDataHolder::~GameDataHolder()
 
 void GameDataHolder::loadTextures()
 {
-	TextFileData file = Options::textureLocation;
-
-	auto textures_list = file.get("TEXTURE");
-
-	Logger::i("Found {} textures", textures_list.size());
-
-	texture = new sf::Texture[textures_list.size()];
-	for (int i = 0; i < textures_list.size(); i++)
-	{
-		texture[i].loadFromFile("bin/textures" + textures_list[i]->get("Location").toString(0));
-		texture[i].setSmooth(0);
-		texture_names.push_back((textures_list[i]->get("Name").toString(0)));
-	}
-	textureArraySize = textures_list.size();
+	GameAssetsManager::loadTextures(Options::textureLocation);
 }
 
 sf::Texture * GameDataHolder::getTexture(std::string texture)

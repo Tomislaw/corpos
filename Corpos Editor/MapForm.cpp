@@ -132,10 +132,6 @@ void MapForm::wheelEvent(QWheelEvent * e)
 	mapView->update();
 }
 
-std::vector<VertexTileMap>& MapForm::getVertexTileMap()
-{
-	return mapView->getVertexTileMap();
-}
 
 bool MapForm::saveToFile(std::string location)
 {

@@ -257,12 +257,11 @@ void TilesetEditor::changeTileset()
 
 void TilesetEditor::reloadData()
 {
-	auto textures = GameDataHolder::getInstance()->getTextureList();
+	auto& textures = GameAssetsManager::getInstance()->textures;
 	ui.comboBox_Texture->clear();
-	for each (auto var in textures)
-	{
-		ui.comboBox_Texture->addItem(QString::fromStdString(var));
-	}
+	for each (auto &var in textures)
+		ui.comboBox_Texture->addItem(QString::fromStdString(var.first));
+
 	tileView->update();
 }
 
@@ -568,7 +567,7 @@ void TilesetEditor::changeTilesetData(std::string name, std::string texture, std
 	int index = ui.comboBox_Texture->findData(QString::fromStdString(texture), Qt::DisplayRole);
 	ui.comboBox_Texture->setCurrentIndex(index);
 
-	auto tex = GameDataHolder::getInstance()->getTexture(texture);
+	auto tex = GameAssetsManager::getTexture(texture);
 	for (int i = 0; i < tileDefinitions.size(); i++)
 	{
 		auto var = &tileDefinitions[i];

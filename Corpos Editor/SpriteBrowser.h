@@ -26,7 +26,7 @@ public slots:
 	void onResize();
 private:
 	Ui::SpriteBrowser ui;
-	std::vector<int> spritesIdList;
+	std::vector<std::string> spritesIdList;
 	GameSprite selectedSprite;
 	SpriteView * view = nullptr;
 	QTimer animationTimer;

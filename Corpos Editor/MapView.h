@@ -4,11 +4,13 @@
 #include <SFML/Graphics.hpp>
 #include <game\graphics\GameSprite.hpp>
 #include <game\map\Tilemap.hpp>
-#include "GameDataHolder.h"
+#include "game/engine/World.hpp"
 class MapView :
 	public QSFMLCanvas
 {
 public:
+	TileMap world;
+
 	MapView(QWidget* Parent, const QPoint& Position, const QSize& Size);
 	~MapView();
 	void OnInit();
@@ -19,10 +21,6 @@ public:
 	void setMapName(std::string name);
 
 	sf::View view;
-	std::vector<VertexTileMap>& getVertexTileMap()
-	{
-		return worldmap.getVertexTileMapVector();
-	}
 	void setTileAtMousePosition(std::string tileset, std::string tile);
 	void startDrawingSelection();
 	void createTilesAtSelectedArea(std::string tileset, std::string tile);
@@ -31,7 +29,6 @@ public:
 private:
 
 	float viewSize = 1;
-	Tilemap worldmap;
 
 	sf::ConvexShape selectRectangle;
 	bool drawSelectedArea = false;

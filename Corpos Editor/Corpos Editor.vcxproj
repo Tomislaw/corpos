@@ -71,15 +71,42 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Corpos Space\src\game\engine\Character.cpp" />
+    <ClCompile Include="..\Corpos Space\src\game\engine\Characters\CharacterFactory.cpp" />
+    <ClCompile Include="..\Corpos Space\src\game\engine\Characters\Crawler.cpp" />
+    <ClCompile Include="..\Corpos Space\src\game\engine\Characters\Soldier.cpp" />
+    <ClCompile Include="..\Corpos Space\src\game\engine\Damageable.cpp" />
     <ClCompile Include="..\Corpos Space\src\game\engine\Entity.cpp" />
+    <ClCompile Include="..\Corpos Space\src\game\engine\EntityList.cpp" />
+    <ClCompile Include="..\Corpos Space\src\game\engine\Landscape.cpp" />
     <ClCompile Include="..\Corpos Space\src\game\engine\logic\Action.cpp" />
+    <ClCompile Include="..\Corpos Space\src\game\engine\logic\ai\AiBasic.cpp" />
+    <ClCompile Include="..\Corpos Space\src\game\engine\logic\ai\NavigationNode.cpp" />
+    <ClCompile Include="..\Corpos Space\src\game\engine\logic\Camera.cpp" />
+    <ClCompile Include="..\Corpos Space\src\game\engine\logic\GunFire.cpp" />
+    <ClCompile Include="..\Corpos Space\src\game\engine\logic\Logic.cpp" />
+    <ClCompile Include="..\Corpos Space\src\game\engine\logic\Weapon.cpp" />
+    <ClCompile Include="..\Corpos Space\src\game\engine\Player.cpp" />
+    <ClCompile Include="..\Corpos Space\src\game\engine\Prop.cpp" />
+    <ClCompile Include="..\Corpos Space\src\game\engine\World.cpp" />
     <ClCompile Include="..\Corpos Space\src\game\graphics\Animation.cpp" />
+    <ClCompile Include="..\Corpos Space\src\game\graphics\GameAssetsManager.cpp" />
     <ClCompile Include="..\Corpos Space\src\game\graphics\GameSprite.cpp" />
+    <ClCompile Include="..\Corpos Space\src\game\graphics\ParticleSystem.cpp" />
     <ClCompile Include="..\Corpos Space\src\game\graphics\TextContainer.cpp" />
+    <ClCompile Include="..\Corpos Space\src\game\main\Cursor.cpp" />
+    <ClCompile Include="..\Corpos Space\src\game\map\AbstractTile.cpp" />
+    <ClCompile Include="..\Corpos Space\src\game\map\DefaultTile.cpp" />
+    <ClCompile Include="..\Corpos Space\src\game\map\MapChunk.cpp" />
     <ClCompile Include="..\Corpos Space\src\game\map\Tile.cpp" />
     <ClCompile Include="..\Corpos Space\src\game\map\TileDefinition.cpp" />
     <ClCompile Include="..\Corpos Space\src\game\map\Tilemap.cpp" />
+    <ClCompile Include="..\Corpos Space\src\game\utility\AStarSearch.cpp" />
     <ClCompile Include="..\Corpos Space\src\game\utility\Logger.cpp" />
+    <ClCompile Include="..\Corpos Space\src\game\utility\Node.cpp" />
+    <ClCompile Include="..\Corpos Space\src\game\utility\Pathfind.cpp" />
+    <ClCompile Include="..\Corpos Space\src\game\utility\Quadtree.cpp" />
+    <ClCompile Include="..\Corpos Space\src\game\utility\String.cpp" />
     <ClCompile Include="..\Corpos Space\src\game\utility\TextFileData.cpp" />
     <ClCompile Include="..\imgui-sfml\imgui-SFML.cpp" />
     <ClCompile Include="..\imgui\imgui.cpp" />
@@ -88,7 +115,6 @@
     <ClCompile Include="..\imgui\imgui_widgets.cpp" />
     <ClCompile Include="CorposEditor.cpp" />
     <ClCompile Include="FrameEditor.cpp" />
-    <ClCompile Include="GameDataHolder.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_CorposEditor.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
@@ -246,7 +272,6 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB  "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtWidgets"</Command>
     </CustomBuild>
-    <ClInclude Include="GameDataHolder.h" />
     <ClInclude Include="GeneratedFiles\ui_MapForm.h" />
     <ClInclude Include="GeneratedFiles\ui_NewMapForms.h" />
     <ClInclude Include="GeneratedFiles\ui_OptionsForms.h" />

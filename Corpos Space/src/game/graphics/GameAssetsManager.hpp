@@ -9,6 +9,10 @@ class GameSprite;
 class GameAssetsManager
 {
 public:
+	std::map<std::string, GameSprite> gameSprites;
+	std::map<std::string, sf::Texture > textures;
+	std::map<std::string, sf::Font> fonts;
+
 	static GameAssetsManager * getInstance();
 	~GameAssetsManager();
 	static void loadTextures(std::string location);
@@ -17,16 +21,13 @@ public:
 	static sf::Texture * getTexture(std::string texture);
 	static GameSprite * getSprite(std::string sprite);
 
+
 private:
 	GameAssetsManager();
 	GameAssetsManager(const GameAssetsManager &);
 	static GameAssetsManager* instance;
 
 	void loadDefaultResources();
-
-	std::map<std::string, GameSprite> gameSprites;
-	std::map<std::string, sf::Texture > textures;
-	std::map<std::string, sf::Font> fonts;
 };
 
 #endif

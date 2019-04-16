@@ -3,7 +3,6 @@
 #include "qsfmlcanvas.h"
 #include <SFML/Graphics.hpp>
 #include <game\map\Tile.hpp>
-#include <GameDataHolder.h>
 #include <QMouseEvent>
 class FrameEditor : public QSFMLCanvas
 {

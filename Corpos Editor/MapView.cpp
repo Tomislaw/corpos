@@ -4,7 +4,6 @@
 MapView::MapView(QWidget * Parent, const QPoint & Position, const QSize & Size) : QSFMLCanvas(Parent, Position, Size)
 {
 	setMinimumSize(800, 800);
-	worldmap.getFunctionGetTexture() = std::bind(&GameDataHolder::getTexture, GameDataHolder::getInstance(), std::placeholders::_1);
 
 	selectRectangle.setPointCount(4);
 	selectRectangle.setOutlineColor(sf::Color(200, 0, 0, 200));
@@ -28,15 +27,15 @@ void MapView::OnUpdate()
 	clear(sf::Color(0, 128, 0));
 
 	// Draw it
-	worldmap.drawBackground(*this);
-	worldmap.draw(*this);
-	worldmap.drawEditor(*this);
+	world.drawBackground(*this);
+	world.draw(*this);
+	world.drawDebug(*this);
 	if (drawSelectedArea)
 	{
 		//get tile id at mouse position
 		auto mousepos = sf::Mouse::getPosition(*this);
 		auto pos = this->mapPixelToCoords(mousepos);
-		auto id = worldmap.getTileId(pos);
+		auto id = world.getTileId(pos);
 
 		//snap position to grid
 		pos.x = id.x * 32 + 31;
@@ -84,17 +83,14 @@ void MapView::onResize()
 
 void MapView::loadMap(std::string mapLocation)
 {
-	TextFileData file;
-	file.loadFile(mapLocation);
-	auto tm = file.getFirstElementByName("TILEMAP");
-	worldmap.loadTileset(Options::tilesetLocation);
-	worldmap.loadMap(tm);
+	world.loadTileset(Options::tilesetLocation);
+	world.loadMap(TextFileData(mapLocation).getFirst("TILEMAP"));
 }
 
 void MapView::createMap(int x, int y)
 {
-	worldmap.loadTileset(Options::tilesetLocation);
-	worldmap.createMap(x, y);
+	world.loadTileset(Options::tilesetLocation);
+	world.createMap(sf::Vector2i(x,y));
 }
 
 void MapView::setMapName(std::string name)
@@ -106,22 +102,23 @@ void MapView::setTileAtMousePosition(std::string tileset, std::string tile)
 {
 	if (tile == "")return;
 
-	TileDefinition* t = nullptr;
+	std::shared_ptr<TileDefinition> t = nullptr;
 	if (!((tile == "0" || tile == "air") && tileset == ""))
 	{
-		t = worldmap.getTileDefinition(tile, tileset);
+		t = world.tilesets[0].getTileDefinition(tile);
 	}
 
 	auto mousepos = sf::Mouse::getPosition(*this);
 	auto pos = this->mapPixelToCoords(mousepos);
-	auto id = worldmap.getTileId(pos);
+	auto id = world.getTileId(pos);
 
 	if (id.x < 0 || id.y < 0)return;
-	worldmap.setTile(t, id.x, id.y);
-	worldmap.refreashTile(id.x, id.y);
-	worldmap.refreashNearTiles(id.x, id.y);
-	worldmap.refreashBackgroundTile(id.x, id.y);
+	world.setTile(id,t->name);
+	//worldmap.refreashTile(id.x, id.y);
+	//worldmap.refreashNearTiles(id.x, id.y);
+	//worldmap.refreashBackgroundTile(id.x, id.y);
 	//worldmap.
+	world.debugRefreshMap();
 	update();
 }
 
@@ -130,7 +127,7 @@ void MapView::startDrawingSelection()
 	drawSelectedArea = true;
 	auto mousepos = sf::Mouse::getPosition(*this);
 	auto pos = this->mapPixelToCoords(mousepos);
-	auto id = worldmap.getTileId(pos);
+	auto id = world.getTileId(pos);
 	startingSelectionTile = id;
 }
 
@@ -140,16 +137,16 @@ void MapView::createTilesAtSelectedArea(std::string tileset, std::string tile)
 
 	if (tile == "")return;
 
-	TileDefinition* t = nullptr;
+	std::shared_ptr<TileDefinition> t = nullptr;
 	if (!(tile == "0"&&tileset == ""))
 	{
-		t = worldmap.getTileDefinition(tile, tileset);
+		t = world.tilesets.at(0).getTileDefinition(tile);
 	}
 
 	auto mousepos = sf::Mouse::getPosition(*this);
 	auto pos = this->mapPixelToCoords(mousepos);
-	auto startid = worldmap.getTileId(pos);
-	auto endId = worldmap.getTileId(selectRectangle.getPoint(0));
+	auto startid = world.getTileId(pos);
+	auto endId = world.getTileId(selectRectangle.getPoint(0));
 
 	if (startid.x > endId.x)
 	{
@@ -169,22 +166,20 @@ void MapView::createTilesAtSelectedArea(std::string tileset, std::string tile)
 		for (int y = startid.y; y <= endId.y; y++)
 		{
 			if (x < 0 || y < 0)continue;
-			worldmap.setTile(t, x, y);
-			worldmap.refreashTile(x, y);
-			worldmap.refreashBackgroundTile(x, y);
+			world.setTile(sf::Vector2i(x,y),t->name);
+			//worldmap.refreashTile(x, y);
+			//worldmap.refreashBackgroundTile(x, y);
 		}
 	}
 
-	//worldmap.
+	world.debugRefreshMap();
 	update();
 }
 
 bool MapView::saveToFile(std::string location)
 {
 	TextFileData map;
-	std::vector<TextElement> items;
-	items.push_back(worldmap.generateTextElement());
-	map.setElements(items);
+	map["TILEMAP"] = world.asTextElement();
 	return map.saveToFile(location);
 }
 

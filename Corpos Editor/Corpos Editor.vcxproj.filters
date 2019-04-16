@@ -28,9 +28,6 @@
     <ClCompile Include="SpriteView.cpp">
       <Filter>Source Files\SpriteView</Filter>
     </ClCompile>
-    <ClCompile Include="GameDataHolder.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\Corpos Space\src\game\utility\Logger.cpp">
       <Filter>_INCLUDECPP</Filter>
     </ClCompile>
@@ -137,6 +134,87 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Corpos Space\src\game\engine\logic\Action.cpp">
+      <Filter>_INCLUDECPP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Corpos Space\src\game\graphics\GameAssetsManager.cpp">
+      <Filter>_INCLUDECPP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Corpos Space\src\game\engine\World.cpp">
+      <Filter>_INCLUDECPP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Corpos Space\src\game\map\MapChunk.cpp">
+      <Filter>_INCLUDECPP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Corpos Space\src\game\engine\EntityList.cpp">
+      <Filter>_INCLUDECPP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Corpos Space\src\game\engine\Character.cpp">
+      <Filter>_INCLUDECPP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Corpos Space\src\game\engine\Damageable.cpp">
+      <Filter>_INCLUDECPP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Corpos Space\src\game\engine\Landscape.cpp">
+      <Filter>_INCLUDECPP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Corpos Space\src\game\engine\Player.cpp">
+      <Filter>_INCLUDECPP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Corpos Space\src\game\engine\Prop.cpp">
+      <Filter>_INCLUDECPP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Corpos Space\src\game\engine\logic\Camera.cpp">
+      <Filter>_INCLUDECPP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Corpos Space\src\game\engine\logic\GunFire.cpp">
+      <Filter>_INCLUDECPP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Corpos Space\src\game\engine\logic\Logic.cpp">
+      <Filter>_INCLUDECPP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Corpos Space\src\game\engine\logic\Weapon.cpp">
+      <Filter>_INCLUDECPP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Corpos Space\src\game\engine\logic\ai\AiBasic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Corpos Space\src\game\engine\logic\ai\NavigationNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Corpos Space\src\game\utility\AStarSearch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Corpos Space\src\game\utility\Node.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Corpos Space\src\game\utility\Pathfind.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Corpos Space\src\game\utility\Quadtree.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Corpos Space\src\game\utility\String.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Corpos Space\src\game\graphics\ParticleSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Corpos Space\src\game\engine\Characters\CharacterFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Corpos Space\src\game\main\Cursor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Corpos Space\src\game\engine\Characters\Crawler.cpp">
+      <Filter>_INCLUDECPP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Corpos Space\src\game\engine\Characters\Soldier.cpp">
+      <Filter>_INCLUDECPP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Corpos Space\src\game\map\AbstractTile.cpp">
+      <Filter>_INCLUDECPP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Corpos Space\src\game\map\DefaultTile.cpp">
       <Filter>_INCLUDECPP</Filter>
     </ClCompile>
   </ItemGroup>
@@ -257,9 +335,6 @@
     </ClInclude>
     <ClInclude Include="SpriteView.h">
       <Filter>Header Files\SpriteView</Filter>
-    </ClInclude>
-    <ClInclude Include="GameDataHolder.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="options.h">
       <Filter>Header Files</Filter>

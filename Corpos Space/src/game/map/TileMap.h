@@ -9,6 +9,14 @@ class TileMap
 {
 public:
 
+	std::vector<MapChunk> chunks;
+	sf::Vector2i chunksCount;
+
+	std::vector<MapTile> map;
+	sf::Vector2i tileCount;
+
+	std::vector<Tileset> tilesets;
+
 	bool loadTileset(std::string location)
 	{
 		Tileset set;
@@ -18,6 +26,16 @@ public:
 			return true;
 		}
 		return false;
+	}
+
+	bool createMap(sf::Vector2i size) {
+		tileCount = size;
+		std::string defaultTile = "0";
+		for(int x = 0; x < size.x; x++)
+			for (int y = 0; y < size.x; y++)
+				appendTile(MapTileFactory::create(defaultTile, size, tilesets));
+
+		return true;
 	}
 
 	bool loadMap(TextElement & tm)
@@ -129,56 +147,45 @@ public:
 		maybeAppendTile(center, right);
 		maybeAppendTile(center, top);
 		maybeAppendTile(center, bottom);
+	}
 
-		//if (left != nullptr && left->getMainTile() != nullptr)
-		//{
-		//	bool shouldAddBackground = !center->getMainTile()->isConnectingToTile(left->getMainTile());
-		//	if (shouldAddBackground)
-		//	{
-		//		auto copy = TileFactory::create(left->getMainTile()->getTileDefinitionPtr(),
-		//			center->getMainTile()->getId());
+	void setTile(sf::Vector2i position, std::string name) {
+		if (map.size() <= position.x + position.y * tileCount.x) return;
+		if (position.x < 0 || position.y < 0 || position.x >= tileCount.x || position.y >= tileCount.y ) return;
+		auto tile = MapTileFactory::create(name, position, tilesets);
+		map.at(position.x + position.y * tileCount.x) = tile;
+	}
 
-		//		center->appendTile(copy);
-		//	}
-		//}
+	void debugRefreshMap() {
+		generateBackgroundTiles();
+		generateMapChunks();
+		refreashMap();
 
-		/*if (right != nullptr&& right->getMainTile() != nullptr)
+		for (size_t i = 0; i < chunks.size(); i++)
 		{
-			bool shouldAddBackground = !center->getMainTile()->isConnectingToTile(right->getMainTile());
+			chunks[i].load();
+		}
+	}
 
-			if (shouldAddBackground)
-			{
-				auto copy = TileFactory::create(right->getMainTile()->getTileDefinitionPtr(),
-					center->getMainTile()->getId());
+	TextElement asTextElement() {
+		TextElement element;
+		element["Size"] = getMapSize();
 
-				center->appendTile(copy);
+		for (auto tile : map) {
+	
+		}
+
+		for (int x = 0; x < getMapSize().x; x++) {
+			std::vector<std::string> rowItems;
+			for (int y = 0; y < getMapSize().y; y++) {
+				auto tile = getTile(x, y)->getMainTile();
+				if(tile == nullptr ) rowItems.push_back("0");
+				else rowItems.push_back(tile->getTileDefinition().name);
 			}
-		}*/
+			element["X" + std::to_string(x)] = rowItems;
+		}
 
-		//if (top != nullptr&& top->getMainTile() != nullptr)
-		//{
-		//	bool shouldAddBackground = !center->getMainTile()->isConnectingToTile(top->getMainTile());
-		//	if (shouldAddBackground)
-		//	{
-		//		auto copy = TileFactory::create(top->getMainTile()->getTileDefinitionPtr(),
-		//			center->getMainTile()->getId());
-
-		//		center->appendTile(copy);
-		//	}
-		//}
-
-		//if (bottom != nullptr && bottom->getMainTile() != nullptr)
-		//{
-		//	bool shouldAddBackground = !center->getMainTile()->isConnectingToTile(bottom->getMainTile());
-
-		//	if (shouldAddBackground)
-		//	{
-		//		auto copy = TileFactory::create(bottom->getMainTile()->getTileDefinitionPtr(),
-		//			center->getMainTile()->getId());
-
-		//		center->appendTile(copy);
-		//	}
-		//}
+		return element;
 	}
 
 	void generateMapChunks()
@@ -265,6 +272,22 @@ public:
 				chunks[i].drawBackground(window);
 			}
 		}
+	}
+
+	void drawDebug(sf::RenderTarget &window) {
+		sf::Vertex line[] =
+		{
+			sf::Vertex(sf::Vector2f(0, 0)),
+			sf::Vertex(sf::Vector2f(0, tileCount.y * TILE_SIZE)),
+			sf::Vertex(sf::Vector2f(0, tileCount.y * TILE_SIZE)),
+			sf::Vertex(sf::Vector2f(tileCount.x * TILE_SIZE, tileCount.y * TILE_SIZE)),
+			sf::Vertex(sf::Vector2f(tileCount.x * TILE_SIZE, tileCount.y * TILE_SIZE)),
+			sf::Vertex(sf::Vector2f(tileCount.x * TILE_SIZE, 0)),
+			sf::Vertex(sf::Vector2f(tileCount.x * TILE_SIZE, 0)),
+			sf::Vertex(sf::Vector2f(0, 0))
+		};
+
+		window.draw(line, 8, sf::Lines);
 	}
 
 	bool isTileBlocking(int x, int y)
@@ -468,13 +491,7 @@ private:
 	{
 		map.push_back(tile);
 	}
-	std::vector<MapChunk> chunks;
-	sf::Vector2i chunksCount;
 
-	std::vector<MapTile> map;
-	sf::Vector2i tileCount;
-
-	std::vector<Tileset> tilesets;
 };
 
 #endif

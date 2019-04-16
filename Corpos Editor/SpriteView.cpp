@@ -1,6 +1,5 @@
 #include "SpriteView.h"
 
-#include "GameDataHolder.h"
 #include "spriteview.h"
 #include <iostream>
 #include <string>

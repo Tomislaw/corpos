@@ -1,8 +1,6 @@
 #include "NewMapForms.h"
-
 #include "CorposEditor.h"
 #include "game\utility\Logger.hpp"
-#include "GameDataHolder.h"
 #include <QErrorMessage>
 
 NewMapForms::NewMapForms(CorposEditor *callback)

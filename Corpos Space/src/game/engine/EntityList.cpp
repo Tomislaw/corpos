@@ -51,6 +51,7 @@ void EntityList::loadMap(TextFileData & file)
 
 void EntityList::addCharacter(std::shared_ptr<Character> & ent)
 {
+	if (ent == nullptr) return;
 	entities.push_back(ent);
 	characters.push_back(ent);
 	if (ent->getName() != "@player") {

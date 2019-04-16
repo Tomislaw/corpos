@@ -1,6 +1,5 @@
 #include "CorposEditor.h"
 #include "game\utility\Logger.hpp"
-#include "GameDataHolder.h"
 #include <QStandardItemModel>
 #include <QErrorMessage>
 std::string CorposEditor::selectedTile = "";
@@ -27,8 +26,8 @@ CorposEditor::CorposEditor(QWidget *parent)
 
 	// load other parts
 	Options::loadIniFile();
-	GameDataHolder::getInstance()->loadTextures();
-	GameDataHolder::getInstance()->loadSprites();
+	GameAssetsManager::loadTextures(Options::textureLocation);
+	GameAssetsManager::loadSprites(Options::spriteLocation);
 
 	optionsForm = new OptionsForms();
 	spriteForm = new SpriteBrowser();
@@ -216,15 +215,13 @@ void CorposEditor::loadTileDefinitions(QMdiSubWindow * window)
 		ui.actionSave->setEnabled(true);
 		ui.tileListWidget->clear();
 
-		auto vtm = win->getVertexTileMap();
-
-		auto addTile = [](VertexTileMap * m, TileDefinition * d, QListWidget * list) {
+		auto addTile = [](std::shared_ptr<TileDefinition > d, QListWidget * list) {
 			//Create main widget
 			QWidget *tileWidget = new QWidget;
 
 			//Create tile view
 			TileView *view = new TileView(tileWidget, QPoint(), QSize(34, 34));
-			view->setTile(d);
+			view->setTile(d.get());
 
 			//create label name and type
 			QLabel * labelName = new QLabel();;
@@ -246,11 +243,7 @@ void CorposEditor::loadTileDefinitions(QMdiSubWindow * window)
 			//create label tileset
 			QLabel * labelTileset = new QLabel();
 			labelTileset->setAccessibleName("tileset");
-			if (m)
-			{
-				labelTileset->setText(QString::fromStdString(m->name));
-			}
-			else labelTileset->setText("");
+			labelTileset->setText("default");
 
 			//set layout
 			QHBoxLayout *layout = new QHBoxLayout;
@@ -268,17 +261,10 @@ void CorposEditor::loadTileDefinitions(QMdiSubWindow * window)
 			list->setItemWidget(item, tileWidget);
 		};
 
-		addTile(nullptr, nullptr, ui.tileListWidget);
-		for (size_t i = 0; i < vtm.size(); i++)
-		{
-			auto m = &vtm.at(i);
+		addTile( nullptr, ui.tileListWidget);
 
-			for (size_t j = 0; j < m->definitions.size(); j++)
-			{
-				auto d = &m->definitions[j];
-				addTile(m, d, ui.tileListWidget);
-			}
-		}
+		for(auto item : win->mapView->world.tilesets[0].tileDefinitions)
+			addTile(item, ui.tileListWidget);
 
 		Logger::e(std::to_string(window->size().height()));
 	}

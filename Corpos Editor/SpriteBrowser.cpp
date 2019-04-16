@@ -1,6 +1,5 @@
 #include "SpriteBrowser.h"
 #include "game\utility\Logger.hpp"
-#include "GameDataHolder.h"
 SpriteBrowser::SpriteBrowser(QWidget *parent)
 	: QWidget(parent)
 {
@@ -22,23 +21,17 @@ SpriteBrowser::~SpriteBrowser()
 
 void SpriteBrowser::loadSprites()
 {
-	auto list = GameDataHolder::getInstance()->getSpriteList();
-	if (list == nullptr)
-	{
-		Logger::e("Can't add any sprites to sprite browser.");
-		return;
-	}
-	if (list->size() == 0)
+	auto list = GameAssetsManager::getInstance()->gameSprites;
+	if (list.size() == 0)
 	{
 		Logger::e("Can't add any sprites to sprite browser.");
 		return;
 	}
 	this->ui.listSprites->clear();
 	spritesIdList.clear();
-	for (int i = 0; i < list->size(); i++)
-	{
-		this->ui.listSprites->addItem(QString::fromStdString(list->at(i).getName()));
-		spritesIdList.push_back(i);
+	for (auto & item : list) {
+		this->ui.listSprites->addItem(QString::fromStdString(item.first));
+		spritesIdList.push_back(item.first);
 	}
 
 	//this->ui.listSprites->clear();
@@ -54,8 +47,7 @@ void SpriteBrowser::spriteSelected(int id)
 	if (id < 0)return;
 	else
 	{
-		int spriteId = spritesIdList.at(id);
-		this->selectedSprite = GameSprite(GameDataHolder::getInstance()->getSpriteList()->at(spriteId));
+		this->selectedSprite = GameSprite(GameAssetsManager::getInstance()->gameSprites[spritesIdList[id]]);
 
 		auto anims = &selectedSprite.getAnimationSheet();
 		this->ui.listAnimations->clear();
@@ -184,13 +176,8 @@ void SpriteBrowser::onResize()
 void SpriteBrowser::filterChanged(QString str)
 {
 	;
-	auto list = GameDataHolder::getInstance()->getSpriteList();
-	if (list == nullptr)
-	{
-		Logger::e("Can't add any sprites to sprite browser.");
-		return;
-	}
-	if (list->size() == 0)
+	auto list = GameAssetsManager::getInstance()->gameSprites;
+	if (list.size() == 0)
 	{
 		Logger::e("Can't add any sprites to sprite browser.");
 		return;
@@ -198,13 +185,12 @@ void SpriteBrowser::filterChanged(QString str)
 	this->ui.listSprites->clear();
 	spritesIdList.clear();
 
-	for (int i = 0; i < list->size(); i++)
-	{
-		std::string name = list->at(i).getName();
+	for (auto & item : list) {
+		std::string name = item.first;
 		std::transform(name.begin(), name.end(), name.begin(), ::tolower);
 		if (name.find(str.toLower().toStdString()) != -1) {
-			this->ui.listSprites->addItem(QString::fromStdString(list->at(i).getName()));
-			spritesIdList.push_back(i);
+			this->ui.listSprites->addItem(QString::fromStdString(name));
+			spritesIdList.push_back(name);
 		}
 	}
 }

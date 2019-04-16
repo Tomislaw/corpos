@@ -2,7 +2,6 @@
 
 #include "SpriteView.h"
 
-#include "GameDataHolder.h"
 #include "spriteview.h"
 #include <iostream>
 #include <string>
@@ -67,7 +66,7 @@ void FrameEditor::setViewSize(float size)
 
 void FrameEditor::setTexture(std::string textureName)
 {
-	texture = GameDataHolder::getInstance()->getTexture(textureName);
+	texture = GameAssetsManager::getTexture(textureName);
 	if (!texture)
 	{
 		//handle texture not found here

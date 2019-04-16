@@ -11,6 +11,8 @@ class MapForm : public QWidget
 	Q_OBJECT
 
 public:
+	MapView * mapView;
+
 	MapForm(QWidget *parent, std::string mapName);
 	MapForm(QWidget *parent, unsigned int x, unsigned int y, std::string name);
 	~MapForm();
@@ -20,7 +22,6 @@ public:
 	void mouseReleaseEvent(QMouseEvent * e) override;
 	void wheelEvent(QWheelEvent * event) override;
 
-	std::vector<VertexTileMap>& getVertexTileMap();
 	bool saveToFile(std::string location);
 
 public slots:
@@ -28,7 +29,6 @@ public slots:
 	void onResize();
 private:
 	Ui::MapForm ui;
-	MapView * mapView;
 	float viewSize = 1;
 	QTimer timer;
 	sf::Vector2f lastMousePos;
