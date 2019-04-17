@@ -59,6 +59,8 @@ public:
 	template<typename T> sf::Vector2<T> toVector(unsigned int index, sf::Vector2<T> default);
 	bool isEmpty() { return variables.size() <= 0; };
 
+	TextItem& operator= (const TextItem &fraction);
+
 	friend TextItem operator+(TextItem & lhs, const TextItem& rhs);
 	friend TextItem operator+(TextItem & lhs, const std::string& rhs);
 	friend TextItem& operator+=(TextItem & lhs, const TextItem& rhs) { return lhs + rhs; };

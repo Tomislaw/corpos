@@ -168,21 +168,18 @@ public:
 	}
 
 	TextElement asTextElement() {
-		TextElement element;
-		element["Size"] = getMapSize();
+		TextElement element = "TILEMAP";
+		element["Size"] = tileCount;
 
+		int counter = 0;
 		for (auto tile : map) {
-	
-		}
-
-		for (int x = 0; x < getMapSize().x; x++) {
-			std::vector<std::string> rowItems;
-			for (int y = 0; y < getMapSize().y; y++) {
-				auto tile = getTile(x, y)->getMainTile();
-				if(tile == nullptr ) rowItems.push_back("0");
-				else rowItems.push_back(tile->getTileDefinition().name);
-			}
-			element["X" + std::to_string(x)] = rowItems;
+			auto mainTile = tile.getMainTile();
+			int id = counter / tileCount.x;
+			if (mainTile == nullptr)
+				element["X" + std::to_string(id)] += std::string("0");
+			else
+				element["X" + std::to_string(id)] += mainTile->getTileDefinition().name;
+			counter++;
 		}
 
 		return element;

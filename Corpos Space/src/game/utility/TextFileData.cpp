@@ -21,19 +21,20 @@ TextElement::~TextElement()
 
 std::string TextElement::toString()
 {
-	auto displaytext = "Name " + name + "\n{";
+	auto displaytext = name + "\n{";
 
-	for (auto item = variables.begin(); item != variables.end(); ++item) {
-		displaytext += item->first + " = \"";
-		for (int i = 0; i < item->second.size(); i++) {
-			if (i != item->second.size() - 1)
-				displaytext += item->second.toString(i) + "\"\n";
+
+	for (auto item : variables) {
+		displaytext += "\n" + item.first + " = \"";
+		for (int i = 0; i < item.second.size(); i++) {
+			if (i == item.second.size() - 1)
+				displaytext += item.second.toString(i) + "\"\n";
 			else
-				displaytext += item->second.toString(i) + ",";
+				displaytext += item.second.toString(i) + ",";
 		}
 	}
 
-	displaytext += '}\n';
+	displaytext += '\n}\n';
 	return displaytext;
 }
 
@@ -164,8 +165,9 @@ std::string TextFileData::toString()
 {
 	std::string displaytext;
 	displaytext += "File name " + filePath + "\n";
-	for (auto it = element.begin(); it != element.end(); ++it)
-		displaytext += it->toString();
+	for (auto& item : element) 
+		displaytext += item.toString();
+
 	return displaytext;
 }
 
@@ -189,8 +191,8 @@ bool TextFileData::saveToFile(std::string localization)
 
 		text_data += "CORPOSFILE\r\n";
 
-		for (auto it = element.begin(); it != element.end(); ++it)
-			text_data += it->toString();
+		for (auto& item : element)
+			text_data += item.toString();
 
 		text_data += "CORPOSFILE_END";
 
@@ -436,4 +438,10 @@ std::string TextItem::toString(unsigned int index, std::string default)
 {
 	if (index < variables.size()) return variables[index];
 	return default;
+}
+
+TextItem & TextItem::operator=(const TextItem & item)
+{
+	variables = item.variables;
+	return *this;
 }
