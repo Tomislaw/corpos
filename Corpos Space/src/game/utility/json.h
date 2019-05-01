@@ -1867,7 +1867,7 @@ namespace nlohmann
 				j.m_value = b;
 				j.assert_invariant();
 			}
-		};
+	};
 
 		template<>
 		struct external_constructor<value_t::string>
@@ -2166,9 +2166,9 @@ namespace nlohmann
 				return to_json(j, std::forward<T>(val));
 			}
 		};
-	}  // namespace detail
+}  // namespace detail
 
-	/// namespace to hold default `to_json` function
+/// namespace to hold default `to_json` function
 	namespace
 	{
 		constexpr const auto& to_json = detail::static_const<detail::to_json_fn>::value;

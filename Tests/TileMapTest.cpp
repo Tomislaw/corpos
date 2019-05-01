@@ -3,7 +3,6 @@
 #include "game\map\TileMap.h"
 using Microsoft::VisualStudio::CppUnitTestFramework::Assert;
 using namespace corpos;
-
 namespace Tests
 {
 	TEST_CLASS(TileMapTest)

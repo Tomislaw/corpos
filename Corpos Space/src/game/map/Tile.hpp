@@ -5,7 +5,6 @@
 #ifndef	TILE_HPP
 #define TILE_HPP
 
-
 // main tile entity
 
 namespace corpos

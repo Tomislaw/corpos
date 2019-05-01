@@ -11,11 +11,10 @@
 #include <queue>
 #include "game\engine\Character.hpp"
 
-namespace corpos 
+namespace corpos
 {
 	class MapTile;
 }
-
 
 using namespace corpos;
 

@@ -16,11 +16,10 @@ For more information visit https://opensource.org/licenses/ISC.
 #include "Node.hpp"
 #include <atomic>
 
-namespace corpos 
+namespace corpos
 {
 	class MapTile;
 }
-
 
 namespace AStar
 {

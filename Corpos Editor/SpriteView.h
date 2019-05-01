@@ -4,7 +4,6 @@
 #include <SFML/Graphics.hpp>
 #include <game\graphics\GameSprite.hpp>
 
-
 class SpriteView : public QSFMLCanvas
 {
 public:
