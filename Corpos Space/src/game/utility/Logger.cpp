@@ -1,5 +1,7 @@
 #include "Logger.hpp"
 
+using namespace corpos;
+
 Logger::Logger(const Logger &)
 {
 	this->logs = logs;

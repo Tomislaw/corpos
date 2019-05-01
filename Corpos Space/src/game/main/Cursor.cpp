@@ -1,6 +1,8 @@
 #include "Cursor.hpp"
 #include "game\engine\EntityList.hpp"
 
+using namespace corpos;
+
 sf::Vector2f Cursor::cursorPos;
 
 Cursor::Cursor()

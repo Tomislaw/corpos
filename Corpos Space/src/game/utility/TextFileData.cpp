@@ -1,8 +1,6 @@
 #include "game\utility\TextFileData.hpp"
 
-class TextElement;
-class TextFileData;
-class TextItem;
+using namespace corpos;
 ////////////////////////////////////TEXTELEMENT
 
 TextElement::TextElement()
@@ -22,7 +20,6 @@ TextElement::~TextElement()
 std::string TextElement::toString()
 {
 	auto displaytext = name + "\n{";
-
 
 	for (auto item : variables) {
 		displaytext += "\n" + item.first + " = \"";
@@ -60,20 +57,20 @@ TextElement & TextElement::mergeWith(TextElement & element)
 	return *this;
 }
 
-TextItem operator+(TextItem & lhs, const TextItem & rhs)
+TextItem corpos::operator+(TextItem & lhs, const TextItem & rhs)
 {
 	for each (auto var in rhs.variables)
 		lhs.addVariable(var);
 	return lhs;
 }
 
-TextItem operator+(TextItem & lhs, const std::string & rhs)
+corpos::TextItem corpos::operator+(TextItem & lhs, const std::string & rhs)
 {
 	lhs.addVariable(rhs);
 	return lhs;
 }
 
-TextElement operator+(TextElement & lhs, const TextElement & rhs)
+corpos::TextElement corpos::operator+(TextElement & lhs, const TextElement & rhs)
 {
 	for each (auto item in rhs.variables)
 	{
@@ -165,7 +162,7 @@ std::string TextFileData::toString()
 {
 	std::string displaytext;
 	displaytext += "File name " + filePath + "\n";
-	for (auto& item : element) 
+	for (auto& item : element)
 		displaytext += item.toString();
 
 	return displaytext;

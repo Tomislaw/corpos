@@ -2,6 +2,8 @@
 #include "game\map\Tilemap.h"
 #include "game\engine\EntityList.hpp"
 
+using namespace corpos;
+
 AiBasic::AiBasic(Character & character) : character(character)
 {
 	entityListPtr = character.getEntityListPtr();

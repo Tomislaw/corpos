@@ -5,6 +5,8 @@
 
 //Main constructor TODO: add null pointer handling
 
+using namespace corpos;
+
 Soldier::Soldier(TextElement * element, EntityList * ptr) : Character(element, ptr), test(ptr, Bullet("bullet_blue", 50, sf::Vector2f(), sf::Vector2f(0, 1000)))
 {
 	ai = std::shared_ptr<AiBasic>(new AiBasic(*this));
@@ -61,6 +63,65 @@ Soldier::Soldier(TextElement * element, EntityList * ptr) : Character(element, p
 
 		//Set offset of that part
 		lhandOffset = element->get("LHandPos").toVector<float>(0);
+		this->lhand.attachToEntityOffset(this, lhandOffset);
+	}
+	else Logger::e("SpriteLHand in " + name + " not found!");
+
+	headOrigin = head.getSprite().getOrigin();
+	lhandOrigin = lhand.getSprite().getOrigin();
+	torseOrigin = torse.getSprite().getOrigin();
+	legsOrigin = legs.getSprite().getOrigin();
+
+	//TODO: make weapon
+	weapontest = GameSprite(*GameAssetsManager::getSprite("testweapon1"));
+	weaponOrigin = weapontest.getSprite().getOrigin();
+	weaponOffset = sf::Vector2f(1, 20);
+	this->weapontest.attachToEntityOffset(this, weaponOffset);
+
+	test.attachToEntity(&weapontest);
+
+	damageFilter = 0;
+}
+
+Soldier::Soldier(json & data, EntityList * ptr) : Character(data, ptr), test(ptr, Bullet("bullet_blue", 50, sf::Vector2f(), sf::Vector2f(0, 1000)))
+{
+	ai = std::shared_ptr<AiBasic>(new AiBasic(*this));
+	//Set head part of soldier
+	auto varSpriteHead = data["spriteHead"];
+	if (!varSpriteHead.is_null())
+	{
+		this->head = GameSprite(*GameAssetsManager::getSprite(varSpriteHead.get("")));
+		this->headOffset = data["headPos"].get(sf::Vector2f());
+		this->head.attachToEntityOffset(this, headOffset);
+	}
+	else Logger::e("SpriteHead in " + name + " not found!");
+
+	//Set torse part of soldier
+	auto varSpriteTorse = data["spriteTorse"];
+	if (!varSpriteTorse.is_null())
+	{
+		this->torse = GameSprite(*GameAssetsManager::getSprite(varSpriteTorse.get("")));
+		this->torseOffset = data["torsePos"].get(sf::Vector2f());
+		this->torse.attachToEntityOffset(this, torseOffset);
+	}
+	else Logger::e("SpriteTorse in " + name + " not found!");
+
+	//Set legs part of soldier
+	auto varSpriteLegs = data["spriteLegs"];
+	if (!varSpriteLegs.is_null())
+	{
+		this->legs = GameSprite(*GameAssetsManager::getSprite(varSpriteLegs.get("")));
+		this->legsOffset = data["legsPos"].get(sf::Vector2f());
+		this->legs.attachToEntityOffset(this, legsOffset);
+	}
+	else Logger::e("SpriteLegs in " + name + " not found!");
+
+	//Set left hand part of soldier
+	auto varSpriteLHand = data["spriteLHand"];
+	if (!varSpriteLHand.is_null())
+	{
+		this->lhand = GameSprite(*GameAssetsManager::getSprite(varSpriteLHand.get("")));
+		this->lhandOffset = data["lHandPos"].get(sf::Vector2f());
 		this->lhand.attachToEntityOffset(this, lhandOffset);
 	}
 	else Logger::e("SpriteLHand in " + name + " not found!");

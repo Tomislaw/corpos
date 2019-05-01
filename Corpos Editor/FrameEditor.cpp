@@ -66,7 +66,7 @@ void FrameEditor::setViewSize(float size)
 
 void FrameEditor::setTexture(std::string textureName)
 {
-	texture = GameAssetsManager::getTexture(textureName);
+	texture = corpos::GameAssetsManager::getTexture(textureName);
 	if (!texture)
 	{
 		//handle texture not found here

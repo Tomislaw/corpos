@@ -158,6 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EntityTest.cpp" />
+    <ClCompile Include="JsonTest.cpp" />
     <ClCompile Include="NavigationNodeTestcpp.cpp" />
     <ClCompile Include="IntersectionTest.cpp" />
     <ClCompile Include="PathfindTest.cpp" />

@@ -1,5 +1,7 @@
 #include "World.hpp"
 
+using namespace corpos;
+
 World::World()
 {
 	//entitylist.setTilemapPtr(&tilemap);
@@ -50,17 +52,27 @@ void World::events(sf::Event e)
 
 void World::loadMap(std::string map)
 {
-	mapFile.loadFile(map);
+	jsonMap = json_utils::from_file(map);
+
+	//mapFile.loadFile(map);
 	reloadMap();
 }
 
 void World::reloadMap()
 {
-	auto tm = mapFile.getFirstElementByName("TILEMAP");
+	//auto tm = mapFile.getFirstElementByName("TILEMAP");
 
 	tilemap2.loadTileset("bin/graphics/tileset/tileset1.txt");
-	tilemap2.loadMap(*tm);
+
+	auto succesfullyLoaded = tilemap2.loadMap(jsonMap);
+	if (!succesfullyLoaded)
+		return Logger::e("Failed to load tilemap.");
+
+	succesfullyLoaded = entitylist.loadMap(jsonMap);
+	if (!succesfullyLoaded)
+		return Logger::e("Failed to load entityList.");
+	//tilemap2.loadMap(*tm);
 
 	//load it after tilemap
-	entitylist.loadMap(mapFile);
+	//entitylist.loadMap(mapFile);
 }

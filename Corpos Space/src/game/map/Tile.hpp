@@ -5,78 +5,82 @@
 #ifndef	TILE_HPP
 #define TILE_HPP
 
-struct TileDefinition;
-struct Particle;
+
 // main tile entity
 
-class Tile : public Entity
+namespace corpos
 {
-public:
-	//creates air tile
-	Tile();
-	Tile(TileDefinition * tiledef, std::vector<sf::Vertex*> tile, sf::Vector2f pos);
-	//~Tile();
+	struct TileDefinition;
+	struct Particle;
 
-	// change tile, used in constructor and in future in map editor
-	void changeTile(TileDefinition * tiledef, std::vector<sf::Vertex*> tile, sf::Vector2f pos);
-	// return is tile collidable
-	bool isBlocking() { return is_blocking; };
-	// return true if tile is same group
-	bool isSameGroup(Tile & tile);
-	// retur true when destroyed
-	bool isDestroyed() { return is_destroyed; };
-	// used for creating debris
-	Particle getRandomParticle();
-	// used for creating debris
-	sf::Color getRandomParticleColor();
+	class Tile : public Entity
+	{
+	public:
+		//creates air tile
+		Tile();
+		Tile(TileDefinition * tiledef, std::vector<sf::Vertex*> tile, sf::Vector2f pos);
+		//~Tile();
 
-	sf::FloatRect getCollisionBox();
-	// previous attempt for merging tiles
-	//bool isConnectToAllTiles() { return connectAll; };
+		// change tile, used in constructor and in future in map editor
+		void changeTile(TileDefinition * tiledef, std::vector<sf::Vertex*> tile, sf::Vector2f pos);
+		// return is tile collidable
+		bool isBlocking() { return is_blocking; };
+		// return true if tile is same group
+		bool isSameGroup(Tile & tile);
+		// retur true when destroyed
+		bool isDestroyed() { return is_destroyed; };
+		// used for creating debris
+		Particle getRandomParticle();
+		// used for creating debris
+		sf::Color getRandomParticleColor();
 
-	// set all 4 parts of tile to merge into other tile
-	void setDisplayType(bool LT, bool T, bool TR,
-		bool L, bool R,
-		bool LB, bool B, bool BR);
+		sf::FloatRect getCollisionBox();
+		// previous attempt for merging tiles
+		//bool isConnectToAllTiles() { return connectAll; };
 
-	// set tile position
-	void setPosition(sf::Vector2f pos);
+		// set all 4 parts of tile to merge into other tile
+		void setDisplayType(bool LT, bool T, bool TR,
+			bool L, bool R,
+			bool LB, bool B, bool BR);
 
-	// damage tile TODO: look for errors in damage function, tile is destroyed when it haves some hp left
-	void damage(int health);
-	// destroy tile
-	void destroy();
+		// set tile position
+		void setPosition(sf::Vector2f pos);
 
-	void resetVertexPosition();
+		// damage tile TODO: look for errors in damage function, tile is destroyed when it haves some hp left
+		void damage(int health);
+		// destroy tile
+		void destroy();
 
-	int getHealth() { return health; }
-	int getMaxHealth() { return maxHealth; }
+		void resetVertexPosition();
 
-	TileDefinition * getTileDefinition() {
-		return definition
-			;
-	}
-private:
+		int getHealth() { return health; }
+		int getMaxHealth() { return maxHealth; }
 
-	// pointer to tile definition
-	TileDefinition * definition;
+		TileDefinition * getTileDefinition() {
+			return definition
+				;
+		}
+	private:
 
-	//vector of pointers to vertex
-	std::vector<sf::Vertex*> tile;
+		// pointer to tile definition
+		TileDefinition * definition;
 
-	//used in creating drawable vertex
-	sf::IntRect tileRect;
+		//vector of pointers to vertex
+		std::vector<sf::Vertex*> tile;
 
-	int health;
-	int maxHealth;
-	int display_type = 0;
-	bool is_blocking = false;
-	bool singleImage = false;
-	bool is_destroyed = false;
-	//used in merging tiles together
-	std::string connectGroup = "";
-};
+		//used in creating drawable vertex
+		sf::IntRect tileRect;
 
+		int health;
+		int maxHealth;
+		int display_type = 0;
+		bool is_blocking = false;
+		bool singleImage = false;
+		bool is_destroyed = false;
+		//used in merging tiles together
+		std::string connectGroup = "";
+	};
+}
 //tile class 17.11.2017
 /*
 class Tile :

@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 #include "src\game\engine\logic\ai\NavigationNode.hpp"
-using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-
+using Microsoft::VisualStudio::CppUnitTestFramework::Assert;
+using namespace corpos;
 namespace Tests
 {
 	TEST_CLASS(NavigationNodeTest)

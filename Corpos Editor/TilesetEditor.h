@@ -121,7 +121,7 @@ private:
 	/*!
 		Add tiledefinition to treewidget
 	*/
-	void addTile(TextElement * e);
+	void addTile(corpos::TextElement * e);
 
 	/*!
 		Save tileset data to given location.
@@ -138,7 +138,7 @@ private:
 	std::string name;			/*!< Name of the tileset. */
 	std::string texture;		/*!< Name of texture used in tileset. */
 
-	std::vector<TileDefinition> tileDefinitions; /*!< List of current tile definitions. */
+	std::vector<corpos::TileDefinition> tileDefinitions; /*!< List of current tile definitions. */
 
 	int selectdTileId = -1;				/*!< Id of current selected tile definition. */
 	sf::IntRect selectedRectangle;		/*!< Data of currrent selected frame. */
@@ -164,7 +164,7 @@ private:
 		\param type FrameType enum of frame.
 		\sa FrameType
 	*/
-	void deleteFrameFromTile(TileDefinition & tile, sf::IntRect rect, int type);
+	void deleteFrameFromTile(corpos::TileDefinition & tile, sf::IntRect rect, int type);
 
 	/*!
 		Add frame to given tile definition.
@@ -174,7 +174,7 @@ private:
 		\param type FrameType enum of frame.
 		\sa FrameType
 	*/
-	void addFrameToTile(TileDefinition & tile, sf::IntRect rect, int type);
+	void addFrameToTile(corpos::TileDefinition & tile, sf::IntRect rect, int type);
 
 	/*!
 		Replace frame in given tile definition.
@@ -185,7 +185,7 @@ private:
 		\param type FrameType enum of frame.
 		\sa FrameType
 	*/
-	void replaceFrameInTile(TileDefinition & tile, sf::IntRect previous, sf::IntRect next, int type);
+	void replaceFrameInTile(corpos::TileDefinition & tile, sf::IntRect previous, sf::IntRect next, int type);
 };
 
 #endif

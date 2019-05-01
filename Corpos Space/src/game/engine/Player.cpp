@@ -2,6 +2,8 @@
 
 #include "game\main\Cursor.hpp"
 
+using namespace corpos;
+
 Player::Player()
 {
 }

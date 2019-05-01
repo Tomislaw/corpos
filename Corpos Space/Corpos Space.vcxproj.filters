@@ -234,6 +234,9 @@
     <ClCompile Include="src\game\engine\logic\Action.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\utility\json-utils.cpp">
+      <Filter>Source Files\utility\filemanager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game\main\stdafx.h">
@@ -415,6 +418,12 @@
     </ClInclude>
     <ClInclude Include="src\game\engine\logic\Logic.h">
       <Filter>Header Files\engine\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\utility\json.h">
+      <Filter>Header Files\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\utility\json-utils.h">
+      <Filter>Header Files\utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

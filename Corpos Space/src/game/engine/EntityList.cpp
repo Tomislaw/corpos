@@ -3,6 +3,8 @@
 #include "src\game\main\Cursor.hpp"
 #include "src\game\engine\logic\ai\AiBasic.hpp"
 
+using namespace corpos;
+
 EntityList::EntityList()
 	: particleSystem(100)
 {
@@ -49,6 +51,36 @@ void EntityList::loadMap(TextFileData & file)
 	setPlayerEntity("@player");
 }
 
+bool EntityList::loadMap(json & map)
+{
+	if (tileMapPtr == nullptr)
+		return false;
+
+	props.clear();
+	characters.clear();
+	landscapes.clear();
+	bullets.clear();
+	entities.clear();
+
+	auto mapSize = map["size"].get(sf::Vector2i());
+	if (mapSize.x == 0 || mapSize.y == 0)
+		return false;
+
+	tree = Quadtree(sf::Vector2f(), tileMapPtr->getMapSize(), 0, 8, 1);
+
+	for (auto entity : map["entities"]) {
+		auto type = entity["type"].get("");
+		if (type == "PROP")
+			addProp(std::shared_ptr<Prop>(new  Prop(entity, this)));
+		else if (type == "CHARACTER")
+			addCharacter(CharacterFactory::create(entity, this));
+		else if (type == "LANDSCAPE")
+			addLandscape(std::shared_ptr<Landscape>(new Landscape(entity)));
+	}
+
+	setPlayerEntity("@player");
+}
+
 void EntityList::addCharacter(std::shared_ptr<Character> & ent)
 {
 	if (ent == nullptr) return;
@@ -87,7 +119,7 @@ std::shared_ptr<Entity> EntityList::findEntity(std::string name)
 std::vector<std::shared_ptr<Entity>> EntityList::findEntities(std::string name)
 {
 	std::vector<std::shared_ptr <Entity>> ents;
-	for (auto entity : entities) 
+	for (auto entity : entities)
 		if (entity->getName() == name) ents.push_back(entity);
 	return ents;
 }
@@ -126,7 +158,6 @@ void EntityList::events(sf::Event & e)
 void EntityList::update(float time)
 {
 	auto bullet = bullets.begin();
-
 
 	while (bullet != bullets.end())
 	{
@@ -334,7 +365,6 @@ void EntityList::setTileMapPtr(TileMap * ptr)
 void EntityList::resolveActions(ActionManager manager)
 {
 	for (auto &action : manager.outputs.pendingActions) {
-
 		if (action.targetName == "@world")
 			actionManager.inputs.invokeInput(action);
 		else

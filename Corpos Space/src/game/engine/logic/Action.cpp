@@ -1,5 +1,7 @@
 #include "Action.h"
 
+using namespace corpos;
+
 ActionManager::ActionManager(TextItem & item)
 {
 	int currentPosition = 0;
@@ -35,8 +37,19 @@ ActionManager::ActionManager(TextItem & item)
 			action.parameters.push_back(values[currentPosition]);
 			currentPosition++;
 		}
-			
 
 		outputs.addOutput(activateType, action);
+	}
+}
+
+ActionManager::ActionManager(json & item)
+{
+	for (auto& jsonAction : item.get(std::vector<json>())) {
+		Action action;
+		action.targetName = jsonAction["target"].get("");
+		action.parameters = jsonAction["parameters"].get(std::vector<std::string>());
+		action.actionType = jsonAction["action"].get("");
+		auto invokeType = jsonAction["type"].get("");
+		outputs.addOutput(invokeType, action);
 	}
 }

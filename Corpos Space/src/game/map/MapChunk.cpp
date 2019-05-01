@@ -1,5 +1,7 @@
 #include "MapChunk.hpp"
 
+using namespace corpos;
+
 TextureChunk::TextureChunk(const sf::Texture * texture, const std::string textureName)
 {
 	this->texture = texture;
@@ -24,9 +26,7 @@ void TextureChunk::unload()
 	foreground->clear();
 	background->clear();
 	for each (auto tile in tiles)
-	{
 		tile->unload();
-	}
 }
 
 void TextureChunk::drawForeground(sf::RenderTarget & target)
@@ -62,31 +62,29 @@ void MapChunk::appendTile(std::shared_ptr<AbstractTile> tile)
 void MapChunk::load()
 {
 	for (int i = 0; i < textureChunks.size(); i++)
-	{
 		textureChunks[i].load();
-	}
 }
 
 void MapChunk::unload()
 {
 	for (int i = 0; i < textureChunks.size(); i++)
-	{
 		textureChunks[i].unload();
-	}
+}
+
+void MapChunk::clearTiles()
+{
+	unload();
+	textureChunks.clear();
 }
 
 void MapChunk::drawForeground(sf::RenderTarget & target)
 {
 	for (int i = 0; i < textureChunks.size(); i++)
-	{
 		textureChunks[i].drawForeground(target);
-	}
 }
 
 void MapChunk::drawBackground(sf::RenderTarget & target)
 {
 	for (int i = 0; i < textureChunks.size(); i++)
-	{
 		textureChunks[i].drawBackground(target);
-	}
 }

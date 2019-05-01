@@ -10,6 +10,7 @@ class MapView :
 {
 public:
 	TileMap world;
+	EntityList entities;
 
 	MapView(QWidget* Parent, const QPoint& Position, const QSize& Size);
 	~MapView();

@@ -1,5 +1,7 @@
 #include "Animation.hpp"
 
+using namespace corpos;
+
 Animation::Animation()
 {
 	name = "idle";

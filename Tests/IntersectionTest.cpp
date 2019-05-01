@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 #include "game\utility\Intersection.hpp"
-using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-
+using Microsoft::VisualStudio::CppUnitTestFramework::Assert;
+using namespace corpos;
 namespace Tests
 {
 	TEST_CLASS(IntersectionTest)

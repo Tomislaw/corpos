@@ -2,6 +2,8 @@
 
 #include "game\engine\World.hpp"
 
+using namespace corpos;
+
 Tile::Tile()
 {
 	this->name = "0";

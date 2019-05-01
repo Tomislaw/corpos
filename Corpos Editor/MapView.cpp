@@ -27,9 +27,12 @@ void MapView::OnUpdate()
 	clear(sf::Color(0, 128, 0));
 
 	// Draw it
+	entities.drawBackground(*this);
 	world.drawBackground(*this);
 	world.draw(*this);
+	entities.draw(*this);
 	world.drawDebug(*this);
+
 	if (drawSelectedArea)
 	{
 		//get tile id at mouse position
@@ -84,13 +87,20 @@ void MapView::onResize()
 void MapView::loadMap(std::string mapLocation)
 {
 	world.loadTileset(Options::tilesetLocation);
-	world.loadMap(TextFileData(mapLocation).getFirst("TILEMAP"));
+	entities.setTileMapPtr(&world);
+	json_utils::localDiretory = Options::gameFolderLocation;
+	auto json = json_utils::from_file(mapLocation);
+
+	world.loadMap(json);
+	entities.loadMap(json);
+	entities.update(0);
 }
 
 void MapView::createMap(int x, int y)
 {
 	world.loadTileset(Options::tilesetLocation);
-	world.createMap(sf::Vector2i(x,y));
+	world.createMap(sf::Vector2i(x, y));
+	entities.setTileMapPtr(&world);
 }
 
 void MapView::setMapName(std::string name)
@@ -113,12 +123,13 @@ void MapView::setTileAtMousePosition(std::string tileset, std::string tile)
 	auto id = world.getTileId(pos);
 
 	if (id.x < 0 || id.y < 0)return;
-	world.setTile(id,t->name);
+	world.setTile(id, t->name);
 	//worldmap.refreashTile(id.x, id.y);
 	//worldmap.refreashNearTiles(id.x, id.y);
 	//worldmap.refreashBackgroundTile(id.x, id.y);
 	//worldmap.
-	world.debugRefreshMap();
+	//world.debugRefreshMap();
+	world.debugRefreshTile(id);
 	update();
 }
 
@@ -166,7 +177,7 @@ void MapView::createTilesAtSelectedArea(std::string tileset, std::string tile)
 		for (int y = startid.y; y <= endId.y; y++)
 		{
 			if (x < 0 || y < 0)continue;
-			world.setTile(sf::Vector2i(x,y),t->name);
+			world.setTile(sf::Vector2i(x, y), t->name);
 			//worldmap.refreashTile(x, y);
 			//worldmap.refreashBackgroundTile(x, y);
 		}

@@ -12,32 +12,35 @@
 #include "game\graphics\GameAssetsManager.hpp"
 //One of the main classes that contains EntityList(enitity container) and tilemap.
 //
-class World
+
+namespace corpos
 {
-public:
+	class World
+	{
+	public:
 
-	EntityList entitylist;
-	//Tilemap tilemap;
-	TileMap tilemap2;
+		EntityList entitylist;
+		//Tilemap tilemap;
+		TileMap tilemap2;
 
-	World();
-	~World();
+		World();
+		~World();
 
-	// update map
-	void update(float delta);
-	// draw it
-	void draw(sf::RenderWindow & window);
+		// update map
+		void update(float delta);
+		// draw it
+		void draw(sf::RenderWindow & window);
 
-	// resolve keyboard/mouse events
-	void events(sf::Event e);
-	// load map
-	void loadMap(std::string map);
-	void reloadMap();
+		// resolve keyboard/mouse events
+		void events(sf::Event e);
+		// load map
+		void loadMap(std::string map);
+		void reloadMap();
 
-
-protected:
-	TextFileData mapFile;
-	bool shouldReload = false;
-};
-
+	protected:
+		TextFileData mapFile;
+		json jsonMap;
+		bool shouldReload = false;
+	};
+}
 #endif

@@ -6,66 +6,34 @@
 #include "game\utility\Logger.hpp"
 // wrapper for character used for controling it by player
 
-class Landscape : public Entity
+namespace corpos
 {
-public:
-	Landscape();
-	Landscape(TextElement * element);
-	~Landscape();
-
-	bool isForeground()
+	class Landscape : public Entity
 	{
-		return mIsForeground;
-	}
+	public:
+		Landscape();
+		Landscape(TextElement * element);
+		Landscape(json & data);
+		~Landscape();
 
-	void draw(sf::RenderTarget &window) override
-	{
-		auto position = getPosition();
-		auto viewPosition = window.getView().getCenter();
-		viewPosition.x -= window.getView().getSize().x / 2;
-		viewPosition.y -= window.getView().getSize().y / 2;
-		position.x += viewPosition.x * distanceFactor;
-		position.y += viewPosition.y * distanceFactor;
-		sprite.setPosition(position);
-		sprite.draw(window);
-	};
-
-	void update(float delta) override
-	{
-		sprite.update(delta);
-	}
-
-	bool setLandscape(TextElement * element)
-	{
-		if (element == nullptr)return false;
-
-		//Set distance factorr
-		auto variableDistanceFactor = element->get("DistanceFactor");
-		if (!variableDistanceFactor.isEmpty())
-			this->distanceFactor = variableDistanceFactor.toFloat(0);
-
-		//Set position
-		auto variablePosition = element->get("Position");
-		if (!variablePosition.isEmpty()) {
-			this->position = variablePosition.toVector<float>(0);
-		}
-
-		//Set sprite of character
-		auto sprite = element->get("Sprite");
-		if (!sprite.isEmpty())
+		bool isForeground()
 		{
-			auto spriteName = sprite.toString(0);
-			auto spriteDefinition = GameAssetsManager::getSprite(spriteName);
-			if (spriteDefinition != nullptr)
-				this->sprite = GameSprite(*spriteDefinition);
+			return mIsForeground;
 		}
 
-		return true;
-	}
+		void draw(sf::RenderTarget &window) override;;
 
-private:
-	GameSprite sprite;
-	double distanceFactor = 1; // 0 for background, 1 for normal
-	bool mIsForeground = false;
-};
+		void update(float delta) override
+		{
+			sprite.update(delta);
+		}
+
+		bool setLandscape(TextElement * element);
+
+	private:
+		GameSprite sprite;
+		double distanceFactor = 1; // 0 for background, 1 for normal
+		bool mIsForeground = false;
+	};
+}
 #endif

@@ -1,6 +1,8 @@
 #include "Crawler.hpp"
 #include "game\engine\logic\ai\AiBasic.hpp"
 
+using namespace corpos;
+
 void Crawler::draw(sf::RenderTarget & window)
 {
 	Character::draw(window);
@@ -37,6 +39,11 @@ void Crawler::setAnimation()
 }
 
 Crawler::Crawler(TextElement * data, EntityList * ptr) : Character(data, ptr)
+{
+	ai = std::unique_ptr<AiBasic>(new AiBasic(*this));
+}
+
+Crawler::Crawler(json & data, EntityList * ptr) : Character(data, ptr)
 {
 	ai = std::unique_ptr<AiBasic>(new AiBasic(*this));
 }

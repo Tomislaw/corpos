@@ -2,6 +2,8 @@
 #include "game\engine\World.hpp"
 #include <math.h>
 
+using namespace corpos;
+
 Tilemap::Tilemap()
 {
 	//tileDefinitions.push_back(TileDefinition());

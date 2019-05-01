@@ -1,5 +1,7 @@
 #include "NavigationNode.hpp"
 
+using namespace corpos;
+
 Tile * NavigationNode::GetTile(int x, int y)
 {
 	return getTile(sf::Vector2i(x, y));

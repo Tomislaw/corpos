@@ -1,5 +1,7 @@
 #include "Logic.h"
 
+using namespace corpos;
+
 Counter::Counter(TextElement * element) : Entity(element)
 {
 	initializeActionManager();

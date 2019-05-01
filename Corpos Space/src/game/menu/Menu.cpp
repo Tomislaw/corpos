@@ -1,6 +1,8 @@
 #include "Menu.hpp"
 #include "game/main/Game.hpp"
 
+using namespace corpos;
+
 void Menu::init() {
 	menuList.setOptimalHeight(300);
 	std::shared_ptr <MenuLabel> labelStart = std::make_shared<MenuLabel>();
@@ -8,7 +10,7 @@ void Menu::init() {
 	labelStart->setOnClikAction([&]() {
 		GameAssetsManager::loadTextures("bin/graphics/textures/texture_definition.txt");
 		GameAssetsManager::loadSprites("bin/graphics/sprite/sprite_definitions.txt");
-		game.mainGame.init("bin/map/map.txt");
+		game.mainGame.init("bin/map/map.json");
 		game.showGame();
 	});
 	menuList.addItem(labelStart);
@@ -19,7 +21,7 @@ void Menu::init() {
 	menuList.addItem(labelModules);
 
 	std::shared_ptr <MenuLabel> labelOptions = std::make_shared<MenuLabel>();
-	labelOptions->getLabel().setString("Options");
+	labelOptions->getLabel().setString("About");
 	labelOptions->setOnClikAction([this]() {showMainMenu(false); showModules(false); showOptionss(true); });
 	menuList.addItem(labelOptions);
 
@@ -55,7 +57,7 @@ void Menu::drawModules(sf::RenderWindow & target) {
 		*out_text = vector.at(idx).c_str();
 		return true;
 	}, reinterpret_cast<void*>(&chooser.modules), chooser.modules.size(), size.y / 20);
-	ImGui::SetCursorPos(sf::Vector2u(15,size.y - 55));
+	ImGui::SetCursorPos(sf::Vector2u(15, size.y - 55));
 	if (ImGui::Button("Play", sf::Vector2i(80, 40))) {
 		auto moduleLocation = chooser.modules.at(listbox_item_current);
 		GameAssetsManager::loadTextures(moduleLocation + "/graphics/textures/texture_definition.txt");
@@ -88,6 +90,11 @@ void Menu::drawOptions(sf::RenderWindow & target)
 	ImGui::Text("A   - walk left");
 	ImGui::Text("D   - walk right");
 	ImGui::Text("LMB - shoot");
+	ImGui::Text(" ");
+	ImGui::Text(" ");
+	ImGui::Text("About");
+	ImGui::Text(" ");
+	ImGui::Text("Created by Tomasz Staniewski");
 	ImGui::SetCursorPos(size - sf::Vector2u(95, 55));
 	if (ImGui::Button("Back", sf::Vector2i(80, 40))) {
 		showMainMenu(true);

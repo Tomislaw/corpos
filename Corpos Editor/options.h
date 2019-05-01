@@ -10,6 +10,7 @@ struct Options
 	static std::string spriteLocation;
 	static std::string editorExeLocation;
 	static std::string gameExeLocation;
+	static std::string gameFolderLocation;
 	static std::string tilesetLocation;
 	static void loadIniFile();
 	static void saveIniFile();

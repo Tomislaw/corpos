@@ -217,6 +217,9 @@
     <ClCompile Include="..\Corpos Space\src\game\map\DefaultTile.cpp">
       <Filter>_INCLUDECPP</Filter>
     </ClCompile>
+    <ClCompile Include="..\Corpos Space\src\game\utility\json-utils.cpp">
+      <Filter>_INCLUDECPP</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Resource Files">

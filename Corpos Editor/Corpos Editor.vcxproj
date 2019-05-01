@@ -102,6 +102,7 @@
     <ClCompile Include="..\Corpos Space\src\game\map\TileDefinition.cpp" />
     <ClCompile Include="..\Corpos Space\src\game\map\Tilemap.cpp" />
     <ClCompile Include="..\Corpos Space\src\game\utility\AStarSearch.cpp" />
+    <ClCompile Include="..\Corpos Space\src\game\utility\json-utils.cpp" />
     <ClCompile Include="..\Corpos Space\src\game\utility\Logger.cpp" />
     <ClCompile Include="..\Corpos Space\src\game\utility\Node.cpp" />
     <ClCompile Include="..\Corpos Space\src\game\utility\Pathfind.cpp" />

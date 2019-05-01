@@ -1,6 +1,8 @@
 #include "GunFire.hpp"
 #include "game\engine\EntityList.hpp"
 
+using namespace corpos;
+
 GunFire::GunFire(EntityList * entlist, Bullet bulletType)
 {
 	name = "gunfire";

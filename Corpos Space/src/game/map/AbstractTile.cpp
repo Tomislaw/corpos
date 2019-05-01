@@ -1,5 +1,7 @@
 #include "AbstractTile.hpp"
 
+using namespace corpos;
+
 AbstractTile::AbstractTile(std::shared_ptr<TileDefinition> tiledef, sf::Vector2i pos)
 {
 	this->id = pos;

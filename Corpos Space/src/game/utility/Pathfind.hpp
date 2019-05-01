@@ -15,7 +15,12 @@ For more information visit https://opensource.org/licenses/ISC.
 #include "game\engine\Character.hpp"
 #include "Node.hpp"
 #include <atomic>
-class MapTile;
+
+namespace corpos 
+{
+	class MapTile;
+}
+
 
 namespace AStar
 {

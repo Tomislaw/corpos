@@ -1,5 +1,7 @@
 #include "Weapon.hpp"
 
+using namespace corpos;
+
 Weapon::Weapon(TextElement * element, EntityList * entityptr) : gunfire(entityptr, Bullet())
 {
 	if (element == nullptr)return;

@@ -1,0 +1,14 @@
+CORPOSFILE
+
+ENTITY_DEFINITION
+{
+Name = "CRAWLER"
+Type = "CHARACTER"
+CharacterType = "crawler"
+Sprite = "crawler2"
+Health = "300"
+Speed = "220"
+Collidable = "1"
+CollisionBox = "-32,-20,60,42"
+}
+CORPOSFILE_END

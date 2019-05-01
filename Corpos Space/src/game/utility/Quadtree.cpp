@@ -1,5 +1,7 @@
 #include "Quadtree.hpp"
 
+using namespace corpos;
+
 Quadtree::Quadtree()
 {
 	NW = nullptr;

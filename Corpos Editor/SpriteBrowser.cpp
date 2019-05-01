@@ -21,10 +21,10 @@ SpriteBrowser::~SpriteBrowser()
 
 void SpriteBrowser::loadSprites()
 {
-	auto list = GameAssetsManager::getInstance()->gameSprites;
+	auto list = corpos::GameAssetsManager::getInstance()->gameSprites;
 	if (list.size() == 0)
 	{
-		Logger::e("Can't add any sprites to sprite browser.");
+		corpos::Logger::e("Can't add any sprites to sprite browser.");
 		return;
 	}
 	this->ui.listSprites->clear();
@@ -47,7 +47,7 @@ void SpriteBrowser::spriteSelected(int id)
 	if (id < 0)return;
 	else
 	{
-		this->selectedSprite = GameSprite(GameAssetsManager::getInstance()->gameSprites[spritesIdList[id]]);
+		this->selectedSprite = corpos::GameSprite(corpos::GameAssetsManager::getInstance()->gameSprites[spritesIdList[id]]);
 
 		auto anims = &selectedSprite.getAnimationSheet();
 		this->ui.listAnimations->clear();
@@ -176,10 +176,10 @@ void SpriteBrowser::onResize()
 void SpriteBrowser::filterChanged(QString str)
 {
 	;
-	auto list = GameAssetsManager::getInstance()->gameSprites;
+	auto list = corpos::GameAssetsManager::getInstance()->gameSprites;
 	if (list.size() == 0)
 	{
-		Logger::e("Can't add any sprites to sprite browser.");
+		corpos::Logger::e("Can't add any sprites to sprite browser.");
 		return;
 	}
 	this->ui.listSprites->clear();

@@ -43,6 +43,7 @@ public slots:
 	void saveMap();
 	void newMap();
 	void loadTileDefinitions(QMdiSubWindow*);
+	void loadMapEntities(QMdiSubWindow*);
 	void tileSelected(QListWidgetItem*);
 	void tileFilter(QString);
 	void updateMenuView();

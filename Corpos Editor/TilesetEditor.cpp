@@ -257,7 +257,7 @@ void TilesetEditor::changeTileset()
 
 void TilesetEditor::reloadData()
 {
-	auto& textures = GameAssetsManager::getInstance()->textures;
+	auto& textures = corpos::GameAssetsManager::getInstance()->textures;
 	ui.comboBox_Texture->clear();
 	for each (auto &var in textures)
 		ui.comboBox_Texture->addItem(QString::fromStdString(var.first));
@@ -422,7 +422,7 @@ void TilesetEditor::editTile()
 {
 	if (selectdTileId == -1)return;
 
-	TileDefinition & tile = tileDefinitions[selectdTileId];
+	corpos::TileDefinition & tile = tileDefinitions[selectdTileId];
 
 	tile.name = ui.lineEdit_tileName->text().toStdString();
 	tile.backgroundTile = ui.lineEdit_background->text().toStdString();
@@ -454,14 +454,14 @@ void TilesetEditor::deleteTile()
 void TilesetEditor::duplicateTile()
 {
 	if (selectdTileId == -1)return;
-	tileDefinitions.push_back(TileDefinition(tileDefinitions[selectdTileId]));
+	tileDefinitions.push_back(corpos::TileDefinition(tileDefinitions[selectdTileId]));
 
 	reloadTileDefinitions();
 }
 
 void TilesetEditor::addTile()
 {
-	TileDefinition tile;
+	corpos::TileDefinition tile;
 
 	tile.name = ui.lineEdit_tileName->text().toStdString();
 	tile.backgroundTile = ui.lineEdit_background->text().toStdString();
@@ -567,7 +567,7 @@ void TilesetEditor::changeTilesetData(std::string name, std::string texture, std
 	int index = ui.comboBox_Texture->findData(QString::fromStdString(texture), Qt::DisplayRole);
 	ui.comboBox_Texture->setCurrentIndex(index);
 
-	auto tex = GameAssetsManager::getTexture(texture);
+	auto tex = corpos::GameAssetsManager::getTexture(texture);
 	for (int i = 0; i < tileDefinitions.size(); i++)
 	{
 		auto var = &tileDefinitions[i];
@@ -593,9 +593,9 @@ void TilesetEditor::changeTilesetData(std::string name, std::string texture, std
 	}
 }
 
-void TilesetEditor::addTile(TextElement * e)
+void TilesetEditor::addTile(corpos::TextElement * e)
 {
-	auto td = TileDefinition();
+	auto td = corpos::TileDefinition();
 	td.setTile(e, nullptr, texture);
 	tileDefinitions.push_back(td);
 
@@ -613,8 +613,8 @@ void TilesetEditor::addTile(TextElement * e)
 
 void TilesetEditor::saveToFile(std::string file)
 {
-	TextFileData fileData;
-	TextElement tileset;
+	corpos::TextFileData fileData;
+	corpos::TextElement tileset;
 	tileset.name = "TILESET";
 
 	tileset["Name"] += name;
@@ -628,7 +628,7 @@ void TilesetEditor::saveToFile(std::string file)
 	varSize += (std::to_string(texture_size.width));
 	varSize += (std::to_string(texture_size.height));
 
-	std::vector<TextElement> elements;
+	std::vector<corpos::TextElement> elements;
 	elements.push_back(tileset);
 
 	for each (auto tile in tileDefinitions)
@@ -667,7 +667,7 @@ int TilesetEditor::getFrameType(std::string type)
 	return IType;
 }
 
-void TilesetEditor::deleteFrameFromTile(TileDefinition & tile, sf::IntRect rect, int type)
+void TilesetEditor::deleteFrameFromTile(corpos::TileDefinition & tile, sf::IntRect rect, int type)
 {
 	auto deleteFrame = [](std::vector<sf::IntRect>&vec, sf::IntRect rect)->bool
 	{ 	for (int i = 0; i < vec.size(); i++)
@@ -731,7 +731,7 @@ void TilesetEditor::deleteFrameFromTile(TileDefinition & tile, sf::IntRect rect,
 	}
 }
 
-void TilesetEditor::addFrameToTile(TileDefinition & tile, sf::IntRect rect, int type)
+void TilesetEditor::addFrameToTile(corpos::TileDefinition & tile, sf::IntRect rect, int type)
 {
 	switch (type)
 	{
@@ -782,7 +782,7 @@ void TilesetEditor::addFrameToTile(TileDefinition & tile, sf::IntRect rect, int 
 	}
 }
 
-void TilesetEditor::replaceFrameInTile(TileDefinition & tile, sf::IntRect previous, sf::IntRect next, int type)
+void TilesetEditor::replaceFrameInTile(corpos::TileDefinition & tile, sf::IntRect previous, sf::IntRect next, int type)
 {
 	auto editFrame = [](std::vector<sf::IntRect>&vec, sf::IntRect rect, sf::IntRect rect2)->bool
 	{
@@ -870,18 +870,18 @@ void TilesetEditor::loadTileset()
 
 		// file operations;
 		{
-			TextFileData file;
+			corpos::TextFileData file;
 			bool loaded = file.loadFile(str);
 
 			if (!loaded)
 			{
-				Logger::e("Can't open file " + str);
+				corpos::Logger::e("Can't open file " + str);
 				return;
 			}
 			auto tilesetData = file.getFirstElementByName("TILESET");
 			if (tilesetData == nullptr)
 			{
-				Logger::e("Tileset data not found");
+				corpos::Logger::e("Tileset data not found");
 			}
 			else
 			{

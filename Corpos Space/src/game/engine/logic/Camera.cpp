@@ -1,5 +1,7 @@
 #include "Camera.hpp"
 
+using namespace corpos;
+
 Camera::Camera()
 {
 }

@@ -4,30 +4,32 @@
 #include <SFML\Graphics.hpp>
 #include "game\engine\Entity.hpp"
 #include "game\utility\TextFileData.hpp"
-class GameSprite;
 
-class GameAssetsManager
+namespace corpos
 {
-public:
-	std::map<std::string, GameSprite> gameSprites;
-	std::map<std::string, sf::Texture > textures;
-	std::map<std::string, sf::Font> fonts;
+	class GameSprite;
 
-	static GameAssetsManager * getInstance();
-	~GameAssetsManager();
-	static void loadTextures(std::string location);
-	static void loadSprites(std::string location);
+	class GameAssetsManager
+	{
+	public:
+		std::map<std::string, GameSprite> gameSprites;
+		std::map<std::string, sf::Texture > textures;
+		std::map<std::string, sf::Font> fonts;
 
-	static sf::Texture * getTexture(std::string texture);
-	static GameSprite * getSprite(std::string sprite);
+		static GameAssetsManager * getInstance();
+		~GameAssetsManager();
+		static void loadTextures(std::string location);
+		static void loadSprites(std::string location);
 
+		static sf::Texture * getTexture(std::string texture);
+		static GameSprite * getSprite(std::string sprite);
 
-private:
-	GameAssetsManager();
-	GameAssetsManager(const GameAssetsManager &);
-	static GameAssetsManager* instance;
+	private:
+		GameAssetsManager();
+		GameAssetsManager(const GameAssetsManager &);
+		static GameAssetsManager* instance;
 
-	void loadDefaultResources();
-};
-
+		void loadDefaultResources();
+	};
+}
 #endif

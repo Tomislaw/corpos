@@ -2,6 +2,8 @@
 #include "EntityList.hpp"
 #include <math.h>
 
+using namespace corpos;
+
 Damageable::Damageable()
 {
 }
@@ -31,6 +33,25 @@ Damageable::Damageable(TextElement * t)
 
 	this->damageFilter = t->get("DamageFilter").toInt(0, -1);
 
+	//flags
+	if (maxHealth < 0) this->indestructable = true;
+	else this->indestructable = false;
+
+	if (maxHealth >= 0 && health <= 0)destroy();
+	else destroyed = false;
+}
+
+Damageable::Damageable(json & t)
+{
+	bool isCollidable = t["collidable"].get<bool>(false);
+	this->health = t["health"].get(-1);
+	this->damageFilter = t["damageFilter"].get(-1);
+	if (!isCollidable)
+	{
+		this->health = 0;
+		this->indestructable = true;
+	}
+	this->maxHealth = this->health;
 	//flags
 	if (maxHealth < 0) this->indestructable = true;
 	else this->indestructable = false;

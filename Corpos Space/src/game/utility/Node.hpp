@@ -11,7 +11,13 @@
 #include <queue>
 #include "game\engine\Character.hpp"
 
-class MapTile;
+namespace corpos 
+{
+	class MapTile;
+}
+
+
+using namespace corpos;
 
 namespace AStar {
 	using GetTile = std::function<MapTile*(int x, int y)>;

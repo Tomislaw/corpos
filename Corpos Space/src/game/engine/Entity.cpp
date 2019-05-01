@@ -1,5 +1,7 @@
 #include "Entity.hpp"
 
+using namespace corpos;
+
 Entity::Entity()
 {
 	initializeActionManager();
@@ -18,6 +20,14 @@ Entity::Entity(TextElement * data)
 	velocity = data->get("Velocity").toVector<float>(0);
 	actionManager = data->get("Actions");
 	initializeActionManager();
+}
+
+Entity::Entity(json & data)
+{
+	name = data["name"].get("");
+	position = data["position"].get(sf::Vector2f());
+	velocity = data["velocity"].get(sf::Vector2f());
+	actionManager = data["actions"];
 }
 
 Entity::Entity(std::string name, sf::Vector2f position) : Entity()

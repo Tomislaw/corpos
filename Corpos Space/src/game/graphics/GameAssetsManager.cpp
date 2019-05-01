@@ -2,6 +2,7 @@
 #include "GAMESPRITE.hpp"
 
 #include <filesystem>
+using namespace corpos;
 namespace fs = std::filesystem;
 
 GameAssetsManager* GameAssetsManager::instance = nullptr;

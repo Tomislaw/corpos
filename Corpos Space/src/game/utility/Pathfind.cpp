@@ -4,6 +4,7 @@
 
 using namespace std::placeholders;
 using namespace AStar;
+using namespace corpos;
 
 PathFind::PathFind(NavigationNodeCharacterData character)
 {

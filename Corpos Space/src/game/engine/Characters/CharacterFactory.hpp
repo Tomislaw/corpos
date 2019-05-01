@@ -2,6 +2,9 @@
 #define CHARACTERCREATOR_HPP
 #include "Soldier.hpp"
 #include "Crawler.hpp"
+
+namespace corpos
+{
 namespace CharacterFactory
 {
 	// Function returning shared ptr
@@ -10,6 +13,7 @@ namespace CharacterFactory
 	// TODO: add more character types
 
 	std::shared_ptr <Character> create(TextElement * data, EntityList * entityListPtr);
+	std::shared_ptr <Character> create(json & data, EntityList * entityListPtr);
 }
-
+}
 #endif

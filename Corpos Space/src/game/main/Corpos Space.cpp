@@ -6,6 +6,9 @@
 #include <cmath>
 #include "game\main\Game.hpp"
 #include "game\engine\Entity.hpp"
+
+using namespace corpos;
+
 int main(int argc, char * argv[])
 {
 	srand((unsigned)time(NULL));

@@ -1,6 +1,8 @@
 #include "ParticleSystem.hpp"
 #include "game\map\TileMap.h"
 
+using namespace corpos;
+
 static float particleSize = 1.5f;
 
 ParticleSystem::ParticleSystem(unsigned int count)

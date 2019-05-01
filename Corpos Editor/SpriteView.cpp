@@ -22,7 +22,7 @@ void SpriteView::OnUpdate()
 		draw(sprite->getSprite());;
 }
 
-void SpriteView::setSprite(GameSprite & sprite)
+void SpriteView::setSprite(corpos::GameSprite & sprite)
 {
 	this->sprite = &sprite;
 }

@@ -2,12 +2,16 @@
 #define CRAWLER_HPP
 #include "game\engine\Character.hpp"
 
+namespace corpos
+{
+
 class Crawler :
 	public Character
 {
 public:
 
 	Crawler(TextElement * data, EntityList * ptr);
+	Crawler(json & data, EntityList * ptr);
 	~Crawler();
 
 	// used in constructor, argument is pointer to text element
@@ -29,4 +33,6 @@ protected:
 	float walkSpeed = 0;
 private:
 };
+
+}
 #endif

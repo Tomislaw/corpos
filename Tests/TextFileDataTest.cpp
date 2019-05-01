@@ -3,7 +3,8 @@
 #include "src\game\utility\TextFileData.hpp"
 #include <vector>
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-
+using namespace corpos;
+/*
 namespace Tests
 {
 	TEST_CLASS(TextFileDataTest)
@@ -97,4 +98,4 @@ namespace Tests
 			Assert::AreEqual(var->toInt(1), 5);
 		}
 	};
-}
+}*/

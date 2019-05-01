@@ -2,6 +2,8 @@
 #include "windows.h"
 #include "resource.h"
 
+using namespace corpos;
+
 TextContainer* TextContainer::instance = nullptr;
 
 TextContainer::TextContainer()

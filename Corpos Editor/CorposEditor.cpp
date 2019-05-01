@@ -261,9 +261,9 @@ void CorposEditor::loadTileDefinitions(QMdiSubWindow * window)
 			list->setItemWidget(item, tileWidget);
 		};
 
-		addTile( nullptr, ui.tileListWidget);
+		addTile(nullptr, ui.tileListWidget);
 
-		for(auto item : win->mapView->world.tilesets[0].tileDefinitions)
+		for (auto item : win->mapView->world.tilesets[0].tileDefinitions)
 			addTile(item, ui.tileListWidget);
 
 		Logger::e(std::to_string(window->size().height()));
@@ -272,6 +272,10 @@ void CorposEditor::loadTileDefinitions(QMdiSubWindow * window)
 	{
 		ui.tileListWidget->clear();
 	}
+}
+
+void CorposEditor::loadMapEntities(QMdiSubWindow *)
+{
 }
 
 void CorposEditor::tileSelected(QListWidgetItem *item)

@@ -27,7 +27,7 @@ public slots:
 private:
 	Ui::SpriteBrowser ui;
 	std::vector<std::string> spritesIdList;
-	GameSprite selectedSprite;
+	corpos::GameSprite selectedSprite;
 	SpriteView * view = nullptr;
 	QTimer animationTimer;
 	float timerInterval = 0;

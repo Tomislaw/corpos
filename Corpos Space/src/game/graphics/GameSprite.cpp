@@ -1,5 +1,7 @@
 #include "GameSprite.hpp"
 #include <filesystem>
+
+using namespace corpos;
 namespace fs = std::filesystem;
 
 GameSprite::GameSprite()

@@ -132,7 +132,6 @@ void MapForm::wheelEvent(QWheelEvent * e)
 	mapView->update();
 }
 
-
 bool MapForm::saveToFile(std::string location)
 {
 	return mapView->saveToFile(location);

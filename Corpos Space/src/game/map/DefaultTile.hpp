@@ -5,24 +5,26 @@
 #ifndef	DEFAULT_TILE_HPP
 #define DEFAULT_TILE_HPP
 
-class DefaultTile : public AbstractTile, public Damageable
+namespace corpos
 {
-public:
-	DefaultTile(std::shared_ptr<TileDefinition> definition, sf::Vector2i position);
-
-	void destroy() override
+	class DefaultTile : public AbstractTile, public Damageable
 	{
-		AbstractTile::destroy();
-		Damageable::destroy();
-	}
+	public:
+		DefaultTile(std::shared_ptr<TileDefinition> definition, sf::Vector2i position);
 
-	virtual bool collide(sf::Vector2f & before, sf::Vector2f & after, sf::Vector2f & collidePoint) override
-	{
-		if (!isBlocking())return false;
-		auto id = this->getId();
-		return Intersection::LineSegRectIntersectionPoint(before, after, sf::FloatRect(id.x*TILE_SIZE, id.y*TILE_SIZE, TILE_SIZE, TILE_SIZE), collidePoint);
-	}
-private:
-};
+		void destroy() override
+		{
+			AbstractTile::destroy();
+			Damageable::destroy();
+		}
 
+		virtual bool collide(sf::Vector2f & before, sf::Vector2f & after, sf::Vector2f & collidePoint) override
+		{
+			if (!isBlocking())return false;
+			auto id = this->getId();
+			return Intersection::LineSegRectIntersectionPoint(before, after, sf::FloatRect(id.x*TILE_SIZE, id.y*TILE_SIZE, TILE_SIZE, TILE_SIZE), collidePoint);
+		}
+	private:
+	};
+}
 #endif

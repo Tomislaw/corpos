@@ -9,7 +9,7 @@ public:
 	TileView(QWidget* Parent, const QPoint& Position, const QSize& Size);
 	void OnInit();
 	void OnUpdate();
-	void setTile(TileDefinition * tiledef);
+	void setTile(corpos::TileDefinition * tiledef);
 	void onResize();
 	void setViewSize(float size);
 	void setTileCollidables(bool a, bool b, bool c,
@@ -21,7 +21,7 @@ private:
 	float size = 1;
 	sf::VertexArray tileDrawable;
 	std::vector<sf::Vertex*> tilePtr;
-	Tile tile;
+	corpos::Tile tile;
 	sf::Texture * texture = nullptr;
 	//QLabel * label_info = nullptr;
 };

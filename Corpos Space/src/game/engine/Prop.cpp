@@ -5,15 +5,20 @@
 #include "EntityList.hpp"
 #include "game/map/TileMap.h"
 #include "game/utility/Intersection.hpp"
+
+using namespace corpos;
+
 Prop::Prop()
 {
 }
 
 Prop::Prop(TextElement * file, EntityList * entityListPtr) : Damageable(file), Entity(file)
 {
-	if (entityListPtr != nullptr)map = entityListPtr->getTileMapPtr();
+	if (entityListPtr != nullptr)
+		map = entityListPtr->getTileMapPtr();
 
-	if (file == nullptr)return;
+	if (file == nullptr)
+		return;
 
 	is_collidable = false;
 
@@ -54,6 +59,23 @@ Prop::Prop(TextElement * file, EntityList * entityListPtr) : Damageable(file), E
 		sprite.attachToEntityOffset(this, sproff.toVector<float>(0));
 	}
 	else sprite.attachToEntity(this);
+
+	initializeActionManager();
+}
+
+Prop::Prop(json & json, EntityList * entityListPtr) : Damageable(json), Entity(json)
+{
+	if (entityListPtr != nullptr)
+		map = entityListPtr->getTileMapPtr();
+
+	auto spritePtr = GameAssetsManager::getSprite(json["sprite"].get(""));
+	if (spritePtr != nullptr)
+		sprite = GameSprite(*spritePtr);
+
+	sprite.attachToEntityOffset(this, json["spriteOffset"].get(sf::Vector2f()));
+
+	is_collidable = json["collidable"].get<bool>(false);
+	collisionBox = json["collisionBox"].get(sf::FloatRect());
 
 	initializeActionManager();
 }

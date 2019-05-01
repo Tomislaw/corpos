@@ -1,5 +1,7 @@
 #include "MenuLabel.hpp"
 
+using namespace corpos;
+
 MenuLabel::MenuLabel()
 {
 	label.setFont(TextContainer::getInstance()->getBasicFont());

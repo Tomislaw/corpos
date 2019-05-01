@@ -1,6 +1,9 @@
 #include "Game.hpp"
 #include <imgui.h>
 #include <imgui-SFML.h>
+
+using namespace corpos;
+
 Game::Game(int argc, char * argv[])
 	:menu(*this)
 {

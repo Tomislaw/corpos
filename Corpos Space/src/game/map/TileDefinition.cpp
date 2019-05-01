@@ -1,6 +1,8 @@
 /////////Tile definition
 #include "TileDefinition.hpp"
 
+using namespace corpos;
+
 void TileDefinition::setTile(TextElement * t, const sf::Texture * texture, std::string textureName)
 {
 	this->texture = texture;

@@ -6,16 +6,18 @@
 #include "game/engine/Entity.hpp"
 using std::string;
 
-class Counter : public Entity {
+namespace corpos
+{
+	class Counter : public Entity {
+		Counter(TextElement * element);
 
-	Counter(TextElement * element);
-
-public:
-	int count = 0;
-	int maxCount = -1;
-	int minCount = 0;
-protected:
-	virtual void initializeActionManager() override;
-};
+	public:
+		int count = 0;
+		int maxCount = -1;
+		int minCount = 0;
+	protected:
+		virtual void initializeActionManager() override;
+	};
+}
 
 #endif

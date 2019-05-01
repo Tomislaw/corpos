@@ -3,6 +3,8 @@
 #include "EntityList.hpp"
 #include "game\engine\logic\ai\AiBasic.hpp"
 
+using namespace corpos;
+
 Character::Character(EntityList * ptr) : Prop()
 {
 	this->entlistPtr = ptr;
@@ -46,6 +48,22 @@ Character::Character(TextElement * element, EntityList * ptr) : Prop(element, pt
 		if (spriteDefinition != nullptr)
 			this->sprite = GameSprite(*spriteDefinition);
 	}
+
+	navCharData.characterWidth = 1 + collisionBox.width / (TILE_SIZE / 2);
+	navCharData.characterHeight = 1 + collisionBox.height / (TILE_SIZE / 2);
+	navCharData.characterJumpHeight = 3;
+	navCharData.isFlyingOne = false;
+	navCharData.canUseLadder = false;
+}
+Character::Character(json & data, EntityList * entityListPtr) : Prop(data, entityListPtr)
+{
+	this->entlistPtr = entityListPtr;
+	if (entityListPtr != nullptr)
+		map = entlistPtr->getTileMapPtr();
+
+	max_walk_speed = data["speed"].get(100);
+	rect.setSize(sf::Vector2f(collisionBox.width, collisionBox.height));
+	rect.setFillColor(sf::Color::Red);
 
 	navCharData.characterWidth = 1 + collisionBox.width / (TILE_SIZE / 2);
 	navCharData.characterHeight = 1 + collisionBox.height / (TILE_SIZE / 2);

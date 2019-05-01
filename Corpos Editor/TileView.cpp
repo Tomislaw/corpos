@@ -34,10 +34,10 @@ void TileView::OnUpdate()
 	draw(tileDrawable, texture);
 }
 
-void TileView::setTile(TileDefinition * tiledef)
+void TileView::setTile(corpos::TileDefinition * tiledef)
 {
 	if (tiledef == nullptr)return;
-	texture = GameAssetsManager::getTexture(tiledef->textureName);
+	texture = corpos::GameAssetsManager::getTexture(tiledef->textureName);
 	this->tile.changeTile(tiledef, tilePtr, sf::Vector2f(0, 0));
 	tile.setDisplayType(false, false, false,
 		false, false,
