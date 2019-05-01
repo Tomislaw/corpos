@@ -1,0 +1,12 @@
+CORPOSFILE
+TEXTURE
+{
+Name = "tileset1"
+Location = "tileset1.png"
+}
+TEXTURE
+{
+Name = "background1"
+Location = "background1.png"
+}
+CORPOSFILE_END
