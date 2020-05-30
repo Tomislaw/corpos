@@ -268,6 +268,7 @@ namespace corpos
 			for (int x = id.x * MAPCHUNK_SIZE_X; x < (id.x + 1) * MAPCHUNK_SIZE_X; x++)
 				for (int y = id.y * MAPCHUNK_SIZE_Y; y < (id.y + 1) * MAPCHUNK_SIZE_Y; y++)
 				{
+					if (getTile(x, y) == nullptr) continue;
 					if (getTile(x, y)->getMainTile() == nullptr) continue;
 					auto mapTilePos = getTile(x, y)->getMainTile()->getPosition();
 
