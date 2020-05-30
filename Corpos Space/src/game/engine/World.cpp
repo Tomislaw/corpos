@@ -37,6 +37,7 @@ void World::update(float delta)
 
 void World::draw(sf::RenderWindow & window)
 {
+	window.setMouseCursorVisible(false);
 	entitylist.getCurrentCamera().setView(window);
 
 	entitylist.drawBackground(window);
@@ -52,27 +53,27 @@ void World::events(sf::Event e)
 
 void World::loadMap(std::string map)
 {
-	jsonMap = json_utils::from_file(map);
+	//jsonMap = json_utils::from_file(map);
 
-	//mapFile.loadFile(map);
+	mapFile.loadFile(map);
 	reloadMap();
 }
 
 void World::reloadMap()
 {
-	//auto tm = mapFile.getFirstElementByName("TILEMAP");
+	auto tm = mapFile.getFirstElementByName("TILEMAP");
 
 	tilemap2.loadTileset("bin/graphics/tileset/tileset1.txt");
 
-	auto succesfullyLoaded = tilemap2.loadMap(jsonMap);
-	if (!succesfullyLoaded)
-		return Logger::e("Failed to load tilemap.");
+	//auto succesfullyLoaded = tilemap2.loadMap(jsonMap);
+	//if (!succesfullyLoaded)
+	//	return Logger::e("Failed to load tilemap.");
 
-	succesfullyLoaded = entitylist.loadMap(jsonMap);
-	if (!succesfullyLoaded)
-		return Logger::e("Failed to load entityList.");
-	//tilemap2.loadMap(*tm);
+	//succesfullyLoaded = entitylist.loadMap(jsonMap);
+	//if (!succesfullyLoaded)
+	//	return Logger::e("Failed to load entityList.");
+	tilemap2.loadMap(*tm);
 
 	//load it after tilemap
-	//entitylist.loadMap(mapFile);
+	entitylist.loadMap(mapFile);
 }

@@ -198,6 +198,8 @@ void Character::draw(sf::RenderTarget & target)
 	//rect.setPosition(sf::Vector2f(getPosition().x + collisionBox.left, getPosition().y + collisionBox.top));
 	//target.draw(rect);
 	sprite.draw(target);
+	if (ai != nullptr)
+		ai->drawDebugData(target);
 }
 
 bool Character::intersects(sf::FloatRect & rect)
